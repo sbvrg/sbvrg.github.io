@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boot - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Boot - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="boot">Boot</h1>
+<p>From power-on to <code>kmain</code>. Mostly about the bootloader for installed disks, since the ISO just uses GRUB.</p>
+<h2 id="from-the-iso">From the ISO</h2>
+<p>The ISO is built with <code>grub-mkrescue</code> and a <code>grub.cfg</code> that does <code>multiboot /boot/subverge.elf</code>. GRUB loads the kernel at 1 MiB, fills in a Multiboot information block, and jumps to <code>_start</code> in 32-bit protected mode. That's the one piece of code in the whole system that wasn't written for Subverge, and it only ever runs on the ISO.</p>
+<h2 id="from-an-installed-disk">From an installed disk</h2>
+<p>Installed disks don't have GRUB. They have two stages of Subverge's own, written in nasm, in <code>boot/</code>.</p>
+<h3 id="the-mbr">The MBR</h3>
+<p><code>boot/mbr.asm</code> is the 512-byte boot sector at LBA 0. The BIOS loads it at <code>0x7C00</code>. It uses the int 13h extensions to read 16 sectors, LBA 1 to 16, to <code>0x7E00</code>, and jumps there. If the read fails, it prints <code>subverge: can't read stage 2</code> and halts.</p>
+<h3 id="stage-2">Stage 2</h3>
+<p><code>boot/stage2.asm</code> does the work GRUB would do, and starts with a header at byte 8:</p>
+<table>
+<thead>
+<tr>
+<th>Offset</th>
+<th>Field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td><code>SUBVERGE</code>, the magic that marks an installed drive</td>
+</tr>
+<tr>
+<td>16</td>
+<td>the kernel's starting LBA</td>
+</tr>
+<tr>
+<td>20</td>
+<td>the kernel's length in sectors</td>
+</tr>
+<tr>
+<td>24</td>
+<td>the load address, 1 MiB</td>
+</tr>
+<tr>
+<td>28</td>
+<td>where bss ends</td>
+</tr>
+<tr>
+<td>32</td>
+<td>the entry point</td>
+</tr>
+</tbody>
+</table>
+<p><code>install</code> fills in those fields from the running kernel when it writes stage 2 to the disk, so stage 2 itself never needs to know anything about the kernel. The kernel looks for that same <code>SUBVERGE</code> magic to find out which drive it's installed on.</p>
+<p>Then stage 2:</p>
+<ol>
+<li>turns on the A20 line through port <code>0x92</code></li>
+<li>reads the kernel into low memory in chunks of 64 sectors with int 13h extensions, and prints <code>subverge: can't read the kernel</code> if it can't</li>
+<li>collects the memory map with E820 and the memory size</li>
+<li>builds a Multiboot information block, with its name as the loader name, <code>subverge stage2</code></li>
+<li>switches to protected mode, copies the kernel up to 1 MiB, clears bss</li>
+<li>jumps to the entry point with the Multiboot magic in <code>eax</code> and the info block in <code>ebx</code></li>
+</ol>
+<p>The kernel can't tell which of the two loaders started it, so the rest of the kernel only ever has to handle one boot protocol.</p>
+<h2 id="_start">_start</h2>
+<p><code>boot/boot.asm</code> is the kernel's entry, and the first code the kernel runs either way. It has the Multiboot header, and then:</p>
+<ol>
+<li>sets up a 256 KiB boot stack</li>
+<li>builds the page tables: one PML4 entry, four PDPT entries, and 2048 page directory entries of 2 MiB each, which identity-maps the first 4 GiB</li>
+<li>turns on PAE in <code>cr4</code>, long mode in the EFER MSR, and paging in <code>cr0</code></li>
+<li>loads a GDT with one 64-bit code segment and one data segment</li>
+<li>far-jumps into 64-bit code and calls <code>kmain</code> with the Multiboot magic and info pointer</li>
+</ol>
+<p>See <a href="internals.html">internals</a> for what <code>kmain</code> does next.</p>
+<h2 id="why-not-uefi">Why not UEFI</h2>
+<p>Multiboot and BIOS were enough to boot in QEMU, and the whole system is built on VGA text mode, which UEFI machines often don't have. See <a href="hardware.html">hardware</a> for what that means on real machines.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

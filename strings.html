@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strings - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Strings - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="strings">Strings</h1>
+<p>Strings are immutable byte sequences written in double quotes. Words that appear to modify a string return a new one.</p>
+<h2 id="literals">Literals</h2>
+<pre><code>&quot;hello&quot;
+&quot;two\nlines&quot;
+&quot;a \&quot;quoted\&quot; word&quot;
+</code></pre>
+<p>The escapes are <code>\n \t \e \\ \&quot;</code>, plus <code>\w</code> for omega and <code>\A</code> for aleph.</p>
+<h2 id="printing">Printing</h2>
+<pre><code>&quot;hi&quot; say        hi, then a new line
+&quot;hi&quot; write      hi, no new line
+&quot;hi&quot; .          &quot;hi&quot;
+</code></pre>
+<p><code>color</code> sets the text colour from 0 to 15, and <code>colors</code> shows the palette.</p>
+<h2 id="string-words">String words</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cat</code></td>
+<td><code>a b -- c</code></td>
+<td>joins two strings</td>
+</tr>
+<tr>
+<td><code>len</code></td>
+<td><code>s -- n</code></td>
+<td>length in bytes</td>
+</tr>
+<tr>
+<td><code>at</code></td>
+<td><code>s i -- n</code></td>
+<td>the character code at i</td>
+</tr>
+<tr>
+<td><code>slice</code></td>
+<td><code>s a n -- str</code></td>
+<td>n characters from a</td>
+</tr>
+<tr>
+<td><code>find</code></td>
+<td><code>s sub -- i</code></td>
+<td>where sub starts, or -1</td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>s sep -- l</code></td>
+<td>cuts into a list</td>
+</tr>
+<tr>
+<td><code>upper</code></td>
+<td><code>s -- str</code></td>
+<td>capitals</td>
+</tr>
+<tr>
+<td><code>pad</code></td>
+<td><code>s n -- str</code></td>
+<td>pads to n wide, negative pads left</td>
+</tr>
+<tr>
+<td><code>str</code></td>
+<td><code>v -- s</code></td>
+<td>any value as a string</td>
+</tr>
+<tr>
+<td><code>&gt;num</code></td>
+<td><code>s -- n</code></td>
+<td>reads a number</td>
+</tr>
+<tr>
+<td><code>hex</code></td>
+<td><code>n -- s</code></td>
+<td>hex without <code>0x</code></td>
+</tr>
+<tr>
+<td><code>chr</code></td>
+<td><code>n -- s</code></td>
+<td>a character from its code</td>
+</tr>
+</tbody>
+</table>
+<p>There is <code>upper</code> but no <code>lower</code>.</p>
+<h2 id="details">Details</h2>
+<p><code>at</code> and <code>each</code> return character codes, so <code>&quot;hello&quot; 1 at</code> is <code>101</code>. <code>chr</code> converts a code back to a string.</p>
+<p><code>slice</code> past the end returns a shorter string instead of failing. <code>split</code> keeps empty fields, so <code>&quot;a,b,,c&quot; &quot;,&quot; split</code> has four items.</p>
+<p><code>=</code> compares strings, but <code>&lt;</code> and <code>&gt;</code> only accept numbers, so string ordering has to be written by hand.</p>
+<h2 id="eval">eval</h2>
+<pre><code>&quot;1 2 +&quot; eval        leaves 3
+</code></pre>
+<p><code>eval</code> parses and runs a string in the current context, with the same ring 0 access as any other code.</p>
+<h2 id="input-and-formatting">Input and formatting</h2>
+<p><code>ask</code> prints a prompt and reads a line. <code>fmt</code> and <code>pad</code> align columns, and <code>kb</code> and <code>mb</code> format byte counts.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

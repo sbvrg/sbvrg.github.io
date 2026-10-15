@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How infinity works - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="How infinity works - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="how-infinity-works">How infinity works</h1>
+<p>How omega stores and calculates with ordinals and cardinals. Read <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a> first.</p>
+<h2 id="cantor-normal-form">Cantor normal form</h2>
+<p>Every ordinal below <code>epsilon0</code> can be written in exactly one way as a sum of powers of omega, biggest first, each multiplied by a whole number:</p>
+<pre><code>ω^a·c + ω^b·d + ...
+</code></pre>
+<p>omega keeps ordinals in this form. <code>omega 2 * 3 +</code> is <code>ω·2+3</code>, and the exponents can be ordinals too, as in <code>omega omega ^</code>. <code>epsilon0</code> and <code>omega1</code> can't be written this way, so omega treats them as two special values that are bigger than all of these.</p>
+<h2 id="comparing">Comparing</h2>
+<p>Two ordinals are compared from the front. The one with the bigger first exponent is bigger. If those are equal, the bigger number in front of it wins, and if that's equal too, the next part decides.</p>
+<h2 id="adding">Adding</h2>
+<p>When you add <code>a</code> and <code>b</code>, every part of <code>a</code> that is smaller than the first part of <code>b</code> disappears. So <code>1 omega +</code> is <code>omega</code>, because <code>1</code> is smaller than <code>omega</code>, while <code>omega 1 +</code> keeps both and is <code>ω+1</code>.</p>
+<h2 id="multiplying-and-powers">Multiplying and powers</h2>
+<p><code>a b *</code> is <code>a</code> repeated <code>b</code> times. Multiplying by a whole number only changes the front of <code>a</code>, so <code>omega 1 + 2 *</code> is <code>ω·2+1</code>. Multiplying by something infinite adds to the exponent instead, so <code>2 omega *</code> is <code>omega</code> and <code>omega omega *</code> is <code>ω²</code>.</p>
+<p>Powers follow from multiplying. A whole number to an infinite power gives a power of omega, so <code>2 omega ^</code> is <code>omega</code>. Very large exponents fail with <code>that exponent is too big to write out</code>.</p>
+<h2 id="limits">Limits</h2>
+<p>An ordinal can have up to 64 parts, and the numbers in front of each part have to fit in 64 bits.</p>
+<h2 id="cardinals">Cardinals</h2>
+<p>A cardinal is either an aleph or two to the power of an aleph. Adding or multiplying two of them gives the bigger one. <code>2 aleph0 ^</code> is the size of the power set, and <code>aleph0 3 ^</code> is <code>aleph0</code>. Other powers fail.</p>
+<p>Comparing alephs with powers of two only goes as far as set theory does. <code>aleph1 continuum &lt;=</code> is <code>1</code>, but whether they are equal is the continuum hypothesis, which can't be proved or disproved, so <code>aleph1 continuum =</code> fails with the ZFC error. <code>aleph2 continuum &lt;</code> fails the same way.</p>
+<h2 id="printing-and-saving">Printing and saving</h2>
+<p>Ordinals and cardinals print with real ω and ℵ characters, which the kernel adds to the <a href="screen.html">screen</a> font. When a tab is <a href="saving.html">saved</a>, they're written as omega code instead, so <code>ω·2+3</code> is saved as <code>omega 2 * 3 +</code>.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

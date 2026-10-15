@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>README - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="README - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="readme">README</h1>
+<h2 id="what-subverge-is">What Subverge is</h2>
+<p>Subverge is an operating system written from scratch, with its own kernel, shell and programs. Software written for Linux or a BSD has to be rewritten in omega to run on it.</p>
+<p>The kernel is called <strong>ordinal</strong> and the shell is called <strong>omega</strong>. The idea came from TempleOS, which also has a shell that compiles code and runs everything in ring 0. Subverge took that idea in its own direction, and the <a href="history.html">history</a> page tells the rest.</p>
+<h2 id="the-shell">The shell</h2>
+<p>At the prompt you type <a href="omega.html">omega</a>, a stack language. A few lines look like this:</p>
+<pre><code>2 3 +
+[ dup * ] :sq
+7 sq
+</code></pre>
+<p>The whole system is written in omega, from the <a href="tools.html">clock</a> to the <a href="installation.html">installer</a>. <a href="first-steps.html">First steps</a> has a short first session.</p>
+<h2 id="where-to-start">Where to start</h2>
+<p>Boot the ISO as described in <a href="installation.html">installation</a> and run <code>learn</code>. Afterwards, <code>help</code> lists every word, <code>'dup help</code> explains one, and <code>apps</code> lists the bundled programs.</p>
+<h2 id="how-the-system-behaves">How the system behaves</h2>
+<p>When a line fails, everything it did is undone. This is called a <a href="transactions.html">transaction</a>. Lines that worked can be undone with <a href="back.html">back</a>.</p>
+<p>There are four <a href="tabs.html">tabs</a>, switched with F1 to F4. Each has its own <a href="world.html">world</a>, and all four run at the same time.</p>
+<p>Programs are kept in <a href="root.html">root</a>, and you can edit them with <a href="scrawl.html">scrawl</a> while the system is running. An installed system <a href="saving.html">saves</a> your work after every line.</p>
+<p>Infinity is a value in omega, so <code>omega 1 +</code> is a valid line (<a href="ordinals.html">ordinals</a>). The <a href="errors.html">errors</a> page explains the error messages.</p>
+<h2 id="raw-memory-and-ports">Raw memory and ports</h2>
+<p>omega also has words that read and write memory, talk to I/O ports and read PCI configuration space. They are described in <a href="smarties.html">omega for smarties</a>, together with the internals.</p>
+<h2 id="programs">Programs</h2>
+<p>Subverge comes with <a href="tools.html">tools</a>, <a href="games.html">games</a> and <a href="demos.html">demos of infinity</a>. They are omega programs, so you can open and change them while the system runs. <a href="apps.html">Apps</a> explains how to add your own to the list.</p>
+<h2 id="real-hardware">Real hardware</h2>
+<p>Subverge targets QEMU. If you try it on a real machine, <a href="bugs.html">report</a> the result. The <a href="hardware.html">hardware</a> page lists what a real machine needs.</p>
+<h2 id="problems">Problems</h2>
+<p>Check <a href="troubleshooting.html">troubleshooting</a> and the <a href="faq.html">FAQ</a> first. If that doesn't help, <a href="bugs.html">report the problem</a> with the exact line you typed and the exact error.</p>
+<h2 id="building">Building</h2>
+<p><a href="development.html">Development</a> describes how to build Subverge from source, <a href="testing.html">testing</a> how to run omega without booting, and <a href="source-layout.html">source layout</a> which file does what.</p>
+<h2 id="license">License</h2>
+<p>Subverge is released under the GPL v3. See <a href="license.html">license</a>.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ordinals - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Ordinals - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="ordinals">Ordinals</h1>
+<p>omega supports transfinite ordinals as ordinary values. <code>omega</code> pushes the first infinite ordinal, which can be added, multiplied, exponentiated and compared. Cardinals are covered in <a href="cardinals.html">cardinals</a>.</p>
+<h2 id="what-an-ordinal-is">What an ordinal is</h2>
+<p>An ordinal describes a position in a well-ordered sequence. The finite ordinals are the natural numbers, and <code>omega</code> is the first ordinal greater than all of them.</p>
+<p>After <code>omega</code> come <code>omega+1</code>, <code>omega+2</code> and eventually <code>omega·2</code>, then <code>omega²</code>, <code>omega^omega</code>, towers of omegas and, above all of those, <code>epsilon0</code>. <code>omega1</code>, the first uncountable ordinal, lies beyond every countable one. The <code>count</code> demo (<a href="demos.html">demos</a>) walks up this sequence.</p>
+<h2 id="literals">Literals</h2>
+<pre><code>omega           the first infinite ordinal, printed w
+epsilon0        the first ordinal where omega^x = x, printed e0
+omega1          the first uncountable ordinal, printed w1
+</code></pre>
+<p>On the Subverge screen they are printed with a real <code>ω</code>. Non-negative integers act as finite ordinals when combined with one.</p>
+<h2 id="arithmetic">Arithmetic</h2>
+<p><code>+</code>, <code>*</code> and <code>^</code> are supported, and none of them is commutative:</p>
+<pre><code>1 omega + .         w
+omega 1 + .         w+1
+</code></pre>
+<p>Adding one element before an infinite sequence leaves its order type unchanged, while adding one after it produces a longer one. Multiplication behaves the same way:</p>
+<pre><code>2 omega * .         w
+omega 2 * .         w.2
+</code></pre>
+<p>Powers:</p>
+<pre><code>2 omega ^ .         w
+omega 2 ^ .         w², printed with a superscript inside Subverge
+</code></pre>
+<p>Results are kept in Cantor normal form, a sum of decreasing powers of omega, so <code>omega 2 * 3 +</code> prints as <code>w.2+3</code>. <a href="infinity.html">How infinity works</a> describes the representation.</p>
+<h2 id="unsupported-operations">Unsupported operations</h2>
+<p>Subtraction, division and negative ordinals are not supported:</p>
+<pre><code>omega 1 -           fails: ordinals only support + * and ^
+omega -3 +          fails: ordinals are never negative
+</code></pre>
+<h2 id="comparison">Comparison</h2>
+<p>Comparisons follow the ordinal order:</p>
+<pre><code>5 omega &lt; .                 1
+omega omega 1 + &lt; .         1
+epsilon0 omega1 &lt; .         1
+omega epsilon0 ^ epsilon0 = .   1
+</code></pre>
+<p>The last line is the defining property of <code>epsilon0</code>.</p>
+<h2 id="cardinality">Cardinality</h2>
+<p><code>ordinal?</code> is <code>1</code> for infinite ordinals. <code>card</code> returns the cardinality of an ordinal as a <a href="cardinals.html">cardinal</a>, so <code>omega 2 * card</code> is <code>aleph0</code> and <code>omega1 card</code> is <code>aleph1</code>.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

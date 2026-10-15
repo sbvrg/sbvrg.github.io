@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Troubleshooting - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="building">Building</h2>
+<p><strong><code>nasm: No such file or directory</code>.</strong> Install nasm (<a href="development.html">development</a>).</p>
+<p><strong><code>grub-mkrescue: command not found</code>.</strong> It comes with <code>sys-boot/grub</code>, and it needs <code>app-cdr/libisoburn</code> for <code>xorriso</code>.</p>
+<p><strong>QEMU says the ISO isn't bootable.</strong> Only the EFI GRUB modules are installed. Install the BIOS ones and rebuild.</p>
+<p><strong>The docs check prints problems.</strong> A word's help entry is missing or wrong (<a href="testing.html">testing</a>).</p>
+<h2 id="booting">Booting</h2>
+<p><strong>Black screen or &quot;No bootable device&quot;.</strong> A blank disk is attached and QEMU is booting from it. Add <code>-boot d</code>.</p>
+<p><strong>A GRUB prompt.</strong> <code>multiboot /boot/subverge.elf</code>, then <code>boot</code>.</p>
+<p><strong>The installed disk won't boot.</strong> Boot it with <code>-hda</code>, and check that <code>install</code> actually said <code>installed</code>.</p>
+<p><strong><code>the saved root didn't build, using the built-in one</code>.</strong> Usually an old disk on a new kernel. See <a href="root.html">root</a>.</p>
+<h2 id="using-it">Using it</h2>
+<p><strong>The clock is wrong.</strong> It's UTC. Add <code>-rtc base=localtime</code>.</p>
+<p><strong><code>No drives were found.</code></strong> Use <code>-hda</code>, not virtio or NVMe.</p>
+<p><strong>Nothing is saved.</strong> You're on the live ISO (<a href="installation.html">installation</a>).</p>
+<p><strong>My whole line did nothing.</strong> Something on it failed. Read the red text (<a href="transactions.html">transactions</a>).</p>
+<p><strong><code>back</code> went too far.</strong> It skips lines that changed nothing (<a href="back.html">back</a>).</p>
+<p><strong>A word works at the prompt but not inside another word.</strong> Dynamic scoping (<a href="names.html">names</a>).</p>
+<p><strong><code>forget</code> says it isn't defined in this tab.</strong> It only removes your own definitions (<a href="names.html">names</a>).</p>
+<p><strong>My root edit didn't do anything.</strong> It didn't build. Open it again and read the error (<a href="root.html">root</a>).</p>
+<p><strong>I used <code>edit</code> on <code>top</code> and the other tabs didn't change.</strong> You made a private copy. Use <code>open</code> (<a href="scrawl.html">scrawl</a>).</p>
+<p><strong>My program isn't in <code>apps</code>.</strong> It's never automatic (<a href="apps.html">apps</a>).</p>
+<p><strong>Ctrl-C doesn't stop it.</strong> Switch tabs (<a href="tabs.html">tabs</a>).</p>
+<p><strong>Everything froze.</strong> Something wrote over memory the kernel needs, or <code>halt</code> was run. Close QEMU. An installed disk was saved after every line.</p>
+<h2 id="still-broken">Still broken</h2>
+<p>See <a href="bugs.html">bugs</a> for how to report it.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

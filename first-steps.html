@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First steps - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="First steps - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="first-steps">First steps</h1>
+<p>A short first session. For booting, see <a href="installation.html">installation</a>.</p>
+<h2 id="the-prompt">The prompt</h2>
+<p><code>»</code> is the omega prompt, and each line you type is an omega program. There is no other command language.</p>
+<pre><code>2 3 +           leaves 5 on the stack
+.               prints and drops it
+</code></pre>
+<p>Arguments come first and the operator last, as in Forth. See <a href="stack.html">stack</a>.</p>
+<h2 id="learn">learn</h2>
+<p><code>learn</code> is a series of one-screen lessons, each with a line to try. Space goes on, <code>b</code> goes back and <code>q</code> quits. Lessons count from 0, so <code>14 lesson</code> starts at the fifteenth. <a href="learn.html">learn</a> lists them.</p>
+<h2 id="lines-to-try">Lines to try</h2>
+<p><code>empty</code> clears the stack.</p>
+<pre><code>2 3 + 4 *                 20
+[ dup * ] :sq             defines sq
+7 sq .                    prints 49
+10 [ &quot;hi&quot; say ] times     prints hi ten times
+0 5 range .               [ 0 1 2 3 4 ]
+[ 1 2 3 ] [ sq ] map .    [ 1 4 9 ]
+&quot;subverge&quot; upper say      SUBVERGE
+1 0 /                     fails, and the line is undone
+omega 1 + .               w+1
+</code></pre>
+<p>The last one is ordinal arithmetic (<a href="ordinals.html">ordinals</a>).</p>
+<h2 id="finding-words">Finding words</h2>
+<pre><code>help                every word, by group
+'math help          one group
+'map help           one word
+</code></pre>
+<p><code>apps</code> lists the programs and <code>root</code> lists the units that define them.</p>
+<h2 id="mistakes">Mistakes</h2>
+<p>A failing line is undone and its error is printed in red (<a href="transactions.html">transactions</a>). <code>back</code> undoes lines that succeeded, up to 64 of them (<a href="back.html">back</a>). Ctrl-C interrupts whatever is running.</p>
+<h2 id="tabs">Tabs</h2>
+<p>F1 to F4 switch between four <a href="tabs.html">tabs</a>, each with its own stack and definitions, all running concurrently. A <code>*</code> after a tab's name means it has printed something you haven't seen.</p>
+<h2 id="next">Next</h2>
+<p><a href="omega.html">omega</a> covers the language, <a href="tools.html">tools</a> and <a href="games.html">games</a> the bundled programs, <a href="startup.html">startup</a> the boot greeting and <a href="prompt.html">prompt</a> the line-editing keys.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

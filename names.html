@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Names - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Names - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="names">Names</h1>
+<p>Definitions, symbols, locals and name lookup.</p>
+<h2 id="definitions">Definitions</h2>
+<pre><code>[ dup * ] :sq
+42 :answer
+</code></pre>
+<p><code>:name</code> pops the top value and binds it to a name in your tab. Using the name runs the value if it is a quote and pushes it otherwise. Definitions belong to the <a href="tabs.html">tab</a> that made them and are part of its <a href="world.html">world</a>. For a word every tab can see, use <a href="root.html">root</a>.</p>
+<h2 id="symbols">Symbols</h2>
+<p>A leading quote mark turns a name into a value, which is how words that operate on other words receive them:</p>
+<pre><code>'sq see             the definition
+'sq help            the help entry
+'sq get             the quote itself
+'sq defined?        1 or 0
+&quot;sq&quot; &gt;sym get       same as 'sq get
+</code></pre>
+<h2 id="lookup-order">Lookup order</h2>
+<ol>
+<li>bound locals</li>
+<li>your tab's definitions</li>
+<li>root</li>
+<li>built-in words</li>
+</ol>
+<p>The first match wins, so <code>[ 1 ] :dup</code> changes <code>dup</code> in your tab only.</p>
+<h2 id="forgetting">Forgetting</h2>
+<pre><code>[ 2 ] :sq
+4 sq .              2
+'sq forget
+4 sq .              16, root's sq again
+</code></pre>
+<p><code>forget</code> only removes definitions made in your tab, which uncovers whatever they shadowed. <code>'top forget</code> without a tab definition of <code>top</code> fails with <code>top isn't defined in this tab</code>. Root words are changed by editing <a href="root.html">root</a>.</p>
+<p><code>back</code> undoes a <code>forget</code> like any other line.</p>
+<h2 id="looking-at-definitions">Looking at definitions</h2>
+<p><code>see</code> prints a definition and marks root definitions with <code>(root)</code>. <code>words</code> lists your tab's definitions, and <code>src</code> returns the source of the root unit that defines a name.</p>
+<p><img src="images/64-see-words.png" alt="see and words"></p>
+<p><code>'name edit</code> edits a tab definition in <a href="scrawl.html">scrawl</a>. Root words use <code>'name open</code>.</p>
+<h2 id="locals">Locals</h2>
+<pre><code>[ { a b } a b - ] :diff
+9 4 diff            5
+</code></pre>
+<p><code>{ a b }</code> pops values into locals in written order, so <code>a</code> is <code>9</code>.</p>
+<p><code>-&gt;x</code> assigns to the innermost local <code>x</code> if one is bound, and otherwise binds a new one that lasts until the enclosing quote or line ends:</p>
+<pre><code>9 -&gt;x x .           prints 9
+x .                 fails on the next line
+</code></pre>
+<p>Use <code>:x</code> for a value that persists. At most 256 locals can be bound at once, which limits recursion depth (<a href="flow.html">flow</a>).</p>
+<h2 id="dynamic-scoping">Dynamic scoping</h2>
+<p>Locals are dynamically scoped, so a word can see the locals of its callers:</p>
+<pre><code>[ n . ] :shown
+[ { n } shown ] :caller
+5 caller            prints 5
+</code></pre>
+<p><code>shown</code> never binds <code>n</code>, but it runs while <code>caller</code>'s binding is live. This lets a helper read its caller's state without passing it on the stack.</p>
+<p>Keep in mind that a callee can shadow your locals by binding the same name, and a word that reads a name it never bound silently gets the caller's value instead of failing. Bugs that only appear when a word is called from one particular place usually come from this, so check local names first when a word works at the prompt but not inside another word.</p>
+<h2 id="allowed-names">Allowed names</h2>
+<p>A name is any token that isn't a number, string or bracket, so <code>km&gt;mi</code>, <code>quit-key?</code> and <code>&gt;hex</code> are all valid, and <code>2x</code> is a name while <code>2</code> is a number. <a href="units.html">Units</a> have stricter rules.</p>
+<p>Using an unbound name fails with <code>foo isn't defined</code> and undoes the line.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

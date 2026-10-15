@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduler - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Scheduler - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="scheduler">Scheduler</h1>
+<p>The four <a href="tabs.html">tabs</a> share one CPU. The scheduler switches between them a hundred times a second, in turn.</p>
+<h2 id="tasks">Tasks</h2>
+<p>There are five tasks, one for each tab and one idle task. Each tab's task has its own 256 KiB stack, from the heap, and runs <code>omega_main</code>, which is the prompt loop: read a line, run it, repeat. The idle task is <code>kmain</code> itself, which ends in <code>hlt</code> in a loop.</p>
+<p>There is no way to create more tasks. The four tabs match the four tab slots in the <a href="disk-layout.html">disk layout</a>.</p>
+<h2 id="switching">Switching</h2>
+<p>The PIT fires IRQ 0 a hundred times a second. Every interrupt, timer or not, goes through one common handler that pushes all the registers onto the current task's stack. For the timer, the handler calls <code>schedule</code> with a pointer to those saved registers, which:</p>
+<ol>
+<li>stores that pointer as the current task's saved <code>rsp</code></li>
+<li>looks at the tabs in order, starting after the current one, for the first one that's runnable</li>
+<li>returns that task's saved <code>rsp</code>, or the idle task's if none are</li>
+</ol>
+<p>and the handler then switches to whatever stack it was given and pops the registers off it. The return from the interrupt <em>is</em> the context switch. The registers stay on that stack, and no FPU state is saved, because the kernel is compiled to never touch SSE.</p>
+<h2 id="runnable">Runnable</h2>
+<p>A tab is runnable unless it's waiting. It can be waiting for a key, in which case it's runnable once its key queue isn't empty, or sleeping until a tick, in which case it's runnable once that tick has passed. A tab doing neither is always runnable, so a tab in a tight loop gets its full share, and the others still get theirs.</p>
+<p>Only the tab you're looking at receives keys. Keys typed while you're on tab 1 go into tab 1's queue and nowhere else.</p>
+<h2 id="yielding">Yielding</h2>
+<p>A task that has nothing to do right now, because it's waiting for a key or sleeping, gives up the CPU early with <code>int 48</code>, which goes through the same handler and the same <code>schedule</code> as the timer does. A tab waiting at the prompt therefore uses no CPU time.</p>
+<h2 id="faults">Faults</h2>
+<p>If a tab's code causes a CPU exception, the fault handler doesn't panic. It records the message on the tab, clears whatever it was waiting for, builds a brand new stack frame that starts <code>omega_main</code> from the top, and returns that. The tab's world isn't touched, because a line's effects only reach the world when the line finishes, which it didn't. The new <code>omega_main</code> sees the recorded fault, prints it, prints <code>your last line was dropped</code>, and goes back to the prompt. See <a href="transactions.html">transactions</a>.</p>
+<p>A fault in the idle task, or in the kernel when no tab is running, is a real panic, and the machine stops.</p>
+<h2 id="sharing">Sharing</h2>
+<p>All four tabs share one heap, one screen, one keyboard controller and one disk. The allocator and the disk code disable interrupts around the parts that can't be interrupted. Everything else per tab is separate: the omega state, the stack, the screen buffer, the key queue and the prompt history.</p>
+<p>The <a href="jit.html">JIT</a> needs extra care, since compiled code can still be running in one tab when another tab invalidates it. The JIT page describes how this is handled.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

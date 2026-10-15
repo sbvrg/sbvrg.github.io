@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quotes - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Quotes - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="quotes">Quotes</h1>
+<p>A quote is code in square brackets that is pushed rather than run. It is also a list, and the same value can be used either way. <a href="flow.html">Flow</a> describes the words that run quotes.</p>
+<h2 id="quotes-as-code">Quotes as code</h2>
+<pre><code>[ 1 2 + ]           pushes a quote, adds nothing
+[ 1 2 + ] do        leaves 3
+</code></pre>
+<p><code>if</code>, <code>times</code> and the other control words are ordinary words that take quotes and decide when to run them. A defined word is a quote bound to a name:</p>
+<pre><code>[ dup * ] :sq
+</code></pre>
+<h2 id="quotes-as-lists">Quotes as lists</h2>
+<pre><code>[ 1 2 + ] len .             3
+[ 1 2 + ] 2 at .            '+
+</code></pre>
+<p>Inside a quote a word is stored as its name, so the <code>+</code> comes back as the symbol <code>'+</code>. Quotes can hold any value, including other quotes.</p>
+<h2 id="the-list-words">The list words</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>list</code></td>
+<td><code>... n -- l</code></td>
+<td>packs the top n values</td>
+</tr>
+<tr>
+<td><code>range</code></td>
+<td><code>a b -- l</code></td>
+<td>a up to b-1</td>
+</tr>
+<tr>
+<td><code>append</code></td>
+<td><code>l x -- list</code></td>
+<td>x on the end</td>
+</tr>
+<tr>
+<td><code>cat</code></td>
+<td><code>a b -- c</code></td>
+<td>joins two lists</td>
+</tr>
+<tr>
+<td><code>len</code></td>
+<td><code>l -- n</code></td>
+<td>how many items</td>
+</tr>
+<tr>
+<td><code>at</code></td>
+<td><code>l i -- x</code></td>
+<td>item i, from 0</td>
+</tr>
+<tr>
+<td><code>first</code></td>
+<td><code>l -- x</code></td>
+<td>the first item</td>
+</tr>
+<tr>
+<td><code>last</code></td>
+<td><code>l -- x</code></td>
+<td>the last item</td>
+</tr>
+<tr>
+<td><code>rest</code></td>
+<td><code>l -- list</code></td>
+<td>all but the first</td>
+</tr>
+<tr>
+<td><code>has</code></td>
+<td><code>l x -- 1|0</code></td>
+<td>is x in it</td>
+</tr>
+<tr>
+<td><code>spread</code></td>
+<td><code>l -- ...</code></td>
+<td>every item onto the stack</td>
+</tr>
+</tbody>
+</table>
+<p>Lists are immutable, so these words return new lists and leave the original untouched.</p>
+<h2 id="iterating">Iterating</h2>
+<pre><code>[ 1 2 3 ] [ . ] each
+[ 1 2 3 ] [ 2 * ] map           [ 2 4 6 ]
+1 11 range [ 2 mod 0 = ] filter [ 2 4 6 8 10 ]
+</code></pre>
+<p>The quote given to <code>map</code> must leave exactly one value per item.</p>
+<h2 id="limits">Limits</h2>
+<p>Quotes that are too long, nested too deeply or unbalanced fail with their own messages, listed in <a href="errors.html">errors</a>.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

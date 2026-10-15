@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tour - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Tour - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="tour">Tour</h1>
+<p>Subverge 0.8.0 in QEMU.</p>
+<h2 id="first-boot">First boot</h2>
+<p>The live ISO's welcome screen. See <a href="startup.html">startup</a> to change it.</p>
+<p><img src="images/01-welcome-live.png" alt="The welcome screen on the live ISO"></p>
+<p>The <code>sys</code> screen.</p>
+<p><img src="images/08-sys.png" alt="sys"></p>
+<h2 id="installing">Installing</h2>
+<p>Read <a href="installation.html">installation</a> before you copy any of this.</p>
+<p><img src="images/24-install-prompt.png" alt="install listing the drives"></p>
+<p><img src="images/30-install-confirm.png" alt="install naming the drive and waiting for yes"></p>
+<p><img src="images/31-installed.png" alt="install finishing"></p>
+<p>The installed disk booting with Subverge's own <a href="boot.html">bootloader</a>, and a word defined before the reboot still there after it (<a href="saving.html">saving</a>).</p>
+<p><img src="images/32-installed-boot.png" alt="The installed disk booting"></p>
+<p><img src="images/33-world-restored.png" alt="A world restored after a reboot"></p>
+<h2 id="help">Help</h2>
+<p><code>help</code>, <code>'group help</code> and <code>'word help</code>. See <a href="help.html">help</a>.</p>
+<p><img src="images/02-help-overview.png" alt="help"></p>
+<p><img src="images/03-help-group.png" alt="help for one group"></p>
+<p><img src="images/04-help-word.png" alt="help for one word"></p>
+<p>The memory group (<a href="smarties.html">omega for smarties</a>) and the infinity group (<a href="ordinals.html">ordinals</a>).</p>
+<p><img src="images/66-help-memory.png" alt="The memory group"></p>
+<p><img src="images/67-help-infinity.png" alt="The infinity group"></p>
+<h2 id="learn">learn</h2>
+<p>See <a href="learn.html">learn</a>.</p>
+<p><img src="images/34-learn-stack.png" alt="learn, the first lesson"></p>
+<p><img src="images/35-learn-big.png" alt="learn, big numbers"></p>
+<p><img src="images/35-learn-transactions.png" alt="learn, the lesson that fails on purpose"></p>
+<p><img src="images/36-learn-drawing.png" alt="learn, drawing"></p>
+<h2 id="the-language">The language</h2>
+<p>Ordinals, and a failing line leaving nothing behind (<a href="transactions.html">transactions</a>).</p>
+<p><img src="images/05-ordinals-and-errors.png" alt="Ordinals and errors"></p>
+<p>Deliberate errors, including the one where set theory gives up. See <a href="errors.html">errors</a>.</p>
+<p><img src="images/63-errors.png" alt="A screen of errors"></p>
+<p><code>trace</code> (<a href="flow.html">flow</a>) and <code>back</code> (<a href="back.html">back</a>).</p>
+<p><img src="images/06-trace.png" alt="trace"></p>
+<p><img src="images/07-back.png" alt="back"></p>
+<p><code>see</code> and <code>words</code>. See <a href="names.html">names</a>.</p>
+<p><img src="images/64-see-words.png" alt="see and words"></p>
+<p><code>stats</code>, <code>heap</code>, <code>kernel</code>, <code>uptime</code> and <code>disks</code>. See <a href="memory.html">memory</a>.</p>
+<p><img src="images/65-stats-disks.png" alt="stats, heap and disks"></p>
+<p>Big numbers (<a href="numbers.html">numbers</a>), and <code>fortune</code> and <code>bases</code>.</p>
+<p><img src="images/70-bignums.png" alt="2 100 ^ and 2 1000 ^, exact"></p>
+<p><img src="images/69-fortune-big.png" alt="fortune, bases and big numbers"></p>
+<h2 id="tools">Tools</h2>
+<p>See <a href="tools.html">tools</a>.</p>
+<p><img src="images/09-pcils.png" alt="pcils"></p>
+<p><img src="images/10-memls.png" alt="memls"></p>
+<p><img src="images/11-cpuinfo.png" alt="cpuinfo"></p>
+<p><img src="images/12-irqmon.png" alt="irqmon"></p>
+<p><img src="images/13-hexview.png" alt="hexview"></p>
+<p><img src="images/14-calc.png" alt="calc"></p>
+<p><img src="images/28-top-tabs.png" alt="top"></p>
+<p><img src="images/54-clock.png" alt="clock"></p>
+<p><img src="images/55-stopwatch.png" alt="stopwatch"></p>
+<p><img src="images/56-timer.png" alt="timer"></p>
+<p><img src="images/57-todo.png" alt="todo"></p>
+<p><img src="images/58-bases-convert.png" alt="bases and convert"></p>
+<p><img src="images/59-ascii.png" alt="ascii"></p>
+<p><img src="images/60-colors.png" alt="colors"></p>
+<p><img src="images/61-password.png" alt="password"></p>
+<p><img src="images/62-pong.png" alt="pong"></p>
+<h2 id="tabs">Tabs</h2>
+<p>Four <a href="tabs.html">tabs</a> running at once.</p>
+<p><img src="images/25-snake.png" alt="snake"></p>
+<p><img src="images/26-life.png" alt="life"></p>
+<p><img src="images/27-rain.png" alt="rain"></p>
+<p><img src="images/29-fortune-words.png" alt="fortune and words"></p>
+<h2 id="infinity">Infinity</h2>
+<p>See <a href="demos.html">demos</a>.</p>
+<p><img src="images/17-count.png" alt="count"></p>
+<p><img src="images/18-ord-demo.png" alt="ord-demo"></p>
+<p><img src="images/19-diagonal.png" alt="diagonal"></p>
+<p><img src="images/20-supertask.png" alt="supertask"></p>
+<p><img src="images/21-pairing.png" alt="pairing"></p>
+<h2 id="root">Root</h2>
+<p><code>root</code>, editing a unit in <a href="scrawl.html">scrawl</a>, and a new <a href="units.html">unit</a>. See <a href="root.html">root</a>.</p>
+<p><img src="images/22-root.png" alt="root"></p>
+<p><img src="images/23-edit-root.png" alt="Editing a root unit"></p>
+<p><img src="images/52-new-unit.png" alt="A new unit"></p>
+<p><img src="images/53-root-mine.png" alt="root with the new unit"></p>
+<h2 id="jit">JIT</h2>
+<p><code>xray</code> and <code>bench</code>. See <a href="jit.html">JIT</a>.</p>
+<p><img src="images/15-jit-xray.png" alt="xray"></p>
+<p><img src="images/16-jit-bench.png" alt="bench"></p>
+<h2 id="mandelbrot">Mandelbrot</h2>
+<p><code>mandel</code>, its source, and the JIT working on it.</p>
+<p><img src="images/37-mandel-1.png" alt="mandel"></p>
+<p><img src="images/38-mandel-2.png" alt="mandel, zoomed"></p>
+<p><img src="images/42-help-demos.png" alt="The demos group in help"></p>
+<p><img src="images/41-mandel-source.png" alt="The source of mandel"></p>
+<p><img src="images/39-mandel-xray.png" alt="xray of the inner loop"></p>
+<p><img src="images/40-mandel-bench.png" alt="bench on mandel"></p>
+<h2 id="apps">Apps</h2>
+<p><code>apps</code>, the programs from <a href="games.html">games</a>, and adding one to the list (<a href="apps.html">apps</a>).</p>
+<p><img src="images/43-apps.png" alt="apps"></p>
+<p><img src="images/44-sieve-running.png" alt="sieve, running"></p>
+<p><img src="images/45-sieve-done.png" alt="sieve, done"></p>
+<p><img src="images/46-bounce.png" alt="bounce"></p>
+<p><img src="images/47-sorting-running.png" alt="sorting, running"></p>
+<p><img src="images/48-sorting-done.png" alt="sorting, done"></p>
+<p><img src="images/49-stars.png" alt="stars"></p>
+<p><img src="images/50-apps-editor.png" alt="Editing the list"></p>
+<p><img src="images/51-apps-hello.png" alt="apps with hello in it"></p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Stack - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="stack">Stack</h1>
+<p>Each tab has one data stack. Words take their arguments from it and leave their results on it, and it is the only way to pass values between words.</p>
+<h2 id="pushing-and-popping">Pushing and popping</h2>
+<pre><code>1 2 3
++
+</code></pre>
+<p>Literals are pushed on top. <code>+</code> pops <code>3</code> and <code>2</code> and pushes <code>5</code>, leaving <code>1 5</code>. A word that finds too few values fails.</p>
+<h2 id="stack-effects">Stack effects</h2>
+<pre><code>( a b -- c )
+</code></pre>
+<p>A stack effect lists what a word takes and what it leaves, with the top of the stack on the right. <code>dup</code> is <code>( a -- a a )</code>. <code>'word help</code> shows the effect of any word.</p>
+<h2 id="stack-words">Stack words</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dup</code></td>
+<td><code>a -- a a</code></td>
+<td>copies the top value</td>
+</tr>
+<tr>
+<td><code>drop</code></td>
+<td><code>a --</code></td>
+<td>discards it</td>
+</tr>
+<tr>
+<td><code>swap</code></td>
+<td><code>a b -- b a</code></td>
+<td>swaps the top two</td>
+</tr>
+<tr>
+<td><code>over</code></td>
+<td><code>a b -- a b a</code></td>
+<td>copies the second to the top</td>
+</tr>
+<tr>
+<td><code>rot</code></td>
+<td><code>a b c -- b c a</code></td>
+<td>moves the third to the top</td>
+</tr>
+<tr>
+<td><code>nip</code></td>
+<td><code>a b -- b</code></td>
+<td>drops the second</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td><code>-- n</code></td>
+<td>the number of values</td>
+</tr>
+<tr>
+<td><code>empty</code></td>
+<td><code>... --</code></td>
+<td>clears the stack</td>
+</tr>
+</tbody>
+</table>
+<p>Long chains of <code>swap rot over</code> are hard to read. Locals usually do the job better (<a href="names.html">names</a>).</p>
+<h2 id="inspecting-it">Inspecting it</h2>
+<p><code>.</code> prints the top value as source and <code>say</code> prints it as text, and both pop it. To print the whole stack without changing it:</p>
+<pre><code>depth list dup . spread
+</code></pre>
+<h2 id="limits">Limits</h2>
+<p>The stack holds 1024 values, after which pushing fails with <code>the stack is full</code>. This usually means a loop that pushes without popping. Popping an empty stack fails with <code>drop needs more values on the stack</code>, naming whichever word it was.</p>
+<p>The stack is part of the tab's <a href="world.html">world</a>, and each <a href="tabs.html">tab</a> has its own.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

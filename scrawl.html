@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>scrawl - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="scrawl - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="scrawl">scrawl</h1>
+<p>scrawl is the Subverge text editor. It is opened by one of:</p>
+<pre><code>'top open           the root unit that defines top
+'sq edit            a definition in this tab
+&quot;mine&quot; unit         a new root unit
+</code></pre>
+<h2 id="keys">Keys</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arrows, Home, End, Page Up, Page Down</td>
+<td>move</td>
+</tr>
+<tr>
+<td>Ctrl-T, Ctrl-B</td>
+<td>top, bottom</td>
+</tr>
+<tr>
+<td>Ctrl-F</td>
+<td>find, and Enter on an empty search repeats it</td>
+</tr>
+<tr>
+<td>Ctrl-K</td>
+<td>cut the line</td>
+</tr>
+<tr>
+<td>Ctrl-U</td>
+<td>paste it above the cursor</td>
+</tr>
+<tr>
+<td>Ctrl-S</td>
+<td>save</td>
+</tr>
+<tr>
+<td>Ctrl-Q</td>
+<td>quit, twice if there are unsaved changes</td>
+</tr>
+<tr>
+<td>Tab</td>
+<td>spaces to the next multiple of 4</td>
+</tr>
+</tbody>
+</table>
+<p>scrawl has no undo and no selection, and the clipboard holds a single line.</p>
+<h2 id="saving-and-quitting">Saving and quitting</h2>
+<p>Ctrl-S saves the text, and the rebuild happens on quit, using the last saved version. Quitting without saving changes nothing. A root unit rebuilds all or nothing (<a href="root.html">root</a>), and the result is <a href="saving.html">saved</a> to disk.</p>
+<h2 id="edit">edit</h2>
+<p><code>'name edit</code> opens the body of a definition without its outer brackets, and redefines <code>name</code> in your tab on quit. As a result:</p>
+<ul>
+<li><code>'newname edit</code> on an undefined name creates a new word, which is convenient for longer definitions.</li>
+<li><code>'top edit</code> on a root word creates a private copy in your tab. Use <code>open</code> to change root itself.</li>
+<li>If the text doesn't parse, it is kept as a string and scrawl reports <code>that didn't parse</code> with the reason. The word then pushes that string until it is edited and fixed.</li>
+</ul>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saving - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Saving - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="saving">Saving</h1>
+<p>The live ISO saves nothing: <code>save</code> fails and <code>home</code> returns <code>-1</code>. To keep your work, <a href="installation.html">install</a> Subverge to a disk image.</p>
+<p>An installed system saves automatically after each line that changes the world, each root edit that builds and each <code>back</code>. <code>save</code> writes everything immediately. <code>home</code> returns the number of the drive Subverge is installed on.</p>
+<h2 id="slots">Slots</h2>
+<p>An installed disk has five slots of 1 MiB. Slot 0 is <a href="root.html">root</a>, and slots 1 to 4 are the <a href="tabs.html">tabs</a>. Only the tab that changed gets rewritten.</p>
+<h2 id="whats-in-a-slot">What's in a slot</h2>
+<p>A slot holds plain omega source. A tab is saved as its definitions, oldest first, followed by its stack:</p>
+<pre><code># saved world
+[ dup * ] :sq2
+[ { a b } a a * b b * + ] :hyp
+1 2 3
+</code></pre>
+<p>Root is saved as each unit's source after its <code>#&gt;&gt; name</code> line. At boot each slot is run as if it had been typed.</p>
+<p>Only values that can be written as source survive. Integers, strings, quotes, symbols, ordinals and cardinals do. Memory from <code>alloc</code> doesn't, so a saved address is meaningless after a reboot.</p>
+<h2 id="not-saved">Not saved</h2>
+<p>The <code>back</code> history, the prompt history, tab titles, the screen contents and raw memory are not saved.</p>
+<h2 id="damaged-slots">Damaged slots</h2>
+<p>A slot whose checksum doesn't match is treated as empty, and that tab boots fresh. A damaged root slot falls back to the kernel's built-in root.</p>
+<p>A world or root larger than 1 MiB is silently not saved.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

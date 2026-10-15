@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Errors - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Errors - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="errors">Errors</h1>
+<p>A failing word prints its message in red after a <code>!</code>, and the whole line is undone (<a href="transactions.html">transactions</a>). Most messages are self-explanatory, and the others are described below.</p>
+<p><img src="images/63-errors.png" alt="A screen full of errors"></p>
+<h2 id="self-explanatory">Self-explanatory</h2>
+<p><code>division by zero</code>, <code>that list is empty</code>, <code>that position is outside the list</code>, <code>a [ is never closed</code>, <code>a string is never closed</code>, <code>there is a ] with no [ before it</code>, <code>there is a } with no { before it</code>, <code>{ } needs names inside it</code>, <code>foo isn't defined</code>, <code>the stack is full</code>, <code>rand needs a number above 0</code>, <code>negative powers aren't supported</code>, <code>aleph needs 0 or more</code>, <code>card needs an ordinal</code>, <code>foo is already a unit</code>, <code>a unit name is 1 to 20 characters</code>, <code>a unit name uses lowercase letters, digits and -</code>, <code>there is no room for another unit</code>, <code>the tab number has to be 1 to 4</code>, <code>cr only takes 0, 2, 3 or 4</code>, <code>alloc takes 1 byte up to 16M</code>, <code>there is no such drive</code>, <code>that drive is too small, it needs at least 8M</code>, <code>cancelled</code>, <code>stopped</code>, <code>interrupted</code>.</p>
+<h2 id="explained">Explained</h2>
+<p><strong><code>foo needs more values on the stack</code></strong>
+A value was consumed earlier or never pushed. <code>'foo help</code> shows what the word expects.</p>
+<p><strong><code>times needs a number</code></strong>, and the same for other words
+Usually the arguments are in the wrong order, as in <code>[ body ] 10 times</code> instead of <code>10 [ body ] times</code>.</p>
+<p><strong><code>+ needs numbers</code></strong>, <strong><code>len needs a string or a list</code></strong>, <strong><code>cat needs two strings or two lists</code></strong>
+A value of the wrong type. <code>&quot;5&quot; 1 +</code> fails where <code>&quot;5&quot; &gt;num 1 +</code> works, and <code>cat</code> won't join a string to a list.</p>
+<p><strong><code>not a number: foo</code></strong>
+<code>&gt;num</code> doesn't skip spaces.</p>
+<p><strong><code>map's quote has to leave exactly one value</code></strong>
+The quote left no value or more than one. Use <code>filter</code> to drop items.</p>
+<p><strong><code>too many local names</code></strong>
+More than 256 locals were live at once, almost always from recursion that binds locals at each level (<a href="flow.html">flow</a>).</p>
+<p><strong><code>this nests too deep</code></strong>
+Usually recursion that never reaches its base case.</p>
+<p><strong><code>foo isn't defined in this tab</code></strong>
+<code>forget</code> only removes your own tab's definitions (<a href="names.html">names</a>).</p>
+<p><strong><code>there is no help for foo</code></strong>
+Your own words have no help entries (<a href="help.html">help</a>).</p>
+<p><strong><code>foo needs a number that fits in 64 bits</code></strong>
+A bignum was passed to a word that needs a machine integer, such as <code>times</code>, <code>at</code>, <code>peek</code> or a bitwise word (<a href="numbers.html">numbers</a>).</p>
+<p><strong><code>that number is too big, the limit is 2^65536</code></strong>
+The result would have more than about 19,700 digits.</p>
+<p><strong><code>that number is too big to mix with an ordinal that way</code></strong>
+A bignum on the right of ordinal arithmetic, as in <code>omega 2 100 ^ +</code>. On the left it is absorbed, so <code>2 100 ^ omega +</code> is <code>omega</code>.</p>
+<p><strong><code>that range is too big</code></strong>, <strong><code>that splits into too many parts</code></strong>, <strong><code>that quote is too long</code></strong>, <strong><code>the brackets are nested too deep</code></strong>
+A structure exceeded one of omega's <a href="limits.html">limits</a>.</p>
+<p><strong><code>that value can't go on the stack</code></strong>
+Ordinary omega code can't produce this error, so please <a href="bugs.html">report it</a>.</p>
+<p><strong><code>ran out of memory</code></strong>
+The kernel heap is full (<a href="memory.html">memory</a>).</p>
+<h2 id="infinity">Infinity</h2>
+<p><strong><code>ordinals only support + * and ^</code></strong>, <strong><code>cardinals only support + * and ^</code></strong>
+Infinite values don't support subtraction or division (<a href="ordinals.html">ordinals</a>).</p>
+<p><strong><code>ordinals are never negative</code></strong>
+A negative integer in ordinal arithmetic, like <code>omega -3 +</code>.</p>
+<p><strong><code>can't mix cardinals with that</code></strong>, <strong><code>can't compare a cardinal with that</code></strong>
+Ordinals and cardinals can't be combined. Convert the ordinal with <code>card</code> first.</p>
+<p><strong><code>that cardinal power isn't supported</code></strong>, <strong><code>that exponent is too big to write out</code></strong>
+The result can't be computed or can't be represented.</p>
+<p><strong><code>ZFC can't decide this one (continuum hypothesis, Godel 1940 and Cohen 1963)</code></strong>
+The comparison depends on the continuum hypothesis, which is independent of ZFC (<a href="cardinals.html">cardinals</a>).</p>
+<h2 id="root">Root</h2>
+<p><strong><code>foo isn't in any root unit</code></strong>
+<code>open</code> and <code>src</code> only work on root words. Use <code>edit</code> for tab definitions (<a href="root.html">root</a>).</p>
+<p><strong><code>root unchanged, ...</code></strong>
+The edited unit failed to build, so root is unchanged and the edit was kept as a draft (<a href="root.html">root</a>).</p>
+<h2 id="the-jit">The JIT</h2>
+<p><strong><code>foo can't be compiled</code></strong>, <strong><code>foo has no machine code</code></strong>
+The <a href="jit.html">JIT</a> can't compile the quote, or hasn't yet. Run it twice or use <code>compile</code>.</p>
+<h2 id="disks">Disks</h2>
+<p><strong><code>you haven't installed yet, run install</code></strong>
+<code>save</code> was used on the live ISO (<a href="installation.html">installation</a>).</p>
+<p><strong><code>the kernel doesn't fit in its slot</code></strong>, <strong><code>the kernel's data couldn't be copied</code></strong>
+These only happen with a much larger custom kernel (<a href="disk-layout.html">disk layout</a>).</p>
+<p><strong><code>writing to the drive failed</code></strong>
+In QEMU this usually means a read-only image or a full disk on the host.</p>
+<h2 id="faults">Faults</h2>
+<p>A CPU fault prints the fault, then <code>your last line was dropped</code>, and the tab restarts with its world intact (<a href="scheduler.html">scheduler</a>).</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

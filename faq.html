@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="FAQ - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="faq">FAQ</h1>
+<h2 id="general">General</h2>
+<h3 id="is-subverge-a-linux-distribution">Is Subverge a Linux distribution?</h3>
+<p>No. Its kernel, ordinal, was written for Subverge. Subverge is <em>built</em> on Linux with gcc and nasm, but it doesn't use any Linux code.</p>
+<h3 id="is-it-a-templeos-fork">Is it a TempleOS fork?</h3>
+<p>No. Subverge borrows a few ideas from TempleOS but none of its code. See <a href="history.html">history</a>.</p>
+<h3 id="why-is-it-called-subverge">Why is it called Subverge?</h3>
+<p>The name comes from <em>subvert</em> and <em>diverge</em>. See <a href="history.html">history</a>.</p>
+<h3 id="can-i-use-it-every-day">Can I use it every day?</h3>
+<p>No. Read the <a href="expectations.html">expectations</a>.</p>
+<h3 id="is-there-a-roadmap">Is there a roadmap?</h3>
+<p>No, and there are no release dates either.</p>
+<h2 id="running-it">Running it</h2>
+<h3 id="does-it-run-on-real-hardware">Does it run on real hardware?</h3>
+<p>It is untested. Read <a href="hardware.html">hardware</a> first, and <a href="bugs.html">report</a> the result either way.</p>
+<h3 id="does-it-run-in-virtualbox-vmware-or-hyper-v">Does it run in VirtualBox, VMware or Hyper-V?</h3>
+<p>They are untested. A virtual machine with IDE disks, a PS/2 keyboard and BIOS booting should work, but only <a href="qemu.html">QEMU</a> is tested.</p>
+<h3 id="why-cant-it-see-my-disk">Why can't it see my disk?</h3>
+<p>Subverge only supports IDE disks. Attach the disk image with <code>-hda</code>.</p>
+<h3 id="where-are-my-files">Where are my files?</h3>
+<p>Subverge has no files. Your definitions are kept in your tab's <a href="world.html">world</a>, programs are kept in <a href="root.html">root</a>, and an installed disk <a href="saving.html">saves</a> both.</p>
+<h3 id="why-was-my-work-lost-after-a-reboot">Why was my work lost after a reboot?</h3>
+<p>The live ISO doesn't save anything. <a href="installation.html">Install</a> Subverge to a disk image to keep your work.</p>
+<h2 id="the-system">The system</h2>
+<h3 id="is-it-posix-compliant">Is it POSIX-compliant?</h3>
+<p>No, and it never will be. Memory, ports and PCI devices are words in omega instead. See <a href="smarties.html">omega for smarties</a>.</p>
+<h3 id="does-it-have-its-own-bootloader">Does it have its own bootloader?</h3>
+<p>Installed disks use Subverge's own <a href="boot.html">bootloader</a>. The ISO uses GRUB.</p>
+<h3 id="why-does-everything-run-in-ring-0">Why does everything run in ring 0?</h3>
+<p>Separating programs from the kernel would mean building the layer Subverge was written to leave out.</p>
+<h3 id="is-it-self-hosting">Is it self-hosting?</h3>
+<p>No. Subverge is built on Linux.</p>
+<h3 id="is-it-multi-user">Is it multi-user?</h3>
+<p>No. The user name on the <code>sys</code> screen is just a string, and <code>'user open</code> changes it.</p>
+<h3 id="why-is-the-screen-so-small">Why is the screen so small?</h3>
+<p>Subverge uses 80 by 25 VGA text mode. See <a href="screen.html">screen</a>.</p>
+<h3 id="does-it-have-networking-sound-or-a-gui">Does it have networking, sound or a GUI?</h3>
+<p>No.</p>
+<h2 id="the-language">The language</h2>
+<h3 id="why-is-the-shell-a-programming-language">Why is the shell a programming language?</h3>
+<p>So that nothing sits between what you type and the code that runs. See <a href="omega.html">omega</a>.</p>
+<h3 id="why-is-everything-written-backwards">Why is everything written backwards?</h3>
+<p>omega is a postfix language, so you write <code>2 3 +</code> instead of <code>2 + 3</code>. See <a href="stack.html">stack</a>.</p>
+<h3 id="why-are-locals-dynamically-scoped">Why are locals dynamically scoped?</h3>
+<p>A word can read the locals of the word that called it, which is sometimes useful and sometimes causes surprising bugs. See <a href="names.html">names</a>.</p>
+<h3 id="how-big-can-a-number-get">How big can a number get?</h3>
+<p>Up to 2^65536, which is about 19,700 digits. For anything bigger, use <code>omega</code> (<a href="numbers.html">numbers</a>).</p>
+<h3 id="why-does-omega-1---fail">Why does omega 1 - fail?</h3>
+<p>Ordinals only support <code>+</code>, <code>*</code> and <code>^</code>. See <a href="ordinals.html">ordinals</a>.</p>
+<h3 id="why-did-my-whole-line-do-nothing">Why did my whole line do nothing?</h3>
+<p>One of its words failed, so the whole line was undone. See <a href="transactions.html">transactions</a> and <a href="errors.html">errors</a>.</p>
+<h3 id="how-do-i-undo-a-line">How do I undo a line?</h3>
+<p>Type <code>back</code>. See <a href="back.html">back</a>.</p>
+<h3 id="how-do-i-stop-a-program-that-wont-stop">How do I stop a program that won't stop?</h3>
+<p>Press Ctrl-C. If that doesn't work, switch to another <a href="tabs.html">tab</a>, which keeps working.</p>
+<h2 id="the-project">The project</h2>
+<h3 id="how-do-i-report-a-bug">How do I report a bug?</h3>
+<p>Read <a href="bugs.html">bugs</a>, then use the <a href="https://github.com/texivi/Subverge/issues">issue tracker</a> or message <code>texivi</code> on Discord.</p>
+<h3 id="can-i-contribute">Can I contribute?</h3>
+<p>Yes. Read <a href="development.html">development</a> and <a href="testing.html">testing</a>, then send a pull request.</p>
+<h3 id="whats-the-license">What's the license?</h3>
+<p>The GPL v3. See <a href="license.html">license</a>.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

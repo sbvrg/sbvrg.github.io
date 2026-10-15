@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="World - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="world">World</h1>
+<p>A world is the <a href="stack.html">stack</a> and the definitions (<a href="names.html">names</a>) of one <a href="tabs.html">tab</a>. Root, locals, the screen and the machine aren't part of it.</p>
+<p>Each successful line produces a new world, and the last 64 are kept for <a href="back.html">back</a>. A failing line leaves the world untouched (<a href="transactions.html">transactions</a>). <a href="worlds.html">How worlds work</a> explains the mechanism.</p>
+<p>An installed disk <a href="saving.html">saves</a> each world. Tabs share only <a href="root.html">root</a>, so definitions don't leak between them.</p>
+<h2 id="inspecting-it">Inspecting it</h2>
+<p><code>words</code> lists the definitions and <code>depth list .</code> prints the stack. <code>stats</code> reports the object count, collections, definitions, stack depth and history length.</p>
+<p><img src="images/65-stats-disks.png" alt="stats, heap and disks"></p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

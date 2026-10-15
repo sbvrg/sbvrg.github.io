@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tools - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Tools - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="tools">Tools</h1>
+<p>The utility programs in <a href="root.html">root</a>. <code>q</code>, Esc or Ctrl-C exits nearly all of them, and <code>'name see</code> shows the source of any of them. <a href="games.html">Games</a> and <a href="demos.html">demos</a> cover the rest.</p>
+<h2 id="everyday">Everyday</h2>
+<p><strong><code>clock</code></strong>, <strong><code>stopwatch</code></strong> (space marks a lap) and <strong><code>90 timer</code></strong> (in seconds). In QEMU the clock shows UTC unless configured otherwise (<a href="qemu.html">QEMU</a>).</p>
+<p><strong><code>todo</code></strong>, with <code>&quot;buy milk&quot; todo-add</code> and <code>1 todo-done</code>. The list is a definition called <code>todo-list</code> in your tab, so each tab has its own, <code>back</code> undoes changes to it, and it is <a href="saving.html">saved</a> with the world.</p>
+<p><strong><code>calc</code></strong> is an infix calculator with <code>+ - * / % ** ( ) &amp; | ^ ~ &lt;&lt; &gt;&gt;</code>, <code>0x</code> and <code>0b</code> literals, six decimal places and <code>ans</code> for the previous result. An empty line exits.</p>
+<p><strong><code>255 bases</code></strong> prints a number in decimal, hex, octal and binary. <strong><code>convert</code></strong> lists the unit conversions such as <code>100 km&gt;mi</code>. <strong><code>password</code></strong> prints random passwords, and <code>12 password-of</code> makes one of a given length. <strong><code>ascii</code></strong> and <strong><code>colors</code></strong> print reference tables.</p>
+<p><img src="images/54-clock.png" alt="clock"></p>
+<p><img src="images/14-calc.png" alt="calc"></p>
+<h2 id="monitoring">Monitoring</h2>
+<p><strong><code>top</code></strong> shows the tabs, CPU, memory and interrupts live. <strong><code>[ ticks . ] watch</code></strong> reruns a quote twice a second until a key is pressed, and <strong><code>timeit</code></strong> times one run. <code>bench</code> is described with the <a href="jit.html">JIT</a>.</p>
+<h2 id="hardware">Hardware</h2>
+<p><strong><code>sys</code></strong>, <strong><code>pcils</code></strong>, <strong><code>memls</code></strong>, <strong><code>cpuinfo</code></strong> and <strong><code>irqmon</code></strong> only read, so they are safe to run.</p>
+<p><strong><code>hexview</code></strong> is not. <code>0xB8000 hexview</code> opens a hex editor on live memory, and typing hex digits writes directly to RAM with no undo. It is built on the <a href="memory.html">memory</a> words.</p>
+<p><img src="images/13-hexview.png" alt="hexview"></p>
+<p><strong><code>disks</code></strong> and <strong><code>install</code></strong> are described in <a href="installation.html">installation</a>.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

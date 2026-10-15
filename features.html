@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Features - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Features - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="features">Features</h1>
+<ul>
+<li>The shell is <a href="omega.html">omega</a>, a stack language.</li>
+<li>A line that fails is undone, and <a href="back.html">back</a> undoes up to 64 lines that worked.</li>
+<li>Integers can be as big as 2^65536.</li>
+<li><code>omega</code> and <code>aleph0</code> are values you can do arithmetic with (<a href="ordinals.html">ordinals</a>).</li>
+<li>Code is compiled to x86-64 the second time it runs (<a href="jit.html">JIT</a>).</li>
+<li>Four <a href="tabs.html">tabs</a> run at the same time.</li>
+<li>Everything runs in ring 0, so memory and I/O ports can be read and written from the prompt.</li>
+<li>There is no filesystem. An installed system <a href="saving.html">saves</a> after every line.</li>
+<li>Installed disks boot with Subverge's own <a href="boot.html">bootloader</a>.</li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>QEMU. Subverge has never run on anything else.</li>
+<li>256 MB of RAM for the virtual machine.</li>
+<li>A disk image you don't care about, if you want to <a href="installation.html">install</a> it.</li>
+<li>You need to know how to program already.</li>
+</ul>
+<h2 id="what-it-looks-like">What it looks like</h2>
+<pre><code>2 100 ^ .              1267650600228229401496703205376
+[ dup * ] :sq          defines sq
+7 sq .                 49
+omega 1 + .            ω+1
+1 omega + omega = .    1
+omega 1 - .            ! ordinals only support + * and ^
+</code></pre>
+<p><img src="images/01-welcome-live.png" alt="Subverge 0.8.0 right after booting the live ISO"></p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

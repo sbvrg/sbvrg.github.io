@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dis - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="dis - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="dis">dis</h1>
+<p>The x86-64 disassembler in the kernel, <code>kernel/dis.c</code>, behind <code>xray</code>, <code>jitdis</code>, <code>dis</code> and <code>disr</code>.</p>
+<h2 id="using-it">Using it</h2>
+<pre><code>addr n dis          n instructions starting at addr
+addr len disr       every instruction in len bytes from addr
+'fib jitdis         compile fib and disassemble all of it
+'fib xray           fib's source, then its disassembly
+</code></pre>
+<p><code>dis</code> and <code>disr</code> take any address at all, not just compiled code. <code>0x100000 20 dis</code> disassembles the start of the kernel itself. Point it at data and you get nonsense, since it can't tell code from data.</p>
+<h2 id="what-it-knows">What it knows</h2>
+<p>It decodes the general-purpose integer instruction set: moves, arithmetic, logic, shifts and rotates, <code>lea</code>, <code>imul</code>, <code>idiv</code>, conditional jumps, <code>set</code>cc and <code>cmov</code>cc, <code>call</code>, <code>ret</code>, <code>push</code> and <code>pop</code>, the string instructions, and the system ones the kernel itself uses, like <code>lgdt</code>, <code>lidt</code>, <code>invlpg</code>, <code>rdmsr</code>, <code>wrmsr</code>, <code>cpuid</code>, <code>rdtsc</code>, <code>cli</code>, <code>sti</code>, <code>hlt</code> and <code>iretq</code>. That covers everything the <a href="jit.html">JIT</a> generates and everything gcc emits for the kernel, which is compiled with no SSE at all.</p>
+<p>It doesn't know SSE, AVX, x87 or anything else exotic. Bytes it can't decode come out as something obviously wrong, rather than something subtly wrong.</p>
+<h2 id="output">Output</h2>
+<p>One instruction per line: the address, the bytes, and the instruction in Intel syntax, destination first. Relative jumps and calls are resolved to their absolute targets, so you can follow them by hand with another <code>dis</code>.</p>
+<h2 id="how-its-checked">How it's checked</h2>
+<p><code>make host</code> builds the interpreter as a Linux program, and its <code>@dis name</code> directive writes a compiled word's raw bytes to <code>build/dis.bin</code> and the disassembler's own listing to <code>build/dis.txt</code>. Compare the <code>.txt</code> with <code>objdump -D -b binary -m i386:x86-64 -M intel</code> on the <code>.bin</code> to check it. See <a href="testing.html">testing</a> for the other directives.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

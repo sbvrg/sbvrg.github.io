@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bugs - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Bugs - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="bugs">Bugs</h1>
+<h2 id="before-reporting">Before reporting</h2>
+<p>Check <code>'word help</code>, <a href="troubleshooting.html">troubleshooting</a> and the <a href="faq.html">FAQ</a>, and make sure you are on the latest <a href="https://github.com/texivi/Subverge/releases">release</a>.</p>
+<h2 id="where">Where</h2>
+<p>Bugs go on the <a href="https://github.com/texivi/Subverge/issues">issue tracker</a>. For quick questions you can also message <code>texivi</code> on Discord.</p>
+<h2 id="what-to-include">What to include</h2>
+<ul>
+<li>the exact line you typed</li>
+<li>the exact error, or a screenshot</li>
+<li>what you expected to happen</li>
+<li>your QEMU command line, since many boot problems come from a flag</li>
+<li>whether you were on the live ISO or an installed disk, and which version</li>
+<li>whether it happens again after a fresh boot</li>
+</ul>
+<h2 id="not-bugs">Not bugs</h2>
+<ul>
+<li>Failing on real hardware is expected (<a href="hardware.html">hardware</a>), though a report is still welcome.</li>
+<li><code>omega 1 -</code> fails because ordinals have no subtraction (<a href="ordinals.html">ordinals</a>).</li>
+<li><code>aleph1 continuum =</code> fails because ZFC can't decide it (<a href="cardinals.html">cardinals</a>).</li>
+<li>Subverge isn't POSIX and won't be.</li>
+</ul>
+<h2 id="patches">Patches</h2>
+<p>Patches are welcome. Make sure the docs check prints <code>0 problems</code> and <code>make stress</code> passes (<a href="testing.html">testing</a>), then open a pull request.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

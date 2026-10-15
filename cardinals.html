@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cardinals - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Cardinals - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="cardinals">Cardinals</h1>
+<p>Cardinals measure the size of a set, where <a href="ordinals.html">ordinals</a> measure position in an ordering. The two agree for finite sets and differ for infinite ones, so omega keeps them as separate types.</p>
+<h2 id="literals">Literals</h2>
+<pre><code>aleph0          the size of the natural numbers, printed A0
+aleph1          the next size up, A1
+3 aleph         the third one, A3
+continuum       the size of the real numbers, 2^A0
+</code></pre>
+<p>On the Subverge screen, <code>A</code> is printed as a real aleph.</p>
+<h2 id="arithmetic">Arithmetic</h2>
+<p><code>+</code>, <code>*</code> and <code>^</code> are supported. Sums and products of infinite cardinals are simply the larger of the two:</p>
+<pre><code>aleph0 aleph0 + .       A0
+aleph0 aleph0 * .       A0
+3 aleph0 + .            A0
+aleph0 aleph1 + .       A1
+</code></pre>
+<p>Powers are more interesting:</p>
+<pre><code>2 aleph0 ^ .            2^A0
+2 aleph0 ^ continuum = .    1
+</code></pre>
+<p>2^aleph0 is the cardinality of the power set of the naturals, which is also that of the reals. The <code>diagonal</code> demo (<a href="demos.html">demos</a>) shows Cantor's proof that it exceeds <code>aleph0</code>:</p>
+<pre><code>aleph0 2 aleph0 ^ &lt; .   1
+</code></pre>
+<p>Some powers, like <code>aleph0 aleph0 ^</code>, fail with <code>that cardinal power isn't supported</code>.</p>
+<h2 id="the-continuum-hypothesis">The continuum hypothesis</h2>
+<p>The continuum hypothesis asks whether <code>aleph1</code> equals <code>continuum</code>, that is, whether any cardinality lies strictly between the naturals and the reals.</p>
+<pre><code>aleph1 continuum =
+</code></pre>
+<p>fails with</p>
+<pre><code>ZFC can't decide this one (continuum hypothesis, Godel 1940 and Cohen 1963)
+</code></pre>
+<p>because it is independent of ZFC. Gödel showed in 1940 that ZFC can't disprove it, and Cohen showed in 1963 that it can't prove it either. omega doesn't assume an answer, so every comparison that depends on it fails the same way. Comparisons that don't depend on it work:</p>
+<pre><code>aleph1 continuum &lt;= .   1
+</code></pre>
+<p>This holds whichever way the hypothesis goes.</p>
+<h2 id="ordinals-and-cardinals">Ordinals and cardinals</h2>
+<p>Ordinals and cardinals can't be combined directly. Convert an ordinal with <code>card</code> first:</p>
+<pre><code>omega 2 * card .        A0
+omega1 card .           A1
+</code></pre>
+<p>Operations other than <code>+ * ^</code> fail (<a href="errors.html">errors</a>).</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

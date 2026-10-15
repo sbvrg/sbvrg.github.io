@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Source layout - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Source layout - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="source-layout">Source layout</h1>
+<p>The source tree, file by file. <a href="internals.html">Internals</a> describes how the parts fit together.</p>
+<h2 id="boot">boot/</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>boot.asm</code></td>
+<td>Multiboot header, page tables, long mode, the jump to <code>kmain</code></td>
+</tr>
+<tr>
+<td><code>mbr.asm</code></td>
+<td>the boot sector on installed disks</td>
+</tr>
+<tr>
+<td><code>stage2.asm</code></td>
+<td>the second stage, which fakes Multiboot</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="boot.html">boot</a>.</p>
+<h2 id="kernel">kernel/</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>main.c</code></td>
+<td><code>kmain</code>, which starts everything in order</td>
+</tr>
+<tr>
+<td><code>cpu.c</code></td>
+<td>the IDT, the PICs, the PIT, the interrupt and fault handlers</td>
+</tr>
+<tr>
+<td><code>sched.c</code></td>
+<td>the four tab tasks and the <a href="scheduler.html">scheduler</a></td>
+</tr>
+<tr>
+<td><code>mem.c</code></td>
+<td>the heap</td>
+</tr>
+<tr>
+<td><code>vga.c</code></td>
+<td>text mode, the per-tab screens, the tab bar, the palette</td>
+</tr>
+<tr>
+<td><code>font.c</code></td>
+<td>the omega, aleph and subscript characters</td>
+</tr>
+<tr>
+<td><code>kbd.c</code></td>
+<td>the PS/2 keyboard</td>
+</tr>
+<tr>
+<td><code>disk.c</code></td>
+<td>ATA PIO</td>
+</tr>
+<tr>
+<td><code>persist.c</code></td>
+<td><code>install</code>, <code>save</code>, the state header and the slots</td>
+</tr>
+<tr>
+<td><code>line.c</code></td>
+<td>the <a href="prompt.html">prompt</a>'s line editor</td>
+</tr>
+<tr>
+<td><code>omega.c</code></td>
+<td>the language: parsing, values, lookup, transactions, the <a href="gc.html">GC</a></td>
+</tr>
+<tr>
+<td><code>words.c</code></td>
+<td>the core built-in words</td>
+</tr>
+<tr>
+<td><code>hw.c</code></td>
+<td>the machine words: memory, ports, PCI, screen, time</td>
+</tr>
+<tr>
+<td><code>big.c</code></td>
+<td>bignums, the integers past 64 bits (<a href="numbers.html">numbers</a>)</td>
+</tr>
+<tr>
+<td><code>ord.c</code></td>
+<td><a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a></td>
+</tr>
+<tr>
+<td><code>root.c</code></td>
+<td><a href="root.html">root</a> units, rebuilding them, <code>open</code> and <code>unit</code></td>
+</tr>
+<tr>
+<td><code>jit.c</code></td>
+<td>the <a href="jit.html">JIT</a></td>
+</tr>
+<tr>
+<td><code>dis.c</code></td>
+<td>the <a href="dis.html">disassembler</a></td>
+</tr>
+<tr>
+<td><code>help.c</code></td>
+<td>the <a href="help.html">help</a> table and the docs check</td>
+</tr>
+<tr>
+<td><code>scrawl.c</code></td>
+<td>the <a href="scrawl.html">editor</a></td>
+</tr>
+<tr>
+<td><code>calc.c</code></td>
+<td><code>calc</code>, the infix calculator</td>
+</tr>
+<tr>
+<td><code>sysinfo.c</code></td>
+<td><code>sys-c</code></td>
+</tr>
+<tr>
+<td><code>lib.c</code></td>
+<td>string and memory functions, <code>kprintf</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="root">root/</h2>
+<p>The omega programs, one <a href="units.html">unit</a> per file, run in file name order. <a href="root.html">Root</a> lists their contents.</p>
+<h2 id="test">test/</h2>
+<p><code>host.c</code> and <code>qdrive.c</code>, and the <code>.qd</code> scripts. See <a href="testing.html">testing</a>.</p>
+<h2 id="where-to-start-reading">Where to start reading</h2>
+<p>Start with <code>kernel/main.c</code>, which brings everything up in order, then read <code>kernel/omega.c</code> outwards from <code>eval_line</code>, which contains the language itself.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

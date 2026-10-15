@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installation - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Installation - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="installation">Installation</h1>
+<p>Subverge runs in QEMU, either live from the ISO or installed to a disk image.</p>
+<h2 id="requirements">Requirements</h2>
+<p>Running it needs <code>qemu-system-x86_64</code> and 256 MB of RAM for the guest. Building it needs gcc, binutils and nasm, and the ISO also needs <code>grub-mkrescue</code> and <code>xorriso</code>. On Exherbo, QEMU is in the <code>virtualization</code> repository:</p>
+<pre><code># cave resolve -x repository/virtualization
+# cave resolve -x app-virtualization/qemu sys-devel/gcc sys-devel/binutils \
+    dev-lang/nasm sys-boot/grub app-cdr/libisoburn
+</code></pre>
+<h2 id="getting-the-iso">Getting the ISO</h2>
+<p>Each release on the <a href="https://github.com/texivi/Subverge/releases">releases page</a> has <code>subverge.iso</code> attached. To build it instead:</p>
+<pre><code>$ git clone https://github.com/texivi/Subverge
+$ cd Subverge
+$ make iso
+</code></pre>
+<p>The ISO is written to <code>build/subverge.iso</code>. <a href="development.html">Development</a> lists the other make targets, and <a href="troubleshooting.html">troubleshooting</a> covers build failures.</p>
+<h2 id="booting-the-live-iso">Booting the live ISO</h2>
+<pre><code>$ qemu-system-x86_64 -cdrom build/subverge.iso -m 256M
+</code></pre>
+<p>The ISO is a live system and saves nothing, which makes it a safe place to experiment before installing.</p>
+<p>If you end up at a GRUB prompt, <code>multiboot /boot/subverge.elf</code> followed by <code>boot</code> loads the kernel by hand.</p>
+<h2 id="installing-to-a-disk-image">Installing to a disk image</h2>
+<p>An installed disk boots with Subverge's own <a href="boot.html">bootloader</a> and saves your work after every line. Create an image of at least 8 MB and boot the ISO with it attached:</p>
+<pre><code>$ truncate -s 64M disk.img
+$ qemu-system-x86_64 -cdrom build/subverge.iso -boot d -hda disk.img -m 256M
+</code></pre>
+<p>Run <code>install</code> at the prompt. It lists the drives, asks for one, and erases it once you type <code>yes</code>, so check that the drive it names is your blank image. When it prints <code>installed</code>, close QEMU and boot the image on its own:</p>
+<pre><code>$ qemu-system-x86_64 -hda disk.img -m 256M
+</code></pre>
+<p>Anything you defined on the live system is carried over. <a href="saving.html">Saving</a> describes when the disk is written.</p>
+<h2 id="disk-not-found">Disk not found</h2>
+<p>Subverge only supports IDE, so attach the image with <code>-hda</code>. virtio and NVMe disks aren't detected, and <code>disks</code> prints <code>No drives were found.</code> <a href="qemu.html">QEMU</a> lists the other flags.</p>
+<h2 id="next">Next</h2>
+<p>Continue with <a href="first-steps.html">first steps</a>. The <a href="tour.html">tour</a> has screenshots of a full install.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

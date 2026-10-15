@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bignums - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Bignums - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="bignums">Bignums</h1>
+<p>How omega handles integers that don't fit in 64 bits. For the basics, read <a href="numbers.html">numbers</a> first.</p>
+<h2 id="small-and-big">Small and big</h2>
+<p>A number that fits in 64 bits is kept as a plain machine integer. When a result gets bigger than that, it becomes a bignum by itself, and when a result fits again, it goes back to being a plain integer. <code>2 64 ^ 2 64 ^ -</code> is a plain <code>0</code>. Code that only uses small numbers never pays for bignums.</p>
+<h2 id="the-limit">The limit</h2>
+<p>A bignum can have up to 65,536 bits, so the biggest number is just under 2^65536. A result that would be bigger fails with <code>that number is too big, the limit is 2^65536</code> before any work is done, so <code>2 100000 ^</code> fails straight away instead of hanging.</p>
+<p>Printing a very big number takes a moment. <code>2 65536 ^ .</code> prints about 19,700 digits.</p>
+<h2 id="where-they-work">Where they work</h2>
+<p>Arithmetic, comparisons, <code>str</code>, <code>&gt;num</code>, conditions and saving all take bignums. <code>/</code> rounds toward zero and <code>mod</code> takes the sign of the left number, the same as with small numbers.</p>
+<p>Words that need a machine number, like <code>times</code>, <code>at</code>, <code>peek</code> and the bitwise words, fail with <code>foo needs a number that fits in 64 bits</code>.</p>
+<p>With ordinals, a bignum works on the left, where it disappears anyway: <code>2 100 ^ omega +</code> is <code>omega</code>. On the right it fails with <code>that number is too big to mix with an ordinal that way</code>.</p>
+<h2 id="bignums-and-the-jit">Bignums and the JIT</h2>
+<p>Compiled code does <code>+</code>, <code>-</code>, <code>*</code> and <code>neg</code> in registers. When a result overflows, it falls back to the normal word, which makes the bignum, so compiled code gives the same answers as the interpreter. See the <a href="jit.html">JIT</a> page.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

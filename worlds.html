@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How worlds work - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="How worlds work - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="how-worlds-work">How worlds work</h1>
+<p>A world is a tab's stack and its definitions, which is what a <a href="transactions.html">transaction</a> protects. This page explains how a line changes it and how undoing works.</p>
+<h2 id="what-a-world-holds">What a world holds</h2>
+<p>A world holds the stack as a quote that never changes, and a list of definitions. Defining a word with <code>:name</code> doesn't change any existing definition. It adds a new one to the front of the list, so older worlds still see the list as it was. Each tab keeps its current world and the 64 before it.</p>
+<h2 id="running-a-line">Running a line</h2>
+<p>Before a line runs, the stack of the current world is copied, and the line works on that copy. The whole line is parsed first, so a parse error means nothing ran at all. When a word fails, the line stops there.</p>
+<p>When the line ends, one of four things happens:</p>
+<ol>
+<li>If something failed, the copy is thrown away and the error is printed. The world never changed.</li>
+<li>If the line used <code>back</code>, the world from that many lines ago becomes the current one, and everything else the line did is thrown away.</li>
+<li>If the stack and the definitions are the same as before, nothing is recorded. This is why <code>back</code> skips lines like <code>words</code>.</li>
+<li>Otherwise the copy becomes the new world, and the old one goes into the history. The oldest of the 64 is dropped.</li>
+</ol>
+<p>On an installed disk, the tab is <a href="saving.html">saved</a> right after 2 and 4, before the prompt comes back.</p>
+<h2 id="fast-undo">Fast undo</h2>
+<p>Nothing in a world is ever changed in place, so a new world only costs a copy of the stack. The definitions are shared with the worlds before it. Old worlds keep everything they point to alive until they drop out of the history, which is how the <a href="gc.html">garbage collector</a> knows not to free it.</p>
+<h2 id="what-isnt-in-a-world">What isn't in a world</h2>
+<p>Memory, ports, the screen, <code>alloc</code> and <a href="root.html">root</a>. They are never rolled back.</p>
+<p><code>try</code> stops a failure from ending the line, but it doesn't roll anything back either, so whatever its quote did before failing stays. <a href="catching.html">Catching</a> has examples.</p>
+<p>A CPU fault restarts the tab before the line finishes, so the world is left as it was. The <a href="scheduler.html">scheduler</a> page explains the restart.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

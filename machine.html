@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Machine - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="machine">Machine</h1>
+<p>The words on this page look at the memory map and the drives, reboot or halt the machine, and install Subverge without asking.</p>
+<h2 id="looking">Looking</h2>
+<pre><code>memmap              [ base length type ] for each region
+kernel              kernel image bytes, then bytes of RAM
+drives              [ n model megabytes home ] for each drive
+sys-c               the system info screen, written in C
+</code></pre>
+<p><code>memmap</code> is the BIOS memory map, as passed in by GRUB or by Subverge's own <a href="boot.html">bootloader</a>, which collects it with E820 so the kernel can't tell the difference. Type 1 is usable RAM and the rest is reserved for one reason or another. <code>memls</code> prints it with names. See <a href="memory.html">memory</a> for what lives where.</p>
+<p><code>drives</code> lists up to four IDE drives, the primary and secondary controller's master and slave, with the model string the drive reports, its size in megabytes, and <code>1</code> for the one Subverge is installed on. <code>disks</code> prints the same list nicely, and <code>home</code> gives the installed drive's number on its own.</p>
+<h2 id="rebooting-and-halting">Rebooting and halting</h2>
+<pre><code>reboot              restarts the machine
+halt                stops it
+</code></pre>
+<p><code>reboot</code> pulses the reset line through the keyboard controller. On an installed disk it's safe, because every <a href="world.html">world</a> was <a href="saving.html">saved</a> after its last line. On the live ISO, everything is lost.</p>
+<p><code>halt</code> prints <code>the machine is halted</code>, disables interrupts and halts the CPU. Only a reset recovers from it. <code>try</code> can't catch it. Close QEMU to get out.</p>
+<h2 id="installing-without-asking">Installing without asking</h2>
+<pre><code>0 install-to
+</code></pre>
+<p>installs Subverge on drive 0 without listing drives or asking for confirmation. It writes the boot sector, stage 2, a fresh copy of the kernel and an empty state header, then saves root and all four tabs into the new slots, and prints <code>installed</code>. <code>install</code> (<a href="installation.html">installation</a>) is the omega program in root that asks for a drive, waits for <code>yes</code> and then calls <code>install-to</code>.</p>
+<p>This is the most destructive word in the system. With a disk image in QEMU it is harmless, but on real hardware it erases whichever drive number you give it. See <a href="disk-layout.html">disk layout</a> for exactly which sectors it writes.</p>
+<p>It refuses drives smaller than 8 MB, and it refuses to run if the kernel's own data section couldn't be copied at boot, because it installs a clean copy of the kernel as it was before anything ran, not the running one with all your changes poked into it.</p>
+<h2 id="saving-by-hand">Saving by hand</h2>
+<pre><code>save
+</code></pre>
+<p>writes root and all four tabs to the installed disk right now. Everything is already saved after each line, so this is rarely needed. It fails on the live ISO with <code>you haven't installed yet, run install</code>.</p>
+<h2 id="the-rest">The rest</h2>
+<p>See <a href="memory.html">memory</a> for raw memory, <a href="ports.html">ports</a> for ports and PCI, <a href="screen.html">screen</a> for the screen, and <a href="internals.html">internals</a> for what happens underneath.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

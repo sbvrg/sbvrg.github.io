@@ -1,0 +1,69 @@
+html { background: #f1ebdd; }
+body { margin: 0; color: #33332f; font: 16px/1.55 Arial, Helvetica, sans-serif; }
+
+a { color: #111; font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { background: #24231f; color: #f1ebdd; text-decoration: none; }
+a:has(img):hover { background: none; }
+
+/* top bar */
+.bar { background: #e5ddca; border-bottom: 1px solid #c9bea6; }
+.bar .in { box-sizing: border-box; max-width: 900px; margin: 0 auto; padding: 10px 24px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 26px; }
+.bar a { text-decoration: none; }
+.bar .name { font-size: 1.25em; display: flex; align-items: center; gap: 8px; }
+.bar .name img { height: 46px; width: auto; }
+.bar .name:hover { background: none; color: #111; text-decoration: underline; }
+.bar .in { align-items: center; }
+.bar nav { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.doc { display: block; max-width: 900px; margin: 0 auto; padding: 22px 24px 24px; box-sizing: border-box; }
+
+
+.dd { position: relative; }
+.dd .menu { display: none; position: absolute; left: -10px; top: 100%; z-index: 9; min-width: 190px; margin: 0; padding: 6px 0; list-style: none; background: #f6f1e6; border: 1px solid #33322d; }
+.dd:hover .menu, .dd:focus-within .menu { display: block; }
+.dd .menu a { display: block; padding: 3px 12px; font-weight: normal; }
+
+/* home */
+.page { display: flex; gap: 64px; padding: 44px 50px 90px; }
+aside { flex: none; width: 280px; }
+.page main { min-width: 0; max-width: 740px; padding-top: 6px; }
+.mark { display: block; width: 280px; height: auto; image-rendering: pixelated; }
+aside ul { margin: 16px 0 0; padding: 14px 0 0 24px; border-top: 2px solid #24231f; }
+aside li { margin: 3px 0; }
+
+h1 { font-size: 2em; line-height: 1.2; margin: 0 0 .6em; padding-bottom: .25em; color: #111; border-bottom: 1px solid #c9bea6; }
+h2 { font-size: 1.5em; font-weight: normal; margin: 1.4em 0 .5em; padding-bottom: .2em; color: #111; border-bottom: 1px solid #c9bea6; }
+h3 { font-size: 1.2em; font-weight: normal; margin: 1.2em 0 .4em; color: #111; }
+h4 { font-size: 1em; margin: 1.2em 0 .4em; color: #111; }
+p, ul, ol { margin: 0 0 1em; }
+li { margin: 2px 0; }
+strong { color: #111; }
+
+code, pre { font: 14px/1.5 "DejaVu Sans Mono", Menlo, Consolas, monospace; font-variant-ligatures: none; }
+code { background: #e5ddca; padding: 1px 4px; }
+pre { background: #33322d; color: #f1ebdd; border-radius: 3px; padding: 10px 14px; overflow-x: auto; }
+pre code { background: none; padding: 0; }
+td code { white-space: nowrap; }
+
+blockquote { margin: 0 0 1em; padding: 2px 14px; border-left: 3px solid #c9bea6; }
+
+table { border-collapse: collapse; margin: 0 0 1em; display: block; overflow-x: auto; }
+th, td { border: 1px solid #c9bea6; padding: 4px 10px; text-align: left; vertical-align: top; }
+th { background: #e5ddca; }
+
+main img { display: block; max-width: 100%; height: auto; border: 1px solid #24231f; margin: 1.2em 0; }
+
+::selection { background: #24231f; color: #f1ebdd; }
+
+/* phones */
+@media (max-width: 760px) {
+  .page { display: block; padding: 16px 16px 60px; }
+  aside { width: auto; margin-bottom: 24px; }
+  .mark { width: 150px; }
+  aside ul { columns: 2; }
+  .bar .in, .doc { padding-left: 16px; padding-right: 16px; }
+}
+
+/* corner cat */
+body:has(.doc) { display: flex; flex-direction: column; min-height: 100vh; }
+.doc { width: 100%; }
+.cat { display: block; width: 340px; max-width: 60%; height: auto; margin: auto 0 0 auto; }

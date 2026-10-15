@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hardware - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Hardware - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="hardware">Hardware</h1>
+<p>Subverge targets QEMU and hasn't been tested on real machines. If you try one, <a href="bugs.html">report</a> the result.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li><strong>BIOS booting.</strong> Machines that only boot UEFI, which includes most recent laptops, can't start it.</li>
+<li><strong>VGA text mode.</strong> Many modern graphics cards barely support it, and UEFI firmware often hides it.</li>
+<li><strong>A PS/2 keyboard</strong>, or firmware that emulates one for USB keyboards. Without it, Subverge boots but takes no input.</li>
+<li><strong>IDE drives.</strong> SATA controllers in legacy or IDE mode may work. In AHCI mode, which is the usual default, <code>disks</code> finds nothing.</li>
+</ul>
+<p>Code in ring 0 has full access to the machine, so on real hardware a mistake can affect real disks.</p>
+<h2 id="trying-it">Trying it</h2>
+<ul>
+<li>Use a machine whose disks you don't care about.</li>
+<li>Boot the ISO from USB in BIOS, legacy or CSM mode.</li>
+<li>Don't install it.</li>
+<li>Photograph the screen and attach it to an <a href="bugs.html">issue</a>.</li>
+</ul>
+<p>VirtualBox with its default IDE controller and BIOS firmware has a reasonable chance of working. Recent Hyper-V generations are UEFI only. <a href="qemu.html">QEMU</a> is the only tested machine.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

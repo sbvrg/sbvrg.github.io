@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demos - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Demos - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="demos">Demos</h1>
+<p>Programs that demonstrate omega's infinite values, plus a Mandelbrot renderer. They assume <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p>
+<h2 id="count">count</h2>
+<p>Counts through the finite numbers and on past them: omega, omega plus one, omega squared, towers of omegas, <code>epsilon0</code> and finally <code>omega1</code>, whose cardinality is <code>aleph1</code>. It ends with the continuum hypothesis.</p>
+<p><img src="images/17-count.png" alt="count"></p>
+<h2 id="ord-demo">ord-demo</h2>
+<p>Ordinal and cardinal arithmetic, one line at a time. <code>1 + w = w</code> next to <code>w + 1 = w+1</code> shows that ordinal addition isn't commutative.</p>
+<p><img src="images/18-ord-demo.png" alt="ord-demo"></p>
+<h2 id="pairing">pairing</h2>
+<p>Pairs the natural numbers with the even numbers one to one, showing that both sets have the same size.</p>
+<p><img src="images/21-pairing.png" alt="pairing"></p>
+<h2 id="diagonal">diagonal</h2>
+<p>Cantor's diagonal argument. It flips the diagonal of a list of binary rows to build a row that can't appear in the list, proving that <code>2 aleph0 ^</code> is larger than <code>aleph0</code>.</p>
+<p><img src="images/19-diagonal.png" alt="diagonal"></p>
+<h2 id="supertask">supertask</h2>
+<p>Halves a line repeatedly until the screen runs out of resolution, illustrating infinitely many steps with a finite total.</p>
+<p><img src="images/20-supertask.png" alt="supertask"></p>
+<h2 id="powerset">powerset</h2>
+<pre><code>[ 1 2 ] powerset .
+</code></pre>
+<p>Returns every subset of a list. n items give 2^n subsets.</p>
+<h2 id="mandel">mandel</h2>
+<p>The Mandelbrot set in text mode, zooming in on each key press. It uses fixed point with 65536 as 1.0. <code>mandel-at</code> draws a single view:</p>
+<pre><code>-32768 0 2816 40 mandel-at
+</code></pre>
+<p>Its inner loop, <code>mb-iter</code>, is almost pure arithmetic, which is where the <a href="jit.html">JIT</a> helps most. <code>'mb-iter xray</code> shows the compiled code.</p>
+<p><img src="images/37-mandel-1.png" alt="mandel"></p>
+<p><img src="images/38-mandel-2.png" alt="mandel, further in"></p>
+<p>The demos are short, and <code>'count see</code> or <code>'diagonal see</code> show real code using the ordinal words.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

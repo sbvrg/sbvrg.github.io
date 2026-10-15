@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catching - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Catching - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="catching">Catching</h1>
+<p><code>try</code> runs a quote and keeps a failure inside it from aborting the line. It leaves <code>1</code> if the quote completed, or prints the error and leaves <code>0</code> if it failed.</p>
+<pre><code>[ 1 0 / ] try .         prints the error, then 0
+</code></pre>
+<h2 id="no-rollback">No rollback</h2>
+<p><code>try</code> doesn't roll anything back:</p>
+<pre><code>[ 5 6 0 / ] try
+</code></pre>
+<p>leaves <code>5 0</code>. The <code>5</code> was pushed before the failure and stays, and the <code>0</code> comes from <code>try</code>. Only the line as a whole is a <a href="transactions.html">transaction</a>.</p>
+<p>Restoring the stack after a failure is up to you. <code>learn</code> does it by saving the stack with <code>depth list</code> before each line and spreading it back when <code>try</code> leaves <code>0</code> (<code>'learn open</code>).</p>
+<h2 id="interrupts">Interrupts</h2>
+<p>Ctrl-C raises <code>interrupted</code>, which is an ordinary error, so <code>try</code> catches it:</p>
+<pre><code>[ 1000000000 [ ] times ] try &quot;after&quot; say
+</code></pre>
+<p>Pressing Ctrl-C there prints <code>! interrupted</code> and then <code>after</code>. The <code>stopped</code> error from <code>trace</code> is caught the same way.</p>
+<h2 id="limits">Limits</h2>
+<p><code>try</code> can't catch a CPU fault, which restarts the tab, or <code>halt</code>.</p>
+<h2 id="use">Use</h2>
+<p>Use <code>try</code> for failures you expect:</p>
+<pre><code>&quot;12x&quot; [ &gt;num ] try [ &quot;number&quot; say ] [ &quot;not a number&quot; say ] if
+</code></pre>
+<p>Wrapping code in <code>try</code> defensively makes failures harder to find, since a line that fails outright is easier to debug than one that continues with a damaged stack. The messages are listed in <a href="errors.html">errors</a>.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>

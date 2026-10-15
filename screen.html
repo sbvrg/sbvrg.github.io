@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Screen - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#f1ebdd">
+<link rel="icon" type="image/png" href="logo.png?v=1792264427">
+<link rel="stylesheet" href="style.css?v=1792264427">
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792264427" alt="">subverge</a>
+<nav>
+<span class="dd"><a href="handbook.html">Handbook ▾</a>
+<ul class="menu">
+<li><a href="handbook.html#getting-started">Getting started</a></li>
+<li><a href="handbook.html#omega">omega</a></li>
+<li><a href="handbook.html#using-the-system">Using the system</a></li>
+<li><a href="handbook.html#programs">Programs</a></li>
+<li><a href="handbook.html#problems">Problems</a></li>
+<li><a href="handbook.html#for-smarties">For smarties</a></li>
+<li><a href="handbook.html#for-contributors">For contributors</a></li>
+<li><a href="handbook.html#about">About</a></li>
+</ul></span>
+<a href="features.html">Features</a>
+<a href="installation.html">Install</a>
+<a href="tour.html">Tour</a>
+<a href="expectations.html">Expectations</a>
+<a href="faq.html">FAQ</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+</div>
+</header>
+<main class="doc">
+<h1 id="screen">Screen</h1>
+<p>Subverge uses 80 by 25 VGA text mode. Row 0 is the tab bar and the rest belongs to the current <a href="tabs.html">tab</a>.</p>
+<h2 id="tabs-have-their-own-screens">Tabs have their own screens</h2>
+<p>Each tab has an 80 by 24 buffer of its own, in memory. Everything a tab prints or draws goes into its buffer, and the buffer of the visible tab is copied to the real screen at <code>0xB8000</code>. When you switch tabs, the new tab's buffer is shown, exactly as it was left. So <code>snake</code> in tab 3 keeps its picture while you're in tab 1, and a tab can draw while you're on another one. If a tab writes to its screen while you're not looking at it, its name in the tab bar gets a <code>*</code>.</p>
+<h2 id="drawing-words">Drawing words</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>put</code></td>
+<td><code>ch x y color --</code></td>
+<td>one character at x, y</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td><code>s x y color --</code></td>
+<td>a string starting at x, y</td>
+</tr>
+<tr>
+<td><code>screen@</code></td>
+<td><code>x y -- ch color</code></td>
+<td>read one back</td>
+</tr>
+<tr>
+<td><code>wipe</code></td>
+<td><code>--</code></td>
+<td>clear the tab's screen</td>
+</tr>
+<tr>
+<td><code>cursor</code></td>
+<td><code>x y --</code></td>
+<td>move the cursor</td>
+</tr>
+<tr>
+<td><code>nocursor</code></td>
+<td><code>--</code></td>
+<td>hide it</td>
+</tr>
+<tr>
+<td><code>where</code></td>
+<td><code>-- x y</code></td>
+<td>where it is</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>-- w h</code></td>
+<td><code>80 24</code></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>s --</code></td>
+<td>rename the tab</td>
+</tr>
+</tbody>
+</table>
+<p>Coordinates start at <code>0 0</code>, the top-left of the tab's area, under the tab bar. <code>cursor</code> moves the cursor without showing it, and anything printed afterwards starts there. Despite the name, it isn't the opposite of <code>nocursor</code>.</p>
+<p><code>put</code> and <code>text</code> don't move the cursor and don't scroll. <code>say</code> and <code>write</code> do both. Programs that draw a full screen use <code>wipe</code>, <code>nocursor</code>, then <code>put</code> and <code>text</code>, and never print. See <a href="games.html">games</a> for the pattern.</p>
+<h2 id="colours">Colours</h2>
+<p>Text mode has 16 colours, numbered 0 to 15, and <code>colors</code> shows them all. The kernel changes all sixteen at boot to match the Subverge theme, so they aren't the usual VGA colours.</p>
+<p><code>color</code> sets the colour for printed text, foreground only. <code>put</code> and <code>text</code> take a full attribute byte, which is the foreground plus 16 times the background, and <code>attr</code> builds one for you:</p>
+<pre><code>14 1 attr           yellow on colour 1
+&quot;hi&quot; 10 5 14 1 attr text
+</code></pre>
+<p><code>fill</code> draws a row of one character, <code>bar</code> draws a meter that's some percent full, and <code>header</code> draws a title bar across the top. They're in root, under util.</p>
+<p><img src="images/60-colors.png" alt="colors"></p>
+<h2 id="characters-that-werent-there">Characters that weren't there</h2>
+<p>The VGA font lives in plane 2 of video memory, and the kernel rewrites part of it at boot. Characters <code>0x80</code> to <code>0x8B</code> are replaced with:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Character</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0x80</code></td>
+<td>omega</td>
+</tr>
+<tr>
+<td><code>0x81</code></td>
+<td>aleph</td>
+</tr>
+<tr>
+<td><code>0x82</code> to <code>0x8B</code></td>
+<td>subscript 0 to 9</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="ordinals.html">ordinals</a> print with them as real <code>ω</code> and the <a href="cardinals.html">cardinals</a> as real <code>ℵ₀</code>. In a string, <code>\w</code> is <code>0x80</code> and <code>\A</code> is <code>0x81</code>. The subscript digits have no escape, so use <code>130 chr</code> and up. The original characters at those codes are gone.</p>
+<h2 id="the-tab-bar">The tab bar</h2>
+<p>Row 0 is drawn by the kernel, not by any tab, so you can't draw over it with <code>put</code>. It shows the four tab titles, highlights the current one, marks the ones with something new with <code>*</code>, and shows the clock at the right edge. The clock is the machine's real-time clock, which in QEMU is UTC by default.</p>
+<h2 id="poking-it">Poking it</h2>
+<p>You can also write straight into <code>0xB8000</code> with <code>poke</code>. It works, and it's overwritten the next time the visible tab is drawn. See <a href="memory.html">memory</a> for the details.</p>
+<h2 id="why-80-by-25">Why 80 by 25</h2>
+<p>That is the size of VGA text mode. Every program in <a href="root.html">root</a> is drawn for it, and a bigger screen would need a graphics driver.</p>
+</main>
+<img class="cat" src="mark-bg.png?v=1792264427" alt="">
+</body>
+</html>
