@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logos - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Logos - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="logos">Logos</h1>
+<p><code>sys</code> draws a logo on the left and the system information on the right. Two logos come with the system:</p>
+<pre><code>logos               list the logos, with the current one marked
+'haelide logo       switch to the haelide logo
+'subverge logo      switch back to the cat and moon
+logo@ say           print the name of the current logo
+</code></pre>
+<p><img src="images/86-logos.png" alt="logos"></p>
+<p>The <code>haelide</code> logo is inspired by the logo of <a href="https://github.com/gretagen/HaliadeSYS">HaliadeSYS</a>, also known as Zerene OS.</p>
+<p><img src="images/88-logo-haelide.png" alt="the haelide logo"></p>
+<p>An installed system saves the logo name on the disk with the <a href="themes.html">theme</a>, and <code>sys</code> uses it at the next boot. The <code>haelide</code> theme switches to the <code>haelide</code> logo by itself.</p>
+<h2 id="making-a-logo">Making a logo</h2>
+<p>A logo is a word named <code>logo-</code> followed by the logo's name. The word leaves a list of lines, and <code>logo</code> takes the name without the <code>logo-</code> part:</p>
+<pre><code>[ [ &quot;  .-.&quot; &quot; (o o)&quot; [ &quot; | O |&quot; &quot;  mine&quot; ] &quot;  '~'&quot; ] ] :logo-mine
+'mine logo
+sys
+</code></pre>
+<p><img src="images/87-logo-mine.png" alt="a custom logo"></p>
+<p>A line that is a string is drawn in colour 14, the accent of the theme. A line that is a list of strings is drawn piece by piece, alternating between colours 14 and 15, so <code>[ &quot; | O |&quot; &quot;  mine&quot; ]</code> draws <code> | O |</code> in the accent and <code>  mine</code> in bright text. The default logo uses this to draw the moon in one colour and the cat in the other:</p>
+<pre><code>'logo-subverge see
+</code></pre>
+<p>The system information starts three columns to the right of the widest line. <code>sys</code> draws as many rows as the logo has, and at least nine. Values that would run past the right edge of the screen are cut off, so keep logos under about 40 columns.</p>
+<p>A backslash in a string starts an escape, so write <code>\\</code> for each backslash in the drawing. <code>&quot;/\\_/\\&quot;</code> draws <code>/\_/\</code>.</p>
+<h2 id="keeping-a-logo">Keeping a logo</h2>
+<p>A definition typed at the prompt belongs to the tab it was typed in. <code>sys</code> runs on tab 1 at boot, so a logo defined in tab 2 can't be found there. Put the logo in a root <a href="units.html">unit</a> instead, so every tab sees it:</p>
+<pre><code>&quot;mylogo&quot; unit
+</code></pre>
+<p>opens a new unit in <a href="scrawl.html">scrawl</a>. Write the <code>:logo-mine</code> line in it, save with Ctrl-S, quit with Ctrl-Q, and then run <code>'mine logo</code>.</p>
+<p>If the saved logo is removed later, <code>sys</code> draws the <code>subverge</code> logo instead.</p>
+<h2 id="the-rest-of-the-sys-screen">The rest of the sys screen</h2>
+<p><code>sys</code> is an ordinary root word. <code>'sys open</code> opens it in scrawl. The name before the <code>@</code> is the word <code>user</code>, and the name after it is <code>host</code>, so <code>'user open</code> changes them. <code>stat</code> prints one labelled line, and can be used to add lines of your own.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

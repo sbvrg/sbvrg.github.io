@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installation - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Installation - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="installation">Installation</h1>
+<div class="steps">
+<div class="step"><svg viewBox="0 0 48 48"><path d="M24 6v24M15 21l9 9 9-9M8 34v8h32v-8"/></svg><div>
+<h3 id="get-the-iso">Get the ISO</h3>
+<p>Download <a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">subverge.iso</a> from the latest release, or build it from source.</p>
+</div></div>
+<div class="step"><svg viewBox="0 0 48 48"><path d="M24 6v16"/><path d="M14 12a15 15 0 1 0 20 0"/></svg><div>
+<h3 id="boot-it-live">Boot it live</h3>
+<pre><code>$ qemu-system-x86_64 -cdrom subverge.iso -m 256M</code></pre>
+</div></div>
+<div class="step"><svg viewBox="0 0 48 48"><rect x="7" y="10" width="34" height="28" rx="2"/><path d="M7 28h34M33 33h2"/></svg><div>
+<h3 id="install-to-a-disk-image">Install to a disk image</h3>
+<p>Read the <a href="readme.html">README</a> and the <a href="expectations.html">expectations</a> first, then attach a blank image and run <code>install</code>.</p>
+</div></div>
+</div>
+<h2 id="requirements">Requirements</h2>
+<p>Running it needs <code>qemu-system-x86_64</code> and 256 MB of RAM for the guest. Building it needs gcc, binutils and nasm, and the ISO also needs <code>grub-mkrescue</code> and <code>xorriso</code>. On Exherbo, QEMU is in the <code>virtualization</code> repository:</p>
+<pre><code># cave resolve -x repository/virtualization
+# cave resolve -x app-virtualization/qemu sys-devel/gcc sys-devel/binutils \
+    dev-lang/nasm sys-boot/grub app-cdr/libisoburn
+</code></pre>
+<h2 id="getting-the-iso">Getting the ISO</h2>
+<p>Each release on the <a href="https://github.com/texivi/Subverge/releases">releases page</a> has <code>subverge.iso</code> attached. To build it instead:</p>
+<pre><code>$ git clone https://github.com/texivi/Subverge
+$ cd Subverge
+$ make iso
+</code></pre>
+<p>The ISO is written to <code>build/subverge.iso</code>. For the other make targets see <a href="development.html">development</a>, and for build failures <a href="troubleshooting.html">troubleshooting</a>.</p>
+<h2 id="booting-the-live-iso">Booting the live ISO</h2>
+<pre><code>$ qemu-system-x86_64 -cdrom build/subverge.iso -m 256M
+</code></pre>
+<p>The ISO is a live system. Everything you define lives in memory and is gone when QEMU closes, so it is a safe place to try things before installing.</p>
+<p>The first screen shows <code>sys</code> and a short welcome. The welcome says whether you are on the live ISO or on an installed drive. If it says installed while you meant to boot the ISO, QEMU found an installed image on one of the drives, and the live system has loaded the work saved on it.</p>
+<p><code>-m 256M</code> gives the guest 256 MB. The kernel heap takes up to 64 MiB of it, and everything omega allocates comes from the heap (<a href="memory.html">memory</a>).</p>
+<p>If you end up at a GRUB prompt, <code>multiboot /boot/subverge.elf</code> followed by <code>boot</code> loads the kernel by hand.</p>
+<h2 id="installing-to-a-disk-image">Installing to a disk image</h2>
+<p>An installed disk boots with Subverge's own <a href="boot.html">bootloader</a> and saves your work after every line. Create an image of at least 8 MB and boot the ISO with it attached:</p>
+<pre><code>$ truncate -s 64M disk.img
+$ qemu-system-x86_64 -cdrom build/subverge.iso -boot d -hda disk.img -m 256M
+</code></pre>
+<p>Run <code>install</code> at the prompt. It lists the drives, asks for one, and erases it once you type <code>yes</code>, so check that the drive it names is your blank image. When it prints <code>installed</code>, close QEMU and boot the image on its own:</p>
+<pre><code>$ qemu-system-x86_64 -hda disk.img -m 256M
+</code></pre>
+<p>Anything you defined on the live system is carried over. See <a href="saving.html">saving</a> for when the disk is written.</p>
+<p><code>install</code> writes four things to the drive: Subverge's MBR in sector 0, the second stage loader after it, a copy of the running kernel, and the state area that holds root and the four tabs. The image doesn't need a partition table or a filesystem, and any partitions already on it are overwritten. See <a href="disk-layout.html">disk layout</a> for the exact sectors.</p>
+<h2 id="upgrading-an-installed-disk">Upgrading an installed disk</h2>
+<p>A new release brings a new kernel, and usually a new root as well. Booting the new ISO with an old disk attached runs the new kernel, but the live system finds the installed disk and loads the root and tabs saved on it. That root is the old one, so <code>sys</code> still shows the old version and the new root words are missing, even though the built-in words written in C are new.</p>
+<p>To put the new kernel on the disk and keep your work, boot the new ISO with the disk attached and run <code>install</code> on the same drive. The kernel and bootloader are replaced, and the root and tabs that were loaded are written back.</p>
+<p>To get the new root as well, install onto a fresh image instead. Copy your own units across first: <code>'name src say</code> prints a unit's source on the old system, and <code>&quot;name&quot; unit</code> makes a new unit on the new one (<a href="units.html">units</a>).</p>
+<h2 id="removing-it">Removing it</h2>
+<p>An installed disk image is an ordinary file, so deleting the file removes the system. To reuse the image for something else, overwrite the first sectors, or recreate it with <code>truncate</code>. Subverge writes nothing outside the drive it was installed to.</p>
+<h2 id="disk-not-found">Disk not found</h2>
+<p>Subverge only supports IDE, so attach the image with <code>-hda</code>, or with <code>-drive file=disk.img,format=raw,if=ide</code>. virtio and NVMe disks aren't detected, and <code>disks</code> prints <code>No drives were found.</code> QEMU's default machine has two IDE channels with two drives each, and Subverge looks at all four. For other flags, see <a href="qemu.html">QEMU</a>.</p>
+<h2 id="next">Next</h2>
+<p>Continue with <a href="first-steps.html">first steps</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

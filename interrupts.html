@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interrupts and the timer - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Interrupts and the timer - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="interrupts-and-the-timer">Interrupts and the timer</h1>
+<p>Subverge uses three sources of interrupts: CPU exceptions, the timer and the keyboard. Everything else is masked.</p>
+<h2 id="the-interrupt-table">The interrupt table</h2>
+<p>The kernel fills in 49 entries of the interrupt descriptor table, all as 64-bit interrupt gates in the kernel code segment:</p>
+<table>
+<thead>
+<tr>
+<th>Vectors</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 to 31</td>
+<td>CPU exceptions</td>
+</tr>
+<tr>
+<td>32 to 47</td>
+<td>the sixteen legacy IRQs, after remapping the PICs</td>
+</tr>
+<tr>
+<td>48</td>
+<td><code>yield</code>, a software interrupt a tab uses to give up the CPU</td>
+</tr>
+</tbody>
+</table>
+<p>Every entry goes through the same assembly stub. It pushes a dummy error code for the vectors where the CPU doesn't push one, pushes the vector number and all general-purpose registers, and calls one C handler with a pointer to that frame. The handler returns the stack pointer to resume on. Most of the time that is the same frame, but the timer and <code>yield</code> can return a different tab's frame, and that is the entire mechanism behind task switching (<a href="scheduler.html">scheduler</a>).</p>
+<p>Because every tab runs in ring 0, the CPU never switches stacks on an interrupt. The frame is pushed onto whatever tab stack was in use, which is why each tab gets its own 256 KiB stack.</p>
+<h2 id="the-pics">The PICs</h2>
+<p>At boot the two 8259 PICs are reinitialised so that IRQ 0 to 7 arrive at vectors 32 to 39 and IRQ 8 to 15 at 40 to 47, away from the CPU exceptions. Then every IRQ is masked except IRQ 0, the timer, and IRQ 1, the keyboard.</p>
+<p>The disks are driven by polling (<a href="drives.html">drives</a>), so their IRQs are never used. Nothing else in the machine can interrupt Subverge.</p>
+<p>After an IRQ handler returns, the kernel sends an end-of-interrupt to the master PIC, and to the slave as well for IRQ 8 and above.</p>
+<h2 id="the-timer">The timer</h2>
+<p>The PIT's channel 0 is programmed in square wave mode with a divisor of 1193182 / 100, giving a tick 100 times a second. <code>hz</code> returns 100 and <code>ticks</code> returns the number of ticks since boot.</p>
+<p>Each tick:</p>
+<ol>
+<li>adds one to the tick counter;</li>
+<li>checks whether the interrupted instruction was a <code>hlt</code>, and if so counts the tick as idle;</li>
+<li>once a second, redraws the tab bar and its clock;</li>
+<li>calls the scheduler, which may switch to another tab.</li>
+</ol>
+<p>The idle check works by reading the byte just before the saved instruction pointer. If it is <code>0xF4</code>, the CPU was halted in the idle loop when the tick arrived. <code>top</code> divides the change in idle ticks by the change in all ticks to show the idle percentage.</p>
+<p><code>sleep</code> and <code>waitkey</code> are built on the tick counter: a tab records the tick it wants to wake at and yields until that tick has passed.</p>
+<h2 id="the-keyboard">The keyboard</h2>
+<p>IRQ 1 reads one scancode from port <code>0x60</code> and turns it into a key for the visible tab. See <a href="keyboard.html">keyboard</a>.</p>
+<h2 id="exceptions">Exceptions</h2>
+<p>A CPU exception in a tab doesn't stop the machine. The handler formats a message from the vector, including the faulting address from <code>cr2</code> for a page fault, and asks the scheduler to restart the faulting tab from the top of its shell. The tab prints the message and <code>your last line was dropped</code>, and its <a href="world.html">world</a> is unchanged because the line never committed.</p>
+<p>The exception names follow the Intel manuals: <code>divide by zero</code>, <code>invalid opcode</code>, <code>general protection fault</code>, <code>page fault at 0x...</code> and so on. Integer division by zero in omega fails with an ordinary error before it reaches the CPU, so the exception only appears for code that bypasses the checks, such as a bad <code>poke</code> into running code.</p>
+<p>If an exception happens while no tab is running, in the idle loop or during boot before the tabs start, it is a kernel panic. The screen turns red, shows the message and the machine halts.</p>
+<h2 id="counting-interrupts">Counting interrupts</h2>
+<p><code>0 irq</code> and <code>1 irq</code> return how many timer and keyboard interrupts have arrived since boot. <code>irqmon</code> shows both live with their rates per second. The other IRQ numbers always return 0, since those lines are masked.</p>
+<pre><code>0 irq .              ticks so far, the same as ticks
+1 irq .              at least two per key, one for press and one for release
+</code></pre>
+<h2 id="the-clock">The clock</h2>
+<p>The time comes from the CMOS real-time clock rather than from the timer. <code>time</code> waits until the RTC is not in the middle of an update, then reads seconds, minutes, hours, day, month and year from CMOS registers 0 to 9. It converts from BCD and from 12-hour format when the RTC's status register says they are in use, and adds 2000 to the year.</p>
+<p>QEMU's RTC runs in UTC unless it is started with <code>-rtc base=localtime</code> (<a href="qemu.html">QEMU</a>).</p>
+<h2 id="turning-interrupts-off">Turning interrupts off</h2>
+<p>Kernel code that touches state shared between tabs, such as the heap, the screen buffers or the disk controller, disables interrupts for the duration with a save-and-restore of the flags register. A long disk transfer therefore delays the timer, which shows up as a short pause in animations while a large world is being saved.</p>
+<p>The only omega word that disables interrupts is <code>halt</code>, which also stops the CPU for good.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

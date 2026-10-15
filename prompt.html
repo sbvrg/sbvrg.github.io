@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Prompt - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="prompt">Prompt</h1>
+<p>The <code>»</code> prompt is where omega code is typed. Each tab has its own prompt, its own line history and its own key queue, and whatever is typed at it runs as one <a href="transactions.html">transaction</a> when Enter is pressed.</p>
+<h2 id="what-the-prompt-shows">What the prompt shows</h2>
+<p>Before the <code>»</code>, the prompt prints the tab's stack in grey, bottom to top:</p>
+<pre><code>1 2 [ dup * ] »
+</code></pre>
+<p>An empty stack prints nothing before the <code>»</code>. A long stack is cut from the left and shown with <code>..</code> in front, so the top of the stack, which is what the next word will see, is always visible.</p>
+<p>The stack shown is the committed one. While a line is running, nothing is printed until it finishes.</p>
+<h2 id="editing-keys">Editing keys</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enter</td>
+<td>runs the line</td>
+</tr>
+<tr>
+<td>Left, Right</td>
+<td>move the cursor one character</td>
+</tr>
+<tr>
+<td>Home, End</td>
+<td>move to the start or end of the line</td>
+</tr>
+<tr>
+<td>Backspace</td>
+<td>deletes the character before the cursor</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>deletes the character under the cursor</td>
+</tr>
+<tr>
+<td>Up, Down</td>
+<td>step through earlier lines</td>
+</tr>
+<tr>
+<td>Tab</td>
+<td>completes the name before the cursor</td>
+</tr>
+<tr>
+<td>Ctrl-C</td>
+<td>throws the line away and starts a new one</td>
+</tr>
+<tr>
+<td>F1 to F4, Alt-1 to Alt-4</td>
+<td>switch <a href="tabs.html">tab</a></td>
+</tr>
+</tbody>
+</table>
+<p>Characters are inserted at the cursor, so a typo in the middle of a line can be fixed without retyping the rest.</p>
+<h2 id="completion">Completion</h2>
+<p>Tab completes the name that ends at the cursor. The candidates are your tab's definitions, root's words and the built-ins.</p>
+<ul>
+<li>With one match, Tab writes the rest of the name and a space.</li>
+<li>With several matches that share a longer beginning, Tab extends the name to it: <code>them</code> becomes <code>theme</code>, the part <code>theme</code>, <code>theme@</code> and <code>themes</code> have in common.</li>
+<li>Otherwise Tab writes the first match in alphabetical order, and each further Tab replaces it with the next, wrapping around: <code>ro</code> gives <code>root</code>, <code>rot</code>, <code>row</code>, then <code>root</code> again.</li>
+</ul>
+<p>A <code>'</code>, <code>:</code> or <code>-&gt;</code> in front of the name is kept, so <code>'th</code> completes to <code>'theme</code>, <code>'themes</code> and <code>'theme@</code> in turn. Locals aren't offered, since they only exist while code runs.</p>
+<p><code>ask</code> and <code>calc</code> don't complete.</p>
+<h2 id="line-length">Line length</h2>
+<p>A line holds up to 200 characters, or less when the prompt itself is wide, since the line has to fit on one screen row after the stack and the <code>»</code>. Once it is full, further keys are ignored. If the stack display takes up a lot of the row, <code>empty</code> or a few <code>drop</code>s give the line more room.</p>
+<p>Code longer than one line belongs in a definition, written with <code>'name edit</code> in <a href="scrawl.html">scrawl</a>, or in a <a href="units.html">root unit</a>.</p>
+<h2 id="history">History</h2>
+<p>Up and Down step through the last 16 lines typed in the tab. Empty lines and a line identical to the one before it are not added. The history is per tab, it is not saved to disk, and it holds text only: recalling a line and pressing Enter runs it again, which is different from undoing it with <a href="back.html">back</a>.</p>
+<h2 id="characters-you-can-type">Characters you can type</h2>
+<p>Only printable ASCII, from space to <code>~</code>, can be typed. omega has a few values that print with other characters, such as <code>ω</code> and <code>ℵ₀</code>, which the kernel draws by redefining unused characters in the VGA font (<a href="screen.html">screen</a>). To use them:</p>
+<pre><code>omega .                      ω
+aleph0 .                     ℵ₀
+&quot;\w and \A&quot; say              ω and ℵ
+</code></pre>
+<p><code>\w</code> and <code>\A</code> work inside any string. The words <code>omega</code> and <code>aleph0</code> push the values themselves (<a href="ordinals.html">ordinals</a>, <a href="cardinals.html">cardinals</a>).</p>
+<h2 id="when-a-line-fails">When a line fails</h2>
+<p>A failing line prints its error in red, indented under the line, and the prompt comes back with the same stack as before:</p>
+<pre><code>1 2 » 3 0 /
+  ! division by zero
+1 2 »
+</code></pre>
+<p>Keys pressed while the failing line was running are discarded, so the next prompt starts clean. See <a href="errors.html">errors</a>.</p>
+<h2 id="when-a-line-runs-for-a-long-time">When a line runs for a long time</h2>
+<p>The prompt doesn't come back until the line finishes. Ctrl-C interrupts it with the error <code>interrupted</code>, which also undoes the line. If the line doesn't respond to Ctrl-C, switch to another tab with F1 to F4. The other tabs keep running and their prompts keep working (<a href="tabs.html">tabs</a>).</p>
+<h2 id="programs-that-read-keys">Programs that read keys</h2>
+<p>Programs started from the prompt, such as <code>snake</code> or <code>top</code>, read keys from the same queue. When they exit, the prompt returns. <code>ask</code> prints a question and reads one line with the same editing keys, but without history:</p>
+<pre><code>&quot;name? &quot; ask say
+</code></pre>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

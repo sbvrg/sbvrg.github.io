@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Units - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Units - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="units">Units</h1>
+<p>A unit is a named part of <a href="root.html">root</a>. Root is the code that every <a href="tabs.html">tab</a> shares and that survives reboots, and units are how it is organised and edited. Your own words that should be available everywhere belong in a unit of your own.</p>
+<h2 id="listing-them">Listing them</h2>
+<p><code>root</code> prints every unit with its size and the words it defines:</p>
+<p><img src="images/53-root-mine.png" alt="root with the new unit in it"></p>
+<p>A unit marked <code>(draft)</code> has an edit that failed to build and is waiting to be fixed.</p>
+<h2 id="making-a-unit">Making a unit</h2>
+<pre><code>&quot;mine&quot; unit
+</code></pre>
+<p>creates an empty unit called <code>mine</code> at the end of root and opens it in <a href="scrawl.html">scrawl</a>. Write definitions in it the same way as at the prompt, one or more per line:</p>
+<pre><code># greetings
+[ &quot;hi&quot; say ] :greet
+[ { name } &quot;hi, &quot; name cat say ] :greet-name
+</code></pre>
+<p>Save with Ctrl-S and quit with Ctrl-Q. The unit is built, and <code>greet</code> and <code>greet-name</code> exist in every tab at once. On an installed disk root is <a href="saving.html">saved</a> immediately.</p>
+<p><img src="images/52-new-unit.png" alt="Making a new unit"></p>
+<p>To change it later:</p>
+<pre><code>'greet open
+</code></pre>
+<p>opens the unit that defines <code>greet</code>. <code>open</code> accepts any word the unit defines, or the unit's own name as a symbol, so <code>'mine open</code> works too.</p>
+<h2 id="an-example-your-own-logo">An example: your own logo</h2>
+<p>A <a href="logos.html">logo</a> has to be visible in tab 1 at boot, which makes it a good first unit:</p>
+<pre><code>&quot;mylogo&quot; unit
+</code></pre>
+<p>In scrawl, write:</p>
+<pre><code># my sys logo
+[ [ &quot; /\\_/\\&quot; &quot; (o.o)&quot; &quot;  &gt; &lt;&quot; ] ] :logo-fox
+</code></pre>
+<p>Save with Ctrl-S and quit with Ctrl-Q. Then <code>'fox logo</code> switches to it, and on an installed disk the next boot draws it too, since both the unit and the logo name are saved.</p>
+<h2 id="rules-for-names">Rules for names</h2>
+<p>Unit names are 1 to 20 characters long and use only lowercase letters, digits and <code>-</code>. They have to be unique. Root holds at most 32 units, including the 13 that come with Subverge.</p>
+<h2 id="writing-a-unit">Writing a unit</h2>
+<p>A unit's source runs once, from top to bottom, every time root is built. It should consist of definitions. A unit can also compute values at build time:</p>
+<pre><code>0 100 range [ sq ] map :squares
+</code></pre>
+<p>builds the list once, and <code>squares</code> then pushes it. Anything left on the stack at the end of a unit is thrown away.</p>
+<p>A unit sees every word defined in units before it, and every built-in. It doesn't see definitions made at a tab's prompt, since root is built outside any one tab's world.</p>
+<p>Comments are kept, since a unit is stored as the text you wrote. This is the main difference from <code>'name edit</code>, which stores a parsed quote.</p>
+<h2 id="order-and-overriding">Order and overriding</h2>
+<p>Units are built in order, and each one's definitions go on top of everything before it. When two units define the same word, the later one wins for code that runs after root is built. Code inside the earlier unit that was already defined keeps referring to the word by name, so it also sees the later definition when it runs.</p>
+<p>A new unit is always added at the end. That means it can use every other unit, and editing it only rebuilds that one unit, which is fast and can't break the units before it.</p>
+<p>Defining a word that is also a built-in prints <code>shadows:</code> and the name in orange after the build. The new definition replaces the built-in in every tab, including inside other root code, so this is rarely what you want.</p>
+<h2 id="removing-a-unit">Removing a unit</h2>
+<p>Units can't be removed or reordered from inside Subverge. To retire one, open it and delete its contents, leaving an empty unit that defines nothing. To remove or reorder units for good, change the files in <code>root/</code> in the source tree and rebuild the kernel (<a href="development.html">development</a>).</p>
+<h2 id="tab-definitions-or-a-unit">Tab definitions or a unit</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Tab definition</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>visible in</td>
+<td>one tab</td>
+<td>all four</td>
+</tr>
+<tr>
+<td>made with</td>
+<td><code>:name</code> at the prompt, <code>'name edit</code></td>
+<td><code>&quot;name&quot; unit</code>, <code>'name open</code></td>
+</tr>
+<tr>
+<td>undone by</td>
+<td><code>back</code></td>
+<td>editing it again</td>
+</tr>
+<tr>
+<td>comments</td>
+<td>lost</td>
+<td>kept</td>
+</tr>
+<tr>
+<td>failure</td>
+<td>the line is undone</td>
+<td>root is unchanged, the edit becomes a draft</td>
+</tr>
+</tbody>
+</table>
+<p>A tab definition with the same name as a root word hides it in that tab only (<a href="names.html">names</a>). This is a safe way to try a change before putting it in a unit.</p>
+<p>A program listed in <code>apps</code> should be in a unit, along with its entry in the <a href="apps.html">apps</a> list.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

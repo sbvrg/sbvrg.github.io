@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expectations - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Expectations - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="expectations">Expectations</h1>
+<h2 id="it-is-an-experiment">It is an experiment</h2>
+<p>Subverge is a hobby operating system written by one person. It targets QEMU, the only machine it is tested on (<a href="hardware.html">hardware</a>). Things change between releases, sometimes in ways that break saved roots, and the <a href="roadmap.html">roadmap</a> lists what is planned rather than what is promised.</p>
+<h2 id="it-is-its-own-system">It is its own system</h2>
+<p>Subverge has its own kernel, shell and programs, and an installed disk holds fixed slots instead of files (<a href="disk-layout.html">disk layout</a>). It has no processes, users, permissions or file paths. Everything you write is an omega word, kept in a tab or in <a href="root.html">root</a>, and saved as omega source.</p>
+<h2 id="you-need-to-know-how-to-program">You need to know how to program</h2>
+<p>These docs and <code>learn</code> assume you already program, and they don't explain loops, variables or functions. Some familiarity with Forth or another stack language helps, and if you know Forth, read <a href="forth.html">omega for Forth programmers</a> first. The <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a> pages explain the mathematics they use, and Vsauce's <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a> covers the background.</p>
+<h2 id="you-can-break-it">You can break it</h2>
+<p>Everything runs in ring 0, so a bad write to memory can bring down the whole virtual machine. Most mistakes cost nothing, because a failing line is undone and <a href="back.html">back</a> can rewind the last 64 lines. Writes to raw memory and I/O ports can't be undone, and they are your responsibility. See <a href="smarties.html">omega for smarties</a>.</p>
+<h2 id="never-install-to-a-real-disk">Never install to a real disk</h2>
+<p><code>install</code> erases the drive you give it, including its partition table. Only use it on a disk image made for that purpose. QEMU can pass a real disk to the guest, and Subverge will install onto it if asked, so check the drive list <code>install</code> prints before typing <code>yes</code>.</p>
+<h2 id="asking-for-help">Asking for help</h2>
+<p>Run <code>learn</code> and read <code>'word help</code> before you ask how a word works. When you ask, give the exact line, the exact error and what you expected to happen. See <a href="troubleshooting.html">troubleshooting</a> and <a href="bugs.html">bugs</a>.</p>
+<h2 id="releases">Releases</h2>
+<p>Releases have no dates. Planned features are on the <a href="roadmap.html">roadmap</a>.</p>
+<p>Continue with <a href="installation.html">installation</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

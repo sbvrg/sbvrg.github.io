@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="World - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="world">World</h1>
+<p>A world is the state of one <a href="tabs.html">tab</a> that omega keeps track of: its <a href="stack.html">stack</a> and its definitions. <a href="transactions.html">Transactions</a>, <a href="back.html">back</a> and <a href="saving.html">saving</a> all work on worlds. A line either replaces the world with a new one or leaves it alone, <code>back</code> returns to an older one, and saving writes the current one to disk.</p>
+<h2 id="what-a-world-holds">What a world holds</h2>
+<ul>
+<li><strong>The stack</strong>, every value on it, bottom to top.</li>
+<li><strong>The definitions</strong> made in the tab with <code>:name</code>, <code>edit</code> or <code>forget</code>, newest first.</li>
+</ul>
+<p>Each of the four tabs has its own world.</p>
+<h2 id="kept-outside-a-world">Kept outside a world</h2>
+<p>These are kept elsewhere and follow their own rules:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Where it lives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>root words</td>
+<td><a href="root.html">root</a>, shared by all tabs, edited with <code>open</code></td>
+</tr>
+<tr>
+<td>locals from <code>{ }</code> and <code>-&gt;</code></td>
+<td>the running quote, gone when it finishes</td>
+</tr>
+<tr>
+<td>the screen</td>
+<td>the tab's screen buffer, never undone</td>
+</tr>
+<tr>
+<td>the tab's title</td>
+<td>the tab, reset on reboot</td>
+</tr>
+<tr>
+<td>memory, ports, the CPU</td>
+<td>the machine, changed the moment a word runs</td>
+</tr>
+<tr>
+<td>prompt history</td>
+<td>the tab, text only</td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-new-world-per-line">A new world per line</h2>
+<p>A line starts from the tab's current world and works on a copy. When the line finishes:</p>
+<ul>
+<li>if it failed, the copy is thrown away and the world stays as it was;</li>
+<li>if it succeeded and changed the stack or definitions, the copy becomes the new world, and the old one goes into the history;</li>
+<li>if it succeeded without changing anything, the line leaves no trace.</li>
+</ul>
+<p>The history keeps the last 64 worlds, and <code>back</code> returns to them. A line that only prints or inspects, such as <code>words</code> or <code>top</code>, doesn't add a world, so <code>back</code> steps over it.</p>
+<p>Keeping 64 old worlds takes little memory. Defining a word adds one entry in front of the existing definitions instead of copying them, so successive worlds share almost everything (<a href="worlds.html">how worlds work</a>).</p>
+<h2 id="an-example">An example</h2>
+<p>Each line below either makes a new world or doesn't:</p>
+<pre><code>1 2                 new world: the stack is 1 2
+[ dup dup * * ] :cube   new world: cube is defined
+words               no new world, it only prints
+3 cube              new world: the stack is 1 2 27
+0 /                 fails, the world stays 1 2 27
+back                returns to the world before 3 cube
+back                returns to the world before cube was defined
+</code></pre>
+<p>After the two <code>back</code>s the stack is <code>1 2</code> and <code>cube</code> is gone. <code>redo</code> would bring <code>cube</code> back. <code>words</code> and the failed line never made a world, so <code>back</code> steps over them.</p>
+<h2 id="looking-at-your-world">Looking at your world</h2>
+<pre><code>words               every definition, with its value
+depth .             how many values are on the stack
+depth list .        the whole stack as one list
+'sq see             one definition
+stats               five numbers about the tab
+</code></pre>
+<p><code>words</code> lists the newest definition of each name and leaves out names that <code>forget</code> removed. A tab with nothing defined says <code>nothing is defined in this tab</code>.</p>
+<p><code>stats</code> pushes the number of live objects in the tab's heap, how many garbage collections have run, the number of definition entries, the stack depth and the length of the history:</p>
+<pre><code>stats . . . . .
+</code></pre>
+<p><code>top</code> shows the same numbers for the tab it runs in, updated live.</p>
+<p><img src="images/65-stats-disks.png" alt="stats, heap and disks"></p>
+<h2 id="changing-it">Changing it</h2>
+<p>Definitions are added with <code>:name</code> and removed with <code>forget</code>:</p>
+<pre><code>[ dup * ] :sq
+'sq forget
+</code></pre>
+<p><code>forget</code> adds an entry that hides the name rather than deleting the old one, so <code>back</code> can still undo it, and a root word with the same name becomes visible again (<a href="names.html">names</a>). <code>forget</code> only works on names defined in the tab.</p>
+<p><code>empty</code> clears the stack in one go.</p>
+<h2 id="worlds-and-saving">Worlds and saving</h2>
+<p>On an installed disk, the world is saved to the tab's slot after each line that changes it. What is saved is the newest definition of each name and the stack, as omega source (<a href="saving.html">saving</a>). The history isn't saved, so after a reboot the tab has its world but nothing to go <code>back</code> to.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

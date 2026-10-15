@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Memory - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="memory">Memory</h1>
+<p>The memory words read and write physical memory directly, and <code>alloc</code> hands out raw blocks from the kernel heap. omega's own values, such as strings and quotes, live in the same heap but are managed by the <a href="gc.html">garbage collector</a>, and you never free them by hand.</p>
+<h2 id="the-address-space">The address space</h2>
+<p>The kernel, all four <a href="tabs.html">tabs</a>, all omega values and whatever you <code>alloc</code> share one address space. At boot the kernel identity-maps the first 4 GiB with 2 MiB pages, so every address below 4 GiB is the physical address of the same number. Everything runs in ring 0, in that one fixed map, without user space or memory protection.</p>
+<p>Roughly, from the bottom:</p>
+<table>
+<thead>
+<tr>
+<th>Where</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0x0</code></td>
+<td>the real-mode interrupt vector table and BIOS data, left over from boot</td>
+</tr>
+<tr>
+<td><code>0xB8000</code></td>
+<td>VGA text memory, the actual screen</td>
+</tr>
+<tr>
+<td><code>0x100000</code></td>
+<td>the kernel, loaded at 1 MiB, code then data then bss</td>
+</tr>
+<tr>
+<td>after the kernel</td>
+<td>the kernel heap, up to 64 MiB</td>
+</tr>
+<tr>
+<td>the rest</td>
+<td>free RAM, and above it, devices</td>
+</tr>
+</tbody>
+</table>
+<p><code>memmap</code> gives you the real map the bootloader passed in, as <code>[ base length type ]</code> entries, and <code>memls</code> prints it as a table. <code>kernel</code> gives the kernel image size and total RAM.</p>
+<p><img src="images/10-memls.png" alt="memls"></p>
+<h2 id="the-heap">The heap</h2>
+<p>The kernel heap starts right after the kernel and runs for 64 MiB, or less on machines with less RAM. It's a single first-fit free list: blocks have a small header, are rounded up to 16 bytes, and neighbouring free blocks are merged when the allocator walks past them. Interrupts are disabled while it works, because all four tabs share it.</p>
+<p>Everything allocates from it: omega objects, task stacks, the editor's buffers, the installer's copy of the kernel, and your <code>alloc</code>s. <code>heap</code> gives you bytes in use and the total. If the kernel itself runs out, that's a panic and the machine stops. If an omega word runs out, it fails with <code>ran out of memory</code>.</p>
+<h2 id="the-words">The words</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>peek</code></td>
+<td><code>addr -- n</code></td>
+<td>read a byte</td>
+</tr>
+<tr>
+<td><code>peekd</code></td>
+<td><code>addr -- n</code></td>
+<td>read 4 bytes</td>
+</tr>
+<tr>
+<td><code>peekq</code></td>
+<td><code>addr -- n</code></td>
+<td>read 8 bytes</td>
+</tr>
+<tr>
+<td><code>poke</code></td>
+<td><code>n addr --</code></td>
+<td>write a byte</td>
+</tr>
+<tr>
+<td><code>poked</code></td>
+<td><code>n addr --</code></td>
+<td>write 4 bytes</td>
+</tr>
+<tr>
+<td><code>pokeq</code></td>
+<td><code>n addr --</code></td>
+<td>write 8 bytes</td>
+</tr>
+<tr>
+<td><code>alloc</code></td>
+<td><code>n -- addr</code></td>
+<td>zeroed memory, 1 byte to 16 MiB</td>
+</tr>
+<tr>
+<td><code>free</code></td>
+<td><code>addr --</code></td>
+<td>give it back</td>
+</tr>
+<tr>
+<td><code>heap</code></td>
+<td><code>-- used total</code></td>
+<td>heap usage</td>
+</tr>
+</tbody>
+</table>
+<p>Reads and writes are little-endian, unaligned addresses work, and nothing is checked. <code>peek</code> on an address with nothing behind it gives you whatever the bus gives back. <code>poke</code> on the kernel's own code succeeds and takes effect the next time that code runs.</p>
+<h2 id="what-poke-doesnt-do">What poke doesn't do</h2>
+<p>It doesn't take part in <a href="transactions.html">transactions</a>. A line that pokes and then fails has still poked. <a href="back.html">back</a> can't unpoke. And on an installed disk, nothing you poked is <a href="saving.html">saved</a>, because only worlds and root are.</p>
+<p><code>alloc</code> behaves the same way. A line that allocates and then fails keeps the allocation, and the collector doesn't track raw memory, so it has to be freed explicitly. <code>life</code> is an example: it allocates two boards at start and frees both on exit.</p>
+<h2 id="poking-the-screen">Poking the screen</h2>
+<p>The screen is the safest place to experiment, since mistakes there are only visual:</p>
+<pre><code>65 0xB8000 poke
+</code></pre>
+<p>puts an <code>A</code> in the top-left corner of the physical screen. Every character takes two bytes there, the character and then its colour, so</p>
+<pre><code>0x4E 0xB8001 poke
+</code></pre>
+<p>turns that <code>A</code> yellow on red. It doesn't last, because the tab bar and the visible tab get redrawn over it. To draw properly, use the <a href="screen.html">screen</a> words, which write into the tab's own buffer instead.</p>
+<h2 id="other-memory">Other memory</h2>
+<p>Writes to the low megabyte, the kernel image or the page tables (<a href="boot.html">boot</a>) usually end in a fault or a hang. A CPU fault in a tab only restarts that tab, but corrupting a kernel structure usually means restarting QEMU.</p>
+<p><code>hexview</code> (<a href="tools.html">tools</a>) is a hex editor built on these words, and it writes as you type.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

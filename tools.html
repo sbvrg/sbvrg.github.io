@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tools - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Tools - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="tools">Tools</h1>
+<p>The tools are utility programs in <a href="root.html">root</a>. They are ordinary omega words, so <code>'name see</code> prints any of them and <code>'name open</code> opens the unit it lives in. Full-screen tools leave with <code>q</code>, Escape or Ctrl-C. <a href="games.html">Games</a> and <a href="demos.html">demos</a> cover the rest of <code>apps</code>.</p>
+<h2 id="clock">clock</h2>
+<pre><code>clock
+</code></pre>
+<p>A full-screen clock with the date underneath, redrawn twice a second. It reads the real-time clock through <code>time</code>, so in QEMU it shows UTC unless QEMU was started with <code>-rtc base=localtime</code> (<a href="qemu.html">QEMU</a>).</p>
+<p><img src="images/54-clock.png" alt="clock"></p>
+<h2 id="stopwatch">stopwatch</h2>
+<pre><code>stopwatch
+</code></pre>
+<p>Counts minutes, seconds and hundredths from the moment it starts. Space records a lap under the time, up to 14 laps. It counts timer ticks, so its resolution is a hundredth of a second.</p>
+<p><img src="images/55-stopwatch.png" alt="stopwatch"></p>
+<h2 id="timer">timer</h2>
+<pre><code>90 timer
+</code></pre>
+<p>Counts down the given number of seconds in the middle of the screen, then shows <code>Time is up</code> and waits for a key. <code>q</code> cancels it early. A timer runs in its own tab while you work in another, and the tab's <code>*</code> in the tab bar shows when it has finished.</p>
+<p><img src="images/56-timer.png" alt="timer"></p>
+<h2 id="cal-month-and-date">cal, month and date</h2>
+<pre><code>cal                 this month, with today in red
+2026 12 month       any month
+date say            2026-10-19
+</code></pre>
+<p><code>cal</code> and <code>month</code> print a calendar with weeks starting on Monday, and <code>date</code> leaves today's date as a string in ISO order, which sorts correctly as text. All three use the real-time clock, so in QEMU they show the UTC date unless the clock is set to local time.</p>
+<p>The helpers are usable on their own:</p>
+<pre><code>2024 leap? .                1
+2024 2 month-days .         29
+2026 10 first-weekday .     3, a Thursday, counting Monday as 0
+</code></pre>
+<p><img src="images/73-paper-cal.png" alt="paper theme, cal and month"></p>
+<h2 id="todo">todo</h2>
+<pre><code>&quot;buy milk&quot; todo-add
+&quot;fix the fan&quot; todo-add
+todo
+1 todo-done
+</code></pre>
+<p><code>todo</code> prints the numbered list, <code>todo-add</code> adds a string to the end and <code>n todo-done</code> removes item <code>n</code>. The list is a definition called <code>todo-list</code> in your tab, which has three consequences: each tab has its own list, <code>back</code> undoes a change to it, and on an installed disk it is <a href="saving.html">saved</a> with the tab. To share one list between tabs, move <code>todo-list</code> into a <a href="units.html">unit</a>.</p>
+<p><img src="images/57-todo.png" alt="todo"></p>
+<h2 id="calc">calc</h2>
+<pre><code>calc
+</code></pre>
+<p>An infix calculator with its own prompt, <code>calc »</code>. It takes the usual operators with the usual precedence, which omega itself doesn't:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+ - * /</code></td>
+<td>arithmetic</td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>remainder</td>
+</tr>
+<tr>
+<td><code>**</code></td>
+<td>power, with exponents from 0 to 64</td>
+</tr>
+<tr>
+<td><code>( )</code></td>
+<td>grouping</td>
+</tr>
+<tr>
+<td><code>&amp; | ^ ~</code></td>
+<td>bitwise and, or, exclusive or, not</td>
+</tr>
+<tr>
+<td><code>&lt;&lt; &gt;&gt;</code></td>
+<td>shifts</td>
+</tr>
+</tbody>
+</table>
+<p><code>^</code> is exclusive or, as in C, and power is <code>**</code>. Numbers can be written in decimal, <code>0x</code> hex and <code>0b</code> binary, and <code>ans</code> is the previous result.</p>
+<p>Arithmetic is fixed point with six decimal places, so <code>1/3</code> is <code>0.333333</code>. Bitwise operators work on the whole part. A whole result is also shown in hex and, when it is short enough, in binary.</p>
+<p>An empty line leaves. <code>calc</code> keeps its own line history, separate from the prompt's, and the history survives between runs in the same tab.</p>
+<p><img src="images/14-calc.png" alt="calc"></p>
+<h2 id="bases-and-ascii">bases and ascii</h2>
+<pre><code>255 bases
+</code></pre>
+<p>prints a number in decimal, hex, octal and binary, and the character it stands for when it is printable.</p>
+<pre><code>ascii
+</code></pre>
+<p>prints the printable characters 32 to 126 as a table, with the row and column giving the hex code.</p>
+<p><img src="images/58-bases-convert.png" alt="bases and convert"></p>
+<p><img src="images/59-ascii.png" alt="ascii"></p>
+<h2 id="convert">convert</h2>
+<pre><code>convert             lists the conversions
+100 km&gt;mi say       62.13
+</code></pre>
+<p>The conversions are <code>km&gt;mi</code>, <code>mi&gt;km</code>, <code>kg&gt;lb</code>, <code>lb&gt;kg</code>, <code>c&gt;f</code> and <code>f&gt;c</code>. Each takes a whole number and leaves a string with two decimals. They work in hundredths internally, so <code>98 f&gt;c</code> is <code>36.66</code>. Adding one is a line in the <code>tools</code> unit: <code>[ 3937 * dec2 ] :m&gt;in</code> for metres to inches.</p>
+<h2 id="password">password</h2>
+<pre><code>password            five random passwords
+24 password-of say  one of a given length
+</code></pre>
+<p>Passwords are drawn from letters and digits with the easily confused ones left out (<code>l</code>, <code>I</code>, <code>O</code>, <code>0</code>, <code>1</code>). They use <code>rand</code>, which is seeded from the CPU's cycle counter and fine for a throwaway test account, but not designed for real secrets (<a href="numbers.html">numbers</a>).</p>
+<p><img src="images/61-password.png" alt="password"></p>
+<h2 id="colors-and-themes">colors and themes</h2>
+<pre><code>colors              the 16 colour numbers, drawn in their colours
+themes              the colour themes
+</code></pre>
+<p><code>colors</code> shows each number with a sample. The names next to the samples are the ones from the <code>dusk</code> theme, and other themes keep the role of each number but change the colour itself (<a href="themes.html">themes</a>).</p>
+<p><img src="images/60-colors.png" alt="colors"></p>
+<h2 id="top">top</h2>
+<pre><code>top
+</code></pre>
+<p>A live view of the machine, updated twice a second:</p>
+<ul>
+<li>the CPU model and the idle percentage, with a bar;</li>
+<li>heap used and total, with a bar;</li>
+<li>the kernel's size;</li>
+<li>each tab's title and state, with <code>*</code> on the visible one;</li>
+<li>the current tab's world: definitions, stack depth and history length;</li>
+<li>live objects and garbage collections in the current tab;</li>
+<li>timer and keyboard interrupts, in total and per second;</li>
+<li>uptime.</li>
+</ul>
+<p>Run something heavy in another tab and the idle percentage drops. A tab waiting at its prompt costs nothing.</p>
+<p><img src="images/28-top-tabs.png" alt="top with four busy tabs"></p>
+<h2 id="watch-and-timeit">watch and timeit</h2>
+<pre><code>[ ticks . ] watch           reruns a quote twice a second until a key
+[ 100000 [ ] times ] timeit times one run in ticks and CPU cycles
+</code></pre>
+<p><code>watch</code> clears the screen before each run, so it suits code that prints a small report. <code>timeit</code> prints the time in ticks and in cycles from <code>rdtsc</code>. Comparing interpreted and compiled code is what <code>bench</code> is for (<a href="jit.html">JIT</a>).</p>
+<h2 id="machine-inspectors">Machine inspectors</h2>
+<p>These read the hardware and change nothing, so they are safe to run anywhere:</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sys</code></td>
+<td>the <a href="logos.html">logo</a>, versions, uptime, CPU and memory</td>
+</tr>
+<tr>
+<td><code>pcils</code></td>
+<td>every PCI device with its vendor and class</td>
+</tr>
+<tr>
+<td><code>memls</code></td>
+<td>the firmware's memory map</td>
+</tr>
+<tr>
+<td><code>cpuinfo</code></td>
+<td>CPU vendor, model, feature flags and control registers</td>
+</tr>
+<tr>
+<td><code>irqmon</code></td>
+<td>timer and keyboard interrupts, live</td>
+</tr>
+<tr>
+<td><code>disks</code></td>
+<td>the IDE drives and which one Subverge is installed on</td>
+</tr>
+</tbody>
+</table>
+<p><img src="images/09-pcils.png" alt="pcils"></p>
+<p><img src="images/11-cpuinfo.png" alt="cpuinfo"></p>
+<h2 id="hexview">hexview</h2>
+<pre><code>0xB8000 hexview
+</code></pre>
+<p>A hex editor on live memory, starting at the given address. The arrow keys move the cursor, Page Up and Page Down move by a screen of 336 bytes, and typing two hex digits writes a byte at the cursor. Writes go straight to RAM and can't be undone, by <code>back</code> or anything else. At <code>0xB8000</code> the screen itself is being edited, which is a safe way to try it; elsewhere it can crash the tab or the machine (<a href="memory.html">memory</a>).</p>
+<p><img src="images/13-hexview.png" alt="hexview"></p>
+<h2 id="install">install</h2>
+<p>For <code>install</code> and <code>disks</code>, see <a href="installation.html">installation</a> and <a href="machine.html">machine</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

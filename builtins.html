@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing a built-in - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Writing a built-in - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="writing-a-built-in">Writing a built-in</h1>
+<p>Most new words belong in a <a href="units.html">root unit</a>, written in omega, where they can be edited without rebuilding the kernel. A built-in is the right choice when the word needs hardware access that the existing words don't give, or when it has to be fast without relying on the <a href="jit.html">JIT</a>.</p>
+<h2 id="where-built-ins-live">Where built-ins live</h2>
+<p>Each C file that defines words ends with a table of name and function pairs, terminated by a null entry. At boot the kernel walks every table and stores each function on the interned name (<a href="values.html">values and objects</a>). Adding a word means writing a function and adding a line to the table of the file it belongs in:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Words</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>words.c</code></td>
+<td>stack, math, logic, flow, lists, text, printing, definitions</td>
+</tr>
+<tr>
+<td><code>hw.c</code></td>
+<td>memory, ports, CPU, PCI, time, screen, keys, tabs</td>
+</tr>
+<tr>
+<td><code>ord.c</code></td>
+<td>ordinals and cardinals</td>
+</tr>
+<tr>
+<td><code>root.c</code></td>
+<td><code>root</code>, <code>open</code>, <code>unit</code>, <code>src</code></td>
+</tr>
+<tr>
+<td><code>persist.c</code></td>
+<td>drives, saving, installing</td>
+</tr>
+<tr>
+<td><code>jit.c</code>, <code>dis.c</code></td>
+<td>the JIT and the disassembler</td>
+</tr>
+<tr>
+<td><code>help.c</code></td>
+<td><code>help</code></td>
+</tr>
+</tbody>
+</table>
+<p>A built-in takes no arguments and returns nothing. It works on the current tab's state through the <code>W</code> macro, which points at the running tab's interpreter.</p>
+<h2 id="taking-arguments">Taking arguments</h2>
+<p>Arguments are popped from the stack with helpers that check their count and type and fail the line with a readable message:</p>
+<pre><code>static void b_double(void) {
+    i64 n;
+    if (!pop_int(&quot;double&quot;, &amp;n)) return;
+    push(I(n * 2));
+}
+</code></pre>
+<p><code>pop_int</code> fails with <code>double needs more values on the stack</code> when the stack is empty, <code>double needs a number</code> when the top isn't an integer, and <code>double needs a number that fits in 64 bits</code> for a bignum. <code>pop_str</code> does the same for strings. For other types, check the count with <code>need</code> and the tag with <code>want</code>.</p>
+<p>Arguments come off in reverse order. A word with the stack effect <code>a b -- c</code> pops <code>b</code> first:</p>
+<pre><code>i64 a, b;
+if (!pop_int(&quot;w&quot;, &amp;b) || !pop_int(&quot;w&quot;, &amp;a)) return;
+</code></pre>
+<p>The word's name is passed to each helper only for the error message. Use the name the user types.</p>
+<h2 id="failing">Failing</h2>
+<p><code>fail(fmt, arg)</code> sets the tab's error flag and message. The format takes exactly one <code>%s</code>, so a message without an argument is written as <code>fail(&quot;that went wrong%s&quot;, &quot;&quot;)</code>. Only the first failure on a line is kept.</p>
+<p>A built-in must return soon after failing. Nothing is unwound for it: the interpreter notices the flag after the built-in returns and stops. Anything the built-in already did outside the stack and dictionary, such as writing to a port, stays done (<a href="transactions.html">transactions</a>).</p>
+<p>Write messages the way the existing ones are written: lowercase, without a trailing full stop, and saying what is wrong in terms the user knows, such as <code>the tab number has to be 1 to 4</code>.</p>
+<h2 id="results">Results</h2>
+<p><code>push</code> takes a value cell. <code>I(n)</code> makes an integer, <code>S(str_new(p, len))</code> a string and <code>Q(quote_new(cells, n))</code> a quote, which is also how lists are returned. <code>push</code> checks for a full stack and does nothing once the line has failed, so a built-in can push several results without checking in between.</p>
+<h2 id="allocating">Allocating</h2>
+<p>Objects for omega values come from the tab's collected heap through the constructors above. They can fail when memory runs out, in which case they set the error and return null, and the built-in should return.</p>
+<p>Memory that is not an omega value, such as a scratch buffer, comes from <code>kmalloc_try</code> and must be released with <code>kfree</code> before returning, including on every failure path. <code>kmalloc</code> without <code>_try</code> stops the machine with a panic when memory runs out, so it is only used where that is acceptable.</p>
+<h2 id="calling-back-into-omega">Calling back into omega</h2>
+<p>A built-in that runs a quote, as <code>times</code> and <code>map</code> do, must protect it from the <a href="gc.html">garbage collector</a>. Once the quote is popped, nothing else refers to it, and a collection while it runs would free it. Push it onto the keep stack before calling it and pop it afterwards:</p>
+<pre><code>V q = pop();
+keep(q);
+for (i64 i = 0; i &lt; n &amp;&amp; !W-&gt;err &amp;&amp; !brk(); i++) call(q);
+unkeep(1);
+</code></pre>
+<p>The loop condition also matters. <code>W-&gt;err</code> stops the loop when the quote fails, and <code>brk()</code> makes the loop respond to Ctrl-C. A loop without <code>brk()</code> can only be stopped by switching tabs.</p>
+<h2 id="interrupts">Interrupts</h2>
+<p>Built-ins run with interrupts on, so another tab can run between any two instructions. Data shared by all tabs, such as the heap, the screen buffers or a device, must be touched with interrupts off:</p>
+<pre><code>u64 f = irq_save();
+/* shared state */
+irq_restore(f);
+</code></pre>
+<p>Keep these sections short, since the timer and keyboard wait for them.</p>
+<p>Long waits should yield instead of spinning. Set the tab's <code>wake_at</code> or <code>wait_key</code> and call <code>yield()</code> in a loop, as <code>sleep</code> and <code>waitkey</code> do, so that the <a href="scheduler.html">scheduler</a> skips the tab until there is a reason to run it.</p>
+<h2 id="the-jit">The JIT</h2>
+<p>A built-in is called from compiled code the same way the interpreter calls it, so most built-ins need nothing special. If the new word should be inlined into compiled code, as <code>+</code> and <code>dup</code> are, it needs a case in the JIT's inliner, and it must still fall back to calling the built-in when the inline fast path doesn't apply (<a href="jit.html">JIT</a>).</p>
+<h2 id="documenting-it">Documenting it</h2>
+<p>Every built-in needs a <code>help</code> entry: its group, the stack effect, a description of at most 52 characters and an example that runs. The docs check, <code>printf '@docs\n' | build/host</code>, reports a word without an entry and an entry for a word that doesn't exist, and must print <code>0 problems</code> (<a href="testing.html">testing</a>). Add the word to the <a href="all-words.html">all words</a> page in the website repository as well.</p>
+<h2 id="testing-it">Testing it</h2>
+<p>Run <code>make host</code> and try the word in the Linux build of the interpreter, then <code>make stress</code>, which collects garbage before every word and fills freed memory with <code>0xDD</code>, so a missing <code>keep</code> shows up at once. Finally boot it in QEMU with <code>make run</code>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

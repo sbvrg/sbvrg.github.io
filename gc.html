@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GC - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="GC - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="gc">GC</h1>
+<p>Each tab has its own mark-sweep garbage collector. It runs between words, marks every object the tab can still reach, and frees the rest. Tabs never share objects, so one tab's collection never has to stop or look at another tab.</p>
+<h2 id="whats-collected">What's collected</h2>
+<p>Strings, quotes, bignums, ordinals and dictionary bindings are heap objects. Each tab keeps every object it allocated on one linked list. Integers that fit in 64 bits, cardinals and symbols aren't objects: the first two live inside the value itself, and names are interned once and never freed.</p>
+<p>Raw memory from <code>alloc</code> isn't an object either, and the collector doesn't know it exists. It's yours to free (see <a href="memory.html">memory</a>).</p>
+<h2 id="when-it-runs">When it runs</h2>
+<p>At safe points, which are the gaps between words, and only once the tab has allocated past a threshold. After every collection the threshold is set to twice the number of objects that survived, with a minimum of 8192, so a tab that keeps a lot of live data collects less often. Compiled code from the <a href="jit.html">JIT</a> calls the same safe point on every loop iteration, so long-running compiled loops collect too.</p>
+<p>It never runs in the middle of a word, so a built-in word in C can hold pointers to objects in local variables without registering them, as long as it doesn't call back into omega in the meantime.</p>
+<h2 id="the-roots">The roots</h2>
+<p>Everything reachable from these survives:</p>
+<ul>
+<li>the current world, the stack snapshot and the dictionary</li>
+<li>all 64 worlds in the <a href="back.html">back</a> history</li>
+<li>the working stack of the line that's running</li>
+<li>every bound local</li>
+<li>the working dictionary</li>
+<li>the parsed line itself</li>
+<li>the keep stack</li>
+</ul>
+<p>Because the old worlds are roots, nothing they point at is freed until they fall off the end of the 64, and <code>back</code> can always return to them.</p>
+<h2 id="the-keep-stack">The keep stack</h2>
+<p><code>do</code>, <code>times</code>, <code>for</code>, <code>while</code>, <code>each</code>, <code>map</code> and <code>filter</code>, and the <code>call</code> function in C that all of them use, pop their quotes off the data stack and then run them, which means for the length of the loop, the quote they're running isn't on the stack anymore. So they push it onto a separate keep stack first, and pop it when they're done, and the keep stack is a root. If you write a built-in that pops something and then calls back into omega, it has to do the same, or the collector will free the thing you're running while you're running it.</p>
+<p>If the keep stack is deeper than 256, collection is skipped until it isn't, rather than risk missing a root.</p>
+<h2 id="freeing-quotes">Freeing quotes</h2>
+<p>When a quote is freed, any machine code the <a href="jit.html">JIT</a> compiled for it is retired too, through the same dead list as invalidation, because another tab might be executing it right now.</p>
+<h2 id="make-stress">make stress</h2>
+<pre><code>$ make stress
+</code></pre>
+<p>builds the host version of omega with a collection before every single word and with freed memory filled with <code>0xDD</code>. Code that uses an object after it was freed reads <code>0xDD</code> and fails immediately. If you add a built-in, run your word under <code>make stress</code>. See <a href="testing.html">testing</a> for the other checks.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

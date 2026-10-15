@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Features - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Features - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="features">Features</h1>
+<div class="feats">
+<div class="feat"><svg viewBox="0 0 48 48"><rect x="5" y="8" width="38" height="32" rx="1"/><path d="M12 18l6 5-6 5M22 30h12"/></svg><div><h3>A stack language for a shell</h3><p>The prompt runs <a href="omega.html">omega</a>, a postfix language related to Forth. Commands and programs are written in the same language.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><path d="M14 18H32a10 10 0 0 1 0 20H20"/><path d="M20 10l-8 8 8 8"/></svg><div><h3>Every line is a transaction</h3><p>When a word on a line fails, the whole line is undone. <a href="back.html">back</a> undoes up to 64 lines that succeeded, and <code>redo</code> reverses a <code>back</code>.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><path d="M17 6l-4 36M33 6l-4 36M8 17h34M6 31h34"/></svg><div><h3>Exact integers</h3><p>Integers that overflow 64 bits become <a href="bignums.html">bignums</a>, up to 2^65536. Compiled code does the same.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><path d="M24 24c-5-7-9-10-13-10a10 10 0 0 0 0 20c4 0 8-3 13-10s9-10 13-10a10 10 0 0 1 0 20c-4 0-8-3-13-10z"/></svg><div><h3>Infinity as a value</h3><p><code>omega</code> and <code>aleph0</code> can be added, multiplied and compared like other numbers. See <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><rect x="12" y="12" width="24" height="24" rx="2"/><path d="M18 6v6M24 6v6M30 6v6M18 36v6M24 36v6M30 36v6M6 18h6M6 24h6M6 30h6M36 18h6M36 24h6M36 30h6"/></svg><div><h3>A JIT with a disassembler</h3><p>A quote is compiled to x86-64 machine code the second time it runs. <code>xray</code> disassembles the result. See <a href="jit.html">JIT</a>.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><path d="M5 16h10l2-5h9l2 5h15v24H5z"/><path d="M5 16v-5h10"/></svg><div><h3>Four tabs</h3><p>Four <a href="tabs.html">tabs</a> run at the same time under a preemptive scheduler. Each tab has its own stack and its own definitions.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><circle cx="17" cy="24" r="9"/><path d="M26 24h17M37 24v7M43 24v5"/></svg><div><h3>Ring 0</h3><p>All code runs in ring 0. <code>peek</code>, <code>poke</code>, <code>in</code>, <code>out</code>, <code>cpuid</code> and <code>pci</code> read and write memory, I/O ports and PCI devices. See <a href="smarties.html">omega for smarties</a>.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><path d="M8 8h26l6 6v26H8z"/><path d="M15 8v10h16V8M14 40V27h20v13"/></svg><div><h3>Saved after every line</h3><p>An installed system writes its state to disk after every line that succeeds. The state is stored as omega source. See <a href="saving.html">saving</a>.</p></div></div>
+<div class="feat"><svg viewBox="0 0 48 48"><path d="M24 6v16"/><path d="M14 12a15 15 0 1 0 20 0"/></svg><div><h3>Its own bootloader</h3><p>Installed disks boot with Subverge's own MBR and second stage loader. GRUB is used only on the ISO. See <a href="boot.html">boot</a>.</p></div></div>
+</div>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>QEMU. Subverge has only been tested in QEMU.</li>
+<li>256 MB of RAM for the virtual machine.</li>
+<li>A disk image you don't care about, if you want to <a href="installation.html">install</a> it.</li>
+<li>Some programming experience.</li>
+</ul>
+<h2 id="what-it-looks-like">What it looks like</h2>
+<pre><code>2 100 ^ .              1267650600228229401496703205376
+[ dup * ] :sq          defines sq
+7 sq .                 49
+omega 1 + .            ω+1
+1 omega + omega = .    1
+[ 3 1 2 ] sort .       [ 1 2 3 ]
+'haelide theme         switches to haelide
+</code></pre>
+<p><img src="images/80-theme-haelide.png" alt="haelide"></p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

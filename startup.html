@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Startup - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Startup - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="startup">Startup</h1>
+<p>At boot, tab 1 runs <code>startup</code>, defined as <code>[ sys welcome ] :startup</code> in the <code>sys</code> unit of <a href="root.html">root</a>. The other tabs start at a prompt.</p>
+<h2 id="what-happens-at-boot">What happens at boot</h2>
+<p>Once the kernel has started, things happen in this order:</p>
+<ol>
+<li>Root is built, from the saved root on an installed disk or from the copy inside the kernel (<a href="root-build.html">how root builds</a>).</li>
+<li>Each tab starts its shell. On an installed disk it first runs its saved <a href="world.html">world</a>, so its definitions and stack are back before anything else happens.</li>
+<li>Tab 1 runs <code>startup</code> if it is defined, and <code>sys</code> otherwise.</li>
+<li>Every tab shows its prompt.</li>
+</ol>
+<p>Because the saved world is loaded first, <code>startup</code> can use words defined in tab 1, and a <code>startup</code> defined in tab 1 replaces the one in root.</p>
+<p><code>startup</code> runs as an ordinary line in tab 1. If it fails, the error is printed and the prompt appears as usual, and nothing it did is kept.</p>
+<h2 id="changing-it">Changing it</h2>
+<pre><code>'startup open
+</code></pre>
+<p>and edit the definition. <code>[ sys ] :startup</code> drops the welcome text, and <code>[ ] :startup</code> starts at a bare prompt.</p>
+<pre><code>'user open
+</code></pre>
+<p>changes the <code>user</code> in <code>user@subverge</code>. <code>host</code>, <code>os</code> and <code>kernel-name</code> set the other lines of the <code>sys</code> screen, and <code>logo</code> changes the drawing on the left (<a href="logos.html">logos</a>).</p>
+<h2 id="overriding-it-per-tab">Overriding it per tab</h2>
+<p>On an installed disk, tab 1's saved <a href="world.html">world</a> is loaded before <code>startup</code> runs, and tab definitions take precedence over root (<a href="names.html">names</a>). Defining <code>startup</code> in tab 1 therefore overrides the root version without changing it:</p>
+<pre><code>[ &quot;it's me again&quot; say ] :startup
+</code></pre>
+<p><code>'startup see</code> then shows your version in tab 1 and the root version in tab 2.</p>
+<h2 id="missing-startup">Missing startup</h2>
+<p>If <code>startup</code> is undefined, tab 1 runs <code>sys</code> instead. If root failed to build at boot, it shows <code>sys-c</code> and the root error in red.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

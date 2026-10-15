@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transactions - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Transactions - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="transactions">Transactions</h1>
+<p>Each line typed at the prompt runs as a transaction on the tab's <a href="world.html">world</a>, its stack and its definitions. Either the whole line takes effect or none of it does.</p>
+<pre><code>1 2 3
+[ 7 ] :seven 4 5 0 /
+</code></pre>
+<p>The division fails. <code>seven</code> isn't defined, <code>4 5</code> isn't pushed, and the stack is still <code>1 2 3</code>.</p>
+<p><img src="images/05-ordinals-and-errors.png" alt="A line failing and taking everything with it"></p>
+<h2 id="what-a-line-is">What a line is</h2>
+<p>A transaction is one line from the prompt, and everything that runs because of it: every word, every quote, every program it starts. Running <code>snake</code> or <code>learn</code> is one line, however long it runs. A failure anywhere inside fails the whole line.</p>
+<p>The other things that run code each have their own rule:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a line at the prompt</td>
+<td>one transaction</td>
+</tr>
+<tr>
+<td><code>startup</code> at boot</td>
+<td>one transaction in tab 1</td>
+</tr>
+<tr>
+<td>a saved world at boot</td>
+<td>one transaction per tab</td>
+</tr>
+<tr>
+<td>a <a href="root.html">root</a> rebuild</td>
+<td>all or nothing, separately from any tab</td>
+</tr>
+<tr>
+<td>a quote inside <code>try</code></td>
+<td>continues the line on failure, without rolling back</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-is-protected">What is protected</h2>
+<p>A transaction protects the world, which is the stack and the tab's definitions. A failed line leaves both unchanged, and every value keeps its identity.</p>
+<p>Everything else happens the moment the word that does it runs, and stays done when the line fails:</p>
+<ul>
+<li><strong>printed text</strong> stays on the screen;</li>
+<li><strong>the screen</strong> drawn with <code>put</code> and <code>text</code>, and the tab's title;</li>
+<li><strong>the machine</strong>: memory written with <code>poke</code>, ports written with <code>out</code>, memory taken with <code>alloc</code>;</li>
+<li><strong>root edits</strong> that have already built;</li>
+<li><strong>the theme</strong>, the logo, and colours set with <code>rgb</code>;</li>
+<li><strong>the disk</strong>: a save happens after a line succeeds, but <code>install</code> and <code>save</code> write as they run.</li>
+</ul>
+<p>A program that changes the machine and then fails halfway leaves its changes in place. <code>life</code> frees its memory at the end, so interrupting it with Ctrl-C leaks the two boards it allocated.</p>
+<h2 id="lines-that-change-nothing">Lines that change nothing</h2>
+<p>A line that leaves the stack and definitions as they were, such as <code>words</code> or <code>&quot;hi&quot; say</code>, commits nothing. It doesn't enter the <a href="back.html">back</a> history and nothing is written to disk. This is decided by comparing the result with the world the line started from, so a line that pushes a value and drops it again also counts as unchanged.</p>
+<h2 id="failing-on-purpose">Failing on purpose</h2>
+<p>Any failure ends the line, so a failure is also a way to cancel one. <code>ask</code> fails with <code>cancelled</code> on Ctrl-C, and code that finds a problem halfway can stop with <code>fail</code>, which fails the line with a message of your own:</p>
+<pre><code>[ { n } n 100 &gt; [ &quot;too big&quot; fail ] when n 2 * ] :double-small
+500 double-small
+  ! too big
+</code></pre>
+<p>Nothing the line did to the world stays.</p>
+<h2 id="continuing-after-a-failure">Continuing after a failure</h2>
+<p><code>try</code> runs a quote and keeps a failure inside it from ending the line. It doesn't roll anything back: whatever the quote did before failing stays. See <a href="catching.html">catching</a>.</p>
+<h2 id="cpu-faults">CPU faults</h2>
+<p>A CPU exception, such as a page fault from a bad <code>peek</code>, restarts the tab instead of failing the line. The tab prints the fault and <code>your last line was dropped</code>, and its world is the one from before the line, since the line never committed. The other tabs carry on.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>A line runs on a working copy of the stack and a pointer to the current definitions. Definitions are only ever added in front of the existing ones, never changed in place, so the working copy shares everything with the committed world and takes almost no time to make. Committing the line means recording the new stack and the new head of the definitions as the current world; failing means forgetting them. For the details, see <a href="worlds.html">how worlds work</a> and <a href="interpreter.html">the interpreter</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

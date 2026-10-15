@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Themes - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Themes - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="themes">Themes</h1>
+<p>A theme sets the 16 colours of the text screen and of graphics mode. Programs pick colours by number, 0 to 15, and the theme decides the actual colour behind each number.</p>
+<pre><code>themes              list the themes, with the current one marked
+'raw theme          switch to raw
+theme@ say          print the name of the current theme
+</code></pre>
+<p>Switching changes all four <a href="tabs.html">tabs</a> at once, including text that is already on the screen. An installed system writes the choice to disk and uses it at the next boot. The live ISO starts with <code>dusk</code>.</p>
+<p><img src="images/71-themes.png" alt="themes"></p>
+<h2 id="the-themes">The themes</h2>
+<h3 id="dusk">dusk</h3>
+<p><code>dusk</code> is the default.</p>
+<p><img src="images/80-theme-dusk.png" alt="dusk"></p>
+<h3 id="raw">raw</h3>
+<p><code>raw</code> is the standard VGA palette.</p>
+<p><img src="images/80-theme-raw.png" alt="raw"></p>
+<h3 id="paper">paper</h3>
+<p><img src="images/80-theme-paper.png" alt="paper"></p>
+<h3 id="amber">amber</h3>
+<p><img src="images/80-theme-amber.png" alt="amber"></p>
+<h3 id="phosphor">phosphor</h3>
+<p><img src="images/80-theme-phosphor.png" alt="phosphor"></p>
+<h3 id="haelide">haelide</h3>
+<p><code>haelide</code> also switches the logo that <code>sys</code> draws to the <code>haelide</code> logo. Switching to another theme switches back to the <code>subverge</code> logo, unless you picked a different logo yourself. See <a href="logos.html">logos</a>.</p>
+<p><img src="images/80-theme-haelide.png" alt="haelide"></p>
+<h2 id="colour-numbers">Colour numbers</h2>
+<p>The numbers follow the VGA order, and every theme keeps what each number is used for:</p>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>VGA name</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>black</td>
+<td>the background</td>
+</tr>
+<tr>
+<td>1</td>
+<td>blue</td>
+<td>the tab bar, program headers and empty cells</td>
+</tr>
+<tr>
+<td>2</td>
+<td>green</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>cyan</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>red</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>magenta</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>brown</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>light grey</td>
+<td>normal text</td>
+</tr>
+<tr>
+<td>8</td>
+<td>dark grey</td>
+<td>dim text, such as the stack at the prompt and hints</td>
+</tr>
+<tr>
+<td>9</td>
+<td>light blue</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>light green</td>
+<td>success messages, such as <code>installed</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>light cyan</td>
+<td>the <code>»</code> of the prompt, group names in <code>help</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>light red</td>
+<td>errors</td>
+</tr>
+<tr>
+<td>13</td>
+<td>light magenta</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>yellow</td>
+<td>the accent, used for headings, the active tab and the logo</td>
+</tr>
+<tr>
+<td>15</td>
+<td>white</td>
+<td>bright text</td>
+</tr>
+</tbody>
+</table>
+<p><code>colors</code> shows the numbers in the current theme:</p>
+<p><img src="images/85-raw-colors.png" alt="colors in raw"></p>
+<p><code>n color</code> sets the colour of printed text. <code>put</code> and <code>text</code> take an attribute, which is a foreground plus 16 times a background, and <code>attr</code> builds one (<a href="screen.html">screen</a>):</p>
+<pre><code>14 color &quot;heading&quot; say 7 color
+&quot;warning&quot; 2 5 0 12 attr text
+</code></pre>
+<p>Every theme uses 12 for errors and 14 for the accent, so programs can rely on those two.</p>
+<h2 id="backgrounds">Backgrounds</h2>
+<p>All 16 colours work as backgrounds. VGA text mode normally uses the top bit of the background for blinking, which limits backgrounds to 8 colours. The kernel turns blinking off at boot.</p>
+<h2 id="changing-one-colour">Changing one colour</h2>
+<pre><code>n r g b rgb
+</code></pre>
+<p>sets colour <code>n</code> to red, green and blue values from 0 to 255:</p>
+<pre><code>14 255 120 0 rgb        orange accent
+0 20 0 30 rgb           dark purple background
+</code></pre>
+<p>The change applies to all tabs at once. The VGA palette has 6 bits per channel, so values are rounded down to a multiple of 4. <code>rgb</code> isn't saved, and the next <code>theme</code> or reboot resets it. To keep a custom palette, add the <code>rgb</code> lines to <code>startup</code> with <code>'startup open</code>.</p>
+<h2 id="saving">Saving</h2>
+<p>The theme is stored as a number in the state header on the disk (<a href="disk-layout.html">disk layout</a>). Switching writes only that sector. <code>install</code> copies the current theme to the new drive.</p>
+<h2 id="adding-a-theme">Adding a theme</h2>
+<p>The themes are a table in <code>kernel/vga.c</code>. Each entry has a name and 16 RGB values. Add an entry and rebuild (<a href="development.html">development</a>). If a word named <code>logo-</code> followed by the theme's name exists, switching to the theme also switches to that logo. Installed disks store a theme by its position in the table, so add new ones at the end.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

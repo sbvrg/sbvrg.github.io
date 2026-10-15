@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disk layout - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Disk layout - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="disk-layout">Disk layout</h1>
+<p>An installed drive has no partitions and no filesystem. <code>install</code> writes the bootloader, the kernel and the saved state at fixed sectors, listed below, so a disk image can be read with a hex editor without any other tool.</p>
+<h2 id="the-map">The map</h2>
+<p>Sectors are 512 bytes.</p>
+<pre><code>LBA 0           MBR
+LBA 1-16        stage 2
+LBA 64          the kernel, as many sectors as it needs
+LBA 4096        the state header, &quot;SVSTATE1&quot;
+LBA 4097        slot 0, root, 2048 sectors
+LBA 6145        slot 1, tab 1
+LBA 8193        slot 2, tab 2
+LBA 10241       slot 3, tab 3
+LBA 12289       slot 4, tab 4
+LBA 14337       the end of everything Subverge uses
+</code></pre>
+<p>About 7 MiB in all. <code>install</code> refuses any drive smaller than 8M. Anything past the end is ignored.</p>
+<p>The kernel gets the sectors from 64 up to 4095, which is just under 2 MiB. If a kernel you've built doesn't fit, <code>install</code> fails with <code>the kernel doesn't fit in its slot</code>. The current one is under a megabyte.</p>
+<h2 id="the-kernel-copy">The kernel copy</h2>
+<p><code>install</code> doesn't write the running kernel. At boot, before anything else runs, the kernel copies its own <code>.data</code> section aside, and <code>install</code> writes the code from memory followed by that untouched copy of the data. So an installed kernel boots fresh, without whatever state the live system had built up, and without anything you poked into it.</p>
+<h2 id="the-state-header">The state header</h2>
+<p>One sector at LBA 4096:</p>
+<table>
+<thead>
+<tr>
+<th>Offset</th>
+<th>Size</th>
+<th>Field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>8</td>
+<td><code>SVSTATE1</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>5 × 4</td>
+<td>the length in bytes of each slot's contents</td>
+</tr>
+<tr>
+<td>28</td>
+<td>5 × 4</td>
+<td>an FNV-1a checksum of each slot's contents</td>
+</tr>
+<tr>
+<td>48</td>
+<td>8</td>
+<td>how many saves have ever happened</td>
+</tr>
+<tr>
+<td>56</td>
+<td>4</td>
+<td>the <a href="themes.html">theme</a>, as its position in the theme list</td>
+</tr>
+<tr>
+<td>60</td>
+<td>24</td>
+<td>the name of the <a href="logos.html">logo</a>, ending in a zero byte</td>
+</tr>
+<tr>
+<td>84</td>
+<td></td>
+<td>padding to 512</td>
+</tr>
+</tbody>
+</table>
+<p>If the magic is wrong, the header is treated as empty, and every slot as unused. Disks installed before 0.9.0 have zero in the theme field, which is <code>dusk</code>. Disks installed before 0.9.1 have an empty logo name, and <code>sys</code> then draws the <code>subverge</code> logo. When a slot is saved, its data is written first and the header second, so a save interrupted halfway leaves the old header pointing at a slot whose checksum no longer matches, and that slot is ignored at the next boot rather than loaded half-written.</p>
+<h2 id="the-slots">The slots</h2>
+<p>Each slot is 2048 sectors, 1 MiB, and holds plain omega source with a zero byte after it, padded to a whole sector. Slot 0 is root, every unit after its <code>#&gt;&gt; name</code> line. Slots 1 to 4 are the <a href="world.html">worlds</a> of tabs 1 to 4. See <a href="saving.html">saving</a> for what's in them and when they're written.</p>
+<p>A slot whose length is 0, too big, or whose checksum doesn't match is treated as empty.</p>
+<h2 id="finding-the-home-drive">Finding the home drive</h2>
+<p>At boot the kernel reads sector 1 of each of the four IDE drives, and the first one with <code>SUBVERGE</code> at byte 8 is home. If two drives both have Subverge installed, the first one is home and the other one is not used.</p>
+<h2 id="looking-at-it">Looking at it</h2>
+<p>On the host, with the VM shut down:</p>
+<pre><code>$ dd if=disk.img bs=512 skip=4096 count=1 | xxd | head -4
+$ dd if=disk.img bs=512 skip=6145 count=4 | strings
+</code></pre>
+<p>shows you the header and the start of tab 1's world. Don't write to the image while QEMU has it open.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

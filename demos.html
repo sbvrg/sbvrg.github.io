@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demos - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Demos - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="demos">Demos</h1>
+<p>The demos show omega's infinite values at work, and <code>mandel</code> shows what the JIT does for a tight loop. Their source, shown by <code>'name open</code>, uses the ordinal and cardinal words throughout. For the values themselves, see <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p>
+<p><code>pairing</code>, <code>diagonal</code> and <code>supertask</code> act out three of the arguments from Vsauce's <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a>: pairing sets off one to one, Cantor's diagonal, and fitting infinitely many steps into a finite time. Watch it first and the demos make more sense.</p>
+<h2 id="count">count</h2>
+<pre><code>count
+</code></pre>
+<p>Counts upward, one value at a time, from 0 through the finite numbers and on past them:</p>
+<ol>
+<li>0 to 5, then ω, ω+1, ω+2: the first positions after every natural number;</li>
+<li>ω·2, ω·2+1, ω·3: the same again, repeated;</li>
+<li>ω², ω²+1, ω³: ω copies of ω, and onwards;</li>
+<li>ω^ω, ω^ω+1, ω^ω^ω, ω^ω^ω^ω: towers of exponents;</li>
+<li>ε₀, the limit of those towers, where ω^x = x;</li>
+<li>ω₁, the first uncountable ordinal, and its size, ℵ₁.</li>
+</ol>
+<p>The last part is about the continuum hypothesis. Whether ℵ₁ is the size of the real numbers can't be decided in ZFC.</p>
+<p>Every value it shows is computed by ordinary arithmetic, such as <code>w w * show</code> and <code>w w w ^ ^ show</code>.</p>
+<p><img src="images/17-count.png" alt="count"></p>
+<h2 id="ord-demo">ord-demo</h2>
+<pre><code>ord-demo
+</code></pre>
+<p>Ordinal and cardinal arithmetic as a list of facts, each one a line of omega and its result:</p>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>Result</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1 omega +</code></td>
+<td>ω</td>
+<td>one element before ω changes nothing</td>
+</tr>
+<tr>
+<td><code>omega 1 +</code></td>
+<td>ω+1</td>
+<td>one element after ω does</td>
+</tr>
+<tr>
+<td><code>2 omega *</code></td>
+<td>ω</td>
+<td>ω pairs are still ω in a row</td>
+</tr>
+<tr>
+<td><code>omega 2 *</code></td>
+<td>ω·2</td>
+<td>two copies of ω</td>
+</tr>
+<tr>
+<td><code>omega 1 + omega +</code></td>
+<td>ω·2</td>
+<td>the <code>+1</code> is absorbed by the second ω</td>
+</tr>
+<tr>
+<td><code>omega 1 + 2 ^</code></td>
+<td>ω²+ω+1</td>
+<td>(ω+1)·(ω+1), multiplied out</td>
+</tr>
+<tr>
+<td><code>2 omega ^</code></td>
+<td>ω</td>
+<td>the limit of 2, 4, 8, ...</td>
+</tr>
+<tr>
+<td><code>omega omega ^</code></td>
+<td>ω^ω</td>
+<td></td>
+</tr>
+<tr>
+<td><code>omega epsilon0 ^ epsilon0 =</code></td>
+<td>1</td>
+<td>the defining property of ε₀</td>
+</tr>
+<tr>
+<td><code>aleph0 aleph0 +</code></td>
+<td>ℵ₀</td>
+<td>two countable sets are countable together</td>
+</tr>
+<tr>
+<td><code>omega 2 * card</code></td>
+<td>ℵ₀</td>
+<td>ω·2 is a countable ordinal</td>
+</tr>
+<tr>
+<td><code>2 aleph0 ^</code></td>
+<td>2^ℵ₀</td>
+<td>the size of the power set</td>
+</tr>
+<tr>
+<td><code>aleph1 continuum &lt;=</code></td>
+<td>1</td>
+<td>true whatever the continuum hypothesis says</td>
+</tr>
+</tbody>
+</table>
+<p>Each line is printed by <code>fact</code>, which takes a label and a quote and prints both. Add lines of your own the same way.</p>
+<p><img src="images/18-ord-demo.png" alt="ord-demo"></p>
+<h2 id="pairing">pairing</h2>
+<pre><code>pairing
+</code></pre>
+<p>Prints the natural numbers next to the even numbers, the squares and all the integers, one row at a time:</p>
+<pre><code>naturals    evens       squares     integers
+0           0           0           0
+1           2           1           1
+2           4           4           -1
+3           6           9           2
+</code></pre>
+<p>Each column pairs off with the naturals one to one and nothing is left over in either, which is what having the same size means for infinite sets. All four have size ℵ₀, even though the evens and squares are proper subsets of the naturals and the integers contain them.</p>
+<p><img src="images/21-pairing.png" alt="pairing"></p>
+<h2 id="diagonal">diagonal</h2>
+<pre><code>diagonal
+</code></pre>
+<p>Cantor's diagonal argument, drawn. It fills the screen with rows of random binary digits, standing for a supposed list of every infinite binary sequence. Then it walks down the diagonal, highlighting digit k of row k and writing its opposite into a new row at the bottom.</p>
+<p>The new row differs from every row in the list at one position at least, so it isn't in the list, and no list of binary sequences can be complete. That is why <code>2 aleph0 ^</code> is bigger than <code>aleph0</code>:</p>
+<pre><code>aleph0 2 aleph0 ^ &lt; .           1
+</code></pre>
+<p><img src="images/19-diagonal.png" alt="diagonal"></p>
+<h2 id="supertask">supertask</h2>
+<pre><code>supertask
+</code></pre>
+<p>Zeno's dichotomy as a picture. It draws half of a line, then half of what is left, then half again, each step twice as fast as the one before. The screen runs out of character cells after a handful of steps, but the series it illustrates has infinitely many steps that add up to the whole line, and since the waits halve too, it would also finish in finite time.</p>
+<p><img src="images/20-supertask.png" alt="supertask"></p>
+<h2 id="powerset">powerset</h2>
+<pre><code>[ 1 2 3 ] powerset .
+</code></pre>
+<p>Returns every subset of a list, starting from the empty one:</p>
+<pre><code>[ [ ] [ 1 ] [ 2 ] [ 1 2 ] [ 3 ] [ 1 3 ] [ 2 3 ] [ 1 2 3 ] ]
+</code></pre>
+<p>A list of n items has 2ⁿ subsets, which is the finite version of 2^ℵ₀. It builds the result by starting from the list holding only the empty list and, for each item, adding a copy of every subset so far with the item appended. Twenty items already give a million subsets, so keep the input short.</p>
+<h2 id="mandel">mandel</h2>
+<pre><code>mandel
+</code></pre>
+<p>The Mandelbrot set in text mode. Each character cell is one point of the complex plane, coloured by how many iterations the point takes to escape. Any key moves on to the next of three views, each further in, and <code>q</code> leaves.</p>
+<p>It uses fixed point arithmetic with 65536 standing for 1.0, so every value is an integer and every operation is exact. <code>mandel-at</code> draws one view, taking the real and imaginary parts of the centre, the distance between neighbouring cells and the iteration limit, all at the same scale:</p>
+<pre><code>-32768 0 2816 40 mandel-at
+</code></pre>
+<p><img src="images/37-mandel-1.png" alt="mandel"></p>
+<p><img src="images/38-mandel-2.png" alt="mandel, further in"></p>
+<p>Its inner loop, <code>mb-iter</code>, is a <code>while</code> over integer arithmetic, which the <a href="jit.html">JIT</a> compiles into a tight loop. <code>'mb-iter xray</code> shows the machine code, and running <code>mandel</code> once with <code>jit-off</code> and once with <code>jit-on</code> shows the difference in speed.</p>
+<p><img src="images/39-mandel-xray.png" alt="mandel xray"></p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

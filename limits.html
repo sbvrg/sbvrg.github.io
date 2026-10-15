@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Limits - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Limits - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="limits">Limits</h1>
+<p>Subverge uses fixed sizes almost everywhere. Going past one fails with an error message, and the line is undone like any other failure (<a href="transactions.html">transactions</a>). The messages are listed in <a href="errors.html">errors</a>.</p>
+<h2 id="values">Values</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Limit</th>
+<th>Error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>integers</td>
+<td>64 bits, then <a href="bignums.html">bignums</a> up to 2^65536</td>
+<td><code>that number is too big, the limit is 2^65536</code></td>
+</tr>
+<tr>
+<td><code>^</code> with plain integers</td>
+<td>exponents of 0 or more</td>
+<td><code>negative powers aren't supported</code></td>
+</tr>
+<tr>
+<td>ordinal exponent</td>
+<td>finite parts up to 64 when written out</td>
+<td><code>that exponent is too big to write out</code></td>
+</tr>
+<tr>
+<td>ordinal coefficients</td>
+<td>64 bits each</td>
+<td><code>that coefficient doesn't fit in 64 bits</code></td>
+</tr>
+<tr>
+<td>ordinal terms</td>
+<td>64, later terms are dropped</td>
+<td></td>
+</tr>
+<tr>
+<td><code>range</code></td>
+<td>100000 items</td>
+<td><code>that range is too big</code></td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td>256 parts</td>
+<td><code>that splits into too many parts</code></td>
+</tr>
+<tr>
+<td><code>pad</code></td>
+<td>4096 characters, wider requests leave the string unchanged</td>
+<td></td>
+</tr>
+<tr>
+<td><code>alloc</code></td>
+<td>1 byte to 16 MiB</td>
+<td><code>alloc takes 1 byte up to 16M</code></td>
+</tr>
+<tr>
+<td><code>str</code></td>
+<td>511 characters for anything but a bignum</td>
+<td></td>
+</tr>
+<tr>
+<td><code>join</code></td>
+<td>64 KiB of text</td>
+<td><code>that string would be too long</code></td>
+</tr>
+<tr>
+<td><code>replace</code></td>
+<td>1 MiB of text</td>
+<td><code>that string would be too long</code></td>
+</tr>
+<tr>
+<td><code>rand</code></td>
+<td>an upper bound of 1 or more</td>
+<td><code>rand needs a number above 0</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="code">Code</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Limit</th>
+<th>Error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>items in one quote, as typed</td>
+<td>256</td>
+<td><code>that quote is too long</code></td>
+</tr>
+<tr>
+<td>nested brackets</td>
+<td>32 levels</td>
+<td><code>the brackets are nested too deep</code></td>
+</tr>
+<tr>
+<td>names in one <code>{ }</code></td>
+<td>32</td>
+<td><code>too many local names</code></td>
+</tr>
+<tr>
+<td>live locals at once</td>
+<td>256</td>
+<td><code>too many local names</code></td>
+</tr>
+<tr>
+<td>call depth</td>
+<td>400 nested quotes</td>
+<td><code>this nests too deep</code></td>
+</tr>
+<tr>
+<td>data stack</td>
+<td>1024 values</td>
+<td><code>the stack is full</code></td>
+</tr>
+<tr>
+<td>distinct names, ever</td>
+<td>8192</td>
+<td>the machine stops with <code>symbol table full</code></td>
+</tr>
+</tbody>
+</table>
+<p>The limit on items in a quote applies to code as it is parsed. Lists built at run time with <code>range</code>, <code>map</code>, <code>append</code> or <code>cat</code> can be longer.</p>
+<h2 id="tabs-and-the-prompt">Tabs and the prompt</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tabs</td>
+<td>4</td>
+</tr>
+<tr>
+<td>prompt line</td>
+<td>200 characters, less when the stack display is wide</td>
+</tr>
+<tr>
+<td>prompt history</td>
+<td>16 lines per tab</td>
+</tr>
+<tr>
+<td><a href="back.html">back</a> history</td>
+<td>64 lines per tab</td>
+</tr>
+<tr>
+<td>key queue</td>
+<td>63 keys per tab, further keys are dropped</td>
+</tr>
+<tr>
+<td>tab title</td>
+<td>23 characters</td>
+</tr>
+<tr>
+<td>screen</td>
+<td>80 by 24 per tab, plus the shared tab bar</td>
+</tr>
+<tr>
+<td>graphics screen</td>
+<td>640 by 480, 16 colours</td>
+</tr>
+</tbody>
+</table>
+<h2 id="root-and-saving">Root and saving</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>root units</td>
+<td>32</td>
+</tr>
+<tr>
+<td>unit name</td>
+<td>1 to 20 characters of <code>a-z</code>, <code>0-9</code> and <code>-</code></td>
+</tr>
+<tr>
+<td>names listed per unit</td>
+<td>96</td>
+</tr>
+<tr>
+<td><code>'name edit</code></td>
+<td>16 KiB of text</td>
+</tr>
+<tr>
+<td>a saved slot</td>
+<td>1 MiB, for root and for each tab</td>
+</tr>
+<tr>
+<td>an install target</td>
+<td>8 MiB</td>
+</tr>
+</tbody>
+</table>
+<p>A world or root that grows past its slot is not saved, without a message (<a href="saving.html">saving</a>).</p>
+<h2 id="the-machine">The machine</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kernel heap</td>
+<td>64 MiB, or less on machines with less RAM</td>
+</tr>
+<tr>
+<td>mapped memory</td>
+<td>the first 4 GiB, identity mapped</td>
+</tr>
+<tr>
+<td>stack per tab</td>
+<td>256 KiB</td>
+</tr>
+<tr>
+<td>timer</td>
+<td>100 Hz</td>
+</tr>
+<tr>
+<td>drives</td>
+<td>4, on the two IDE channels</td>
+</tr>
+<tr>
+<td>PCI devices listed by <code>pci</code></td>
+<td>64</td>
+</tr>
+<tr>
+<td>memory map entries</td>
+<td>32</td>
+</tr>
+<tr>
+<td>JIT code per quote</td>
+<td>64 KiB</td>
+</tr>
+<tr>
+<td>help description</td>
+<td>52 characters</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

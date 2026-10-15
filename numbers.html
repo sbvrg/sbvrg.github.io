@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numbers - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Numbers - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="numbers">Numbers</h1>
+<p>omega's finite numbers are exact integers. Up to 64 bits they are stored directly in the value, and beyond that they become bignums, up to 2^65536. For infinite values, see <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p>
+<h2 id="literals">Literals</h2>
+<pre><code>42   -7   0x2a   0b101010   -0x10
+</code></pre>
+<p>Integers can be written in decimal, in hex with <code>0x</code> or in binary with <code>0b</code>, with an optional minus sign. Hex digits can be either case. A literal too big for 64 bits is read as a bignum:</p>
+<pre><code>123456789012345678901234567890 .
+</code></pre>
+<p><code>bases</code> prints a number in decimal, hex, octal and binary (<a href="tools.html">tools</a>).</p>
+<h2 id="arithmetic">Arithmetic</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code></td>
+<td><code>a b -- c</code></td>
+<td>adds</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td><code>a b -- c</code></td>
+<td>subtracts</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><code>a b -- c</code></td>
+<td>multiplies</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td><code>a b -- c</code></td>
+<td>divides, rounding toward zero</td>
+</tr>
+<tr>
+<td><code>mod</code></td>
+<td><code>a b -- r</code></td>
+<td>the remainder, with the sign of a</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td><code>a b -- c</code></td>
+<td>a to the power b</td>
+</tr>
+<tr>
+<td><code>neg</code></td>
+<td><code>a -- -a</code></td>
+<td>flips the sign</td>
+</tr>
+<tr>
+<td><code>abs</code></td>
+<td><code>a -- b</code></td>
+<td>drops the sign</td>
+</tr>
+<tr>
+<td><code>min</code></td>
+<td><code>a b -- c</code></td>
+<td>the smaller</td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td><code>a b -- c</code></td>
+<td>the bigger</td>
+</tr>
+<tr>
+<td><code>sqrt</code></td>
+<td><code>n -- r</code></td>
+<td>the square root, rounded down</td>
+</tr>
+<tr>
+<td><code>gcd</code></td>
+<td><code>a b -- c</code></td>
+<td>the greatest common divisor</td>
+</tr>
+<tr>
+<td><code>inc</code></td>
+<td><code>n -- n+1</code></td>
+<td>adds one</td>
+</tr>
+<tr>
+<td><code>dec</code></td>
+<td><code>n -- n-1</code></td>
+<td>subtracts one</td>
+</tr>
+<tr>
+<td><code>sq</code></td>
+<td><code>n -- n*n</code></td>
+<td>squares</td>
+</tr>
+</tbody>
+</table>
+<p>All of them accept bignums. <code>+</code>, <code>*</code> and <code>^</code> also work on <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>, which have their own rules.</p>
+<pre><code>17 5 /          3
+-17 5 /         -3
+-17 5 mod       -2
+2 10 ^          1024
+10 sqrt         3
+84 36 gcd       12
+</code></pre>
+<h2 id="division-and-remainders">Division and remainders</h2>
+<p><code>/</code> rounds toward zero and <code>mod</code> takes the sign of the dividend, the same as C. Two consequences catch people out:</p>
+<ul>
+<li>An odd test written as <code>2 mod 1 =</code> is false for negative odd numbers, since <code>-3 2 mod</code> is <code>-1</code>. Write <code>2 mod 0 = not</code>.</li>
+<li>Converting a negative number of seconds into minutes with <code>/</code> rounds toward zero, not down.</li>
+</ul>
+<p>Division by zero fails with <code>division by zero</code>. Dividing the most negative 64-bit integer by <code>-1</code> gives a bignum rather than overflowing.</p>
+<h2 id="powers-and-roots">Powers and roots</h2>
+<p><code>^</code> raises to a non-negative whole power, exactly. Negative exponents fail with <code>negative powers aren't supported</code>. A power whose result would pass 2^65536 fails before it is computed, so <code>2 70000 ^</code> fails at once instead of running out of memory.</p>
+<p><code>sqrt</code> rounds down and works on bignums: <code>2 200 ^ sqrt</code> is exactly <code>2 100 ^</code>. Negative numbers fail. <code>gcd</code> always returns a non-negative result, and <code>0 0 gcd</code> is <code>0</code>.</p>
+<h2 id="big-numbers">Big numbers</h2>
+<p>Integers never wrap. A result that doesn't fit in 64 bits becomes a bignum, and a bignum result that fits again becomes a plain integer:</p>
+<pre><code>2 100 ^ .                   1267650600228229401496703205376
+2 100 ^ 2 100 ^ - .         0
+2 1000 ^ str len .          302
+</code></pre>
+<p>Code doesn't see the switch. Every arithmetic and comparison word accepts both kinds, and so do <code>str</code>, <code>&gt;num</code>, <code>min</code>, <code>max</code>, conditions and saving. Compiled code checks for overflow after every addition, subtraction and multiplication and calls the bignum code when it happens (<a href="jit.html">JIT</a>).</p>
+<p>Words that need a machine integer, such as <code>times</code>, <code>at</code>, <code>peek</code>, <code>alloc</code> and the bitwise words, fail with <code>name needs a number that fits in 64 bits</code>. In a condition a bignum is always true, since a bignum is never zero.</p>
+<p>The limit is 2^65536, about 19,700 decimal digits. Larger results fail with <code>that number is too big, the limit is 2^65536</code>. See <a href="bignums.html">bignums</a> for the representation and the algorithms.</p>
+<h2 id="comparisons-and-truth">Comparisons and truth</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>=</code></td>
+<td><code>a b -- 1/0</code></td>
+<td>equal</td>
+</tr>
+<tr>
+<td><code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code></td>
+<td><code>a b -- 1/0</code></td>
+<td>ordering</td>
+</tr>
+<tr>
+<td><code>and</code> <code>or</code></td>
+<td><code>a b -- 1/0</code></td>
+<td>logical</td>
+</tr>
+<tr>
+<td><code>not</code></td>
+<td><code>a -- 1/0</code></td>
+<td>logical not</td>
+</tr>
+</tbody>
+</table>
+<p>Comparisons leave <code>1</code> or <code>0</code>. Conditions treat <code>0</code> as false and every other number as true. <code>and</code> and <code>or</code> evaluate both sides, since both are already on the stack, and always leave <code>1</code> or <code>0</code>.</p>
+<p><code>=</code> works on any two values: numbers by value, strings by content, everything else by identity. The ordering words accept numbers, ordinals and cardinals.</p>
+<h2 id="bits">Bits</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td><code>a b -- c</code></td>
+<td>and</td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td><code>a b -- c</code></td>
+<td>or</td>
+</tr>
+<tr>
+<td><code>xor</code></td>
+<td><code>a b -- c</code></td>
+<td>exclusive or</td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td><code>a -- b</code></td>
+<td>not</td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code></td>
+<td><code>a n -- b</code></td>
+<td>shift left</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td><code>a n -- b</code></td>
+<td>shift right, filling with zeros</td>
+</tr>
+</tbody>
+</table>
+<p>The bitwise words work on 64-bit integers only. Shift counts are taken modulo 64, and <code>&gt;&gt;</code> is a logical shift, so <code>-1 60 &gt;&gt;</code> is <code>15</code>. Note the difference between <code>and</code>, which is logical, and <code>&amp;</code>: <code>12 10 and</code> is <code>1</code>, but <code>12 10 &amp;</code> is <code>8</code>.</p>
+<h2 id="random-numbers">Random numbers</h2>
+<p><code>n rand</code> returns a number from 0 to n-1, from a xorshift generator seeded from the CPU's cycle counter at the first call. Use it for games and shuffling, not for secrets: its whole state is one 64-bit number. <code>rand</code> fails with <code>rand needs a number above 0</code> for zero or less.</p>
+<pre><code>6 rand 1 + .            a dice roll
+</code></pre>
+<h2 id="converting">Converting</h2>
+<p><code>str</code> and <code>hex</code> turn numbers into text, <code>&gt;hex</code> adds the <code>0x</code>, and <code>&gt;num</code> reads a number back from a string (<a href="strings.html">strings</a>). <code>fmt</code> pads a number into a column.</p>
+<h2 id="fractions">Fractions</h2>
+<p>Floating point is on the <a href="roadmap.html">roadmap</a>. Until then, fractional values are written as fixed point: multiply by a scale, keep integers, and divide when printing.</p>
+<pre><code>1999 3 * .                  5997, which is 59.97 at a scale of 100
+5997 100 / .                59
+5997 100 mod .              97
+</code></pre>
+<p>The bundled programs do this: the unit conversions in <code>convert</code> work in hundredths, and <code>mandel</code> uses 65536 as 1.0. <code>calc</code> is a separate calculator that works with six decimal places (<a href="tools.html">tools</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

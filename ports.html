@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ports - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Ports - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="ports">Ports</h1>
+<p>These words talk to I/O ports, the CPU and the PCI bus. They run in ring 0, check nothing and can't be undone. <code>in</code> and <code>out</code> accept any port, including those that reset the machine.</p>
+<h2 id="io-ports">I/O ports</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>in</code></td>
+<td><code>port -- n</code></td>
+<td>read a byte</td>
+</tr>
+<tr>
+<td><code>out</code></td>
+<td><code>n port --</code></td>
+<td>write a byte</td>
+</tr>
+<tr>
+<td><code>ind</code></td>
+<td><code>port -- n</code></td>
+<td>read 4 bytes</td>
+</tr>
+<tr>
+<td><code>outd</code></td>
+<td><code>n port --</code></td>
+<td>write 4 bytes</td>
+</tr>
+</tbody>
+</table>
+<p>These map directly to the <code>in</code> and <code>out</code> instructions.</p>
+<p>Notable ports:</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>What's there</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0x20</code>, <code>0xA0</code></td>
+<td>the two interrupt controllers</td>
+</tr>
+<tr>
+<td><code>0x40</code> to <code>0x43</code></td>
+<td>the PIT, which drives the 100 Hz timer and therefore the <a href="scheduler.html">scheduler</a></td>
+</tr>
+<tr>
+<td><code>0x61</code></td>
+<td>the PC speaker gate, which <code>beep</code> uses together with PIT channel 2</td>
+</tr>
+<tr>
+<td><code>0x60</code>, <code>0x64</code></td>
+<td>the PS/2 keyboard controller, which <code>reboot</code> also uses</td>
+</tr>
+<tr>
+<td><code>0x80</code></td>
+<td>the POST port, harmless to write, which is why the examples use it</td>
+</tr>
+<tr>
+<td><code>0x1F0</code> to <code>0x1F7</code>, <code>0x3F6</code></td>
+<td>the primary IDE controller, where installed disks live</td>
+</tr>
+<tr>
+<td><code>0x170</code> to <code>0x177</code>, <code>0x376</code></td>
+<td>the secondary IDE controller</td>
+</tr>
+<tr>
+<td><code>0x3C0</code> to <code>0x3DF</code></td>
+<td>VGA, including the palette and the font</td>
+</tr>
+<tr>
+<td><code>0x1CE</code>, <code>0x1CF</code></td>
+<td>the Bochs display registers, which <code>gfx</code> uses to start graphics mode</td>
+</tr>
+<tr>
+<td><code>0x92</code></td>
+<td>fast A20, which the <a href="boot.html">bootloader</a> turns on</td>
+</tr>
+<tr>
+<td><code>0xCF8</code>, <code>0xCFC</code></td>
+<td>PCI configuration space</td>
+</tr>
+</tbody>
+</table>
+<p>Reprogramming the PIT changes the scheduling rate and the length of <code>sleep</code>. Masking interrupts at the PIC stops the timer or the keyboard. Writing to the IDE ports during a save can corrupt a slot.</p>
+<h2 id="the-cpu">The CPU</h2>
+<pre><code>0 cpuid             leaves eax ebx ecx edx for leaf 0
+cpu say             the CPU's brand string
+0 cr                control register 0
+rdtsc               the time stamp counter
+</code></pre>
+<p><code>cpuid</code> takes a leaf and runs the instruction with it in <code>eax</code>. <code>cr</code> reads <code>cr0</code>, <code>cr2</code>, <code>cr3</code> or <code>cr4</code>, and anything else fails with <code>cr only takes 0, 2, 3 or 4</code>. No word writes a control register. <code>cr3</code> is the address of the page table root, and with <code>peekq</code> you can walk it.</p>
+<p><code>cpuinfo</code> on the <a href="tools.html">tools</a> page is built on <code>cpuid</code>, and decodes the feature flags with <code>edx-flags</code>, <code>ecx-flags</code> and <code>show-flags</code>.</p>
+<h2 id="interrupts">Interrupts</h2>
+<pre><code>1 irq               how many times IRQ 1 has fired
+</code></pre>
+<p>The interrupt controllers are remapped to vectors <code>0x20</code> and up, and only IRQ 0, the timer, and IRQ 1, the keyboard, are unmasked. All other lines are masked, so their counts stay at <code>0</code>. The disks are driven by polling, not interrupts. <code>irqmon</code> shows the counts live, and <code>top</code> shows the rates.</p>
+<p>Vector 48 is the software interrupt a tab uses to give up the CPU early. See the <a href="scheduler.html">scheduler</a>.</p>
+<h2 id="pci">PCI</h2>
+<pre><code>pci                 every PCI function as [ bus dev fn vendor device class subclass ]
+0 0 0 0 pci@        a dword from a function's configuration space
+</code></pre>
+<p><code>pci@</code> takes the bus, device, function and offset, and reads through <code>0xCF8</code> and <code>0xCFC</code>. A PCI write is <code>outd</code> to <code>0xCF8</code> followed by <code>outd</code> to <code>0xCFC</code>.</p>
+<p><code>pcils</code> prints the list with vendor and class names from <code>vendor</code> and <code>class-name</code>, which only know the vendors QEMU presents.</p>
+<p><img src="images/09-pcils.png" alt="pcils"></p>
+<h2 id="an-example-the-cmos-clock">An example: the CMOS clock</h2>
+<p>The real-time clock sits behind two ports. Writing a register number to <code>0x70</code> selects it, and reading <code>0x71</code> returns its value. Register 0 holds the seconds:</p>
+<pre><code>0 0x70 out 0x71 in hex say
+</code></pre>
+<p>The clock stores its values in BCD, one decimal digit per hex digit, so 42 seconds is the byte <code>0x42</code>. <code>hex</code> prints that as <code>42</code>, while <code>.</code> would print <code>66</code>. Registers 2 and 4 hold the minutes and hours, and <code>time</code> reads all of them the same way, waiting until the clock isn't in the middle of an update (<a href="interrupts.html">interrupts</a>).</p>
+<p>The selection in <code>0x70</code> is shared by everything that reads the clock, including the tab bar, which redraws once a second. A read can occasionally get the register the tab bar selected instead. Run the line again if a value looks wrong.</p>
+<p>See <a href="memory.html">memory</a> for the other half of talking to hardware, and <a href="machine.html">machine</a> for the words that act on the whole machine.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

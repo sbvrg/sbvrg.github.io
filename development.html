@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Development - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Development - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="development">Development</h1>
+<p>Subverge builds on Linux with gcc, binutils and nasm, and the build produces a kernel you can boot in QEMU straight away. See <a href="testing.html">testing</a> for the tests and <a href="source-layout.html">source layout</a> for the source tree.</p>
+<h2 id="source">Source</h2>
+<pre><code>$ git clone https://github.com/texivi/Subverge
+$ cd Subverge
+</code></pre>
+<h2 id="requirements">Requirements</h2>
+<table>
+<thead>
+<tr>
+<th>For</th>
+<th>You need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the kernel</td>
+<td>gcc, binutils (<code>ld</code>, <code>objcopy</code>), nasm</td>
+</tr>
+<tr>
+<td>running it</td>
+<td><code>qemu-system-x86_64</code></td>
+</tr>
+<tr>
+<td>the ISO</td>
+<td><code>grub-mkrescue</code>, <code>xorriso</code>, the BIOS GRUB modules</td>
+</tr>
+</tbody>
+</table>
+<p>On Exherbo, with the <code>virtualization</code> repository added:</p>
+<pre><code># cave resolve -x sys-devel/gcc sys-devel/binutils dev-lang/nasm app-virtualization/qemu \
+    sys-boot/grub app-cdr/libisoburn
+</code></pre>
+<h2 id="building">Building</h2>
+<pre><code>$ make                build/subverge.elf
+$ make run            boot it in QEMU
+$ make iso            build/subverge.iso
+$ make run-iso        boot the ISO in QEMU
+$ make disk           a blank 64M build/disk.img
+$ make run-install    the kernel with that disk attached, for install
+$ make run-disk       boot build/disk.img on its own
+$ make clean          throw build/ away
+</code></pre>
+<p><code>make</code> compiles every file in <code>kernel/</code> freestanding, with no standard library, no red zone, no SSE and no stack protector, and links them with <code>boot/boot.asm</code>, the root units and the two boot stages into a 64-bit ELF. It is then converted to a 32-bit ELF with <code>objcopy</code>, since Multiboot loaders only accept 32-bit ELF, giving <code>build/subverge.elf</code>.</p>
+<p>Everything in <code>root/</code> is concatenated, in file name order, into one blob and linked into the kernel with <code>ld -r -b binary</code>. Unit files start with a number to set that order. The MBR and stage 2 are assembled as flat binaries and linked in the same way, so the kernel carries its own bootloader and can write it out during <code>install</code>.</p>
+<p><code>make iso</code> puts the kernel in an ISO tree with a generated <code>grub.cfg</code> and runs <code>grub-mkrescue</code> on it.</p>
+<h2 id="tests">Tests</h2>
+<pre><code>$ make host           the interpreter as a Linux program
+$ make stress         the same, collecting garbage before every word
+$ make jit-test       boot QEMU and run the JIT test script
+</code></pre>
+<p>See <a href="testing.html">testing</a> for each of them. Run them before every commit.</p>
+<h2 id="adding-a-word">Adding a word</h2>
+<p>Built-in words live in the <code>*_words</code> tables at the bottom of their C files. Root words live in <code>root/</code>. Either way the word needs an entry in <code>kernel/help.c</code> with its group, stack effect, a description of at most 52 characters and an example, or the docs check fails (<a href="testing.html">testing</a>).</p>
+<h2 id="pull-requests">Pull requests</h2>
+<p>Open a pull request on <a href="https://github.com/texivi/Subverge">GitHub</a>. Describe the change, include the line you tested it with, and make sure <code>make stress</code> passes and the docs check prints <code>0 problems</code>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

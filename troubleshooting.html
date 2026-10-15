@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Troubleshooting - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="building">Building</h2>
+<p><strong><code>nasm: No such file or directory</code>.</strong> The boot code and the bootloader are written for nasm, and the build stops at the first <code>.asm</code> file without it. Install nasm and run <code>make</code> again (<a href="development.html">development</a>).</p>
+<p><strong><code>grub-mkrescue: command not found</code>.</strong> <code>grub-mkrescue</code> comes with <code>sys-boot/grub</code>. It also needs <code>xorriso</code>, which is in <code>app-cdr/libisoburn</code>. <code>make</code> still builds the kernel without them, and only <code>make iso</code> needs them.</p>
+<p><strong>QEMU says the ISO isn't bootable.</strong> <code>grub-mkrescue</code> only includes the GRUB platforms that are installed. If only the EFI modules are present, the ISO has no BIOS boot record, and QEMU's default BIOS can't start it. Install the <code>i386-pc</code> modules and rebuild the ISO.</p>
+<p><strong>The docs check prints problems.</strong> Every built-in word needs a help entry with a stack effect and an example, and the check compares the two. The output names the word and the entry that is missing or doesn't match (<a href="testing.html">testing</a>).</p>
+<h2 id="booting">Booting</h2>
+<p><strong>A black screen, or &quot;No bootable device&quot;.</strong> A blank disk image is attached, and QEMU tried it before the CD. Add <code>-boot d</code> to boot from the CD first.</p>
+<p><strong>A GRUB prompt instead of Subverge.</strong> GRUB didn't find its configuration. Type <code>multiboot /boot/subverge.elf</code>, press Enter, then type <code>boot</code>.</p>
+<p><strong>The installed disk won't boot.</strong> Boot it with <code>-hda disk.img</code> and no <code>-cdrom</code>. If it still doesn't start, boot the ISO with the disk attached and run <code>disks</code>. The drive Subverge is installed on is marked with <code>1</code>. If none is marked, <code>install</code> never finished, and running it again fixes it.</p>
+<p><strong><code>the saved root didn't build, using the built-in one</code>.</strong> The root saved on the disk failed to build with the kernel that is running. This usually happens when an old disk is booted with a newer kernel and a unit uses a word that changed. Your tabs are still loaded. See <a href="root.html">root</a> for how drafts and rebuilds work.</p>
+<p><strong><code>sys</code> shows the old version after an upgrade.</strong> The kernel is new, but the root came from the installed disk, and that root has the old <code>sys</code>. See <a href="installation.html#upgrading-an-installed-disk">upgrading an installed disk</a>.</p>
+<h2 id="using-it">Using it</h2>
+<p><strong>The clock is wrong.</strong> The tab bar shows the time from the CMOS clock, and QEMU sets that clock to UTC by default. Add <code>-rtc base=localtime</code> to the QEMU command line to see local time.</p>
+<p><strong><code>No drives were found.</code></strong> The disk is attached as virtio or NVMe, and Subverge only has an IDE driver. Attach it with <code>-hda</code> instead.</p>
+<p><strong>Nothing is saved.</strong> You are on the live ISO, which keeps everything in memory. The welcome text says which one you are on. <a href="installation.html">Install</a> to a disk image to keep your work.</p>
+<p><strong>My whole line did nothing.</strong> A word on the line failed, so the line was undone, including the parts that ran before the failure. The red text says which word failed and why (<a href="transactions.html">transactions</a>).</p>
+<p><strong><code>back</code> went further than I expected.</strong> <code>back</code> only counts lines that changed something. A line that only printed, such as <code>help</code>, isn't counted, so <code>back</code> skips over it to the line before (<a href="back.html">back</a>).</p>
+<p><strong>A word works at the prompt but not inside another word.</strong> Locals are dynamically scoped. A local in the calling word with the same name as a word you call hides that word, or a word you call reads a local you didn't mean to pass. Rename one of them (<a href="names.html">names</a>).</p>
+<p><strong><code>forget</code> says the name isn't defined in this tab.</strong> <code>forget</code> only removes definitions made in the current tab. A word defined in root has to be changed in root with <code>'name open</code> (<a href="names.html">names</a>).</p>
+<p><strong>My root edit didn't do anything.</strong> The edit didn't build, so root was left as it was and the edit was kept as a draft. <code>root</code> marks the unit <code>(draft)</code>. Open it again with <code>'name open</code> to see the error and fix it (<a href="root.html">root</a>).</p>
+<p><strong>I used <code>edit</code> on <code>top</code> and the other tabs didn't change.</strong> <code>edit</code> redefines a word in the current tab only, which makes a private copy that hides the root version. Use <code>'top open</code> to change root for every tab, and <code>'top forget</code> to drop the private copy (<a href="scrawl.html">scrawl</a>).</p>
+<p><strong>My program isn't in <code>apps</code>.</strong> <code>apps</code> prints a fixed list. Add your program to it with <code>'apps open</code> (<a href="apps.html">apps</a>).</p>
+<p><strong>The colours are unreadable.</strong> Switch back with <code>'dusk theme</code>, or type <code>themes</code> to pick another (<a href="themes.html">themes</a>). In <code>amber</code>, <code>phosphor</code> and <code>haelide</code> every colour is a shade of one hue, so programs that rely on colour to tell things apart are harder to read in them.</p>
+<p><strong>My <code>rgb</code> colours are gone after a reboot.</strong> <code>rgb</code> changes the palette until the next theme switch or reboot, and isn't saved. Put the <code>rgb</code> lines in <code>startup</code> to apply them at every boot (<a href="themes.html">themes</a>).</p>
+<p><strong>The theme resets at every boot.</strong> You are on the live ISO, which always starts with <code>dusk</code>. An installed system keeps the theme.</p>
+<p><strong><code>sys</code> shows the cat after I picked a logo.</strong> Either you switched themes, and the logo you picked had the name of the old theme, or the logo was defined in another tab. <code>sys</code> runs in tab 1 at boot, so put the logo in a root unit (<a href="logos.html">logos</a>).</p>
+<p><strong>Tab does nothing at the prompt.</strong> Nothing matches the name before the cursor, or the cursor is right after a space (<a href="prompt.html">prompt</a>).</p>
+<p><strong><code>redo</code> says <code>nothing to redo</code>.</strong> A line changed the world after the <code>back</code>, and that clears the redo list (<a href="back.html">back</a>).</p>
+<p><strong>Ctrl-C doesn't stop it.</strong> The code is stuck in a place that doesn't check for Ctrl-C, such as a long built-in. Switch to another tab with F2 to F4, which keeps working (<a href="tabs.html">tabs</a>).</p>
+<p><strong>Everything froze.</strong> Something wrote over memory the kernel uses, a port write hung the machine, or <code>halt</code> was run. Close QEMU and start it again. On an installed disk, every line up to the last one that succeeded was saved.</p>
+<h2 id="still-broken">Still broken</h2>
+<p>See <a href="bugs.html">bugs</a> for how to report it.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

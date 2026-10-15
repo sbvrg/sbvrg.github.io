@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabs - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Tabs - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="tabs">Tabs</h1>
+<p>Subverge has four tabs. Each is a complete omega session with its own stack, definitions and screen, and all four run at the same time. Tabs are the only form of concurrency in Subverge, and there are always exactly four of them.</p>
+<h2 id="switching">Switching</h2>
+<p>F1 to F4 switch to tabs 1 to 4, and so do Alt-1 to Alt-4. The switch happens inside the keyboard interrupt, so it works even while every tab is busy, and it is the way out of a program that doesn't respond to Ctrl-C.</p>
+<p>The screen shows one tab at a time. Switching copies the chosen tab's screen to the display, so you see it exactly as it was left, including output it printed while it was hidden.</p>
+<h2 id="what-each-tab-has">What each tab has</h2>
+<p>Each tab has its own:</p>
+<ul>
+<li><strong><a href="world.html">world</a></strong>: its stack and its definitions;</li>
+<li><strong><a href="back.html">back</a> history</strong> of 64 worlds;</li>
+<li><strong><a href="prompt.html">prompt</a> history</strong> of 16 lines;</li>
+<li><strong>key queue</strong>. Keys go to the visible tab only;</li>
+<li><strong>screen</strong> of 80 by 24 characters, with its own cursor and colour;</li>
+<li><strong>title</strong>, shown in the tab bar;</li>
+<li><strong>editor state</strong>, so <a href="scrawl.html">scrawl</a> can be open in two tabs at once;</li>
+<li><strong>stack for the kernel</strong>, 256 KiB, used by the interpreter and anything it calls.</li>
+</ul>
+<p>The tabs share <a href="root.html">root</a>, the kernel heap, the hardware and the disk. A root edit in one tab is visible in all four as soon as it builds. A definition made at a tab's prompt is visible only in that tab, and overrides a root word of the same name there (<a href="names.html">names</a>).</p>
+<h2 id="the-tab-bar">The tab bar</h2>
+<p>The top row of the screen belongs to the tab bar. It shows each tab's number and title, highlights the visible one, and shows the time on the right. It is redrawn once a second and on every switch.</p>
+<p>A <code>*</code> after a tab's title means the tab has written to its screen since you last looked at it. When a long job runs in tab 2 while you work in tab 1, the <code>*</code> appearing on tab 2 means it finished, failed or printed progress.</p>
+<h2 id="working-with-tabs-from-omega">Working with tabs from omega</h2>
+<pre><code>mytab .              this tab's number, 1 to 4
+&quot;build&quot; title        renames this tab in the tab bar
+2 tab .              [ &quot;omega&quot; &quot;waiting for keys&quot; 0 ]
+</code></pre>
+<p><code>tab</code> returns a list of the tab's title, its state and whether it is visible. The state is <code>running</code> for the tab asking, <code>waiting for keys</code>, <code>sleeping</code> or <code>ready</code>.</p>
+<p>Tabs are numbered from 1 in these words, to match the keys that select them. Everything else in omega counts from 0.</p>
+<p>Titles are not saved. Every tab starts as <code>omega</code> after a reboot, and programs like <code>top</code> set their own title while they run and put <code>omega</code> back when they exit.</p>
+<h2 id="running-things-in-parallel">Running things in parallel</h2>
+<p>Start a long job in one tab and keep working in another. Press F2 and type:</p>
+<pre><code>0 100000000 [ 1 + ] times .
+</code></pre>
+<p>Then press F1 and run <code>top</code>. <code>top</code> in tab 1 shows tab 2 as <code>ready</code> while it computes, and the idle percentage drops. Tab 2's title gets a <code>*</code> when the result is printed.</p>
+<p>The tabs share one CPU. The <a href="scheduler.html">scheduler</a> switches between ready tabs 100 times a second, so two busy tabs each get about half. A tab waiting for a key, or sleeping with <code>sleep</code> or <code>waitkey</code>, takes no CPU time at all.</p>
+<p>Tabs keep their data to themselves, and the only place all four read from is root. Values that every tab should see go in a <a href="units.html">root unit</a>.</p>
+<h2 id="a-way-to-use-them">A way to use them</h2>
+<p>Nothing ties a tab to a job, but a layout like this works well:</p>
+<table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>the prompt you work at</td>
+</tr>
+<tr>
+<td>2</td>
+<td>long computations, such as <code>mandel</code> or a big bignum</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="scrawl.html">scrawl</a> on the root unit you are editing</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>top</code> or <code>clock</code>, left running</td>
+</tr>
+</tbody>
+</table>
+<p>Because every tab has its own definitions, tab 1 can try a new version of a word while tab 3 still has the old one. Once the version in tab 1 works, put it in root with <code>'name open</code>, and all four tabs use it.</p>
+<h2 id="titles-in-programs">Titles in programs</h2>
+<p>A full-screen program usually sets the title when it starts and puts <code>omega</code> back when it leaves, so the tab bar shows what each tab is doing:</p>
+<pre><code>[ &quot;busy&quot; title
+  3 [ &quot;working&quot; say 100 sleep ] times
+  &quot;omega&quot; title
+] :job
+</code></pre>
+<p>If the program fails halfway, the title stays as it was, since titles aren't part of the <a href="world.html">world</a> and aren't undone. <code>clock</code> and <code>top</code> follow this pattern, and <code>'clock see</code> shows it.</p>
+<h2 id="stopping-a-tab">Stopping a tab</h2>
+<p>Ctrl-C stops the running line in the visible tab with the error <code>interrupted</code>, which undoes the line. Every built-in loop and the interpreter check for it between steps.</p>
+<p>A line can still ignore Ctrl-C, for example one stuck inside a single long built-in. In that case, switch to another tab and leave it. The stuck tab doesn't stop the others from running. One tab can't stop another, but <code>reboot</code> from any tab restarts the machine, which is safe on an installed disk since every completed line has already been <a href="saving.html">saved</a>.</p>
+<h2 id="faults">Faults</h2>
+<p>If code in a tab causes a CPU exception, for example by reading an address above the 4 GiB that the kernel maps, only that tab is affected. It starts over at its prompt, prints the fault and <code>your last line was dropped</code>, and its world is the same as before the line. The other tabs don't notice.</p>
+<h2 id="startup">Startup</h2>
+<p>At boot, each tab loads its saved world if Subverge is installed. Tab 1 then runs <code>startup</code>, which by default shows the system information and the welcome text (<a href="startup.html">startup</a>). Tabs 2 to 4 start at an empty prompt.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

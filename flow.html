@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Flow - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="flow">Flow</h1>
+<p>Conditionals and loops are ordinary words that take <a href="quotes.html">quotes</a> as arguments. Nothing about them is built into the syntax, so they can be passed around, wrapped and replaced like any other word.</p>
+<h2 id="choices">Choices</h2>
+<pre><code>cond [ then ] [ else ] if
+cond [ then ] when
+cond [ then ] unless
+</code></pre>
+<p><code>if</code> runs one of two quotes, <code>when</code> runs its quote only on a true condition and <code>unless</code> only on a false one. The condition is a number: <code>0</code> is false and anything else is true, including every bignum. Comparisons leave <code>1</code> or <code>0</code> (<a href="numbers.html">numbers</a>).</p>
+<pre><code>x 0 &lt; [ &quot;negative&quot; ] [ &quot;not negative&quot; ] if say
+n 100 &gt; [ &quot;big&quot; say ] when
+'startup defined? [ startup ] [ sys ] if
+</code></pre>
+<p>A branch that isn't a quote is pushed rather than run, so short choices between values need no brackets:</p>
+<pre><code>x 0 &lt; &quot;negative&quot; &quot;not negative&quot; if say
+</code></pre>
+<p>Nothing checks that both branches of an <code>if</code> leave the same number of values. An unbalanced <code>if</code> shows up later, as a stack error in whatever comes after it.</p>
+<p>Chains of choices nest:</p>
+<pre><code>[ { n }
+  n 0 &lt; [ &quot;negative&quot; ] [
+  n 0 = [ &quot;zero&quot; ] [ &quot;positive&quot; ] if ] if
+] :sign
+</code></pre>
+<h2 id="loops">Loops</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>times</code></td>
+<td><code>n q --</code></td>
+<td>runs q n times</td>
+</tr>
+<tr>
+<td><code>for</code></td>
+<td><code>a b q --</code></td>
+<td>runs q with each i from a to b-1 pushed</td>
+</tr>
+<tr>
+<td><code>while</code></td>
+<td><code>test body --</code></td>
+<td>runs body as long as test leaves a true value</td>
+</tr>
+<tr>
+<td><code>do</code></td>
+<td><code>q --</code></td>
+<td>runs q once</td>
+</tr>
+</tbody>
+</table>
+<pre><code>3 [ &quot;hi&quot; say ] times            hi, three times
+0 5 [ . ] for                   0 1 2 3 4
+5 [ dup 0 &gt; ] [ dup . 1 - ] while drop      5 4 3 2 1
+</code></pre>
+<p><code>times</code> and <code>for</code> take 64-bit integers. A count of zero or less runs nothing, and <code>for</code> with <code>b</code> not above <code>a</code> runs nothing. <code>for</code> pushes the counter before each run and expects the quote to consume it; a quote that leaves it gets one more value on the stack each time.</p>
+<p><code>while</code> runs the test, pops the value it leaves, and runs the body if it is true. The test must be a quote: <code>x 3 &lt; [ ... ] while</code> evaluates <code>x 3 &lt;</code> once, before the loop starts, and passes a number as the test, which is pushed on every round and never changes. The test fails the loop with <code>while needs more values on the stack</code> if it leaves nothing.</p>
+<p>Locals bound inside the test quote are gone by the time the body runs, since each quote's locals end with it. Keep loop state in locals bound outside the loop and update them with <code>-&gt;</code>:</p>
+<pre><code>0 { i }
+[ i 10 &lt; ] [ i . i 1 + -&gt;i ] while
+</code></pre>
+<h2 id="leaving-a-loop-early">Leaving a loop early</h2>
+<p>Loops end through their condition. To stop a <code>times</code> or <code>for</code> early, rewrite it as a <code>while</code> with a flag, which is how every bundled program runs its main loop:</p>
+<pre><code>1 { going }
+[ going ] [
+  key quit-key? [ 0 -&gt;going ] when
+] while
+</code></pre>
+<p>A failing word also ends every loop at once, and the line with it, unless the loop is inside <code>try</code> (<a href="catching.html">catching</a>).</p>
+<h2 id="walking-lists">Walking lists</h2>
+<pre><code>l [ f ] each          runs f on every item
+l [ f ] map           collects f's result for every item
+l [ f ] filter        keeps the items f approves
+</code></pre>
+<p>These are described with the other list words in <a href="quotes.html">quotes</a>. On a string, <code>each</code> walks the bytes.</p>
+<h2 id="running-code-from-data">Running code from data</h2>
+<p><code>do</code> runs a quote held in a value:</p>
+<pre><code>[ 2 * ] { double }
+21 double do .                  42
+</code></pre>
+<p>A local holding a quote is pushed, not run, when its name appears, which is why <code>do</code> is needed here. A definition holding a quote is run when its name appears.</p>
+<p><code>eval</code> parses a string and runs it:</p>
+<pre><code>&quot;1 2 +&quot; eval .                  3
+</code></pre>
+<h2 id="stopping">Stopping</h2>
+<p>Ctrl-C interrupts any running code. The interpreter checks for it before every step, and <code>times</code>, <code>for</code>, <code>while</code>, <code>each</code>, <code>map</code> and <code>filter</code> check between rounds, so even a loop whose body is a single built-in stops promptly. The line fails with <code>interrupted</code> and is undone.</p>
+<p><code>sleep</code>, <code>beep</code>, <code>key</code> and <code>waitkey</code> wait without using the CPU and also respond to Ctrl-C.</p>
+<h2 id="tracing">Tracing</h2>
+<pre><code>[ 1 2 + 4 * ] trace
+</code></pre>
+<p><code>trace</code> runs a quote one step at a time. Before each step it prints the top of the stack and the item about to run, then waits for a key: Space steps, <code>c</code> runs the rest at full speed and <code>q</code>, Escape or Ctrl-C stops with the error <code>stopped</code>. Words called from the quote are traced too, so tracing a call into a large word steps through all of it.</p>
+<p><img src="images/06-trace.png" alt="trace"></p>
+<p>Code being traced is never compiled, since compiled code can't stop between items.</p>
+<p><code>timeit</code>, <code>bench</code> and <code>watch</code> time and repeat quotes (<a href="tools.html">tools</a>).</p>
+<h2 id="recursion">Recursion</h2>
+<p>A word can call itself:</p>
+<pre><code>[ { n } n 2 &lt; [ n ] [ n 1 - fib n 2 - fib + ] if ] :fib
+20 fib .                        6765
+</code></pre>
+<p>Every call nests, including calls in the last position of a quote, and nesting stops at 400 quotes with <code>this nests too deep</code>. Interpreted, each level of <code>fib</code> runs two quotes, its own body and a branch of <code>if</code>, so it reaches about 200 levels; compiled, the branch is inlined and only the body counts. Locals add a second limit of 256 live at once, which ends <code>fib</code> with <code>too many local names</code> before 400. Recursion suits trees and divide-and-conquer, whose depth grows slowly; long linear processes belong in a loop.</p>
+<h2 id="speed">Speed</h2>
+<p>The <a href="jit.html">JIT</a> compiles <code>if</code>, <code>when</code>, <code>unless</code>, <code>times</code>, <code>for</code> and <code>while</code> into jumps when their quotes are written directly in front of them and contain no locals or definitions:</p>
+<pre><code>0 1000000 [ 1 + ] times         compiled into a loop
+[ 1 + ] { body } 0 1000000 body times     calls the body each round
+</code></pre>
+<p>The second form still works, but each round goes through a call. For hot loops, keep the quotes literal and the values on the stack.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

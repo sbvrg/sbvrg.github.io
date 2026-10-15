@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>scrawl - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="scrawl - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="scrawl">scrawl</h1>
+<p>scrawl is the text editor in Subverge. It is used for anything longer than one line: definitions, <a href="units.html">root units</a> and new programs. It has no modes, so typing always inserts text, and every command is a Ctrl key.</p>
+<h2 id="opening-it">Opening it</h2>
+<p>scrawl is never started directly. It is opened by one of three words, which decide what happens to the text when you quit:</p>
+<pre><code>'sq edit            a definition in this tab
+'top open           the root unit that defines top
+&quot;mine&quot; unit         a new, empty root unit
+</code></pre>
+<p><code>edit</code> works on your tab's <a href="world.html">world</a>, and <code>open</code> and <code>unit</code> work on <a href="root.html">root</a>.</p>
+<p>While scrawl is open, the tab's title becomes <code>edit</code> followed by the name, and the tab is otherwise busy. The other tabs keep running, and each tab can have its own scrawl open.</p>
+<h2 id="the-screen">The screen</h2>
+<p>The top row shows <code>scrawl</code>, the name being edited, <code>[+]</code> when there are unsaved changes, and the cursor's line and column on the right. Each line of text has its line number in the gutter on the left, and rows past the end of the text show <code>~</code>. The bottom row lists the main keys, and is replaced by messages such as <code>saved, 412 bytes</code> or <code>not found: foo</code>.</p>
+<p>Lines longer than the screen scroll sideways as the cursor moves along them.</p>
+<h2 id="keys">Keys</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arrows</td>
+<td>move by character and line, wrapping at line ends</td>
+</tr>
+<tr>
+<td>Home, End</td>
+<td>start or end of the line</td>
+</tr>
+<tr>
+<td>Page Up, Page Down</td>
+<td>one screen up or down</td>
+</tr>
+<tr>
+<td>Ctrl-T, Ctrl-B</td>
+<td>top or bottom of the text</td>
+</tr>
+<tr>
+<td>Enter</td>
+<td>splits the line, keeping the current line's indentation</td>
+</tr>
+<tr>
+<td>Backspace</td>
+<td>deletes before the cursor, joining lines at the start of one</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>deletes under the cursor, joining lines at the end of one</td>
+</tr>
+<tr>
+<td>Tab</td>
+<td>inserts spaces up to the next multiple of 4</td>
+</tr>
+<tr>
+<td>Ctrl-G</td>
+<td>goes to a line number</td>
+</tr>
+<tr>
+<td>Ctrl-D</td>
+<td>duplicates the current line below it</td>
+</tr>
+<tr>
+<td>Ctrl-K</td>
+<td>cuts the current line</td>
+</tr>
+<tr>
+<td>Ctrl-U</td>
+<td>pastes the cut line above the current one</td>
+</tr>
+<tr>
+<td>Ctrl-F</td>
+<td>finds text</td>
+</tr>
+<tr>
+<td>Ctrl-S</td>
+<td>saves</td>
+</tr>
+<tr>
+<td>Ctrl-Q</td>
+<td>quits</td>
+</tr>
+</tbody>
+</table>
+<p>Only printable ASCII can be typed, as at the <a href="prompt.html">prompt</a>. Use <code>\w</code> and <code>\A</code> in strings for the omega and aleph glyphs.</p>
+<h2 id="cutting-and-pasting">Cutting and pasting</h2>
+<p>Ctrl-K removes the current line and puts it on the clipboard, replacing whatever was there. Ctrl-U inserts a copy of the clipboard above the cursor and keeps the clipboard, so a line can be pasted several times. To move a block of lines, cut them one at a time from the top, move, and paste them back in reverse order, or cut and paste each line separately.</p>
+<p>The clipboard belongs to the tab and survives between editing sessions, so a line cut in one definition can be pasted into another.</p>
+<h2 id="lines">Lines</h2>
+<p>Ctrl-G asks for a line number on the bottom row and moves to the start of that line. Numbers past the end go to the last line, and Escape cancels. The line numbers in the gutter are the ones it uses, so an error that names a line can be found directly.</p>
+<p>Ctrl-D copies the current line below itself and moves to the copy, which is quicker than cutting and pasting twice when writing several similar lines.</p>
+<h2 id="finding">Finding</h2>
+<p>Ctrl-F asks for text on the bottom row. Enter searches forward from just after the cursor, wrapping around past the end, and moves the cursor to the first match. Escape cancels. An empty search repeats the last one, so Ctrl-F Enter steps through every match. The search is case-sensitive.</p>
+<h2 id="saving-and-quitting">Saving and quitting</h2>
+<p>Ctrl-S records the current text as the saved version. Nothing outside the editor changes yet. Ctrl-Q quits, and what happens next depends on how scrawl was opened, using the last saved version:</p>
+<ul>
+<li><strong><code>edit</code></strong> parses the text and redefines the word in your tab.</li>
+<li><strong><code>open</code> and <code>unit</code></strong> rebuild root from that unit onward. If the rebuild fails, root keeps working as before and your text is kept as a draft (<a href="root-build.html">how root builds</a>).</li>
+</ul>
+<p>If the text has unsaved changes, the first Ctrl-Q shows <code>unsaved. ^Q again to discard</code>, and a second Ctrl-Q quits without them. Quitting without ever saving changes nothing at all.</p>
+<h2 id="edit-in-detail">edit in detail</h2>
+<p><code>'name edit</code> opens the body of a definition without its outer brackets:</p>
+<pre><code>[ { a b } a a * b b * + ] :hyp
+'hyp edit
+</code></pre>
+<p>shows <code>{ a b } a a * b b * +</code>. On quit, the text is parsed back into a quote and defined as <code>hyp</code> in your tab. A few consequences:</p>
+<ul>
+<li><strong>A new name</strong> opens an empty editor, and quitting defines the word. Use it for anything longer than a line.</li>
+<li><strong>A root word</strong> opens its root definition, and quitting defines a private copy in your tab that hides the root one. Use <code>open</code> to change root itself.</li>
+<li><strong>A value that isn't a quote</strong>, such as a string, is opened as its plain text, and saved back as a string.</li>
+<li><strong>Text that doesn't parse</strong>, for example with an unclosed bracket, is kept as a string, and scrawl reports <code>that didn't parse</code> with the reason. The word then pushes that string when run. Open it again with <code>edit</code> to fix it.</li>
+</ul>
+<p>Since <code>edit</code> redefines the word, the change is an ordinary change to the world: <code>back</code> undoes it, and on an installed disk it is <a href="saving.html">saved</a>.</p>
+<p>Comments don't survive <code>edit</code>. The text is parsed into a quote, and printing the quote back for the next <code>edit</code> produces the code without them. Code whose comments matter belongs in a root unit, where the source is kept as written.</p>
+<h2 id="size">Size</h2>
+<p><code>edit</code> shows at most 16 KiB of a definition's text. Root units have no limit of their own beyond the 1 MiB slot that all of root is saved in.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

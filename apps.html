@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apps - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Apps - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="apps">Apps</h1>
+<p><code>apps</code> lists the programs that come with Subverge, two columns of names with a short description each. Type a name to run one, and <code>'name help</code> to read its entry first. Almost all of them quit with <code>q</code>, and the rest say how on their first screen.</p>
+<p><img src="images/43-apps.png" alt="apps"></p>
+<p>See <a href="tools.html">tools</a>, <a href="games.html">games</a>, <a href="demos.html">demos</a> and <a href="learn.html">learn</a>. They are all omega code in <a href="root.html">root</a>, so <code>'name open</code> shows how any of them works and lets you change it.</p>
+<h2 id="how-the-list-is-made">How the list is made</h2>
+<p>A program in Subverge is an ordinary word, and nothing distinguishes it from a helper word. <code>apps</code> therefore doesn't search for programs. It prints a hand-written list, <code>app-list</code>, defined in the <code>apps</code> unit of root:</p>
+<pre><code>[ [
+  [ &quot;learn&quot; &quot;A guided tour.&quot; ]
+  [ &quot;top&quot; &quot;Live machine view.&quot; ]
+  ...
+] ] :app-list
+</code></pre>
+<p>Each entry is a list of two strings, the name and the description. The outer brackets are doubled because <code>app-list</code> is a quote that, when run, pushes the inner list.</p>
+<h2 id="adding-a-program">Adding a program</h2>
+<p>First write the program as a word in a root unit, so it exists in every tab and survives reboots. Then add it to the list:</p>
+<pre><code>'apps open
+</code></pre>
+<p>and add a line inside the inner brackets:</p>
+<pre><code>[ &quot;hello&quot; &quot;Says hello.&quot; ]
+</code></pre>
+<p>Save with Ctrl-S and quit with Ctrl-Q. The unit rebuilds, and the next <code>apps</code> shows the new entry.</p>
+<p><img src="images/50-apps-editor.png" alt="Editing the list"></p>
+<p><img src="images/51-apps-hello.png" alt="apps with hello"></p>
+<p>The order of the list is the order on screen, filled down the first column and then the second. A long description runs into the next column, so keep them under about 25 characters.</p>
+<h2 id="programs-defined-in-a-tab">Programs defined in a tab</h2>
+<p>The list lives in root, so every tab shows every entry. If the program itself is only defined in one tab's world, the other tabs list it but fail with <code>hello isn't defined</code> when it is run. Put programs that are listed in <code>apps</code> in a <a href="units.html">unit</a>.</p>
+<h2 id="writing-a-program">Writing a program</h2>
+<p>Most of the bundled programs follow the same pattern, built from helpers in the <code>core</code> unit:</p>
+<pre><code>[ &quot;hello&quot; title
+  [ &quot;hello&quot; header  &quot;hi there&quot; 2 2 7 text ] watch
+  &quot;omega&quot; title
+] :hello
+</code></pre>
+<p><code>title</code> names the tab while the program runs, <code>header</code> draws the bar across the top with the program's name and <code>q quits</code>, and <code>watch</code> clears the screen, runs the quote every half second until a key is pressed, and clears the screen again. <code>'watch see</code> and <code>'header see</code> show how they work. For the drawing words, see <a href="screen.html">screen</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

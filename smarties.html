@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>omega for smarties - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="omega for smarties - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="omega-for-smarties">omega for smarties</h1>
+<p>These pages are for people who already write omega and want to know how it works underneath, or want the words that read and write the machine directly. They assume you know what ring 0 and a page table are. If you can't write a loop in omega yet, go through <a href="first-steps.html">first steps</a> and <code>learn</code> first.</p>
+<h2 id="the-language">The language</h2>
+<ul>
+<li><a href="language.html">The language in detail</a></li>
+<li><a href="values.html">Values and objects</a></li>
+<li><a href="interpreter.html">The interpreter</a></li>
+<li><a href="worlds.html">How worlds work</a></li>
+<li><a href="bignums.html">Bignums</a></li>
+<li><a href="infinity.html">How infinity works</a></li>
+<li><a href="limits.html">Limits</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul>
+<h2 id="the-machine">The machine</h2>
+<p>These words act on the real machine as soon as they run. Transactions and <code>back</code> can't undo them, and nothing checks what you pass them.</p>
+<ul>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="ports.html">Ports, the CPU and PCI</a></li>
+<li><a href="screen.html">The screen</a></li>
+<li><a href="keyboard.html">The keyboard</a></li>
+<li><a href="drives.html">Drives</a></li>
+<li><a href="machine.html">Drives, rebooting and installing</a></li>
+<li><a href="jit.html">The JIT</a> and <a href="dis.html">the disassembler</a></li>
+</ul>
+<h2 id="the-system">The system</h2>
+<ul>
+<li><a href="internals.html">Internals</a></li>
+<li><a href="interrupts.html">Interrupts and the timer</a></li>
+<li><a href="root-build.html">How root builds</a></li>
+<li><a href="boot.html">Booting</a></li>
+<li><a href="disk-layout.html">Disk layout</a></li>
+<li><a href="scheduler.html">The scheduler</a></li>
+<li><a href="gc.html">The garbage collector</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+</ul>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

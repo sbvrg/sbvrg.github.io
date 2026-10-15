@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The interpreter - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="The interpreter - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="the-interpreter">The interpreter</h1>
+<h2 id="reading-the-line">Reading the line</h2>
+<p>The <a href="prompt.html">prompt</a> collects up to 200 printable characters into a buffer. Only bytes from space to <code>~</code> can be typed, which is why <code>\w</code> and <code>\A</code> exist as string escapes for the omega and aleph glyphs. Tab completes names against the tab's definitions, root and the built-ins. When Enter is pressed the line is added to the tab's prompt history, unless it is empty or the same as the previous line, and handed to the evaluator.</p>
+<h2 id="starting-the-transaction">Starting the transaction</h2>
+<p>Before anything runs, the evaluator copies the committed stack of the tab's <a href="world.html">world</a> into the working stack and points the working dictionary at the committed one. It then clears the error flag, the <code>back</code> counter, the call depth, the local variables, the trace flag and the keep stack. From here until the end of the line, everything happens on the working copies.</p>
+<h2 id="parsing">Parsing</h2>
+<p>The whole line is parsed into one quote before any of it runs. A syntax error such as an unclosed bracket therefore fails the line before the first word executes, which is why <code>1 2 + [</code> prints nothing and pushes nothing.</p>
+<p>The parser reads tokens separated by spaces, tabs and newlines. <code>[</code>, <code>]</code>, <code>{</code>, <code>}</code> and <code>&quot;</code> end a token even without a space, so <code>[1 2]</code> parses as <code>[ 1 2 ]</code>. A <code>#</code> where a token could start begins a comment that runs to the end of the line.</p>
+<p>Each token becomes one cell:</p>
+<ul>
+<li><code>[</code> starts a nested quote. Nesting deeper than 32 levels fails with <code>the brackets are nested too deep</code>, and a single quote can hold at most 256 items.</li>
+<li><code>{</code> reads names up to the matching <code>}</code> and becomes a local list. Up to 32 names fit in one list.</li>
+<li><code>&quot;</code> reads a string up to the next unescaped <code>&quot;</code>. The escapes are <code>\n</code>, <code>\t</code>, <code>\e</code> (escape), <code>\w</code> (the omega glyph) and <code>\A</code> (the aleph glyph). A backslash before any other character produces that character.</li>
+<li>A token that reads as a number in decimal, <code>0x</code> hex or <code>0b</code> binary becomes an integer. If it is valid but doesn't fit in 64 bits, it is parsed again as a <a href="bignums.html">bignum</a>.</li>
+<li>A token starting with <code>'</code> becomes a symbol, one starting with <code>:</code> a definition, and one starting with <code>-&gt;</code> a local assignment. These prefixes only count when something follows them, so <code>:</code> and <code>'</code> on their own are ordinary words.</li>
+<li>Anything else becomes a word.</li>
+</ul>
+<p>Names are interned as they are read (<a href="values.html">values and objects</a>), so parsing a line that mentions <code>dup</code> twice creates no new objects for the second <code>dup</code>.</p>
+<h2 id="running-a-quote">Running a quote</h2>
+<p>Running a quote first gives the <a href="jit.html">JIT</a> a chance. If the quote already has current machine code, that code runs and the interpreter is done with it. If this is the quote's second run, it is compiled first. Otherwise the quote is interpreted.</p>
+<p>The interpreter keeps a call depth. Each quote it enters adds one, and going past 400 fails with <code>this nests too deep</code>. This is what stops unbounded recursion long before the 256 KiB tab stack runs out.</p>
+<p>For each cell, in order, the interpreter:</p>
+<ol>
+<li>checks whether Ctrl-C was pressed in this tab, and fails with <code>interrupted</code> if so;</li>
+<li>gives the <a href="gc.html">garbage collector</a> a chance to run;</li>
+<li>if <code>trace</code> is active, prints the stack and the cell and waits for a key;</li>
+<li>executes the cell.</li>
+</ol>
+<p>It stops at the first error. Errors are a flag and a message on the tab, so after a failure every word that is still on its way out sees the flag and returns without doing anything.</p>
+<h2 id="executing-a-cell">Executing a cell</h2>
+<p>What happens depends on the cell's tag:</p>
+<ul>
+<li><strong>A word</strong> is resolved and run, as described below.</li>
+<li><strong>A definition</strong> (<code>:name</code>) pops the top value and adds an entry binding <code>name</code> to it at the front of the working dictionary.</li>
+<li><strong>A local assignment</strong> (<code>-&gt;name</code>) pops the top value. If a local called <code>name</code> is already live, its value is replaced. Otherwise a new local is created.</li>
+<li><strong>A local list</strong> (<code>{ a b c }</code>) pops as many values as it has names and binds them in order, so the last name gets the top of the stack.</li>
+<li><strong>Anything else</strong> (numbers, strings, quotes, symbols) is pushed.</li>
+</ul>
+<p>A quote cell is pushed, not run. Only words run things.</p>
+<h2 id="resolving-a-word">Resolving a word</h2>
+<p>A word is looked up in this order, and the first match wins:</p>
+<ol>
+<li><strong>Locals</strong>, newest first. A local's value is pushed, never run, even if it is a quote.</li>
+<li><strong>The tab's definitions</strong>, newest first. If the value is a quote it is run, otherwise it is pushed.</li>
+<li><strong>Root's definitions</strong>, newest first, with the same rule.</li>
+<li><strong>The built-in</strong> stored on the interned name, if any.</li>
+</ol>
+<p>If nothing matches, the line fails with <code>foo isn't defined</code>.</p>
+<p>This order is why a tab can override a root word without changing root, why <code>forget</code> uncovers whatever was underneath, and why a local called <code>x</code> hides a definition called <code>x</code> inside the quote that bound it. See <a href="names.html">names</a> for the user-facing consequences, including dynamic scoping.</p>
+<h2 id="locals-and-their-lifetime">Locals and their lifetime</h2>
+<p>Locals live in a per-tab table of 256 entries, separate from the stack. When a quote finishes, the interpreter cuts the table back to the size it had when the quote started, so every local bound inside the quote disappears with it. A word called from inside the quote can still see those locals while it runs, because lookup searches the whole live table. This is dynamic scoping, and it is a direct consequence of keeping locals in one table rather than in per-quote frames.</p>
+<h2 id="committing">Committing</h2>
+<p>When the line has finished, three things can happen.</p>
+<p><strong>The line failed.</strong> Any keys still queued in the tab are thrown away, the error is printed in red, and the working copies are abandoned. The committed world was never touched, so nothing needs to be undone.</p>
+<p><strong>The line called <code>back</code>.</strong> The working copies are abandoned, and the committed world is replaced by the one from as many lines ago as <code>back</code> was called. Anything else the line did to the stack or dictionary is ignored.</p>
+<p><strong>The line succeeded.</strong> If the working dictionary is the same entry as before and the stack holds the same cells, nothing changed, and the line leaves no trace in the history. Otherwise the current world is pushed onto the 64-entry history, a new world is made from the working stack and dictionary, and on an installed disk the tab is <a href="saving.html">saved</a>.</p>
+<p>The comparison of stacks is a byte comparison of cells, so pushing a new string that happens to equal the old one still counts as a change.</p>
+<h2 id="back-at-the-prompt">Back at the prompt</h2>
+<p>Before printing the prompt, the evaluator runs a full garbage collection, then prints the stack in grey (shortened from the left to its last 38 characters if it is long) and the <code>»</code> sign.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

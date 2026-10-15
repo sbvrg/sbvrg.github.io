@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strings - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Strings - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="strings">Strings</h1>
+<p>Strings are immutable sequences of bytes, written in double quotes. Every word that seems to change a string returns a new one and leaves the original alone.</p>
+<h2 id="literals">Literals</h2>
+<pre><code>&quot;hello&quot;
+&quot;two\nlines&quot;
+&quot;a \&quot;quoted\&quot; word&quot;
+&quot;tab\there&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Escape</th>
+<th>Character</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\n</code></td>
+<td>newline</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>tab</td>
+</tr>
+<tr>
+<td><code>\e</code></td>
+<td>escape, 27</td>
+</tr>
+<tr>
+<td><code>\&quot;</code></td>
+<td>a double quote</td>
+</tr>
+<tr>
+<td><code>\\</code></td>
+<td>a backslash</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>the omega glyph</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>the aleph glyph</td>
+</tr>
+</tbody>
+</table>
+<p>A backslash before any other character gives that character. The <a href="prompt.html">prompt</a> only accepts printable ASCII, so <code>\w</code> and <code>\A</code> are the way to put the glyphs in a string. The screen font shows bytes above 127 as the PC code page 437 characters, and <code>ascii</code> prints the whole table (<a href="tools.html">tools</a>).</p>
+<p>A string literal has to close on the same line, since a line ends the code. Longer strings are built with <code>cat</code> or written in <a href="scrawl.html">scrawl</a>.</p>
+<h2 id="printing">Printing</h2>
+<pre><code>&quot;hi&quot; say        hi, then a newline
+&quot;hi&quot; write      hi, no newline
+&quot;hi&quot; .          &quot;hi&quot;, in quotes
+nl              a newline on its own
+65 emit         A, one character from its code
+</code></pre>
+<p><code>n color</code> sets the colour for the text that follows, 0 to 15 (<a href="themes.html">themes</a>). <code>put</code> and <code>text</code> write at a fixed position without moving the cursor (<a href="screen.html">screen</a>).</p>
+<h2 id="building-and-taking-apart">Building and taking apart</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cat</code></td>
+<td><code>a b -- c</code></td>
+<td>joins two strings</td>
+</tr>
+<tr>
+<td><code>len</code></td>
+<td><code>s -- n</code></td>
+<td>length in bytes</td>
+</tr>
+<tr>
+<td><code>at</code></td>
+<td><code>s i -- n</code></td>
+<td>the byte at position i, from 0</td>
+</tr>
+<tr>
+<td><code>slice</code></td>
+<td><code>s a n -- str</code></td>
+<td>n bytes starting at a</td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>s sep -- l</code></td>
+<td>cuts at every sep</td>
+</tr>
+<tr>
+<td><code>join</code></td>
+<td><code>l sep -- s</code></td>
+<td>the items as text, with sep between</td>
+</tr>
+<tr>
+<td><code>reverse</code></td>
+<td><code>s -- str</code></td>
+<td>back to front</td>
+</tr>
+<tr>
+<td><code>chr</code></td>
+<td><code>n -- s</code></td>
+<td>a one-byte string</td>
+</tr>
+</tbody>
+</table>
+<pre><code>&quot;sub&quot; &quot;verge&quot; cat               &quot;subverge&quot;
+&quot;subverge&quot; 3 5 slice            &quot;verge&quot;
+&quot;a,b,,c&quot; &quot;,&quot; split              [ &quot;a&quot; &quot;b&quot; &quot;&quot; &quot;c&quot; ]
+[ &quot;a&quot; &quot;b&quot; &quot;c&quot; ] &quot;-&quot; join        &quot;a-b-c&quot;
+[ 1 2 3 ] &quot;, &quot; join             &quot;1, 2, 3&quot;
+&quot;abc&quot; reverse                   &quot;cba&quot;
+</code></pre>
+<p><code>slice</code> never fails: a start before 0 counts as 0, and a length that runs past the end, or a negative one, takes the rest of the string. <code>split</code> keeps empty fields, so splitting on a separator that appears twice in a row gives an empty string between them. It cuts into at most 256 parts. An empty separator returns the whole string as the only item.</p>
+<p><code>join</code> writes each item as <code>say</code> would, so strings appear without quotes and numbers as digits. The result can be up to 64 KiB.</p>
+<p><code>at</code> and <code>each</code> give byte values, not one-character strings:</p>
+<pre><code>&quot;hi&quot; 0 at                       104
+&quot;hi&quot; [ chr say ] each           h and i on separate lines
+</code></pre>
+<h2 id="searching">Searching</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>find</code></td>
+<td><code>s sub -- i</code></td>
+<td>where sub first starts, or -1</td>
+</tr>
+<tr>
+<td><code>starts?</code></td>
+<td><code>s pre -- 1/0</code></td>
+<td>whether s begins with pre</td>
+</tr>
+<tr>
+<td><code>ends?</code></td>
+<td><code>s suf -- 1/0</code></td>
+<td>whether s ends with suf</td>
+</tr>
+<tr>
+<td><code>replace</code></td>
+<td><code>s a b -- str</code></td>
+<td>every a replaced by b</td>
+</tr>
+</tbody>
+</table>
+<pre><code>&quot;hello&quot; &quot;l&quot; find                2
+&quot;hello&quot; &quot;z&quot; find                -1
+&quot;notes.om&quot; &quot;.om&quot; ends?          1
+&quot;a-b-c&quot; &quot;-&quot; &quot; &quot; replace         &quot;a b c&quot;
+</code></pre>
+<p><code>replace</code> works left to right on non-overlapping matches, so <code>&quot;aaa&quot; &quot;aa&quot; &quot;b&quot; replace</code> gives <code>&quot;ba&quot;</code>. An empty search string fails with <code>replace needs something to look for</code>. All searching is case-sensitive; compare <code>lower</code> copies for a case-insensitive match.</p>
+<h2 id="case-and-spaces">Case and spaces</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>upper</code></td>
+<td><code>s -- str</code></td>
+<td>a to z become capitals</td>
+</tr>
+<tr>
+<td><code>lower</code></td>
+<td><code>s -- str</code></td>
+<td>A to Z become small letters</td>
+</tr>
+<tr>
+<td><code>trim</code></td>
+<td><code>s -- str</code></td>
+<td>drops spaces, tabs and newlines at both ends</td>
+</tr>
+<tr>
+<td><code>pad</code></td>
+<td><code>s n -- str</code></td>
+<td>spaces up to n wide, negative pads on the left</td>
+</tr>
+</tbody>
+</table>
+<p>Only ASCII letters change case. <code>pad</code> returns the string unchanged when it is already at least <code>n</code> wide, and widths above 4096 are ignored. <code>fmt</code> pads any value, which is how the bundled programs line up columns:</p>
+<pre><code>&quot;7&quot; -3 pad                      &quot;  7&quot;
+42 6 fmt                        &quot;42    &quot;
+</code></pre>
+<h2 id="converting">Converting</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td><code>v -- s</code></td>
+<td>any value as text</td>
+</tr>
+<tr>
+<td><code>&gt;num</code></td>
+<td><code>s -- n</code></td>
+<td>reads a number</td>
+</tr>
+<tr>
+<td><code>hex</code></td>
+<td><code>n -- s</code></td>
+<td>hex digits without <code>0x</code></td>
+</tr>
+<tr>
+<td><code>&gt;hex</code></td>
+<td><code>n -- s</code></td>
+<td>hex with <code>0x</code></td>
+</tr>
+<tr>
+<td><code>&gt;sym</code></td>
+<td><code>s -- 'x</code></td>
+<td>a name from a string</td>
+</tr>
+</tbody>
+</table>
+<p><code>str</code> writes a value the way <code>say</code> prints it, so <code>&quot;hi&quot; str</code> is <code>&quot;hi&quot;</code> itself and <code>[ 1 2 ] str</code> is <code>&quot;[ 1 2 ]&quot;</code>. For values other than bignums the result is cut at 511 bytes.</p>
+<p><code>&gt;num</code> reads exactly one number written as source: decimal, <code>0x</code> hex, <code>0b</code> binary, negative, or a bignum. Spaces around the number are fine, and anything else fails with <code>not a number: ...</code>:</p>
+<pre><code>&quot;how many? &quot; ask &gt;num
+</code></pre>
+<p><code>hex</code> of a negative number shows its 64-bit two's complement, so <code>-1 hex</code> is <code>&quot;ffffffffffffffff&quot;</code>.</p>
+<h2 id="comparing-and-sorting">Comparing and sorting</h2>
+<p><code>=</code> compares strings by content. <code>&lt;</code> and <code>&gt;</code> take numbers only, but <code>sort</code> orders a list of strings by byte value:</p>
+<pre><code>[ &quot;pear&quot; &quot;Fig&quot; &quot;apple&quot; ] sort   [ &quot;Fig&quot; &quot;apple&quot; &quot;pear&quot; ]
+</code></pre>
+<p>Capitals sort before small letters, since that is their order in ASCII. Sort a <code>lower</code> copy, or build pairs of a key and a value, when that matters.</p>
+<p><code>has</code> and <code>index</code> find a string in a list by content.</p>
+<h2 id="running-a-string">Running a string</h2>
+<pre><code>&quot;1 2 +&quot; eval                    3
+</code></pre>
+<p><code>eval</code> parses the string and runs it in the current context, so it sees the caller's locals and definitions, and a syntax error in it fails the line. It is how <code>learn</code> runs what you type into its exercises.</p>
+<h2 id="reading-input">Reading input</h2>
+<p><code>ask</code> prints a prompt and reads one line with the usual editing keys, without history or completion. Ctrl-C fails it with <code>cancelled</code>.</p>
+<pre><code>&quot;your name? &quot; ask { n } &quot;hi, &quot; n cat say
+</code></pre>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

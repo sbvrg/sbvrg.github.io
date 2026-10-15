@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First steps - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="First steps - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="first-steps">First steps</h1>
+<h2 id="the-welcome-screen">The welcome screen</h2>
+<p>After booting, tab 1 shows the system information and a few lines of help, and then the prompt:</p>
+<pre><code>»
+</code></pre>
+<p><code>»</code> is the omega prompt. Each line you type there is an omega program, which runs when you press Enter. Tabs 2 to 4 start at the same prompt, and F1 to F4 switch between them.</p>
+<h2 id="the-stack">The stack</h2>
+<p>omega is a stack language. Values are pushed onto a stack, and words take their arguments from it and push their results back:</p>
+<pre><code>2 3 +
+</code></pre>
+<p>leaves <code>5</code> on the stack. The prompt shows the stack in grey before the <code>»</code>, so you can see it change:</p>
+<pre><code>5 »
+</code></pre>
+<p><code>.</code> prints the top value and removes it:</p>
+<pre><code>5 » .
+5
+»
+</code></pre>
+<p>Arguments come first and the operation last, as in Forth or an RPN calculator, and evaluation goes strictly left to right:</p>
+<pre><code>2 3 + 4 *                   20
+2 3 4 * +                   14
+</code></pre>
+<p><code>dup</code>, <code>drop</code>, <code>swap</code>, <code>over</code>, <code>rot</code> and <code>nip</code> rearrange values (<a href="stack.html">stack</a>). <code>empty</code> clears the whole stack.</p>
+<h2 id="defining-words">Defining words</h2>
+<p>A quote is code in square brackets that isn't run yet. <code>:name</code> takes the value on top of the stack and gives it a name:</p>
+<pre><code>[ dup * ] :sq
+7 sq .                      49
+</code></pre>
+<p><code>sq</code> now works like any built-in word, in this tab. <code>see</code> shows a definition and <code>words</code> lists all of yours:</p>
+<pre><code>'sq see
+words
+</code></pre>
+<p>The quote mark in <code>'sq</code> passes the name instead of running it. See <a href="names.html">names</a> for definitions, locals and how names are looked up.</p>
+<h2 id="undoing-mistakes">Undoing mistakes</h2>
+<p>Each line is a transaction. If any word in it fails, the whole line is undone and the stack and definitions are as they were before:</p>
+<pre><code>1 2 3
+[ 7 ] :seven 4 5 0 /
+  ! division by zero
+</code></pre>
+<p>The stack is still <code>1 2 3</code>, and <code>seven</code> isn't defined. See <a href="transactions.html">transactions</a>.</p>
+<p>Lines that worked can be undone too:</p>
+<pre><code>[ 1 + ] :inc2
+back
+  rewound 1
+</code></pre>
+<p><code>back</code> undoes up to 64 lines (<a href="back.html">back</a>). If something runs for too long, Ctrl-C stops it.</p>
+<h2 id="control-flow">Control flow</h2>
+<p>Conditions and loops take quotes:</p>
+<pre><code>5 3 &gt; [ &quot;bigger&quot; say ] [ &quot;smaller&quot; say ] if
+10 [ &quot;hi&quot; say ] times
+0 5 [ . ] for               prints 0 to 4
+3 [ dup 0 &gt; ] [ dup . 1 - ] while drop      prints 3 2 1
+</code></pre>
+<p>See <a href="flow.html">flow</a> for the rest.</p>
+<h2 id="lists">Lists</h2>
+<p>A quote is also a list:</p>
+<pre><code>0 5 range .                 [ 0 1 2 3 4 ]
+[ 1 2 3 ] [ sq ] map .      [ 1 4 9 ]
+[ 1 2 3 4 ] [ 2 mod 0 = ] filter .     [ 2 4 ]
+[ 3 1 2 ] len .             3
+</code></pre>
+<h2 id="strings">Strings</h2>
+<pre><code>&quot;subverge&quot; upper say        SUBVERGE
+&quot;a,b,c&quot; &quot;,&quot; split .         [ &quot;a&quot; &quot;b&quot; &quot;c&quot; ]
+&quot;x = &quot; 42 str cat say       x = 42
+</code></pre>
+<p>See <a href="strings.html">strings</a> for the rest.</p>
+<h2 id="big-numbers-and-infinity">Big numbers and infinity</h2>
+<p>Integers that don't fit in 64 bits become bignums, and <code>omega</code>, the first infinite ordinal, is a value too:</p>
+<pre><code>2 100 ^ .                   1267650600228229401496703205376
+omega 1 + .                 ω+1
+1 omega + .                 ω
+</code></pre>
+<p>See <a href="numbers.html">numbers</a> and <a href="ordinals.html">ordinals</a>.</p>
+<h2 id="a-small-program">A small program</h2>
+<p>Write a word over several lines with the editor:</p>
+<pre><code>'countdown edit
+</code></pre>
+<p>In <a href="scrawl.html">scrawl</a>, type:</p>
+<pre><code>{ n }
+n 0 &gt; [
+  n .
+  30 sleep
+  n 1 - countdown
+] when
+</code></pre>
+<p>Press Ctrl-S to save and Ctrl-Q to quit. Then:</p>
+<pre><code>5 countdown
+</code></pre>
+<p>counts down from 5, a little over three a second. The word calls itself, takes its argument as the local <code>n</code>, and stops when <code>n</code> reaches 0.</p>
+<h2 id="tabs">Tabs</h2>
+<p>Press F2. Tab 2 is a separate session with its own stack, and <code>sq</code> isn't defined there unless you define it again:</p>
+<pre><code>7 sq .                      49, because root has its own sq
+'countdown defined? .       0
+</code></pre>
+<p>Definitions made at a prompt stay in their tab. Root words, such as <code>sq</code>, <code>apps</code> and <code>clock</code>, work in every tab. Press F1 to go back (<a href="tabs.html">tabs</a>).</p>
+<h2 id="the-look">The look</h2>
+<pre><code>'haelide theme              blue on black, with its own logo
+'dusk theme                 back to the default
+sys                         the logo and system information again
+</code></pre>
+<p>See <a href="themes.html">themes</a> and <a href="logos.html">logos</a>.</p>
+<h2 id="finding-your-way-around">Finding your way around</h2>
+<pre><code>help                every built-in word, by group
+'flow help          one group
+'times help         one word
+apps                the programs that come with Subverge
+root                the root units and what they define
+learn               the tutorial
+</code></pre>
+<p>Run <code>learn</code> next. It teaches the language in short lessons with exercises (<a href="learn.html">learn</a>). After that, see <a href="omega.html">omega</a> for the language and <a href="tools.html">tools</a>, <a href="games.html">games</a> and <a href="demos.html">demos</a> for the bundled programs.</p>
+<h2 id="keeping-your-work">Keeping your work</h2>
+<p>On the live ISO, everything is lost when QEMU closes. To keep definitions between sessions, <a href="installation.html">install</a> Subverge to a disk image. An installed system saves each tab after every line that changes it (<a href="saving.html">saving</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

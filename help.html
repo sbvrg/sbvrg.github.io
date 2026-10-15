@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Help - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="help">Help</h1>
+<p><code>help</code> is the manual built into Subverge. Every built-in word and every word defined in <a href="root.html">root</a> has an entry, and the entries are grouped by topic. The entries are compiled into the kernel, so they always match the version you are running, and they work on the live ISO with nothing else installed.</p>
+<h2 id="the-three-forms">The three forms</h2>
+<pre><code>help                lists the groups
+'math help          lists the words in a group
+'map help           shows one word
+</code></pre>
+<p><code>help</code> looks at the top of the stack. If it holds a symbol, <code>help</code> takes it and shows the group or word of that name. Anything else is left alone and the overview is printed.</p>
+<p><code>map help</code> without the quote runs <code>map</code> first, which fails because it has nothing to map over. <code>'map</code> pushes the name instead of running it (<a href="names.html">names</a>).</p>
+<p><img src="images/02-help-overview.png" alt="help on its own"></p>
+<h2 id="a-group">A group</h2>
+<p>A group page lists each word with its stack effect and a one-line description:</p>
+<p><img src="images/03-help-group.png" alt="one group"></p>
+<p>The groups are:</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>syntax</code></td>
+<td>brackets, <code>:name</code>, <code>-&gt;name</code>, <code>{ }</code>, <code>'name</code>, strings and comments</td>
+</tr>
+<tr>
+<td><code>stack</code></td>
+<td>moving values around</td>
+</tr>
+<tr>
+<td><code>math</code></td>
+<td>arithmetic</td>
+</tr>
+<tr>
+<td><code>logic</code></td>
+<td>comparisons and bit operations</td>
+</tr>
+<tr>
+<td><code>flow</code></td>
+<td>choices and loops</td>
+</tr>
+<tr>
+<td><code>lists</code></td>
+<td>lists, which are also quotes</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>strings</td>
+</tr>
+<tr>
+<td><code>io</code></td>
+<td>printing and keys</td>
+</tr>
+<tr>
+<td><code>names</code></td>
+<td>definitions</td>
+</tr>
+<tr>
+<td><code>world</code></td>
+<td>history, saving, root, <code>apropos</code></td>
+</tr>
+<tr>
+<td><code>infinity</code></td>
+<td>ordinals and cardinals</td>
+</tr>
+<tr>
+<td><code>memory</code></td>
+<td>raw memory</td>
+</tr>
+<tr>
+<td><code>ports</code></td>
+<td>ports, the CPU and PCI</td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td>clocks and counters</td>
+</tr>
+<tr>
+<td><code>screen</code></td>
+<td>drawing on the screen</td>
+</tr>
+<tr>
+<td><code>machine</code></td>
+<td>hardware and drives</td>
+</tr>
+<tr>
+<td><code>dev</code></td>
+<td>the JIT and the disassembler</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>ready-made utilities</td>
+</tr>
+<tr>
+<td><code>demos</code></td>
+<td>math demos</td>
+</tr>
+<tr>
+<td><code>games</code></td>
+<td>games and toys</td>
+</tr>
+<tr>
+<td><code>util</code></td>
+<td>small helpers</td>
+</tr>
+<tr>
+<td><code>helpers</code></td>
+<td>words the utilities use inside</td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-word">A word</h2>
+<p>A word page shows the description, the stack effect spelled out, an example and the group it belongs to:</p>
+<p><img src="images/04-help-word.png" alt="help for one word"></p>
+<h2 id="reading-stack-effects">Reading stack effects</h2>
+<p>Stack effects are written as what the word takes, then <code>--</code>, then what it leaves, with the top of the stack on the right:</p>
+<pre><code>dup     a -- a a
+swap    a b -- b a
+at      l i -- x
+pad     s n -- str
+</code></pre>
+<p>The letters follow a loose convention: <code>n</code> and <code>i</code> are numbers, <code>s</code> and <code>str</code> strings, <code>l</code> a list, <code>q</code> code to run, <code>'x</code> a name, and <code>a</code>, <code>b</code> and <code>x</code> any value. A word page spells the effect out, as in <code>takes l i, leaves x</code>, followed by a reminder of the convention.</p>
+<h2 id="words-without-an-entry">Words without an entry</h2>
+<p>Words you define yourself have no entry. <code>help</code> recognises them and says so:</p>
+<pre><code>[ dup * ] :sq2
+'sq2 help
+  sq2 is yours. Type 'sq2 see to read it.
+</code></pre>
+<p>For a name that is defined nowhere, <code>help</code> fails with <code>there is no help for foo</code>. <code>see</code> prints your own definitions, and comments in a <a href="units.html">root unit</a> stay in its source, where <code>'name open</code> shows them.</p>
+<h2 id="apropos">apropos</h2>
+<pre><code>&quot;string&quot; apropos
+</code></pre>
+<p>searches the name and the description of every entry, ignoring case, and lists the matches with their groups:</p>
+<p><img src="images/76-words.png" alt="apropos, sort and join"></p>
+<p>The search is a plain substring match, so <code>&quot;sort&quot; apropos</code> finds <code>sort</code>, <code>sorting</code> and <code>sort-col</code>, and a short search such as <code>&quot;a&quot;</code> matches nearly everything.</p>
+<h2 id="other-ways-to-look-things-up">Other ways to look things up</h2>
+<ul>
+<li><code>words</code> lists the definitions in your tab, with their values.</li>
+<li><code>'name see</code> prints a definition, marked <code>(root)</code> if it comes from root.</li>
+<li><code>root</code> lists the units of root and the words each one defines.</li>
+<li><code>apps</code> lists the programs (<a href="apps.html">apps</a>).</li>
+<li><a href="learn.html">learn</a> teaches the language from the beginning, one screen at a time.</li>
+</ul>
+<p>The website has the same entries as tables in <a href="all-words.html">all words</a>, and <a href="words.html">words</a> introduces the everyday ones.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

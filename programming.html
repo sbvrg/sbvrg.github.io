@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing programs - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Writing programs - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="writing-programs">Writing programs</h1>
+<p>A program in Subverge is an omega word. The two examples below are a guessing game that runs at the prompt and a full-screen reaction timer. After them come structuring, testing, installing and sharing programs.</p>
+<p>Read <a href="first-steps.html">first steps</a>, <a href="names.html">locals</a> and the <a href="flow.html">flow</a> words first.</p>
+<h2 id="where-to-write">Where to write</h2>
+<p>Short words can be typed at the prompt. Anything longer than a line goes in the editor:</p>
+<pre><code>'guess edit         a definition in this tab
+&quot;games2&quot; unit       a new root unit, shared by every tab
+</code></pre>
+<p>Start with <code>edit</code> while the program is changing quickly. <code>edit</code> stores a parsed quote, so <code>back</code> undoes a bad change and comments are lost. Move the finished program into a <a href="units.html">unit</a>, where comments are kept, and every tab can run it.</p>
+<h2 id="a-guessing-game">A guessing game</h2>
+<p>The program picks a number from 1 to 100 and reads guesses until one is right.</p>
+<pre><code>'guess edit
+</code></pre>
+<p>and type:</p>
+<pre><code>&quot;guess&quot; title
+100 rand 1 + 0 1 { secret tries going }
+&quot;  I picked a number from 1 to 100.&quot; say
+[ going ] [
+  &quot;  guess: &quot; ask { line }
+  tries 1 + -&gt;tries
+  [ line &gt;num ] try [
+    { n }
+    n secret = [
+      &quot;  right, in &quot; tries str cat &quot; tries&quot; cat say
+      0 -&gt;going
+    ] [
+      n secret &lt; [ &quot;  higher&quot; ] [ &quot;  lower&quot; ] if say
+    ] if
+  ] when
+] while
+&quot;omega&quot; title
+</code></pre>
+<p>Save with Ctrl-S, leave with Ctrl-Q, and run it:</p>
+<pre><code>guess
+</code></pre>
+<p>How it works:</p>
+<ul>
+<li><code>&quot;guess&quot; title</code> names the tab while the game runs, and the last line puts the name back.</li>
+<li><code>100 rand 1 +</code> is a number from 1 to 100. <code>0 1</code> are the starting values of the guess counter and the loop flag, and <code>{ secret tries going }</code> binds all three as locals.</li>
+<li><code>[ going ] [ ... ] while</code> repeats until something sets <code>going</code> to 0.</li>
+<li><code>ask</code> prints its argument and reads a line. Ctrl-C at that prompt fails <code>ask</code> with <code>cancelled</code>, which ends the whole line and with it the game.</li>
+<li><code>[ line &gt;num ] try</code> turns the text into a number. If the text isn't a number, <code>&gt;num</code> fails, <code>try</code> prints the error in red and leaves <code>0</code>, and <code>when</code> skips the rest. If it is, <code>try</code> leaves the number and <code>1</code>, and <code>when</code> runs the quote, which takes the number as the local <code>n</code>.</li>
+<li><code>-&gt;tries</code> and <code>-&gt;going</code> update locals bound outside the loop. Assignments always go to the innermost live local with that name.</li>
+</ul>
+<p><code>if</code> takes two quotes, and <code>[ &quot;  higher&quot; ] [ &quot;  lower&quot; ] if say</code> picks a string and then prints it.</p>
+<h2 id="testing-pieces">Testing pieces</h2>
+<p>Words are easiest to test on their own. Split the parts that compute something from the parts that print or read keys:</p>
+<pre><code>[ { n secret } n secret = [ &quot;right&quot; ] [ n secret &lt; [ &quot;higher&quot; ] [ &quot;lower&quot; ] if ] if ] :verdict
+10 50 verdict           &quot;higher&quot;
+50 50 verdict           &quot;right&quot;
+</code></pre>
+<p>A word that only takes values and leaves values can be tried at the prompt, in any order, without starting the program.</p>
+<p>To watch a word run, <code>trace</code> steps through it one item at a time:</p>
+<pre><code>[ 10 50 verdict ] trace
+</code></pre>
+<p>Space steps, <code>c</code> runs the rest and <code>q</code> stops. The stack is shown before every step.</p>
+<p>To make <code>rand</code> and <code>ask</code> predictable while testing, define your own versions in the tab:</p>
+<pre><code>[ drop 49 ] :rand
+[ drop &quot;50&quot; ] :ask
+guess
+'rand forget 'ask forget
+</code></pre>
+<p>A tab definition hides a built-in of the same name, so <code>guess</code> now picks 50 and always guesses 50. <code>forget</code> removes the stand-ins and uncovers the built-ins again (<a href="names.html">names</a>).</p>
+<h2 id="a-full-screen-program">A full-screen program</h2>
+<p>The second program measures reaction time. It shows a grey bar, waits a random time, turns the bar red and counts how long it takes you to press a key.</p>
+<pre><code>&quot;react&quot; unit
+</code></pre>
+<p>and type:</p>
+<pre><code># reaction timer
+
+[ [ key? -1 = not ] [ ] while ] :drain-keys
+
+[ { dt }
+  'react-best defined? [ react-best ] [ 999999 ] if { best }
+  dt best &lt; [ dt :react-best ] when
+] :react-score
+
+[ &quot;react&quot; title wipe nocursor
+  &quot;Press any key when the bar turns red. q leaves.&quot; 2 1 7 text
+  1 { going }
+  [ going ] [
+    &quot;wait for it...        &quot; 2 3 8 text
+    32 0 5 80 7 fill
+    200 rand 100 + sleep
+    drain-keys
+    32 0 5 80 0 4 attr fill
+    ticks { t0 }
+    key { k }
+    ticks t0 - 10 * { ms }
+    k quit-key? [ 0 -&gt;going ] [
+      ms react-score
+      ms str &quot; ms, best &quot; cat react-best str cat &quot; ms      &quot; cat 2 3 14 text
+      100 sleep drain-keys
+    ] if
+  ] while
+  wipe &quot;omega&quot; title
+] :react
+</code></pre>
+<p>Save, leave, and run <code>react</code>.</p>
+<h3 id="the-screen">The screen</h3>
+<p><code>wipe</code> clears the tab's screen and <code>nocursor</code> hides the cursor. From then on the program draws at fixed positions instead of printing:</p>
+<ul>
+<li><code>&quot;text&quot; x y colour text</code> writes a string at column <code>x</code>, row <code>y</code>;</li>
+<li><code>ch x y n colour fill</code> writes <code>n</code> copies of character <code>ch</code>, here 32, a space.</li>
+</ul>
+<p>Rows count from 0 at the top of the tab's area, under the tab bar, and there are 24 of them. A space drawn with a background colour is a solid block, so <code>32 0 5 80 0 4 attr fill</code> paints row 5 red: <code>0 4 attr</code> is colour 0 on colour 4. Colours are numbers whose actual colour comes from the <a href="themes.html">theme</a>; 4 is red in every theme, 7 is normal text and 14 the accent.</p>
+<p>The last line, <code>wipe &quot;omega&quot; title</code>, leaves the tab as the program found it. Every bundled program ends this way.</p>
+<h3 id="timing">Timing</h3>
+<p><code>ticks</code> counts hundredths of a second since boot, so the difference between two readings times ten is milliseconds. <code>200 rand 100 + sleep</code> waits between one and three seconds without using the CPU.</p>
+<h3 id="keys">Keys</h3>
+<p><code>drain-keys</code> throws away keys pressed too early: <code>key?</code> returns the next key or <code>-1</code> without waiting, and the loop reads until the queue is empty. Without it, a key pressed during the wait would count as an instant reaction. <code>key</code> waits for the next key and returns its code, and <code>quit-key?</code> is true for <code>q</code>, Escape and Ctrl-C (<a href="keyboard.html">keyboard</a>).</p>
+<h3 id="keeping-a-best-score">Keeping a best score</h3>
+<p><code>react-score</code> keeps the best time in a definition called <code>react-best</code>, made at run time with <code>:react-best</code>. Definitions made while a program runs go into the tab's <a href="world.html">world</a> like any other, so:</p>
+<ul>
+<li>the best score is kept between runs, and on an installed disk across reboots;</li>
+<li>each tab has its own best score;</li>
+<li><code>back</code> after a run undoes the new best;</li>
+<li>if the run is interrupted with Ctrl-C, the whole line fails and nothing it defined is kept.</li>
+</ul>
+<p><code>'react-best defined?</code> checks whether the word exists yet, so the first run starts from a large number.</p>
+<h2 id="adding-it-to-apps">Adding it to apps</h2>
+<p><code>apps</code> prints a hand-written list (<a href="apps.html">apps</a>). Open it:</p>
+<pre><code>'apps open
+</code></pre>
+<p>and add a line inside the inner brackets:</p>
+<pre><code>[ &quot;react&quot; &quot;Reaction timer.&quot; ]
+</code></pre>
+<p>The program now shows in <code>apps</code> in every tab.</p>
+<h2 id="structure">Structure</h2>
+<p>Programs in Subverge stay readable when they follow the conventions the bundled ones use:</p>
+<ul>
+<li><strong>Small words.</strong> A screen of code is a lot of omega. Put each step in its own word with a name that says what it does, as <code>drain-keys</code> and <code>react-score</code> do.</li>
+<li><strong>Prefixes for helpers.</strong> All words in root share one name space. Name helpers after their program, such as <code>react-score</code>, so they don't collide with other units. A unit that redefines an existing word gets a <code>shadows:</code> warning only for built-ins, not for other root words.</li>
+<li><strong>Locals for state, the stack for passing.</strong> Bind a program's state as locals at the top and update it with <code>-&gt;</code>. Pass values between small words on the stack.</li>
+<li><strong>One exit path.</strong> End the main loop through its flag, then clean up: restore the title, <code>wipe</code>, and <code>free</code> any memory from <code>alloc</code>.</li>
+<li><strong>Colours by role.</strong> Use 7 for text, 8 for hints, 12 for errors and 14 for headings, so the program follows the theme.</li>
+<li><strong>Fail early.</strong> A word that gets bad input should fail with a clear word, such as <code>&gt;num</code> on a string that isn't a number, rather than carry on. The line is undone and nothing half-finished is left in the world.</li>
+</ul>
+<h2 id="speed">Speed</h2>
+<p>Most programs need no tuning. When one does:</p>
+<ul>
+<li><code>[ code ] timeit</code> times one run, and <code>[ code ] bench</code> runs it interpreted and compiled (<a href="jit.html">JIT</a>).</li>
+<li>Loops with their quotes written literally in front of <code>times</code>, <code>for</code>, <code>while</code> and <code>if</code> are compiled into jumps. Loops whose quotes come from locals are called each round instead.</li>
+<li>Compiled code looks locals up by name through a call on every use. In the innermost loop, keep values on the stack.</li>
+<li>Drawing is the usual bottleneck in full-screen programs. Redraw only what changed, as <code>snake</code> does with the head and tail.</li>
+</ul>
+<h2 id="sharing-a-program">Sharing a program</h2>
+<p>A unit is plain text. <code>'react src say</code> prints its source, and the same text can be typed into <code>&quot;react&quot; unit</code> on another system. To include a program in Subverge itself, add it as a file in <code>root/</code> in the source tree and send a pull request (<a href="development.html">development</a>). Root words need a <code>help</code> entry, which is written in C in <code>kernel/help.c</code> (<a href="builtins.html">writing a built-in</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

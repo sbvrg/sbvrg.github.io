@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drives - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Drives - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="drives">Drives</h1>
+<p>Subverge talks to disks through the legacy IDE interface, using programmed I/O.</p>
+<h2 id="finding-drives">Finding drives</h2>
+<p>At boot the kernel probes four positions: master and slave on the primary channel (ports <code>0x1F0</code> to <code>0x1F7</code>, control <code>0x3F6</code>) and on the secondary channel (<code>0x170</code> to <code>0x177</code>, control <code>0x376</code>). They are numbered 0 to 3 in that order, which matches QEMU's <code>-hda</code> to <code>-hdd</code>.</p>
+<p>For each position the kernel checks for a floating bus, selects the drive and sends <code>IDENTIFY DEVICE</code>. A position counts as a drive if it answers, isn't an ATAPI device and reports a non-zero size. CD-ROM drives answer as ATAPI and are skipped, which is why the drive the live ISO boots from never shows up in <code>disks</code>.</p>
+<p>From the identify data the kernel keeps the model string, whether the drive supports 48-bit addressing, and the number of sectors.</p>
+<pre><code>drives .             [ [ 0 &quot;QEMU HARDDISK&quot; 64 0 ] ]
+</code></pre>
+<p>Each entry is the drive number, the model, the size in MiB and whether Subverge is installed on it. <code>disks</code> prints the same list as a table.</p>
+<h2 id="reading-and-writing">Reading and writing</h2>
+<p>Transfers use 28-bit LBA commands for drives that only support them and 48-bit LBA commands otherwise. Each command moves at most 128 sectors, so larger transfers are split. After a write the kernel sends a cache flush and waits for it to finish.</p>
+<p>Every transfer is done with interrupts disabled, polling the status register between sectors. This keeps the code short and makes a transfer impossible to interrupt halfway, at the cost of stopping the other tabs while it runs. A save of a full 1 MiB slot is 2048 sectors, which takes a noticeable fraction of a second in QEMU.</p>
+<p>Errors are reported by the status register's error and fault bits, and a transfer that doesn't become ready after a fixed number of polls is treated as failed. A save writes the slot first and the header that describes it last (<a href="disk-layout.html">disk layout</a>). If a save fails partway, the header still holds the old length and checksum, the checksum no longer matches, and that slot boots fresh next time.</p>
+<h2 id="the-home-drive">The home drive</h2>
+<p>After probing, the kernel looks for an installed system by reading sector 1 of each drive and checking for the <code>SUBVERGE</code> signature in the stage 2 header. The first drive that has it becomes the home drive, <code>home</code> returns its number, and <a href="saving.html">saving</a> writes there. With no home drive, <code>home</code> returns <code>-1</code>.</p>
+<p>Installing makes the target drive the home drive immediately, without a reboot.</p>
+<h2 id="supported-controllers">Supported controllers</h2>
+<p>The kernel reaches drives through the legacy IDE ports only, so AHCI, NVMe, virtio, USB storage and SCSI disks stay invisible to it. On real hardware a SATA controller has to be set to IDE or legacy mode in the firmware for its disks to appear (<a href="hardware.html">hardware</a>). DMA is never used.</p>
+<h2 id="words">Words</h2>
+<p>For <code>drives</code>, <code>disks</code>, <code>home</code>, <code>install</code> and <code>install-to</code>, see <a href="machine.html">machine</a>. Sector-level access is kept inside the kernel, so omega code reaches the disk only through saving and installing.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

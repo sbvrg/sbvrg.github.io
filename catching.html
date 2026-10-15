@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catching - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Catching - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="catching">Catching</h1>
+<p><code>try</code> runs a quote and keeps a failure inside it from ending the line. It leaves <code>1</code> if the quote finished, or prints the error and leaves <code>0</code> if it failed.</p>
+<pre><code>[ 1 0 / ] try .         prints the error, then 0
+[ 1 2 + ] try .         leaves 3, then prints 1
+</code></pre>
+<p>Without <code>try</code>, a failure anywhere in a line ends the line and undoes it (<a href="transactions.html">transactions</a>). With <code>try</code>, the line carries on after the quote, and the code after <code>try</code> decides what to do from the <code>1</code> or <code>0</code>.</p>
+<h2 id="no-rollback">No rollback</h2>
+<p><code>try</code> doesn't roll anything back:</p>
+<pre><code>[ 5 6 0 / ] try
+</code></pre>
+<p>leaves <code>5 0</code>. The <code>5</code> was pushed before the failure and stays. The <code>6</code> was taken by <code>/</code> when it failed, and the <code>0</code> comes from <code>try</code>. Only the line as a whole is a <a href="transactions.html">transaction</a>, so whatever the quote changed before it failed is still there, definitions included.</p>
+<p>Restoring the stack after a failure is up to you. A common way is to save it first and put it back on failure:</p>
+<pre><code>depth list -&gt;saved saved spread
+[ risky-word ] try not [ empty saved spread ] when
+</code></pre>
+<p><code>depth list</code> takes every value off the stack and makes one list of them, <code>-&gt;saved</code> keeps that list in a local, and <code>saved spread</code> pushes the values back at once, so the stack is unchanged and a copy is kept. If the quote fails, <code>empty</code> clears whatever it left and <code>saved spread</code> restores the copy. <code>learn</code> runs every exercise like this, so a mistake in a lesson can't mess up the stack you had before (<code>'lesson see</code>).</p>
+<h2 id="failing-on-purpose">Failing on purpose</h2>
+<p><code>fail</code> takes a string and fails with it as the message:</p>
+<pre><code>&quot;the file is empty&quot; fail
+  ! the file is empty
+</code></pre>
+<p>It works like a failing built-in. At the prompt it ends and undoes the line, and inside <code>try</code> it is caught:</p>
+<pre><code>[ &quot;bad input&quot; fail ] try .      prints the error, then 0
+</code></pre>
+<p>Use it for checks in your own words, so a bad argument stops the line with a message that says what was wrong instead of failing later somewhere less obvious:</p>
+<pre><code>[ { n } n 0 &lt; [ &quot;negative&quot; fail ] when n sqrt ] :root-of
+16 root-of .            4
+-4 root-of
+  ! negative
+</code></pre>
+<h2 id="interrupts">Interrupts</h2>
+<p>Ctrl-C raises <code>interrupted</code>, which is an ordinary error, so <code>try</code> catches it:</p>
+<pre><code>[ 1000000000 [ ] times ] try &quot;after&quot; say
+</code></pre>
+<p>Pressing Ctrl-C there prints <code>! interrupted</code> and then <code>after</code>. The <code>stopped</code> error from <code>trace</code> is caught the same way. A program that wants Ctrl-C to always leave should avoid wrapping its main loop in <code>try</code>.</p>
+<h2 id="what-it-cant-catch">What it can't catch</h2>
+<p><code>try</code> can't catch a CPU fault, such as a page fault from a bad <code>peek</code>. A fault restarts the tab and drops the line (<a href="tabs.html">tabs</a>). <code>halt</code> stops the machine, and nothing runs after it.</p>
+<h2 id="when-to-use-it">When to use it</h2>
+<p>Use <code>try</code> for failures you expect, where the program has something sensible to do next:</p>
+<pre><code>&quot;12x&quot; [ &gt;num ] try [ &quot;number&quot; say ] [ &quot;not a number&quot; say ] if
+</code></pre>
+<p>Here <code>&gt;num</code> fails on text that isn't a number, and the line prints <code>not a number</code> instead of ending.</p>
+<p>Wrapping code in <code>try</code> just in case makes failures harder to find. A line that fails outright points at the word that failed and leaves the world as it was. A line that carries on after a caught failure keeps going with a stack that may be missing values or have extra ones. See <a href="errors.html">errors</a> for the messages.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

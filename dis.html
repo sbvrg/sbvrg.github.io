@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dis - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="dis - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="dis">dis</h1>
+<p>Subverge has an x86-64 disassembler in the kernel. It is what <code>xray</code> and <code>jitdis</code> use to show the code the <a href="jit.html">JIT</a> produced, and <code>dis</code> and <code>disr</code> point it at any address you like.</p>
+<h2 id="using-it">Using it</h2>
+<pre><code>addr n dis          n instructions starting at addr
+addr len disr       every instruction in len bytes from addr
+'fib jitdis         compile fib and disassemble all of it
+'fib xray           fib's source, then its disassembly
+</code></pre>
+<p><code>dis</code> and <code>disr</code> take any address, not only compiled code. <code>0x100000 20 dis</code> disassembles the first 20 instructions of the kernel itself. The disassembler can't tell code from data, so an address in the middle of a string or a table decodes into instructions that don't mean anything.</p>
+<p><code>xray</code> and <code>jitdis</code> compile the word first if it hasn't been compiled yet, so you don't need to run it twice beforehand.</p>
+<h2 id="reading-the-output">Reading the output</h2>
+<p>Each line shows one instruction: its address, its bytes in hex, and the instruction in Intel syntax with the destination first. Bytes that don't fit in the column end in <code>+</code>. Relative jumps and calls are printed with their absolute target, so you can follow a jump with another <code>dis</code> at that address.</p>
+<p>Every compiled quote starts the same way. Here is the start of <code>'sq xray</code>, for <code>[ dup * ]</code>:</p>
+<pre><code>push rbp
+push rbx
+push r12
+push r13
+push r14
+push r15
+sub rsp, 0x8
+mov rbp, rsp
+mov rax, 0x42e0a8
+mov rax, qword [rax]
+mov rbx, qword [rax+0x10d0]
+</code></pre>
+<p>The six pushes save the registers the code is about to use, and <code>sub rsp, 0x8</code> keeps the CPU stack aligned to 16 bytes for calls back into C. The two loads after <code>mov rax</code> find the current tab and then its omega state, which stays in <code>rbx</code> while the quote runs. The next few instructions load the stack pointer, the stack depth and the number of bound locals into <code>r12</code>, <code>r14</code> and <code>r15</code>, and check the call depth. See the register table on the <a href="jit.html">JIT</a> page.</p>
+<p>After that comes the code for the words themselves. An inlined <code>dup</code> checks the stack depth against <code>r14</code>, copies the top 24-byte value cell and adds 24 to <code>r12</code>. An inlined <code>*</code> checks that both values are plain integers, multiplies them with <code>imul</code>, and jumps to the slow path if the overflow flag is set. Words that aren't inlined become a <code>call</code> into the interpreter.</p>
+<p>The quote ends by writing <code>r14</code> and <code>r15</code> back to the omega state, undoing the pushes in reverse order, and <code>ret</code>.</p>
+<h2 id="what-it-decodes">What it decodes</h2>
+<p>It decodes the general-purpose integer instructions: moves, arithmetic, logic, shifts and rotates, <code>lea</code>, <code>imul</code>, <code>idiv</code>, conditional jumps, <code>set</code>cc and <code>cmov</code>cc, <code>call</code>, <code>ret</code>, <code>push</code> and <code>pop</code>, and the string instructions. It also knows the system instructions the kernel uses, such as <code>lgdt</code>, <code>lidt</code>, <code>invlpg</code>, <code>rdmsr</code>, <code>wrmsr</code>, <code>cpuid</code>, <code>rdtsc</code>, <code>cli</code>, <code>sti</code>, <code>hlt</code> and <code>iretq</code>. That covers everything the JIT generates and everything in the kernel, which is compiled without SSE.</p>
+<p>SSE, AVX and x87 instructions aren't decoded. Opcodes it doesn't know are printed as <code>?</code>.</p>
+<h2 id="looking-at-the-kernel">Looking at the kernel</h2>
+<p>The kernel is loaded at 1 MiB, and <code>kernel</code> gives the size of the image. The first 16 bytes at <code>0x100000</code> are the Multiboot header, which is data. <code>_start</code> follows at <code>0x100010</code>, but it starts out as 32-bit code, since GRUB and QEMU enter the kernel in 32-bit protected mode (<a href="boot.html">boot</a>). The disassembler always decodes 64-bit code, so the first part of <code>_start</code> comes out wrong. Everything after the switch to long mode, which is almost all of the kernel, decodes correctly:</p>
+<pre><code>0x100010 40 dis
+</code></pre>
+<p>See <a href="memory.html">memory</a> for the other fixed addresses.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

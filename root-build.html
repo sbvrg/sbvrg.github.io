@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How root builds - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="How root builds - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="how-root-builds">How root builds</h1>
+<p><a href="root.html">Root</a> is ordinary omega source, run in a special mode.</p>
+<h2 id="the-source">The source</h2>
+<p>The root source is one text with unit headers in it. A line that starts with <code>#&gt;&gt; </code> followed by a name begins a new unit, and everything up to the next header belongs to it. Since <code>#</code> starts a comment, the headers are also valid omega, and the whole text could be pasted at a prompt.</p>
+<p>The kernel carries the original root, concatenated from the files in <code>root/</code> at build time (<a href="development.html">development</a>). An installed system also has a saved root in slot 0 (<a href="disk-layout.html">disk layout</a>). At boot the kernel tries the saved root first, and falls back to the built-in one if it is missing, damaged or fails to build.</p>
+<p>Root holds at most 32 units, and up to 96 names are tracked per unit for <code>root</code> and <code>open</code>.</p>
+<h2 id="building">Building</h2>
+<p>A build runs each unit's source, in order, as one quote. It uses the tab that asked for it, with three changes:</p>
+<ul>
+<li><strong>Pinning is on.</strong> Every object created during the build is pinned: it is kept out of the tab's object list and is never collected (<a href="values.html">values and objects</a>). Root's definitions are shared by all four tabs, so they can't belong to any one of them.</li>
+<li><strong>The dictionary starts empty</strong>, or at the end of the last unit before the edited one. A unit's definitions go on top of everything before it, so later units see earlier ones.</li>
+<li><strong>The tab's stack, locals and trace state are saved</strong> before the build and restored after it, so a build can't disturb whatever the tab was doing.</li>
+</ul>
+<p>The <a href="jit.html">JIT</a> is off for the length of the build.</p>
+<p>When a unit finishes, the build records where its definitions end in the dictionary and which names it defined. Those records are what <code>root</code> prints and what <code>'name open</code> searches to find the unit that defines <code>name</code>.</p>
+<p>If any unit fails, the build stops there, the tab's state is restored, and the error is reported with the unit's name in front of it.</p>
+<h2 id="rebuilding-after-an-edit">Rebuilding after an edit</h2>
+<p>When you leave <a href="scrawl.html">scrawl</a> after <code>'name open</code>, the kernel rebuilds from the edited unit onward. Units before it are not run again: their part of the dictionary is reused as it is, and the new definitions are built on top of the point where the unit before the edited one ended.</p>
+<p>A rebuild either succeeds completely or changes nothing:</p>
+<ul>
+<li><strong>If it fails</strong>, the old root stays in place and keeps working. Your edited text is kept as a draft attached to the unit, <code>root</code> marks it <code>(draft)</code>, and the next <code>open</code> of that unit shows the draft, so you can fix it without retyping. The error has the form <code>root unchanged, unit: message (your edit is kept: open it again)</code>.</li>
+<li><strong>If it succeeds</strong>, the new dictionary replaces root in one step. Every tab sees the change on its next lookup, the draft is dropped, and root is <a href="saving.html">saved</a>.</li>
+</ul>
+<p>The replacement is a single pointer change, so a tab running a root word at that moment finishes with the old definition and picks up the new one on its next lookup.</p>
+<h2 id="what-a-rebuild-invalidates">What a rebuild invalidates</h2>
+<p>Compiled code may have inlined decisions based on the old root, such as treating <code>+</code> as the built-in. After a successful rebuild:</p>
+<ul>
+<li>machine code attached to the replaced definitions is released;</li>
+<li>the global JIT version is increased, so every compiled quote in every tab is recompiled the next time it runs twice.</li>
+</ul>
+<p>Old root objects are not freed. A tab may have copied a quote out of the old root with <code>get</code>, and it stays valid.</p>
+<h2 id="shadowing-built-ins">Shadowing built-ins</h2>
+<p>After a rebuild the kernel looks through the new root for definitions whose names are also built-ins. If it finds any, it prints <code>shadows:</code> followed by the names in orange. This isn't an error. It is a warning that every tab will now run your definition instead of the built-in, including inside other root words that use the name.</p>
+<h2 id="order">Order</h2>
+<p>New units from <code>&quot;name&quot; unit</code> are appended at the end, so they can use every other unit, and editing one only rebuilds that unit. Because rebuilding starts at the edited unit, editing <code>core</code>, the first unit, rebuilds all of root, and a mistake there can make every later unit fail. The draft mechanism keeps that recoverable.</p>
+<h2 id="when-the-saved-root-fails-at-boot">When the saved root fails at boot</h2>
+<p>If the saved root doesn't build at boot, for example after a kernel upgrade removed a built-in that a unit used, the kernel reports <code>the saved root didn't build, using the built-in one</code> and runs the built-in root instead. The saved copy on disk is left alone until the next successful root edit replaces it, so the old source can still be recovered by booting the previous kernel.</p>
+<p>If the built-in root fails too, tab 1 shows the system information screen and the root error in red, and the tabs start with only the built-in words.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quotes - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Quotes - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="quotes">Quotes</h1>
+<p>A quote is code in square brackets that is pushed instead of run. The same value is also a list, and omega has no separate list type: <code>[ 1 2 3 ]</code> is a quote that pushes three numbers when run, and a list of three numbers to every list word. For the words that run quotes, see <a href="flow.html">flow</a>.</p>
+<h2 id="quotes-as-code">Quotes as code</h2>
+<pre><code>[ 1 2 + ]           pushes a quote
+[ 1 2 + ] do        runs it, leaving 3
+</code></pre>
+<p><code>if</code>, <code>times</code>, <code>map</code> and the other control words are ordinary words that take quotes and decide when to run them. A defined word is a quote bound to a name, and calling the name runs the quote:</p>
+<pre><code>[ dup * ] :sq
+'sq get             pushes the quote itself
+'sq get do          the same as sq
+</code></pre>
+<p>Quotes nest freely and are values like any other, so they can be stored in definitions, kept in lists, passed to words and returned from them:</p>
+<pre><code>[ [ 2 * ] [ 1 + ] ] :steps
+5 steps [ do ] each .           11
+</code></pre>
+<h2 id="quotes-as-lists">Quotes as lists</h2>
+<pre><code>[ 1 2 + ] len .                 3
+[ 1 2 + ] 2 at .                '+
+</code></pre>
+<p>Inside a quote, a word is stored as its name. When a list word hands out such an item, it turns it into a symbol, so <code>[ 1 2 + ] 2 at</code> gives <code>'+</code> instead of running <code>+</code>. Definitions and local assignments come out the same way: <code>[ :x ] first</code> is <code>'x</code>.</p>
+<p>A list is written as a quote of values:</p>
+<pre><code>[ 1 &quot;two&quot; [ 3 ] 'four ]
+</code></pre>
+<h2 id="building-lists">Building lists</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>range</code></td>
+<td><code>a b -- l</code></td>
+<td>the integers from a up to b-1</td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td><code>... n -- l</code></td>
+<td>the top n values as a list</td>
+</tr>
+<tr>
+<td><code>append</code></td>
+<td><code>l x -- list</code></td>
+<td>x added at the end</td>
+</tr>
+<tr>
+<td><code>cat</code></td>
+<td><code>a b -- c</code></td>
+<td>two lists joined</td>
+</tr>
+<tr>
+<td><code>reverse</code></td>
+<td><code>l -- list</code></td>
+<td>back to front</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td><code>l -- list</code></td>
+<td>numbers or strings in order</td>
+</tr>
+</tbody>
+</table>
+<pre><code>0 5 range                       [ 0 1 2 3 4 ]
+1 2 3 3 list                    [ 1 2 3 ]
+[ 1 2 ] 3 append                [ 1 2 3 ]
+[ 1 ] [ 2 3 ] cat               [ 1 2 3 ]
+[ 5 2 9 2 ] sort                [ 2 2 5 9 ]
+</code></pre>
+<p><code>range</code> holds at most 100000 numbers and fails with <code>that range is too big</code> when <code>b</code> is below <code>a</code>. <code>0 0 range</code> is the empty list.</p>
+<p>Lists are immutable, and each of these words builds a new list. <code>append</code> copies the whole list, so building a long list one item at a time with <code>append</code> takes time proportional to the square of its length. For more than a few thousand items, push the items onto the stack and pack them with <code>depth list</code>, or use <code>map</code> over a <code>range</code>.</p>
+<p><code>sort</code> takes a list of numbers, bignums included, or a list of strings, and fails with <code>sort needs a list of numbers or a list of strings</code> for anything else or a mix. It is a stable merge sort, so equal items keep their order.</p>
+<h2 id="reading-lists">Reading lists</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>len</code></td>
+<td><code>l -- n</code></td>
+<td>the number of items</td>
+</tr>
+<tr>
+<td><code>at</code></td>
+<td><code>l i -- x</code></td>
+<td>item i, counting from 0</td>
+</tr>
+<tr>
+<td><code>first</code></td>
+<td><code>l -- x</code></td>
+<td>the first item</td>
+</tr>
+<tr>
+<td><code>last</code></td>
+<td><code>l -- x</code></td>
+<td>the last item</td>
+</tr>
+<tr>
+<td><code>rest</code></td>
+<td><code>l -- list</code></td>
+<td>everything after the first</td>
+</tr>
+<tr>
+<td><code>spread</code></td>
+<td><code>l -- ...</code></td>
+<td>every item onto the stack</td>
+</tr>
+<tr>
+<td><code>has</code></td>
+<td><code>l x -- 1/0</code></td>
+<td>whether x is in the list</td>
+</tr>
+<tr>
+<td><code>index</code></td>
+<td><code>l x -- i</code></td>
+<td>where x first appears, or -1</td>
+</tr>
+</tbody>
+</table>
+<p><code>at</code> fails with <code>that position is outside the list</code> for an index past either end, and <code>first</code> and <code>last</code> fail with <code>that list is empty</code>. <code>rest</code> of an empty list is the empty list.</p>
+<p><code>has</code> and <code>index</code> compare integers by value and strings by content. Every other value, including bignums and quotes, is compared by identity, so <code>[ [ 1 ] ] [ 1 ] has</code> is <code>0</code>: the two <code>[ 1 ]</code> are different objects.</p>
+<h2 id="computing-over-lists">Computing over lists</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>each</code></td>
+<td><code>l q --</code></td>
+<td>runs q with each item pushed</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td><code>l q -- list</code></td>
+<td>the results of q on each item</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td><code>l q -- list</code></td>
+<td>the items for which q leaves a true value</td>
+</tr>
+<tr>
+<td><code>sum</code></td>
+<td><code>l -- n</code></td>
+<td>all items added</td>
+</tr>
+<tr>
+<td><code>fold</code></td>
+<td><code>l x q -- y</code></td>
+<td>q applied to x and each item in turn</td>
+</tr>
+</tbody>
+</table>
+<pre><code>[ 1 2 3 ] [ . ] each                    prints 1, 2, 3
+[ 1 2 3 ] [ dup * ] map                 [ 1 4 9 ]
+1 11 range [ 2 mod 0 = ] filter         [ 2 4 6 8 10 ]
+[ 1 2 3 4 ] sum                         10
+[ 1 2 3 4 ] 1 [ * ] fold                24
+[ &quot;a&quot; &quot;b&quot; ] &quot;&quot; [ swap cat ] fold        &quot;ba&quot;
+</code></pre>
+<p><code>map</code>'s quote must leave exactly one value for each item, or <code>map</code> fails with <code>map's quote has to leave exactly one value</code>. <code>filter</code>'s quote must leave a number, and items for which it is non-zero are kept. <code>each</code> also works on a string, pushing each byte.</p>
+<p><code>sum</code> adds with <code>+</code>, so it works on bignums and on ordinals: <code>omega 1 2 list sum</code> is <code>ω+1</code>. Writing <code>[ omega 1 ]</code> instead would give a list holding the symbol <code>'omega</code>, since words inside a list stay words. The sum of an empty list is 0.</p>
+<p><code>fold</code> keeps an accumulator. It starts as <code>x</code>, and for each item <code>q</code> runs with the accumulator and the item on the stack and leaves the new accumulator. <code>fold</code> is written in omega with the locals <code>l</code>, <code>acc</code> and <code>q</code>, and because locals are dynamically scoped, a quote passed to it that uses those three names as its own free variables sees <code>fold</code>'s instead (<a href="names.html">names</a>). Rename them in your quote or use <code>each</code>.</p>
+<p>All of these check for Ctrl-C between items, and all of them stop at the first failing item.</p>
+<h2 id="lists-of-lists">Lists of lists</h2>
+<p>Nested lists work as records and tables:</p>
+<pre><code>[ [ &quot;ann&quot; 31 ] [ &quot;bob&quot; 27 ] ] :people
+people [ first ] map                    [ &quot;ann&quot; &quot;bob&quot; ]
+people [ 1 at 30 &gt; ] filter             [ [ &quot;ann&quot; 31 ] ]
+people [ spread { name age } name say ] each
+</code></pre>
+<p><code>pci</code>, <code>memmap</code>, <code>drives</code> and <code>tab</code> return their results in this form (<a href="machine.html">machine</a>).</p>
+<h2 id="limits">Limits</h2>
+<p>A single pair of brackets can hold 256 items as typed, and brackets nest 32 deep. Lists built at run time have no such limit. Unbalanced brackets fail the whole line before anything runs (<a href="errors.html">errors</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

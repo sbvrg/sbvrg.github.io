@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How infinity works - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="How infinity works - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="how-infinity-works">How infinity works</h1>
+<p>The <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a> pages cover what you can do with infinite values. The sections below cover how the kernel stores them and how each operation is computed.</p>
+<h2 id="storing-an-ordinal">Storing an ordinal</h2>
+<p>Every ordinal below ε₀ can be written in exactly one way as a sum of powers of ω, largest first, each with a whole-number coefficient:</p>
+<pre><code>ω^a·c + ω^b·d + ... + n
+</code></pre>
+<p>This is Cantor normal form. The kernel stores an infinite ordinal as a list of terms in this order, and each term is a pair: an exponent and a coefficient. The exponent is itself an ordinal, stored the same way, or nothing for a finite term. The coefficient is a 64-bit unsigned number.</p>
+<pre><code>omega 2 * 3 +           ω·2+3       [ (1, 2) (0, 3) ]
+omega omega ^           ω^ω         [ (ω, 1) ]
+omega 2 ^ omega +       ω²+ω        [ (2, 1) (1, 1) ]
+</code></pre>
+<p>Because the exponents are ordinals too, an ordinal is a small tree. <code>omega omega omega ^ ^</code> is a term whose exponent is a term whose exponent is ω.</p>
+<p>A finite result is never kept as an ordinal. When an operation ends up with no infinite terms, it returns a plain integer, so <code>5 ordinal?</code> is <code>0</code> and finite ordinals work with every integer word.</p>
+<h2 id="-and-">ε₀ and ω₁</h2>
+<p>ε₀ can't be written in Cantor normal form with smaller exponents, since ε₀ = ω^ε₀. The kernel keeps <code>epsilon0</code> and <code>omega1</code> as two fixed atoms. Inside a calculation, an atom acts like a single term ω^x·1 whose exponent is the atom itself. That is correct for both: ω^ε₀ = ε₀ and ω^ω₁ = ω₁. So <code>epsilon0 1 +</code> is the list <code>[ (ε₀, 1) (0, 1) ]</code>, printed as <code>ε₀+1</code>, and <code>omega epsilon0 ^</code> simplifies straight back to <code>ε₀</code>.</p>
+<p>ω₁ compares above every ordinal that can be built from <code>omega</code> and <code>epsilon0</code>, and ε₀ compares above every ordinal built from <code>omega</code> alone. omega has no way to write an ordinal between them other than by building on ε₀.</p>
+<h2 id="comparing">Comparing</h2>
+<p>Two ordinals are compared term by term from the front. The one whose first exponent is larger is larger. If the exponents are equal, the larger coefficient wins, and if those are equal too, the next term decides. When one list runs out first, it is the smaller ordinal.</p>
+<pre><code>omega 2 ^ omega 5 * &lt;       compares ω² with ω·5: exponent 2 beats 1, so 0
+omega 3 * omega 2 * 9 + &gt;   compares ω·3 with ω·2+9: coefficient 3 beats 2, so 1
+</code></pre>
+<p>Exponents are compared with the same rule, so comparison recurses into the tree. Every integer is below every infinite ordinal, and negative integers compare below all of them.</p>
+<h2 id="adding">Adding</h2>
+<p><code>a b +</code> keeps every term of <code>a</code> whose exponent is larger than the first exponent of <code>b</code>, drops every term of <code>a</code> whose exponent is smaller, and appends all of <code>b</code>. A term of <code>a</code> with the same exponent as the first term of <code>b</code> has its coefficient added to it.</p>
+<pre><code>omega 5 + omega +           ω+5 then ω: the 5 has exponent 0 &lt; 1 and is dropped, so ω·2
+omega 2 ^ omega 3 * + omega 2 * +     ω²+ω·3 then ω·2: ω·3 merges into ω·5, so ω²+ω·5
+</code></pre>
+<p>This is the absorption rule from the <a href="ordinals.html">ordinals</a> page, done on lists.</p>
+<h2 id="multiplying">Multiplying</h2>
+<p><code>a b *</code> is computed one term of <code>b</code> at a time, and the pieces are added up left to right.</p>
+<ul>
+<li>A finite term <code>n</code> of <code>b</code> gives <code>a</code> with its first coefficient multiplied by <code>n</code>. The rest of <code>a</code> is unchanged.</li>
+<li>An infinite term ω^e·c of <code>b</code> gives the single term ω^(x+e)·c, where x is the first exponent of <code>a</code>. Everything after the first term of <code>a</code> disappears.</li>
+</ul>
+<!-- -->
+<pre><code>omega 1 + 3 *               ω·3+1
+omega 1 + omega *           ω²
+omega 2 ^ omega 1 + *       ω³+ω²
+</code></pre>
+<p>The last one is the infinite term ω giving ω^(2+1) = ω³, plus the finite term 1 giving ω².</p>
+<h2 id="powers">Powers</h2>
+<p>A finite base to an infinite power becomes a power of ω. <code>2 omega ^</code> is ω, and in general n^(ω^e) is ω^(ω^(e−1)) for a finite exponent e. A finite part at the end of the exponent multiplies the result by n to that power:</p>
+<pre><code>2 omega ^ .                 ω
+2 omega 3 + ^ .             ω·8
+3 omega 2 ^ ^ .             ω^ω
+</code></pre>
+<p>An infinite base is raised by splitting the exponent into its infinite part and its finite part n. The infinite part is done in one step with the rule ω^x to the power y = ω^(x·y), and the finite part is done by multiplying n more times. A finite part above 64 fails with <code>that exponent is too big to write out</code>, since every multiplication can double the number of terms.</p>
+<h2 id="limits">Limits</h2>
+<p>An ordinal has at most 64 terms, and a result that would have more keeps its first 64. Every coefficient has to fit in 64 bits, and an operation whose coefficient would overflow fails with <code>that coefficient doesn't fit in 64 bits</code>. A bignum can't be a coefficient, so <code>omega 2 100 ^ *</code> fails, while <code>2 100 ^ omega +</code> is ω, since the bignum is absorbed (<a href="limits.html">limits</a>).</p>
+<h2 id="cardinals">Cardinals</h2>
+<p>A cardinal fits in a single integer. ℵₖ is stored as k, and 2^ℵₖ as −k−1, so ℵ₀ is 0 and the continuum is −1. Cardinals are never allocated, which makes them as fast as integers.</p>
+<p>Addition and multiplication take the larger of the two, and comparisons follow what ZFC can prove. ℵⱼ against ℵₖ and 2^ℵⱼ against 2^ℵₖ compare by index. ℵₖ &lt; 2^ℵₖ always holds. ℵₖ₊₁ ≤ 2^ℵₖ always holds, and whether they are equal fails with the ZFC error. Anything further apart fails the same way. A finite number compares below every cardinal and is absorbed by addition, and <code>0 *</code> gives 0.</p>
+<h2 id="printing-and-saving">Printing and saving</h2>
+<p>Ordinals and cardinals print with ω, ℵ and subscript digits, which the kernel adds to the <a href="screen.html">screen</a> font in characters 128 and up. Exponents that are a single term without a coefficient print without brackets, as in <code>ω^ω</code>, and <code>²</code> is used for a square. Anything longer gets brackets, as in <code>ω^(ω·2)</code>.</p>
+<p>When a tab is <a href="saving.html">saved</a>, these glyphs can't be read back, so ordinals are written as omega code that rebuilds them. <code>ω·2+3</code> is saved as <code>omega 2 * 3 +</code>, ε₀ as <code>epsilon0</code>, and the continuum as <code>2 0 aleph ^</code>. Loading the tab runs that code and gets exactly the same value.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

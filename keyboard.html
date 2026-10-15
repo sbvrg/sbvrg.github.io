@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The keyboard - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="The keyboard - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="the-keyboard">The keyboard</h1>
+<p>Subverge reads a PS/2 keyboard directly, through the keyboard controller at ports <code>0x60</code> and <code>0x64</code>.</p>
+<h2 id="from-scancode-to-key">From scancode to key</h2>
+<p>The controller delivers scancode set 1, which is what PC firmware and QEMU provide by default. Each press and release raises IRQ 1, and the handler reads one byte from port <code>0x60</code>.</p>
+<p>The handler tracks Shift, Ctrl, Alt and Caps Lock itself. Releases are ignored except for those modifiers. A press is translated through a US layout table, with a second table for Shift. Caps Lock swaps the case of letters only. Ctrl with a letter produces the control code, so Ctrl-A is 1 and Ctrl-Z is 26.</p>
+<p>The extended prefix byte <code>0xE0</code> is remembered for the next scancode. It is used to tell keypad Enter from the main Enter, and both produce a newline.</p>
+<p>Keys outside the US table, such as a second backslash key on international keyboards, produce nothing.</p>
+<h2 id="keys-that-never-reach-a-tab">Keys that never reach a tab</h2>
+<p>Some keys are handled inside the interrupt handler and never queued:</p>
+<ul>
+<li><strong>F1 to F4</strong> and <strong>Alt-1 to Alt-4</strong> switch the visible <a href="tabs.html">tab</a>. The switch happens immediately, even if every tab is busy.</li>
+<li><strong>Ctrl-C</strong> sets the visible tab's break flag <em>and</em> is queued as code 3. The flag is what stops running code: the interpreter checks it before every step and fails with <code>interrupted</code>. The queued code is what the <a href="prompt.html">prompt</a> and programs like <code>snake</code> see.</li>
+</ul>
+<h2 id="the-key-queues">The key queues</h2>
+<p>Each tab has its own queue of 64 entries. Keys always go to the tab that is visible when they are pressed, so typing into one tab never affects another, and a tab in the background can't steal keys.</p>
+<p>A queue holds 63 keys before it is full, and keys pressed while it is full are dropped. A program that doesn't read keys for a while, such as a long computation, can therefore lose typing beyond that point.</p>
+<p>When a line fails, the keys queued during it are thrown away, so keys pressed while a broken loop was running don't spill into the next prompt.</p>
+<h2 id="key-codes">Key codes</h2>
+<p><code>key</code> waits for a key and pushes its code, <code>key?</code> pushes the next code or <code>-1</code> if the queue is empty, and <code>n waitkey</code> waits at most <code>n</code> ticks and pushes <code>-1</code> on timeout.</p>
+<p>Printable keys give their ASCII code. At the prompt, Tab completes names (<a href="prompt.html">prompt</a>); everywhere else it is code 9. The others:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enter</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Backspace</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Tab</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Escape</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Ctrl-A to Ctrl-Z</td>
+<td>1 to 26</td>
+</tr>
+<tr>
+<td>Up</td>
+<td>256</td>
+</tr>
+<tr>
+<td>Down</td>
+<td>257</td>
+</tr>
+<tr>
+<td>Left</td>
+<td>258</td>
+</tr>
+<tr>
+<td>Right</td>
+<td>259</td>
+</tr>
+<tr>
+<td>Home</td>
+<td>260</td>
+</tr>
+<tr>
+<td>End</td>
+<td>261</td>
+</tr>
+<tr>
+<td>Page Up</td>
+<td>262</td>
+</tr>
+<tr>
+<td>Page Down</td>
+<td>263</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>264</td>
+</tr>
+</tbody>
+</table>
+<p>A loop that reads keys:</p>
+<pre><code>[ key dup 113 = not ] [ . ] while drop
+</code></pre>
+<p>prints codes until <code>q</code> is pressed. Locals bound in the condition of a <code>while</code> are gone by the time the body runs, so the code stays on the stack instead. The <code>quit-key?</code> helper in root tests for <code>q</code>, Escape and Ctrl-C at once, which is how most of the bundled programs decide to exit.</p>
+<h2 id="waiting-without-spinning">Waiting without spinning</h2>
+<p>A tab that calls <code>key</code> on an empty queue marks itself as waiting for a key and yields. The <a href="scheduler.html">scheduler</a> skips it until a key arrives in its queue, so a tab sitting at the prompt uses no CPU. <code>waitkey</code> marks the tab as waiting for either a key or a tick, whichever comes first, and the animated programs use it to run a frame every few ticks while still reacting to keys at once.</p>
+<h2 id="usb-keyboards">USB keyboards</h2>
+<p>On real machines a USB keyboard works only if the firmware emulates a PS/2 controller for it, which is often called legacy USB support. In QEMU the default keyboard is PS/2. See <a href="hardware.html">hardware</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

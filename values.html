@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Values and objects - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Values and objects - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="values-and-objects">Values and objects</h1>
+<h2 id="the-value-cell">The value cell</h2>
+<p>Every value on the stack, in a quote, in a local or in a definition is a cell of three machine words: a type tag, a 64-bit integer and a pointer. A cell is 24 bytes, and the <a href="stack.html">stack</a> is an array of 1024 of them.</p>
+<p>Which fields are used depends on the tag:</p>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Integer field</th>
+<th>Pointer field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>integer</td>
+<td>the value</td>
+<td>unused</td>
+</tr>
+<tr>
+<td>bignum</td>
+<td>unused</td>
+<td>the digits</td>
+</tr>
+<tr>
+<td>string</td>
+<td>unused</td>
+<td>the string object</td>
+</tr>
+<tr>
+<td>quote</td>
+<td>unused</td>
+<td>the quote object</td>
+</tr>
+<tr>
+<td>symbol (<code>'name</code>)</td>
+<td>unused</td>
+<td>the interned name</td>
+</tr>
+<tr>
+<td>word</td>
+<td>unused</td>
+<td>the interned name</td>
+</tr>
+<tr>
+<td>definition (<code>:name</code>)</td>
+<td>unused</td>
+<td>the interned name</td>
+</tr>
+<tr>
+<td>local assignment (<code>-&gt;name</code>)</td>
+<td>unused</td>
+<td>the interned name</td>
+</tr>
+<tr>
+<td>local list (<code>{ a b }</code>)</td>
+<td>unused</td>
+<td>a quote holding the names</td>
+</tr>
+<tr>
+<td>ordinal</td>
+<td>unused</td>
+<td>the ordinal object</td>
+</tr>
+<tr>
+<td>cardinal</td>
+<td>which aleph</td>
+<td>unused</td>
+</tr>
+</tbody>
+</table>
+<p>Integers that fit in 64 bits live entirely inside the cell, so arithmetic on them never allocates. That is also why the <a href="jit.html">JIT</a> can compile <code>+</code> into a single <code>add</code> with an overflow check: it only has to test the tag of the two top cells and add their integer fields in place.</p>
+<p>Cardinals are encoded in the integer field alone. <code>aleph0</code> is 0, <code>aleph1</code> is 1, and so on. A negative number <code>-k-1</code> means 2 to the power of aleph k, so <code>continuum</code>, which is 2^aleph0, is stored as -1. See <a href="infinity.html">how infinity works</a> for how they are compared.</p>
+<h2 id="type">type</h2>
+<p><code>type</code> gives the kind of a value as a string:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th><code>type</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>42</code>, <code>2 100 ^</code></td>
+<td><code>number</code></td>
+</tr>
+<tr>
+<td><code>&quot;hi&quot;</code></td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td><code>[ 1 2 ]</code>, <code>[ dup * ]</code></td>
+<td><code>list</code></td>
+</tr>
+<tr>
+<td><code>'sq</code></td>
+<td><code>symbol</code></td>
+</tr>
+<tr>
+<td><code>omega</code></td>
+<td><code>ordinal</code></td>
+</tr>
+<tr>
+<td><code>aleph0</code></td>
+<td><code>cardinal</code></td>
+</tr>
+</tbody>
+</table>
+<p>Integers and bignums both give <code>number</code>. A word taken out of a list is a symbol, so <code>[ dup * ] first type</code> gives <code>symbol</code>.</p>
+<h2 id="words-are-values">Words are values</h2>
+<p>A quote is a list of cells, and the source text is gone after parsing. <code>[ dup * ]</code> becomes a quote of two cells, both tagged <em>word</em>, pointing at the interned names <code>dup</code> and <code>*</code>. Running the quote means walking those cells in order.</p>
+<p>Because code and data share one representation, a quote can be used as a list (<code>[ 1 2 3 ] first</code>) and a list can be run (<code>[ 1 2 3 ] do</code> pushes 1, 2 and 3). When a list operation hands you an element that is a word, such as <code>[ dup * ] first</code>, it is converted to a symbol first, so taking it out of the list doesn't run it.</p>
+<h2 id="interned-names">Interned names</h2>
+<p>Every name the parser sees is interned: looked up in a table of 8192 entries and created there if it's new. Two occurrences of <code>sq</code> therefore point at the same object, and comparing names is a pointer comparison. Name lookup in a dictionary never compares strings.</p>
+<p>The interned name object also carries the address of the built-in it names, if there is one. Looking up <code>dup</code> does not search a table of built-ins: the interpreter checks the tab's definitions, then root's, and if neither binds the name it calls the function stored on the name itself. A definition with the same name hides the built-in without touching it, and <code>forget</code> uncovers it again.</p>
+<p>Interned names are never freed. They are allocated outside the collected heap, so a name stays in the table even when nothing uses it anymore. The table fills only if a session creates thousands of distinct names, for example with <code>&gt;sym</code> in a loop, and filling it stops the machine with <code>symbol table full</code>.</p>
+<h2 id="objects">Objects</h2>
+<p>Strings, quotes, bignums, ordinals and dictionary entries are heap objects. Each has a small header with a link to the next object, a kind, a mark bit and a <em>pinned</em> flag. Every tab keeps a list of the objects it has allocated, and its collector walks that list.</p>
+<p>Strings are length-prefixed and also zero-terminated, so the length is known without scanning, and the bytes can be handed to the screen code directly. A string can contain any byte except that the zero terminator ends it for words like <code>find</code>.</p>
+<p>Quotes store their length, their cells, and some JIT bookkeeping: how many times the quote has run, a pointer to its machine code, the length of that code, the JIT version it was compiled under, and whether compiling it was tried and failed. A quote is compiled on its second run (<a href="jit.html">JIT</a>).</p>
+<p>A dictionary entry holds a name, a value and a link to the next entry. A tab's definitions are a singly linked list of these entries, newest first. Defining a word pushes a new entry at the front; it never modifies the old one. This is what makes keeping 64 old worlds cheap (<a href="worlds.html">how worlds work</a>).</p>
+<h2 id="pinned-objects">Pinned objects</h2>
+<p>Objects created while <a href="root.html">root</a> is being built are pinned. They are not added to any tab's object list, are never collected, and are shared by all four tabs. When root is rebuilt, the old root's objects are left in place, so a quote that a tab copied out of root stays valid.</p>
+<h2 id="equality">Equality</h2>
+<p><code>=</code> compares integers and bignums by value and strings by content. Every other kind of value is compared by identity:</p>
+<pre><code>[ 1 2 ] [ 1 2 ] = .          0
+[ 1 2 ] dup = .              1
+&quot;ab&quot; &quot;a&quot; &quot;b&quot; cat = .         1
+</code></pre>
+<p>Two quotes with the same contents are different objects, so they are not equal. <code>has</code> uses the same rule.</p>
+<h2 id="what-survives-a-reboot">What survives a reboot</h2>
+<p>Saving writes a tab back out as omega source (<a href="saving.html">saving</a>), so a value survives only if it can be printed as source and parsed back. Integers, bignums, strings, quotes, symbols, ordinals and cardinals all can. Identity does not survive: two definitions that held the same quote object hold two equal copies after a reboot.</p>
+<p>A raw address from <code>alloc</code> is saved as the integer it is, and after a reboot it points at whatever the heap happens to hold there.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

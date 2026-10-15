@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>back - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="back - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="back">back</h1>
+<p><code>back</code> undoes the last line that changed your tab's <a href="world.html">world</a>: its stack and its definitions. Each tab remembers the 64 most recent changes, so up to 64 lines can be undone.</p>
+<p><img src="images/07-back.png" alt="back"></p>
+<h2 id="using-it">Using it</h2>
+<p>Type <code>back</code> on a line of its own:</p>
+<pre><code>1 2 » 3
+1 2 3 » [ dup dup * * ] :cube
+1 2 3 » back
+  rewound 1
+1 2 3 »
+</code></pre>
+<p><code>cube</code> is gone, and the stack is what it was before the line that defined it. Typing <code>back</code> again would also remove the <code>3</code>.</p>
+<p><code>back</code> is a word like any other, so several can go on one line:</p>
+<pre><code>back back back
+</code></pre>
+<p>rewinds three lines and prints <code>rewound 3</code>. If fewer lines are recorded than requested, it rewinds as many as it can. With nothing recorded it prints <code>there is nothing to go back to</code>.</p>
+<h2 id="which-lines-count">Which lines count</h2>
+<p>Only lines that changed the stack or the definitions are recorded. A line that only printed something, such as <code>words</code>, <code>help</code> or <code>&quot;hi&quot; say</code>, leaves the world exactly as it was, so it isn't recorded and <code>back</code> skips over it. A failed line never changed the world in the first place (<a href="transactions.html">transactions</a>), so it isn't recorded either.</p>
+<p>This means <code>back</code> always undoes something visible. After running <code>top</code> five times and then defining a word, a single <code>back</code> removes the definition.</p>
+<h2 id="the-rest-of-the-line-is-discarded">The rest of the line is discarded</h2>
+<p>A line that calls <code>back</code> doesn't commit anything else. Whatever else it did to the stack or the definitions is thrown away, and the world is replaced by the older one:</p>
+<pre><code>[ 1 ] :x back
+</code></pre>
+<p>doesn't define <code>x</code>, and it rewinds the line before it. Put <code>back</code> on a line of its own unless that is what you want.</p>
+<p>Code that calls <code>back</code> inside a definition works the same way, so <code>[ back ] :undo</code> followed by <code>undo</code> rewinds one line.</p>
+<h2 id="redo">redo</h2>
+<p><code>redo</code> takes a <code>back</code> back:</p>
+<pre><code>1 2 » 3
+1 2 3 » back
+  rewound 1
+1 2 » redo
+  redone 1
+1 2 3 »
+</code></pre>
+<p>Each <code>back</code> puts the world it leaves onto a redo list, and <code>redo</code> takes worlds off that list again, newest first. <code>redo redo</code> redoes two. Like <code>back</code>, it discards everything else on its line.</p>
+<p>Any line that changes the world in a new way clears the redo list, since the worlds on it no longer follow from the current one. With nothing to redo, <code>redo</code> prints <code>nothing to redo</code>. A line with both <code>back</code> and <code>redo</code> only goes back.</p>
+<p>The redo list holds up to 64 worlds and isn't saved to disk, so it is empty after a reboot.</p>
+<h2 id="what-back-restores">What back restores</h2>
+<p><code>back</code> restores exactly what a transaction protects: the stack and the tab's definitions. These are outside its reach:</p>
+<ul>
+<li><strong>Root.</strong> Root edits are separate and have their own rule for failures (<a href="root.html">root</a>). To undo a root edit, open the unit and change it back.</li>
+<li><strong>Other tabs.</strong> Each tab has its own history, and <code>back</code> in one tab never affects another.</li>
+<li><strong>The machine.</strong> Memory written with <code>poke</code>, ports written with <code>out</code>, <code>alloc</code>, the screen, the tab title and the clock are changed the moment the word runs. <code>back</code> doesn't put them back.</li>
+<li><strong>Printed text</strong> stays on the screen.</li>
+</ul>
+<h2 id="rewinding-and-saving">Rewinding and saving</h2>
+<p>On an installed disk, a rewind is saved like any other change, so the world on disk after <code>back</code> is the older one (<a href="saving.html">saving</a>). The history itself isn't saved. After a reboot each tab starts with an empty history, and the first <code>back</code> prints <code>there is nothing to go back to</code>.</p>
+<h2 id="cost">Cost</h2>
+<p>Rewinding is instant regardless of how much is defined. A world is only a pointer to a stack and a pointer to the head of a dictionary, and old worlds share almost all of their entries with new ones, so keeping 64 of them takes little memory. See <a href="worlds.html">how worlds work</a>.</p>
+<h2 id="back-and-the-up-arrow">back and the Up arrow</h2>
+<p>The Up arrow at the <a href="prompt.html">prompt</a> recalls the text of an earlier line. <code>back</code> undoes the effect of one. To fix a mistaken definition, <code>back</code> it, press Up twice to get the line back, edit it and press Enter.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

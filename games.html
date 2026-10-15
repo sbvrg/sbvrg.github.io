@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Games - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Games - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="games">Games</h1>
+<p>The games and animations draw directly on the text <a href="screen.html">screen</a>. All of them are a page or two of omega in <a href="root.html">root</a>, and <code>'name open</code> shows how each one works.</p>
+<h2 id="snake">snake</h2>
+<pre><code>snake
+</code></pre>
+<p>The arrow keys steer, and the snake can't reverse into itself. Each piece of food adds three segments and a point. Running into the wall or into yourself ends the game. The snake moves every 8 ticks, about twelve steps a second.</p>
+<p><img src="images/25-snake.png" alt="snake"></p>
+<h2 id="tiles">tiles</h2>
+<pre><code>tiles
+</code></pre>
+<p><code>tiles</code> is a sliding tile game on a 4 by 4 board. The arrow keys slide every tile as far as it goes, and two equal tiles that meet merge into their sum. Each slide that moves anything adds a new 2 or, one time in ten, a 4. Merges add their value to the score. The game ends when no slide changes the board. Tile colours follow the <a href="themes.html">theme</a>.</p>
+<p><img src="images/77-tiles.png" alt="tiles"></p>
+<p>The board is a list of 16 numbers, and each slide is computed by reading the board along one of four sets of index lines, sliding each line left with <code>slide-row</code>, and writing it back with <code>set-at</code>. The same code handles all four directions:</p>
+<pre><code>[ 2 2 4 0 ] slide-row . .           4, then [ 4 4 0 0 ]
+[ 2 2 2 2 ] slide-row . .           8, then [ 4 4 0 0 ]
+</code></pre>
+<h2 id="pong">pong</h2>
+<pre><code>pong
+</code></pre>
+<p>Left and right move the paddle along the bottom. Each return scores a point, and a miss ends the game.</p>
+<p><img src="images/62-pong.png" alt="pong"></p>
+<h2 id="life">life</h2>
+<pre><code>life
+</code></pre>
+<p>Conway's Game of Life on an 80 by 22 board that wraps at the edges, seeded at random with about one cell in four alive. It keeps two boards in raw memory from <code>alloc</code> and swaps them each generation, and frees both when you quit, so it is also a working example of the <a href="memory.html">memory</a> words.</p>
+<p><img src="images/26-life.png" alt="life"></p>
+<h2 id="animations">Animations</h2>
+<p>These run until a key is pressed.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>What it draws</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rain</code></td>
+<td>falling green characters</td>
+</tr>
+<tr>
+<td><code>stars</code></td>
+<td>a starfield flying towards you</td>
+</tr>
+<tr>
+<td><code>bounce</code></td>
+<td>balls bouncing off the edges</td>
+</tr>
+<tr>
+<td><code>sieve</code></td>
+<td>the sieve of Eratosthenes, crossing out multiples up to 1840</td>
+</tr>
+<tr>
+<td><code>sorting</code></td>
+<td>bubble sort on random bars, swap by swap</td>
+</tr>
+<tr>
+<td><code>fortune</code></td>
+<td>one short fact, printed and done</td>
+</tr>
+</tbody>
+</table>
+<p><img src="images/27-rain.png" alt="rain"></p>
+<p><img src="images/45-sieve-done.png" alt="sieve"></p>
+<p><img src="images/47-sorting-running.png" alt="sorting"></p>
+<p>Running a few of them in different <a href="tabs.html">tabs</a> and then <code>top</code> shows the scheduler sharing the CPU between them.</p>
+<h2 id="writing-your-own">Writing your own</h2>
+<p>The bundled games share a shape:</p>
+<pre><code>[ &quot;name&quot; title wipe nocursor
+  ... set up locals ...
+  [ going ] [
+    ... draw with put and text ...
+    key? quit-key? [ 0 -&gt;going ] when
+    5 sleep
+  ] while
+  wipe &quot;omega&quot; title
+] :name
+</code></pre>
+<p><code>title</code> names the tab, <code>wipe</code> and <code>nocursor</code> clear the screen and hide the cursor, and the loop draws a frame, reads at most one key without waiting and sleeps a few ticks. <code>quit-key?</code> is true for <code>q</code>, Escape and Ctrl-C. Games that only change on a key press, such as <code>tiles</code>, use <code>key</code> instead of <code>key?</code> and skip the sleep.</p>
+<p>Drawing only what changed is much faster than redrawing the whole screen: <code>snake</code> draws the new head and erases the old tail, and never touches the rest. Use the colour numbers rather than fixed colours so the game follows the theme.</p>
+<p>Put the finished game in a <a href="units.html">unit</a> and add it to <a href="apps.html">apps</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cardinals - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Cardinals - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="cardinals">Cardinals</h1>
+<p>Cardinals measure the size of a set, and <a href="ordinals.html">ordinals</a> measure positions in an ordering. omega keeps cardinals as their own type, separate from ordinals and from integers.</p>
+<h2 id="what-they-are">What they are</h2>
+<p>Two sets have the same size when their members can be paired off one to one. Pair each natural number n with the even number 2n and every member of both sets gets exactly one partner, so there are as many even numbers as natural numbers. That size is ℵ₀, and omega agrees:</p>
+<pre><code>aleph0 aleph0 + .       ℵ₀
+aleph0 aleph0 * .       ℵ₀
+</code></pre>
+<p>Positions and sizes split apart here. ω, ω+1 and ω·2 are different places in the line, but each one has only countably many places before it, so all three have size ℵ₀:</p>
+<pre><code>omega 2 * card .        ℵ₀
+</code></pre>
+<p>Some sets are bigger. Cantor's diagonal argument shows that the subsets of the natural numbers can't be paired off with the natural numbers, so 2^ℵ₀, the <code>continuum</code>, is larger than ℵ₀. <code>diagonal</code> runs the argument on screen (<a href="demos.html">demos</a>). ℵ₁ is the next size after ℵ₀, and whether it equals the continuum is the continuum hypothesis, which omega refuses to answer (see below).</p>
+<p>Vsauce's <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a> explains all of this with pictures.</p>
+<h2 id="literals">Literals</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Value</th>
+<th>Printed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aleph0</code></td>
+<td>the size of the natural numbers</td>
+<td><code>ℵ₀</code></td>
+</tr>
+<tr>
+<td><code>aleph1</code></td>
+<td>the next infinite size</td>
+<td><code>ℵ₁</code></td>
+</tr>
+<tr>
+<td><code>n aleph</code></td>
+<td>the n-th infinite size</td>
+<td><code>ℵₙ</code></td>
+</tr>
+<tr>
+<td><code>continuum</code></td>
+<td>the size of the real numbers, 2^ℵ₀</td>
+<td><code>2^ℵ₀</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code>3 aleph .               ℵ₃
+12 aleph .              ℵ_12
+</code></pre>
+<p><code>aleph</code> takes any non-negative 64-bit number. Above 9 the index is printed after an underscore, since the font has subscript digits only up to 9. The index has to be a finite number, so ℵ_ω and the alephs above it can't be written in omega, even though set theory has them.</p>
+<p>The other values omega can represent are powers of two: <code>2 n aleph ^</code> is 2^ℵₙ.</p>
+<h2 id="addition-and-multiplication">Addition and multiplication</h2>
+<p>For infinite cardinals, sums and products are the larger of the two:</p>
+<pre><code>aleph0 aleph0 + .       ℵ₀
+aleph0 aleph0 * .       ℵ₀
+3 aleph0 + .            ℵ₀
+aleph0 aleph1 + .       ℵ₁
+aleph0 continuum * .    2^ℵ₀
+0 aleph1 * .            0
+</code></pre>
+<p>Adding a finite number to an infinite cardinal doesn't change it, and multiplying by <code>0</code> gives <code>0</code>. When the larger of the two can't be determined in set theory, the operation fails with the ZFC error described below: <code>aleph2 continuum +</code> is either ℵ₂ or 2^ℵ₀, and ZFC can't say which.</p>
+<h2 id="powers">Powers</h2>
+<p>Only these powers are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Form</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n aleph_k ^</code>, with n ≥ 2 finite</td>
+<td>2^ℵₖ</td>
+</tr>
+<tr>
+<td><code>aleph_k n ^</code>, with n ≥ 1 finite</td>
+<td>ℵₖ</td>
+</tr>
+</tbody>
+</table>
+<pre><code>2 aleph0 ^ .            2^ℵ₀
+10 aleph0 ^ .           2^ℵ₀
+aleph0 3 ^ .            ℵ₀
+2 aleph0 ^ continuum = .    1
+</code></pre>
+<p>Every finite base from 2 up gives the same power, since nᵏ and 2ᵏ have the same size for infinite k. A cardinal raised to a finite power is itself.</p>
+<p>Everything else, such as <code>aleph0 aleph0 ^</code>, fails with <code>that cardinal power isn't supported</code>. Several of these have answers in ZFC (ℵ₀^ℵ₀ is 2^ℵ₀), but omega only implements the two rules above.</p>
+<h2 id="comparison">Comparison</h2>
+<pre><code>aleph0 aleph1 &lt; .               1
+aleph0 continuum &lt; .            1
+aleph1 continuum &lt;= .           1
+2 aleph0 ^ 2 aleph1 ^ &lt;= .      1
+</code></pre>
+<p>Comparisons follow what ZFC can prove:</p>
+<ul>
+<li>ℵⱼ &lt; ℵₖ exactly when j &lt; k.</li>
+<li>ℵₖ &lt; 2^ℵₖ always, by Cantor's theorem. The <code>diagonal</code> demo shows the proof (<a href="demos.html">demos</a>).</li>
+<li>ℵₖ₊₁ ≤ 2^ℵₖ always, but whether they are equal is undecidable.</li>
+<li>2^ℵⱼ ≤ 2^ℵₖ for j &lt; k, but whether the inequality is strict is undecidable.</li>
+<li>ℵⱼ compared with 2^ℵₖ for j &gt; k+1 is undecidable either way.</li>
+</ul>
+<p>Every finite number is smaller than every infinite cardinal.</p>
+<h2 id="the-continuum-hypothesis">The continuum hypothesis</h2>
+<p>The continuum hypothesis says that no size lies strictly between the natural numbers and the real numbers, that is, <code>aleph1</code> equals <code>continuum</code>.</p>
+<pre><code>aleph1 continuum =
+</code></pre>
+<p>fails with</p>
+<pre><code>ZFC can't decide this one (continuum hypothesis, Godel 1940 and Cohen 1963)
+</code></pre>
+<p>The hypothesis is independent of ZFC: Gödel showed in 1940 that ZFC can't disprove it, and Cohen showed in 1963 that ZFC can't prove it. omega doesn't assume an answer. A comparison whose result depends on it, or on the generalised hypothesis for higher alephs, fails with the same message, and since failing fails the line, nothing a program computes ever rests on an assumption it didn't make.</p>
+<p>Comparisons that come out the same either way still work. <code>aleph1 continuum &lt;=</code> is <code>1</code>, and so is <code>aleph1 continuum &gt; not</code>.</p>
+<h2 id="ordinals-and-cardinals">Ordinals and cardinals</h2>
+<p>Ordinals and cardinals can't be mixed directly:</p>
+<pre><code>omega aleph0 +          can't mix cardinals with that
+</code></pre>
+<p>Convert an ordinal with <code>card</code> first:</p>
+<pre><code>omega 2 * card .        ℵ₀
+epsilon0 card .         ℵ₀
+omega1 card .           ℵ₁
+</code></pre>
+<p>Finite numbers work with both types.</p>
+<p>Subtraction and division fail with <code>cardinals only support + * and ^</code>.</p>
+<h2 id="saving">Saving</h2>
+<p>Cardinals are saved as source, <code>0 aleph</code> for ℵ₀ and <code>2 0 aleph ^</code> for 2^ℵ₀, and read back exactly (<a href="saving.html">saving</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>

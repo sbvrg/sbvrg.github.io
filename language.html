@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The language in detail - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="The language in detail - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792581363">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<nav>
+<div class="dd"><a href="features.html">About</a>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="new.html">What's new</a></li>
+<li><a href="learn.html">Learn</a></li>
+<li><a href="roadmap.html">Roadmap</a></li>
+<li><a href="expectations.html">Expectations</a></li>
+<li><a href="history.html">History</a></li>
+</ul></div>
+<div class="dd"><a href="installation.html">Get Subverge</a>
+<ul>
+<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="qemu.html">QEMU</a></li>
+<li><a href="hardware.html">Hardware</a></li>
+<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
+</ul></div>
+<div class="dd"><a href="handbook.html">Documentation</a>
+<ul>
+<li><a href="handbook.html">Handbook</a></li>
+<li><a href="readme.html">README</a></li>
+<li><a href="first-steps.html">First steps</a></li>
+<li><a href="programming.html">Writing programs</a></li>
+<li><a href="snippets.html">Snippets</a></li>
+<li><a href="omega.html">omega</a></li>
+<li><a href="smarties.html">For smarties</a></li>
+<li><a href="all-words.html">All words</a></li>
+</ul></div>
+<div class="dd"><a href="faq.html">Support</a>
+<ul>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="troubleshooting.html">Troubleshooting</a></li>
+<li><a href="errors.html">Errors</a></li>
+<li><a href="bugs.html">Reporting bugs</a></li>
+</ul></div>
+<div class="dd"><a href="development.html">Developers</a>
+<ul>
+<li><a href="development.html">Building</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="source-layout.html">Source layout</a></li>
+<li><a href="builtins.html">Writing a built-in</a></li>
+<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
+</ul></div>
+</nav>
+<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="the-language-in-detail">The language in detail</h1>
+<p>omega reads a line in three steps: it splits it into tokens, parses the tokens into a quote, and runs the quote. The sections below cover each step, what values look like inside, and how a name is looked up. Read <a href="omega.html">omega</a> first.</p>
+<h2 id="lexical-structure">Lexical structure</h2>
+<p>A line is split into tokens on whitespace. Each token is, in this order of precedence:</p>
+<ul>
+<li>a string, starting with <code>&quot;</code> and running to the next unescaped <code>&quot;</code>, which may contain spaces</li>
+<li><code>[</code> or <code>]</code>, which open and close a quote, and <code>{</code>, which opens a list of local names closed by <code>}</code></li>
+<li><code>#</code>, which ends the line</li>
+<li>a number: an optional <code>-</code>, then decimal digits, <code>0x</code> and hex digits, or <code>0b</code> and binary digits, of any length up to 2^65536</li>
+<li><code>'name</code>, a symbol</li>
+<li><code>:name</code>, a definition</li>
+<li><code>-&gt;name</code>, a local assignment</li>
+<li>anything else, a word</li>
+</ul>
+<p>Strings recognise <code>\n \t \e \\ \&quot;</code>, plus <code>\w</code> and <code>\A</code>, which are the bytes <code>0x80</code> and <code>0x81</code>, reprogrammed into the font as omega and aleph. Unknown escapes keep the character after the backslash. Nesting of brackets is limited, past which the parse fails with <code>the brackets are nested too deep</code>. The whole line is parsed before any of it runs, so a parse error means nothing on the line happened.</p>
+<h2 id="values">Values</h2>
+<p>A value is 24 bytes, made of a type, a 64-bit integer and a pointer to a heap object. These are the types:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Payload</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>integer</td>
+<td>the i64</td>
+<td>when it fits in 64 bits</td>
+</tr>
+<tr>
+<td>bignum</td>
+<td>heap object</td>
+<td>only when an integer outgrows 64 bits, see <a href="bignums.html">bignums</a></td>
+</tr>
+<tr>
+<td>string</td>
+<td>heap object</td>
+<td>immutable bytes with a length, not NUL-dependent</td>
+</tr>
+<tr>
+<td>quote</td>
+<td>heap object</td>
+<td>an array of values, immutable once built</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>interned name</td>
+<td><code>'x</code> and <code>&quot;x&quot; &gt;sym</code> are the same object</td>
+</tr>
+<tr>
+<td>word</td>
+<td>interned name</td>
+<td>only appears inside quotes</td>
+</tr>
+<tr>
+<td>ordinal</td>
+<td>heap object</td>
+<td>Cantor normal form, see <a href="infinity.html">how infinity works</a></td>
+</tr>
+<tr>
+<td>cardinal</td>
+<td>the i64</td>
+<td>n for ℵn, -n-1 for 2^ℵn</td>
+</tr>
+</tbody>
+</table>
+<p>Heap objects belong to the tab's <a href="gc.html">collector</a>.</p>
+<h2 id="evaluation">Evaluation</h2>
+<p>A quote is evaluated left to right. Literals push themselves. A word is resolved and run. <code>:name</code> pops one value and binds it in the tab's dictionary. <code>-&gt;name</code> pops one value and updates the innermost bound local called <code>name</code>, and otherwise binds a new local. <code>{ a b c }</code> pops as many values as names and binds them so that the last name gets the top.</p>
+<p>When a word is run, it's resolved in this order: bound locals, innermost first; the tab's dictionary; root's dictionary; built-ins. A binding whose value is a quote is called. Any other bound value is pushed. A tab binding with no value, which is what <code>forget</code> creates, ends the search of the tab's dictionary and lookup carries on in root, so forgetting a tab definition uncovers whatever it shadowed.</p>
+<p>Locals live on a single per-tab array of 256 entries, pushed when bound and popped when the binding quote returns. Lookup scans it from the top, which makes scoping dynamic: a callee sees its caller's locals. Exceeding 256 live locals fails with <code>too many local names</code>.</p>
+<p>Call depth is limited, and exceeding it fails with <code>this nests too deep</code>. The data stack holds 1024 values.</p>
+<p>See <a href="limits.html">limits</a> for the numbers and <a href="worlds.html">how worlds work</a> for what happens after a line runs.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+</footer>
+</body>
+</html>
