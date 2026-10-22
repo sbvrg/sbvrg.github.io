@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -89,12 +89,12 @@ document.querySelector(".mode").onclick = function () {
 <p>Some keys are handled inside the interrupt handler and never queued:</p>
 <ul>
 <li><strong>F1 to F4</strong> and <strong>Alt-1 to Alt-4</strong> switch the visible <a href="tabs.html">tab</a>. The switch happens immediately, even if every tab is busy.</li>
-<li><strong>Ctrl-C</strong> sets the visible tab's break flag <em>and</em> is queued as code 3. The flag is what stops running code: the interpreter checks it before every step and fails with <code>interrupted</code>. The queued code is what the <a href="prompt.html">prompt</a> and programs like <code>snake</code> see.</li>
+<li><strong>Ctrl-C</strong> sets the visible tab&#x27;s break flag <em>and</em> is queued as code 3. The flag is what stops running code: the interpreter checks it before every step and fails with <code>interrupted</code>. The queued code is what the <a href="prompt.html">prompt</a> and programs like <code>snake</code> see.</li>
 </ul>
 <h2 id="the-key-queues">The key queues</h2>
-<p>Each tab has its own queue of 64 entries. Keys always go to the tab that is visible when they are pressed, so typing into one tab never affects another, and a tab in the background can't steal keys.</p>
-<p>A queue holds 63 keys before it is full, and keys pressed while it is full are dropped. A program that doesn't read keys for a while, such as a long computation, can therefore lose typing beyond that point.</p>
-<p>When a line fails, the keys queued during it are thrown away, so keys pressed while a broken loop was running don't spill into the next prompt.</p>
+<p>Each tab has its own queue of 64 entries. Keys always go to the tab that is visible when they are pressed, so typing into one tab never affects another, and a tab in the background can&#x27;t steal keys.</p>
+<p>A queue holds 63 keys before it is full, and keys pressed while it is full are dropped. A program that doesn&#x27;t read keys for a while, such as a long computation, can therefore lose typing beyond that point.</p>
+<p>When a line fails, the keys queued during it are thrown away, so keys pressed while a broken loop was running don&#x27;t spill into the next prompt.</p>
 <h2 id="key-codes">Key codes</h2>
 <p><code>key</code> waits for a key and pushes its code, <code>key?</code> pushes the next code or <code>-1</code> if the queue is empty, and <code>n waitkey</code> waits at most <code>n</code> ticks and pushes <code>-1</code> on timeout.</p>
 <p>Printable keys give their ASCII code. At the prompt, Tab completes names (<a href="prompt.html">prompt</a>); everywhere else it is code 9. The others:</p>
@@ -175,7 +175,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

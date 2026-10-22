@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,7 +81,7 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="readme">README</h1>
 <h2 id="what-subverge-is">What Subverge is</h2>
 <p>Subverge is an operating system written from scratch, with its own kernel, shell and programs. It is a hobby project. It boots in QEMU into a text screen with four tabs, and the prompt in each tab is a programming language.</p>
-<p>The kernel is called <strong>ordinal</strong> and the shell is called <strong>omega</strong>. The idea came from TempleOS, which also has a shell that compiles code and runs everything in ring 0. The infinite values came from Vsauce's video <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a>. For the rest, see <a href="history.html">history</a>.</p>
+<p>The kernel is called <strong>ordinal</strong> and the shell is called <strong>omega</strong>. The idea came from TempleOS, which also has a shell that compiles code and runs everything in ring 0. The infinite values came from Vsauce&#x27;s video <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a>. For the rest, see <a href="history.html">history</a>.</p>
 <h2 id="the-shell">The shell</h2>
 <p>At the prompt you type <a href="omega.html">omega</a>, a stack language. A few lines look like this:</p>
 <pre><code>2 3 +
@@ -90,11 +90,11 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p>The programs that come with the system, such as the <a href="tools.html">clock</a> and the <a href="installation.html">installer</a>, are written in omega. For a short first session, see <a href="first-steps.html">first steps</a>.</p>
 <h2 id="where-to-start">Where to start</h2>
-<p>Boot the ISO as described in <a href="installation.html">installation</a> and run <code>learn</code>. Afterwards, <code>help</code> lists every word, <code>'dup help</code> explains one, and <code>apps</code> lists the bundled programs.</p>
+<p>Boot the ISO as described in <a href="installation.html">installation</a> and run <code>learn</code>. Afterwards, <code>help</code> lists every word, <code>&#x27;dup help</code> explains one, and <code>apps</code> lists the bundled programs.</p>
 <h2 id="how-the-system-behaves">How the system behaves</h2>
 <p>When a line fails, everything it did is undone. This is called a <a href="transactions.html">transaction</a>. Lines that worked can be undone with <a href="back.html">back</a>, up to 64 of them, and <code>redo</code> reverses a <code>back</code>. Mistakes at the prompt rarely need more than one of these.</p>
 <p>There are four <a href="tabs.html">tabs</a>, switched with F1 to F4. Each has its own <a href="world.html">world</a>, and all four run at the same time.</p>
-<p>Programs are kept in <a href="root.html">root</a>, and you can edit them with <a href="scrawl.html">scrawl</a> while the system is running. An edit only takes effect if it builds, so a broken edit can't break the running system. An installed system <a href="saving.html">saves</a> your work after every line, so it has no save command you need to remember and nothing to lose when QEMU is closed.</p>
+<p>Programs are kept in <a href="root.html">root</a>, and you can edit them with <a href="scrawl.html">scrawl</a> while the system is running. An edit only takes effect if it builds, so a broken edit can&#x27;t break the running system. An installed system <a href="saving.html">saves</a> your work after every line, so it has no save command you need to remember and nothing to lose when QEMU is closed.</p>
 <p>Infinity is a value in omega, so <code>omega 1 +</code> is a valid line and prints <code>ω+1</code> (<a href="ordinals.html">ordinals</a>). Integers grow past 64 bits by turning into bignums (<a href="numbers.html">numbers</a>). For error messages, see <a href="errors.html">errors</a>.</p>
 <h2 id="raw-memory-and-ports">Raw memory and ports</h2>
 <p>omega also has words that read and write memory, talk to I/O ports and read PCI configuration space. Everything runs in ring 0, so these work directly from the prompt and nothing stops a bad write. See <a href="smarties.html">omega for smarties</a> for them and the internals, including how the JIT, the garbage collector and the scheduler work.</p>
@@ -103,7 +103,7 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="real-hardware">Real hardware</h2>
 <p>Subverge targets QEMU. If you try it on a real machine, <a href="bugs.html">report</a> the result. For what a real machine needs, see <a href="hardware.html">hardware</a>.</p>
 <h2 id="problems">Problems</h2>
-<p>Check <a href="troubleshooting.html">troubleshooting</a> and the <a href="faq.html">FAQ</a> first. If that doesn't help, <a href="bugs.html">report the problem</a> with the exact line you typed and the exact error.</p>
+<p>Check <a href="troubleshooting.html">troubleshooting</a> and the <a href="faq.html">FAQ</a> first. If that doesn&#x27;t help, <a href="bugs.html">report the problem</a> with the exact line you typed and the exact error.</p>
 <h2 id="building">Building</h2>
 <p>To build Subverge from source, see <a href="development.html">development</a>; to run omega without booting, <a href="testing.html">testing</a>; and for which file does what, <a href="source-layout.html">source layout</a>.</p>
 <h2 id="license">License</h2>
@@ -111,7 +111,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -112,7 +112,7 @@ document.querySelector(".mode").onclick = function () {
 <td>the quote object</td>
 </tr>
 <tr>
-<td>symbol (<code>'name</code>)</td>
+<td>symbol (<code>&#x27;name</code>)</td>
 <td>unused</td>
 <td>the interned name</td>
 </tr>
@@ -173,7 +173,7 @@ document.querySelector(".mode").onclick = function () {
 <td><code>list</code></td>
 </tr>
 <tr>
-<td><code>'sq</code></td>
+<td><code>&#x27;sq</code></td>
 <td><code>symbol</code></td>
 </tr>
 <tr>
@@ -189,18 +189,18 @@ document.querySelector(".mode").onclick = function () {
 <p>Integers and bignums both give <code>number</code>. A word taken out of a list is a symbol, so <code>[ dup * ] first type</code> gives <code>symbol</code>.</p>
 <h2 id="words-are-values">Words are values</h2>
 <p>A quote is a list of cells, and the source text is gone after parsing. <code>[ dup * ]</code> becomes a quote of two cells, both tagged <em>word</em>, pointing at the interned names <code>dup</code> and <code>*</code>. Running the quote means walking those cells in order.</p>
-<p>Because code and data share one representation, a quote can be used as a list (<code>[ 1 2 3 ] first</code>) and a list can be run (<code>[ 1 2 3 ] do</code> pushes 1, 2 and 3). When a list operation hands you an element that is a word, such as <code>[ dup * ] first</code>, it is converted to a symbol first, so taking it out of the list doesn't run it.</p>
+<p>Because code and data share one representation, a quote can be used as a list (<code>[ 1 2 3 ] first</code>) and a list can be run (<code>[ 1 2 3 ] do</code> pushes 1, 2 and 3). When a list operation hands you an element that is a word, such as <code>[ dup * ] first</code>, it is converted to a symbol first, so taking it out of the list doesn&#x27;t run it.</p>
 <h2 id="interned-names">Interned names</h2>
-<p>Every name the parser sees is interned: looked up in a table of 8192 entries and created there if it's new. Two occurrences of <code>sq</code> therefore point at the same object, and comparing names is a pointer comparison. Name lookup in a dictionary never compares strings.</p>
-<p>The interned name object also carries the address of the built-in it names, if there is one. Looking up <code>dup</code> does not search a table of built-ins: the interpreter checks the tab's definitions, then root's, and if neither binds the name it calls the function stored on the name itself. A definition with the same name hides the built-in without touching it, and <code>forget</code> uncovers it again.</p>
+<p>Every name the parser sees is interned: looked up in a table of 8192 entries and created there if it&#x27;s new. Two occurrences of <code>sq</code> therefore point at the same object, and comparing names is a pointer comparison. Name lookup in a dictionary never compares strings.</p>
+<p>The interned name object also carries the address of the built-in it names, if there is one. Looking up <code>dup</code> does not search a table of built-ins: the interpreter checks the tab&#x27;s definitions, then root&#x27;s, and if neither binds the name it calls the function stored on the name itself. A definition with the same name hides the built-in without touching it, and <code>forget</code> uncovers it again.</p>
 <p>Interned names are never freed. They are allocated outside the collected heap, so a name stays in the table even when nothing uses it anymore. The table fills only if a session creates thousands of distinct names, for example with <code>&gt;sym</code> in a loop, and filling it stops the machine with <code>symbol table full</code>.</p>
 <h2 id="objects">Objects</h2>
 <p>Strings, quotes, bignums, ordinals and dictionary entries are heap objects. Each has a small header with a link to the next object, a kind, a mark bit and a <em>pinned</em> flag. Every tab keeps a list of the objects it has allocated, and its collector walks that list.</p>
 <p>Strings are length-prefixed and also zero-terminated, so the length is known without scanning, and the bytes can be handed to the screen code directly. A string can contain any byte except that the zero terminator ends it for words like <code>find</code>.</p>
 <p>Quotes store their length, their cells, and some JIT bookkeeping: how many times the quote has run, a pointer to its machine code, the length of that code, the JIT version it was compiled under, and whether compiling it was tried and failed. A quote is compiled on its second run (<a href="jit.html">JIT</a>).</p>
-<p>A dictionary entry holds a name, a value and a link to the next entry. A tab's definitions are a singly linked list of these entries, newest first. Defining a word pushes a new entry at the front; it never modifies the old one. This is what makes keeping 64 old worlds cheap (<a href="worlds.html">how worlds work</a>).</p>
+<p>A dictionary entry holds a name, a value and a link to the next entry. A tab&#x27;s definitions are a singly linked list of these entries, newest first. Defining a word pushes a new entry at the front; it never modifies the old one. This is what makes keeping 64 old worlds cheap (<a href="worlds.html">how worlds work</a>).</p>
 <h2 id="pinned-objects">Pinned objects</h2>
-<p>Objects created while <a href="root.html">root</a> is being built are pinned. They are not added to any tab's object list, are never collected, and are shared by all four tabs. When root is rebuilt, the old root's objects are left in place, so a quote that a tab copied out of root stays valid.</p>
+<p>Objects created while <a href="root.html">root</a> is being built are pinned. They are not added to any tab&#x27;s object list, are never collected, and are shared by all four tabs. When root is rebuilt, the old root&#x27;s objects are left in place, so a quote that a tab copied out of root stays valid.</p>
 <h2 id="equality">Equality</h2>
 <p><code>=</code> compares integers and bignums by value and strings by content. Every other kind of value is compared by identity:</p>
 <pre><code>[ 1 2 ] [ 1 2 ] = .          0
@@ -214,7 +214,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

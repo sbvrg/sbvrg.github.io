@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,7 +81,7 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="prompt">Prompt</h1>
 <p>The <code>»</code> prompt is where omega code is typed. Each tab has its own prompt, its own line history and its own key queue, and whatever is typed at it runs as one <a href="transactions.html">transaction</a> when Enter is pressed.</p>
 <h2 id="what-the-prompt-shows">What the prompt shows</h2>
-<p>Before the <code>»</code>, the prompt prints the tab's stack in grey, bottom to top:</p>
+<p>Before the <code>»</code>, the prompt prints the tab&#x27;s stack in grey, bottom to top:</p>
 <pre><code>1 2 [ dup * ] »
 </code></pre>
 <p>An empty stack prints nothing before the <code>»</code>. A long stack is cut from the left and shown with <code>..</code> in front, so the top of the stack, which is what the next word will see, is always visible.</p>
@@ -135,17 +135,17 @@ document.querySelector(".mode").onclick = function () {
 </table>
 <p>Characters are inserted at the cursor, so a typo in the middle of a line can be fixed without retyping the rest.</p>
 <h2 id="completion">Completion</h2>
-<p>Tab completes the name that ends at the cursor. The candidates are your tab's definitions, root's words and the built-ins.</p>
+<p>Tab completes the name that ends at the cursor. The candidates are your tab&#x27;s definitions, root&#x27;s words and the built-ins.</p>
 <ul>
 <li>With one match, Tab writes the rest of the name and a space.</li>
 <li>With several matches that share a longer beginning, Tab extends the name to it: <code>them</code> becomes <code>theme</code>, the part <code>theme</code>, <code>theme@</code> and <code>themes</code> have in common.</li>
 <li>Otherwise Tab writes the first match in alphabetical order, and each further Tab replaces it with the next, wrapping around: <code>ro</code> gives <code>root</code>, <code>rot</code>, <code>row</code>, then <code>root</code> again.</li>
 </ul>
-<p>A <code>'</code>, <code>:</code> or <code>-&gt;</code> in front of the name is kept, so <code>'th</code> completes to <code>'theme</code>, <code>'themes</code> and <code>'theme@</code> in turn. Locals aren't offered, since they only exist while code runs.</p>
-<p><code>ask</code> and <code>calc</code> don't complete.</p>
+<p>A <code>&#x27;</code>, <code>:</code> or <code>-&gt;</code> in front of the name is kept, so <code>&#x27;th</code> completes to <code>&#x27;theme</code>, <code>&#x27;themes</code> and <code>&#x27;theme@</code> in turn. Locals aren&#x27;t offered, since they only exist while code runs.</p>
+<p><code>ask</code> and <code>calc</code> don&#x27;t complete.</p>
 <h2 id="line-length">Line length</h2>
 <p>A line holds up to 200 characters, or less when the prompt itself is wide, since the line has to fit on one screen row after the stack and the <code>»</code>. Once it is full, further keys are ignored. If the stack display takes up a lot of the row, <code>empty</code> or a few <code>drop</code>s give the line more room.</p>
-<p>Code longer than one line belongs in a definition, written with <code>'name edit</code> in <a href="scrawl.html">scrawl</a>, or in a <a href="units.html">root unit</a>.</p>
+<p>Code longer than one line belongs in a definition, written with <code>&#x27;name edit</code> in <a href="scrawl.html">scrawl</a>, or in a <a href="units.html">root unit</a>.</p>
 <h2 id="history">History</h2>
 <p>Up and Down step through the last 16 lines typed in the tab. Empty lines and a line identical to the one before it are not added. The history is per tab, it is not saved to disk, and it holds text only: recalling a line and pressing Enter runs it again, which is different from undoing it with <a href="back.html">back</a>.</p>
 <h2 id="characters-you-can-type">Characters you can type</h2>
@@ -163,7 +163,7 @@ aleph0 .                     ℵ₀
 </code></pre>
 <p>Keys pressed while the failing line was running are discarded, so the next prompt starts clean. See <a href="errors.html">errors</a>.</p>
 <h2 id="when-a-line-runs-for-a-long-time">When a line runs for a long time</h2>
-<p>The prompt doesn't come back until the line finishes. Ctrl-C interrupts it with the error <code>interrupted</code>, which also undoes the line. If the line doesn't respond to Ctrl-C, switch to another tab with F1 to F4. The other tabs keep running and their prompts keep working (<a href="tabs.html">tabs</a>).</p>
+<p>The prompt doesn&#x27;t come back until the line finishes. Ctrl-C interrupts it with the error <code>interrupted</code>, which also undoes the line. If the line doesn&#x27;t respond to Ctrl-C, switch to another tab with F1 to F4. The other tabs keep running and their prompts keep working (<a href="tabs.html">tabs</a>).</p>
 <h2 id="programs-that-read-keys">Programs that read keys</h2>
 <p>Programs started from the prompt, such as <code>snake</code> or <code>top</code>, read keys from the same queue. When they exit, the prompt returns. <code>ask</code> prints a question and reads one line with the same editing keys, but without history:</p>
 <pre><code>&quot;name? &quot; ask say
@@ -171,7 +171,7 @@ aleph0 .                     ℵ₀
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

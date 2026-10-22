@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -86,7 +86,7 @@ document.querySelector(".mode").onclick = function () {
 swap    a b -- b a
 rot     a b c -- b c a
 </code></pre>
-<p><code>'word help</code> shows the effect of any built-in or root word (<a href="help.html">help</a>). The letters are only names: <code>n</code> and <code>i</code> are numbers, <code>s</code> a string, <code>l</code> a list, <code>q</code> code, and <code>a</code>, <code>b</code>, <code>x</code> anything.</p>
+<p><code>&#x27;word help</code> shows the effect of any built-in or root word (<a href="help.html">help</a>). The letters are only names: <code>n</code> and <code>i</code> are numbers, <code>s</code> a string, <code>l</code> a list, <code>q</code> code, and <code>a</code>, <code>b</code>, <code>x</code> anything.</p>
 <h2 id="stack-words">Stack words</h2>
 <table>
 <thead>
@@ -190,7 +190,7 @@ empty saved spread
 <tr>
 <td><code>.</code></td>
 <td>one value</td>
-<td>the value as source, then a newline: strings in quotes, symbols with <code>'</code></td>
+<td>the value as source, then a newline: strings in quotes, symbols with <code>&#x27;</code></td>
 </tr>
 <tr>
 <td><code>say</code></td>
@@ -206,14 +206,14 @@ empty saved spread
 </table>
 <p><code>.</code> is for looking at values and <code>say</code> for output meant to be read. <code>&quot;hi&quot; .</code> prints <code>&quot;hi&quot;</code>, and <code>&quot;hi&quot; say</code> prints <code>hi</code>.</p>
 <h2 id="errors">Errors</h2>
-<p>A word that finds too few values fails with <code>name needs more values on the stack</code>, naming itself. A word that finds the wrong kind of value fails with <code>name needs a number</code>, <code>name needs a string</code>, <code>name needs a quote</code> or <code>name needs a 'name</code>. Either way the whole line is undone (<a href="transactions.html">transactions</a>), so the stack is as it was before the line.</p>
+<p>A word that finds too few values fails with <code>name needs more values on the stack</code>, naming itself. A word that finds the wrong kind of value fails with <code>name needs a number</code>, <code>name needs a string</code>, <code>name needs a quote</code> or <code>name needs a &#x27;name</code>. Either way the whole line is undone (<a href="transactions.html">transactions</a>), so the stack is as it was before the line.</p>
 <p>Pushing a 1025th value fails with <code>the stack is full</code>. This nearly always means a loop that pushes on every pass without popping, such as <code>2000 [ 1 ] times</code>.</p>
 <h2 id="the-stack-and-the-world">The stack and the world</h2>
-<p>The stack is part of the tab's <a href="world.html">world</a>: it is saved on installed disks, restored by <a href="back.html">back</a> and <code>redo</code>, and separate in each <a href="tabs.html">tab</a>. Values that can't be written as source don't survive a reboot (<a href="saving.html">saving</a>).</p>
+<p>The stack is part of the tab&#x27;s <a href="world.html">world</a>: it is saved on installed disks, restored by <a href="back.html">back</a> and <code>redo</code>, and separate in each <a href="tabs.html">tab</a>. Values that can&#x27;t be written as source don&#x27;t survive a reboot (<a href="saving.html">saving</a>).</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

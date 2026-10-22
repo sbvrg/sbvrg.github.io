@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -92,7 +92,7 @@ omega 2 ^ omega +       ω²+ω        [ (2, 1) (1, 1) ]
 <p>Because the exponents are ordinals too, an ordinal is a small tree. <code>omega omega omega ^ ^</code> is a term whose exponent is a term whose exponent is ω.</p>
 <p>A finite result is never kept as an ordinal. When an operation ends up with no infinite terms, it returns a plain integer, so <code>5 ordinal?</code> is <code>0</code> and finite ordinals work with every integer word.</p>
 <h2 id="-and-">ε₀ and ω₁</h2>
-<p>ε₀ can't be written in Cantor normal form with smaller exponents, since ε₀ = ω^ε₀. The kernel keeps <code>epsilon0</code> and <code>omega1</code> as two fixed atoms. Inside a calculation, an atom acts like a single term ω^x·1 whose exponent is the atom itself. That is correct for both: ω^ε₀ = ε₀ and ω^ω₁ = ω₁. So <code>epsilon0 1 +</code> is the list <code>[ (ε₀, 1) (0, 1) ]</code>, printed as <code>ε₀+1</code>, and <code>omega epsilon0 ^</code> simplifies straight back to <code>ε₀</code>.</p>
+<p>ε₀ can&#x27;t be written in Cantor normal form with smaller exponents, since ε₀ = ω^ε₀. The kernel keeps <code>epsilon0</code> and <code>omega1</code> as two fixed atoms. Inside a calculation, an atom acts like a single term ω^x·1 whose exponent is the atom itself. That is correct for both: ω^ε₀ = ε₀ and ω^ω₁ = ω₁. So <code>epsilon0 1 +</code> is the list <code>[ (ε₀, 1) (0, 1) ]</code>, printed as <code>ε₀+1</code>, and <code>omega epsilon0 ^</code> simplifies straight back to <code>ε₀</code>.</p>
 <p>ω₁ compares above every ordinal that can be built from <code>omega</code> and <code>epsilon0</code>, and ε₀ compares above every ordinal built from <code>omega</code> alone. omega has no way to write an ordinal between them other than by building on ε₀.</p>
 <h2 id="comparing">Comparing</h2>
 <p>Two ordinals are compared term by term from the front. The one whose first exponent is larger is larger. If the exponents are equal, the larger coefficient wins, and if those are equal too, the next term decides. When one list runs out first, it is the smaller ordinal.</p>
@@ -126,17 +126,17 @@ omega 2 ^ omega 1 + *       ω³+ω²
 </code></pre>
 <p>An infinite base is raised by splitting the exponent into its infinite part and its finite part n. The infinite part is done in one step with the rule ω^x to the power y = ω^(x·y), and the finite part is done by multiplying n more times. A finite part above 64 fails with <code>that exponent is too big to write out</code>, since every multiplication can double the number of terms.</p>
 <h2 id="limits">Limits</h2>
-<p>An ordinal has at most 64 terms, and a result that would have more keeps its first 64. Every coefficient has to fit in 64 bits, and an operation whose coefficient would overflow fails with <code>that coefficient doesn't fit in 64 bits</code>. A bignum can't be a coefficient, so <code>omega 2 100 ^ *</code> fails, while <code>2 100 ^ omega +</code> is ω, since the bignum is absorbed (<a href="limits.html">limits</a>).</p>
+<p>An ordinal has at most 64 terms, and a result that would have more keeps its first 64. Every coefficient has to fit in 64 bits, and an operation whose coefficient would overflow fails with <code>that coefficient doesn&#x27;t fit in 64 bits</code>. A bignum can&#x27;t be a coefficient, so <code>omega 2 100 ^ *</code> fails, while <code>2 100 ^ omega +</code> is ω, since the bignum is absorbed (<a href="limits.html">limits</a>).</p>
 <h2 id="cardinals">Cardinals</h2>
 <p>A cardinal fits in a single integer. ℵₖ is stored as k, and 2^ℵₖ as −k−1, so ℵ₀ is 0 and the continuum is −1. Cardinals are never allocated, which makes them as fast as integers.</p>
 <p>Addition and multiplication take the larger of the two, and comparisons follow what ZFC can prove. ℵⱼ against ℵₖ and 2^ℵⱼ against 2^ℵₖ compare by index. ℵₖ &lt; 2^ℵₖ always holds. ℵₖ₊₁ ≤ 2^ℵₖ always holds, and whether they are equal fails with the ZFC error. Anything further apart fails the same way. A finite number compares below every cardinal and is absorbed by addition, and <code>0 *</code> gives 0.</p>
 <h2 id="printing-and-saving">Printing and saving</h2>
 <p>Ordinals and cardinals print with ω, ℵ and subscript digits, which the kernel adds to the <a href="screen.html">screen</a> font in characters 128 and up. Exponents that are a single term without a coefficient print without brackets, as in <code>ω^ω</code>, and <code>²</code> is used for a square. Anything longer gets brackets, as in <code>ω^(ω·2)</code>.</p>
-<p>When a tab is <a href="saving.html">saved</a>, these glyphs can't be read back, so ordinals are written as omega code that rebuilds them. <code>ω·2+3</code> is saved as <code>omega 2 * 3 +</code>, ε₀ as <code>epsilon0</code>, and the continuum as <code>2 0 aleph ^</code>. Loading the tab runs that code and gets exactly the same value.</p>
+<p>When a tab is <a href="saving.html">saved</a>, these glyphs can&#x27;t be read back, so ordinals are written as omega code that rebuilds them. <code>ω·2+3</code> is saved as <code>omega 2 * 3 +</code>, ε₀ as <code>epsilon0</code>, and the continuum as <code>2 0 aleph ^</code>. Loading the tab runs that code and gets exactly the same value.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

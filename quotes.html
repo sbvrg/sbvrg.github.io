@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -86,8 +86,8 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p><code>if</code>, <code>times</code>, <code>map</code> and the other control words are ordinary words that take quotes and decide when to run them. A defined word is a quote bound to a name, and calling the name runs the quote:</p>
 <pre><code>[ dup * ] :sq
-'sq get             pushes the quote itself
-'sq get do          the same as sq
+&#x27;sq get             pushes the quote itself
+&#x27;sq get do          the same as sq
 </code></pre>
 <p>Quotes nest freely and are values like any other, so they can be stored in definitions, kept in lists, passed to words and returned from them:</p>
 <pre><code>[ [ 2 * ] [ 1 + ] ] :steps
@@ -95,11 +95,11 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <h2 id="quotes-as-lists">Quotes as lists</h2>
 <pre><code>[ 1 2 + ] len .                 3
-[ 1 2 + ] 2 at .                '+
+[ 1 2 + ] 2 at .                &#x27;+
 </code></pre>
-<p>Inside a quote, a word is stored as its name. When a list word hands out such an item, it turns it into a symbol, so <code>[ 1 2 + ] 2 at</code> gives <code>'+</code> instead of running <code>+</code>. Definitions and local assignments come out the same way: <code>[ :x ] first</code> is <code>'x</code>.</p>
+<p>Inside a quote, a word is stored as its name. When a list word hands out such an item, it turns it into a symbol, so <code>[ 1 2 + ] 2 at</code> gives <code>&#x27;+</code> instead of running <code>+</code>. Definitions and local assignments come out the same way: <code>[ :x ] first</code> is <code>&#x27;x</code>.</p>
 <p>A list is written as a quote of values:</p>
-<pre><code>[ 1 &quot;two&quot; [ 3 ] 'four ]
+<pre><code>[ 1 &quot;two&quot; [ 3 ] &#x27;four ]
 </code></pre>
 <h2 id="building-lists">Building lists</h2>
 <table>
@@ -250,9 +250,9 @@ document.querySelector(".mode").onclick = function () {
 [ 1 2 3 4 ] 1 [ * ] fold                24
 [ &quot;a&quot; &quot;b&quot; ] &quot;&quot; [ swap cat ] fold        &quot;ba&quot;
 </code></pre>
-<p><code>map</code>'s quote must leave exactly one value for each item, or <code>map</code> fails with <code>map's quote has to leave exactly one value</code>. <code>filter</code>'s quote must leave a number, and items for which it is non-zero are kept. <code>each</code> also works on a string, pushing each byte.</p>
-<p><code>sum</code> adds with <code>+</code>, so it works on bignums and on ordinals: <code>omega 1 2 list sum</code> is <code>ω+1</code>. Writing <code>[ omega 1 ]</code> instead would give a list holding the symbol <code>'omega</code>, since words inside a list stay words. The sum of an empty list is 0.</p>
-<p><code>fold</code> keeps an accumulator. It starts as <code>x</code>, and for each item <code>q</code> runs with the accumulator and the item on the stack and leaves the new accumulator. <code>fold</code> is written in omega with the locals <code>l</code>, <code>acc</code> and <code>q</code>, and because locals are dynamically scoped, a quote passed to it that uses those three names as its own free variables sees <code>fold</code>'s instead (<a href="names.html">names</a>). Rename them in your quote or use <code>each</code>.</p>
+<p><code>map</code>&#x27;s quote must leave exactly one value for each item, or <code>map</code> fails with <code>map&#x27;s quote has to leave exactly one value</code>. <code>filter</code>&#x27;s quote must leave a number, and items for which it is non-zero are kept. <code>each</code> also works on a string, pushing each byte.</p>
+<p><code>sum</code> adds with <code>+</code>, so it works on bignums and on ordinals: <code>omega 1 2 list sum</code> is <code>ω+1</code>. Writing <code>[ omega 1 ]</code> instead would give a list holding the symbol <code>&#x27;omega</code>, since words inside a list stay words. The sum of an empty list is 0.</p>
+<p><code>fold</code> keeps an accumulator. It starts as <code>x</code>, and for each item <code>q</code> runs with the accumulator and the item on the stack and leaves the new accumulator. <code>fold</code> is written in omega with the locals <code>l</code>, <code>acc</code> and <code>q</code>, and because locals are dynamically scoped, a quote passed to it that uses those three names as its own free variables sees <code>fold</code>&#x27;s instead (<a href="names.html">names</a>). Rename them in your quote or use <code>each</code>.</p>
 <p>All of these check for Ctrl-C between items, and all of them stop at the first failing item.</p>
 <h2 id="lists-of-lists">Lists of lists</h2>
 <p>Nested lists work as records and tables:</p>
@@ -267,7 +267,7 @@ people [ spread { name age } name say ] each
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

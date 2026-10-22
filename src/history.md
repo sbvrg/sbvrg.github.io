@@ -30,10 +30,11 @@ All of Subverge was written for it, in C, assembly and omega. The only outside c
 
 ## Releases
 
-The current release is **Subverge 0.9.2**, with ordinal 1.0.2 and omega 1.0.2. It added the `beep` word and graphics mode. See the [roadmap](roadmap.md) for what each release added.
+The current release is **Subverge 0.9.3**, with ordinal 1.0.3 and omega 1.0.3. It added text and windows to graphics mode. See the [roadmap](roadmap.md) for what each release added.
 
 | Release | ordinal | omega |
 |---|---|---|
+| 0.9.3 | 1.0.3 | 1.0.3 |
 | 0.9.2 | 1.0.2 | 1.0.2 |
 | 0.9.1 | 1.0.1 | 1.0.1 |
 | 0.9.0 | 1.0.0 | 1.0.0 |

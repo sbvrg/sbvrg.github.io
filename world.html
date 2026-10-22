@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -106,10 +106,10 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td>the screen</td>
-<td>the tab's screen buffer, never undone</td>
+<td>the tab&#x27;s screen buffer, never undone</td>
 </tr>
 <tr>
-<td>the tab's title</td>
+<td>the tab&#x27;s title</td>
 <td>the tab, reset on reboot</td>
 </tr>
 <tr>
@@ -123,16 +123,16 @@ document.querySelector(".mode").onclick = function () {
 </tbody>
 </table>
 <h2 id="a-new-world-per-line">A new world per line</h2>
-<p>A line starts from the tab's current world and works on a copy. When the line finishes:</p>
+<p>A line starts from the tab&#x27;s current world and works on a copy. When the line finishes:</p>
 <ul>
 <li>if it failed, the copy is thrown away and the world stays as it was;</li>
 <li>if it succeeded and changed the stack or definitions, the copy becomes the new world, and the old one goes into the history;</li>
 <li>if it succeeded without changing anything, the line leaves no trace.</li>
 </ul>
-<p>The history keeps the last 64 worlds, and <code>back</code> returns to them. A line that only prints or inspects, such as <code>words</code> or <code>top</code>, doesn't add a world, so <code>back</code> steps over it.</p>
+<p>The history keeps the last 64 worlds, and <code>back</code> returns to them. A line that only prints or inspects, such as <code>words</code> or <code>top</code>, doesn&#x27;t add a world, so <code>back</code> steps over it.</p>
 <p>Keeping 64 old worlds takes little memory. Defining a word adds one entry in front of the existing definitions instead of copying them, so successive worlds share almost everything (<a href="worlds.html">how worlds work</a>).</p>
 <h2 id="an-example">An example</h2>
-<p>Each line below either makes a new world or doesn't:</p>
+<p>Each line below either makes a new world or doesn&#x27;t:</p>
 <pre><code>1 2                 new world: the stack is 1 2
 [ dup dup * * ] :cube   new world: cube is defined
 words               no new world, it only prints
@@ -146,11 +146,11 @@ back                returns to the world before cube was defined
 <pre><code>words               every definition, with its value
 depth .             how many values are on the stack
 depth list .        the whole stack as one list
-'sq see             one definition
+&#x27;sq see             one definition
 stats               five numbers about the tab
 </code></pre>
 <p><code>words</code> lists the newest definition of each name and leaves out names that <code>forget</code> removed. A tab with nothing defined says <code>nothing is defined in this tab</code>.</p>
-<p><code>stats</code> pushes the number of live objects in the tab's heap, how many garbage collections have run, the number of definition entries, the stack depth and the length of the history:</p>
+<p><code>stats</code> pushes the number of live objects in the tab&#x27;s heap, how many garbage collections have run, the number of definition entries, the stack depth and the length of the history:</p>
 <pre><code>stats . . . . .
 </code></pre>
 <p><code>top</code> shows the same numbers for the tab it runs in, updated live.</p>
@@ -158,16 +158,16 @@ stats               five numbers about the tab
 <h2 id="changing-it">Changing it</h2>
 <p>Definitions are added with <code>:name</code> and removed with <code>forget</code>:</p>
 <pre><code>[ dup * ] :sq
-'sq forget
+&#x27;sq forget
 </code></pre>
 <p><code>forget</code> adds an entry that hides the name rather than deleting the old one, so <code>back</code> can still undo it, and a root word with the same name becomes visible again (<a href="names.html">names</a>). <code>forget</code> only works on names defined in the tab.</p>
 <p><code>empty</code> clears the stack in one go.</p>
 <h2 id="worlds-and-saving">Worlds and saving</h2>
-<p>On an installed disk, the world is saved to the tab's slot after each line that changes it. What is saved is the newest definition of each name and the stack, as omega source (<a href="saving.html">saving</a>). The history isn't saved, so after a reboot the tab has its world but nothing to go <code>back</code> to.</p>
+<p>On an installed disk, the world is saved to the tab&#x27;s slot after each line that changes it. What is saved is the newest definition of each name and the stack, as omega source (<a href="saving.html">saving</a>). The history isn&#x27;t saved, so after a reboot the tab has its world but nothing to go <code>back</code> to.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,11 +79,11 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="apps">Apps</h1>
-<p><code>apps</code> lists the programs that come with Subverge, two columns of names with a short description each. Type a name to run one, and <code>'name help</code> to read its entry first. Almost all of them quit with <code>q</code>, and the rest say how on their first screen.</p>
+<p><code>apps</code> lists the programs that come with Subverge, two columns of names with a short description each. Type a name to run one, and <code>&#x27;name help</code> to read its entry first. Almost all of them quit with <code>q</code>, and the rest say how on their first screen.</p>
 <p><img src="images/43-apps.png" alt="apps"></p>
-<p>See <a href="tools.html">tools</a>, <a href="games.html">games</a>, <a href="demos.html">demos</a> and <a href="learn.html">learn</a>. They are all omega code in <a href="root.html">root</a>, so <code>'name open</code> shows how any of them works and lets you change it.</p>
+<p>See <a href="tools.html">tools</a>, <a href="games.html">games</a>, <a href="demos.html">demos</a> and <a href="learn.html">learn</a>. They are all omega code in <a href="root.html">root</a>, so <code>&#x27;name open</code> shows how any of them works and lets you change it.</p>
 <h2 id="how-the-list-is-made">How the list is made</h2>
-<p>A program in Subverge is an ordinary word, and nothing distinguishes it from a helper word. <code>apps</code> therefore doesn't search for programs. It prints a hand-written list, <code>app-list</code>, defined in the <code>apps</code> unit of root:</p>
+<p>A program in Subverge is an ordinary word, and nothing distinguishes it from a helper word. <code>apps</code> therefore doesn&#x27;t search for programs. It prints a hand-written list, <code>app-list</code>, defined in the <code>apps</code> unit of root:</p>
 <pre><code>[ [
   [ &quot;learn&quot; &quot;A guided tour.&quot; ]
   [ &quot;top&quot; &quot;Live machine view.&quot; ]
@@ -93,7 +93,7 @@ document.querySelector(".mode").onclick = function () {
 <p>Each entry is a list of two strings, the name and the description. The outer brackets are doubled because <code>app-list</code> is a quote that, when run, pushes the inner list.</p>
 <h2 id="adding-a-program">Adding a program</h2>
 <p>First write the program as a word in a root unit, so it exists in every tab and survives reboots. Then add it to the list:</p>
-<pre><code>'apps open
+<pre><code>&#x27;apps open
 </code></pre>
 <p>and add a line inside the inner brackets:</p>
 <pre><code>[ &quot;hello&quot; &quot;Says hello.&quot; ]
@@ -103,7 +103,7 @@ document.querySelector(".mode").onclick = function () {
 <p><img src="images/51-apps-hello.png" alt="apps with hello"></p>
 <p>The order of the list is the order on screen, filled down the first column and then the second. A long description runs into the next column, so keep them under about 25 characters.</p>
 <h2 id="programs-defined-in-a-tab">Programs defined in a tab</h2>
-<p>The list lives in root, so every tab shows every entry. If the program itself is only defined in one tab's world, the other tabs list it but fail with <code>hello isn't defined</code> when it is run. Put programs that are listed in <code>apps</code> in a <a href="units.html">unit</a>.</p>
+<p>The list lives in root, so every tab shows every entry. If the program itself is only defined in one tab&#x27;s world, the other tabs list it but fail with <code>hello isn&#x27;t defined</code> when it is run. Put programs that are listed in <code>apps</code> in a <a href="units.html">unit</a>.</p>
 <h2 id="writing-a-program">Writing a program</h2>
 <p>Most of the bundled programs follow the same pattern, built from helpers in the <code>core</code> unit:</p>
 <pre><code>[ &quot;hello&quot; title
@@ -111,11 +111,11 @@ document.querySelector(".mode").onclick = function () {
   &quot;omega&quot; title
 ] :hello
 </code></pre>
-<p><code>title</code> names the tab while the program runs, <code>header</code> draws the bar across the top with the program's name and <code>q quits</code>, and <code>watch</code> clears the screen, runs the quote every half second until a key is pressed, and clears the screen again. <code>'watch see</code> and <code>'header see</code> show how they work. For the drawing words, see <a href="screen.html">screen</a>.</p>
+<p><code>title</code> names the tab while the program runs, <code>header</code> draws the bar across the top with the program&#x27;s name and <code>q quits</code>, and <code>watch</code> clears the screen, runs the quote every half second until a key is pressed, and clears the screen again. <code>&#x27;watch see</code> and <code>&#x27;header see</code> show how they work. For the drawing words, see <a href="screen.html">screen</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

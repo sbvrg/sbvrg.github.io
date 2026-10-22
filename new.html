@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -78,7 +78,15 @@ document.querySelector(".mode").onclick = function () {
 };
 </script>
 <main class="doc">
-<h1 id="whats-new">What's new</h1>
+<h1 id="whatx27s-new">What&#x27;s new</h1>
+<h2 id="subverge-093">Subverge 0.9.3</h2>
+<p>Subverge 0.9.3 comes with ordinal 1.0.3 and omega 1.0.3. Get it from the <a href="https://github.com/texivi/Subverge/releases/tag/v0.9.3">releases page</a>.</p>
+<h3 id="text-and-windows-in-graphics-mode">Text and windows in graphics mode</h3>
+<p><code>text</code> now draws in graphics mode, using the same arguments as in the text screen. The new <code>window</code> word draws a frame with a title bar:</p>
+<pre><code>gfx 40 40 300 160 &quot;first&quot; window &quot;hello&quot; 60 90 14 text key drop gfx-off
+</code></pre>
+<p><img src="images/93-window.png" alt="window"></p>
+<p><code>window</code> takes <code>x y w h title --</code>. See <a href="screen.html">screen</a>.</p>
 <h2 id="subverge-092">Subverge 0.9.2</h2>
 <p>Subverge 0.9.2 comes with ordinal 1.0.2 and omega 1.0.2. Get it from the <a href="https://github.com/texivi/Subverge/releases/tag/v0.9.2">releases page</a>.</p>
 <h3 id="beep">beep</h3>
@@ -92,18 +100,18 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p><img src="images/92-gfx.png" alt="graphics"></p>
 <p>The picture is made of eight <code>box</code> calls, listed in <a href="screen.html">screen</a>.</p>
-<p>F1 to F4 also leave graphics mode. It needs QEMU's default <code>-vga std</code> display. This is the first step toward the planned desktop with windows. See <a href="screen.html">screen</a>.</p>
+<p>F1 to F4 also leave graphics mode. It needs QEMU&#x27;s default <code>-vga std</code> display. This is the first step toward the planned desktop with windows. See <a href="screen.html">screen</a>.</p>
 <h2 id="subverge-091">Subverge 0.9.1</h2>
 <p>Subverge 0.9.1 comes with ordinal 1.0.1 and omega 1.0.1. Get it from the <a href="https://github.com/texivi/Subverge/releases/tag/v0.9.1">releases page</a>.</p>
 <h3 id="the-haelide-theme">The haelide theme</h3>
-<pre><code>'haelide theme
+<pre><code>&#x27;haelide theme
 </code></pre>
 <p><img src="images/80-theme-haelide.png" alt="haelide"></p>
 <p><code>haelide</code> also switches <code>sys</code> to the <code>haelide</code> logo. See <a href="themes.html">themes</a>.</p>
 <h3 id="logos">Logos</h3>
-<p><code>sys</code> can draw other logos. <code>logos</code> lists them, <code>'haelide logo</code> switches, and <code>logo@</code> gives the current name. A logo is a word named <code>logo-</code> and the logo's name, so you can draw your own:</p>
-<pre><code>[ [ &quot;  .-.&quot; &quot; (o o)&quot; [ &quot; | O |&quot; &quot;  mine&quot; ] &quot;  '~'&quot; ] ] :logo-mine
-'mine logo
+<p><code>sys</code> can draw other logos. <code>logos</code> lists them, <code>&#x27;haelide logo</code> switches, and <code>logo@</code> gives the current name. A logo is a word named <code>logo-</code> and the logo&#x27;s name, so you can draw your own:</p>
+<pre><code>[ [ &quot;  .-.&quot; &quot; (o o)&quot; [ &quot; | O |&quot; &quot;  mine&quot; ] &quot;  &#x27;~&#x27;&quot; ] ] :logo-mine
+&#x27;mine logo
 </code></pre>
 <p><img src="images/87-logo-mine.png" alt="a custom logo"></p>
 <p>An installed system remembers the logo across reboots. See <a href="logos.html">logos</a>.</p>
@@ -112,7 +120,7 @@ document.querySelector(".mode").onclick = function () {
 <pre><code>[ 1 ] type say      list
 5 type say          number
 &quot;x&quot; type say        string
-'x type say         symbol
+&#x27;x type say         symbol
 </code></pre>
 <h3 id="fail">fail</h3>
 <p><code>fail</code> fails the line with your own message, the same way a built-in word fails:</p>
@@ -123,14 +131,14 @@ document.querySelector(".mode").onclick = function () {
 <p>Inside <code>try</code> it is caught like any other error (<a href="catching.html">catching</a>).</p>
 <h3 id="fixes">Fixes</h3>
 <ul>
-<li>Ordinal arithmetic whose coefficient would pass 64 bits, such as <code>omega 4294967296 * 4294967296 *</code>, gave a wrong result. It now fails with <code>that coefficient doesn't fit in 64 bits</code>.</li>
+<li>Ordinal arithmetic whose coefficient would pass 64 bits, such as <code>omega 4294967296 * 4294967296 *</code>, gave a wrong result. It now fails with <code>that coefficient doesn&#x27;t fit in 64 bits</code>.</li>
 </ul>
 <h3 id="upgrading-from-090">Upgrading from 0.9.0</h3>
-<p>The disk layout is the same as in 0.9.0, with the logo name added to the state header. A root saved by 0.9.0 still has the old <code>sys</code>, which doesn't know about logos. See <a href="installation.html#upgrading-an-installed-disk">upgrading an installed disk</a>.</p>
+<p>The disk layout is the same as in 0.9.0, with the logo name added to the state header. A root saved by 0.9.0 still has the old <code>sys</code>, which doesn&#x27;t know about logos. See <a href="installation.html#upgrading-an-installed-disk">upgrading an installed disk</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

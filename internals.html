@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -174,24 +174,24 @@ document.querySelector(".mode").onclick = function () {
 </table>
 <h2 id="boot-in-order">Boot, in order</h2>
 <ol>
-<li>The ISO's GRUB, or an installed disk's own <a href="boot.html">bootloader</a>, loads the kernel at 1 MiB and jumps to it in 32-bit protected mode with Multiboot information.</li>
+<li>The ISO&#x27;s GRUB, or an installed disk&#x27;s own <a href="boot.html">bootloader</a>, loads the kernel at 1 MiB and jumps to it in 32-bit protected mode with Multiboot information.</li>
 <li><code>boot.asm</code> builds an identity map of the first 4 GiB from 2 MiB pages, turns on PAE and long mode, loads a 64-bit GDT and calls <code>kmain</code>.</li>
-<li><code>kmain</code> first copies the kernel's <code>.data</code> section aside, before anything's had a chance to change it, so that <code>install</code> can later write out a clean kernel.</li>
+<li><code>kmain</code> first copies the kernel&#x27;s <code>.data</code> section aside, before anything&#x27;s had a chance to change it, so that <code>install</code> can later write out a clean kernel.</li>
 <li>VGA, the font and palette, and the CPU tables come up: the IDT, the remapped PICs.</li>
-<li>The Multiboot info is read for the memory size, the memory map and the loader's name.</li>
+<li>The Multiboot info is read for the memory size, the memory map and the loader&#x27;s name.</li>
 <li>The heap is set up after the kernel, up to 64 MiB.</li>
 <li>The scheduler, then persistence, which looks for an installed drive and reads its state header.</li>
 <li>Every built-in word is registered, ordinals are initialised, and root is built from the units linked into the kernel, or from the root slot if there is one and it builds.</li>
 <li>Four tasks are started, one per tab, the PIT is set to 100 Hz, the keyboard is turned on, and interrupts are enabled.</li>
 <li><code>kmain</code> becomes the idle task, running <code>hlt</code> in a loop.</li>
 </ol>
-<p>When each tab's task first runs, it loads its saved world from its slot if there is one, tab 1 runs <code>startup</code>, and all four wait at a prompt.</p>
+<p>When each tab&#x27;s task first runs, it loads its saved world from its slot if there is one, tab 1 runs <code>startup</code>, and all four wait at a prompt.</p>
 <h2 id="design">Design</h2>
 <p>Most of the design follows from two decisions. Everything runs in ring 0 in a single address space, so the kernel and omega work on the same data structures directly. And nothing in an omega world is modified in place, which is what makes <a href="transactions.html">transactions</a>, <a href="back.html">back</a> and <a href="saving.html">saving</a> fast.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

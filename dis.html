@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -83,14 +83,14 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="using-it">Using it</h2>
 <pre><code>addr n dis          n instructions starting at addr
 addr len disr       every instruction in len bytes from addr
-'fib jitdis         compile fib and disassemble all of it
-'fib xray           fib's source, then its disassembly
+&#x27;fib jitdis         compile fib and disassemble all of it
+&#x27;fib xray           fib&#x27;s source, then its disassembly
 </code></pre>
-<p><code>dis</code> and <code>disr</code> take any address, not only compiled code. <code>0x100000 20 dis</code> disassembles the first 20 instructions of the kernel itself. The disassembler can't tell code from data, so an address in the middle of a string or a table decodes into instructions that don't mean anything.</p>
-<p><code>xray</code> and <code>jitdis</code> compile the word first if it hasn't been compiled yet, so you don't need to run it twice beforehand.</p>
+<p><code>dis</code> and <code>disr</code> take any address, not only compiled code. <code>0x100000 20 dis</code> disassembles the first 20 instructions of the kernel itself. The disassembler can&#x27;t tell code from data, so an address in the middle of a string or a table decodes into instructions that don&#x27;t mean anything.</p>
+<p><code>xray</code> and <code>jitdis</code> compile the word first if it hasn&#x27;t been compiled yet, so you don&#x27;t need to run it twice beforehand.</p>
 <h2 id="reading-the-output">Reading the output</h2>
-<p>Each line shows one instruction: its address, its bytes in hex, and the instruction in Intel syntax with the destination first. Bytes that don't fit in the column end in <code>+</code>. Relative jumps and calls are printed with their absolute target, so you can follow a jump with another <code>dis</code> at that address.</p>
-<p>Every compiled quote starts the same way. Here is the start of <code>'sq xray</code>, for <code>[ dup * ]</code>:</p>
+<p>Each line shows one instruction: its address, its bytes in hex, and the instruction in Intel syntax with the destination first. Bytes that don&#x27;t fit in the column end in <code>+</code>. Relative jumps and calls are printed with their absolute target, so you can follow a jump with another <code>dis</code> at that address.</p>
+<p>Every compiled quote starts the same way. Here is the start of <code>&#x27;sq xray</code>, for <code>[ dup * ]</code>:</p>
 <pre><code>push rbp
 push rbx
 push r12
@@ -104,11 +104,11 @@ mov rax, qword [rax]
 mov rbx, qword [rax+0x10d0]
 </code></pre>
 <p>The six pushes save the registers the code is about to use, and <code>sub rsp, 0x8</code> keeps the CPU stack aligned to 16 bytes for calls back into C. The two loads after <code>mov rax</code> find the current tab and then its omega state, which stays in <code>rbx</code> while the quote runs. The next few instructions load the stack pointer, the stack depth and the number of bound locals into <code>r12</code>, <code>r14</code> and <code>r15</code>, and check the call depth. See the register table on the <a href="jit.html">JIT</a> page.</p>
-<p>After that comes the code for the words themselves. An inlined <code>dup</code> checks the stack depth against <code>r14</code>, copies the top 24-byte value cell and adds 24 to <code>r12</code>. An inlined <code>*</code> checks that both values are plain integers, multiplies them with <code>imul</code>, and jumps to the slow path if the overflow flag is set. Words that aren't inlined become a <code>call</code> into the interpreter.</p>
+<p>After that comes the code for the words themselves. An inlined <code>dup</code> checks the stack depth against <code>r14</code>, copies the top 24-byte value cell and adds 24 to <code>r12</code>. An inlined <code>*</code> checks that both values are plain integers, multiplies them with <code>imul</code>, and jumps to the slow path if the overflow flag is set. Words that aren&#x27;t inlined become a <code>call</code> into the interpreter.</p>
 <p>The quote ends by writing <code>r14</code> and <code>r15</code> back to the omega state, undoing the pushes in reverse order, and <code>ret</code>.</p>
 <h2 id="what-it-decodes">What it decodes</h2>
 <p>It decodes the general-purpose integer instructions: moves, arithmetic, logic, shifts and rotates, <code>lea</code>, <code>imul</code>, <code>idiv</code>, conditional jumps, <code>set</code>cc and <code>cmov</code>cc, <code>call</code>, <code>ret</code>, <code>push</code> and <code>pop</code>, and the string instructions. It also knows the system instructions the kernel uses, such as <code>lgdt</code>, <code>lidt</code>, <code>invlpg</code>, <code>rdmsr</code>, <code>wrmsr</code>, <code>cpuid</code>, <code>rdtsc</code>, <code>cli</code>, <code>sti</code>, <code>hlt</code> and <code>iretq</code>. That covers everything the JIT generates and everything in the kernel, which is compiled without SSE.</p>
-<p>SSE, AVX and x87 instructions aren't decoded. Opcodes it doesn't know are printed as <code>?</code>.</p>
+<p>SSE, AVX and x87 instructions aren&#x27;t decoded. Opcodes it doesn&#x27;t know are printed as <code>?</code>.</p>
 <h2 id="looking-at-the-kernel">Looking at the kernel</h2>
 <p>The kernel is loaded at 1 MiB, and <code>kernel</code> gives the size of the image. The first 16 bytes at <code>0x100000</code> are the Multiboot header, which is data. <code>_start</code> follows at <code>0x100010</code>, but it starts out as 32-bit code, since GRUB and QEMU enter the kernel in 32-bit protected mode (<a href="boot.html">boot</a>). The disassembler always decodes 64-bit code, so the first part of <code>_start</code> comes out wrong. Everything after the switch to long mode, which is almost all of the kernel, decodes correctly:</p>
 <pre><code>0x100010 40 dis
@@ -117,7 +117,7 @@ mov rbx, qword [rax+0x10d0]
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

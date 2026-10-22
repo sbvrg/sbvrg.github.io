@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -117,10 +117,10 @@ document.querySelector(".mode").onclick = function () {
 <td><code>[ { a b } a b - ] :diff</code></td>
 </tr>
 <tr>
-<td><code>'name</code></td>
-<td><code>-- 'name</code></td>
+<td><code>&#x27;name</code></td>
+<td><code>-- &#x27;name</code></td>
 <td>A symbol: a name used as a value.</td>
-<td><code>'sq see</code></td>
+<td><code>&#x27;sq see</code></td>
 </tr>
 <tr>
 <td><code>&quot;text&quot;</code></td>
@@ -781,7 +781,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>key?</code></td>
 <td><code>-- n</code></td>
-<td>The key pressed, or -1. Doesn't wait.</td>
+<td>The key pressed, or -1. Doesn&#x27;t wait.</td>
 <td><code>key?</code></td>
 </tr>
 <tr>
@@ -812,33 +812,33 @@ document.querySelector(".mode").onclick = function () {
 <tbody>
 <tr>
 <td><code>get</code></td>
-<td><code>'x -- v</code></td>
+<td><code>&#x27;x -- v</code></td>
 <td>Pushes what a name is defined as.</td>
-<td><code>'sq get   gives [ dup * ]</code></td>
+<td><code>&#x27;sq get   gives [ dup * ]</code></td>
 </tr>
 <tr>
 <td><code>forget</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Removes a definition from this tab.</td>
-<td><code>'sq forget</code></td>
+<td><code>&#x27;sq forget</code></td>
 </tr>
 <tr>
 <td><code>&gt;sym</code></td>
-<td><code>s -- 'x</code></td>
+<td><code>s -- &#x27;x</code></td>
 <td>Makes a symbol from a string.</td>
 <td><code>&quot;sq&quot; &gt;sym get</code></td>
 </tr>
 <tr>
 <td><code>defined?</code></td>
-<td><code>'x -- 1|0</code></td>
+<td><code>&#x27;x -- 1|0</code></td>
 <td>1 if the name is defined or built in.</td>
-<td><code>'dup defined?   gives 1</code></td>
+<td><code>&#x27;dup defined?   gives 1</code></td>
 </tr>
 <tr>
 <td><code>see</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Shows how a name is defined.</td>
-<td><code>'sq see</code></td>
+<td><code>&#x27;sq see</code></td>
 </tr>
 <tr>
 <td><code>words</code></td>
@@ -848,9 +848,9 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>edit</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Opens a name in the editor. Saving redefines it.</td>
-<td><code>'sq edit</code></td>
+<td><code>&#x27;sq edit</code></td>
 </tr>
 </tbody>
 </table>
@@ -868,9 +868,9 @@ document.querySelector(".mode").onclick = function () {
 <tbody>
 <tr>
 <td><code>help</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Explains a word or a group. Alone, lists all.</td>
-<td><code>'dup help   or just   help</code></td>
+<td><code>&#x27;dup help   or just   help</code></td>
 </tr>
 <tr>
 <td><code>back</code></td>
@@ -904,9 +904,9 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>open</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Edits the root unit that defines x.</td>
-<td><code>'top open</code></td>
+<td><code>&#x27;top open</code></td>
 </tr>
 <tr>
 <td><code>unit</code></td>
@@ -916,9 +916,9 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>src</code></td>
-<td><code>'x -- s</code></td>
+<td><code>&#x27;x -- s</code></td>
 <td>The source of the root unit that defines x.</td>
-<td><code>'top src</code></td>
+<td><code>&#x27;top src</code></td>
 </tr>
 <tr>
 <td><code>welcome</code></td>
@@ -1121,7 +1121,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>pci@</code></td>
 <td><code>b d f off -- n</code></td>
-<td>Reads 4 bytes of a device's PCI config.</td>
+<td>Reads 4 bytes of a device&#x27;s PCI config.</td>
 <td><code>0 0 0 0 pci@</code></td>
 </tr>
 <tr>
@@ -1133,7 +1133,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>cpu</code></td>
 <td><code>-- s</code></td>
-<td>The CPU's name.</td>
+<td>The CPU&#x27;s name.</td>
 <td><code>cpu say</code></td>
 </tr>
 <tr>
@@ -1145,7 +1145,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>rdtsc</code></td>
 <td><code>-- n</code></td>
-<td>The CPU's cycle counter.</td>
+<td>The CPU&#x27;s cycle counter.</td>
 <td><code>rdtsc</code></td>
 </tr>
 <tr>
@@ -1233,7 +1233,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>text</code></td>
 <td><code>s x y color --</code></td>
-<td>Writes a string at a position.</td>
+<td>Writes a string at a position, in graphics mode too.</td>
 <td><code>&quot;hi&quot; 10 5 14 text</code></td>
 </tr>
 <tr>
@@ -1297,6 +1297,12 @@ document.querySelector(".mode").onclick = function () {
 <td><code>20 20 100 60 5 box</code></td>
 </tr>
 <tr>
+<td><code>window</code></td>
+<td><code>x y w h title --</code></td>
+<td>Draws a titled window frame in graphics mode.</td>
+<td><code>40 40 300 160 &quot;first&quot; window</code></td>
+</tr>
+<tr>
 <td><code>title</code></td>
 <td><code>s --</code></td>
 <td>Names this tab in the tab bar.</td>
@@ -1316,9 +1322,9 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>theme</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Switches to a colour theme, and remembers it.</td>
-<td><code>'raw theme</code></td>
+<td><code>&#x27;raw theme</code></td>
 </tr>
 <tr>
 <td><code>themes</code></td>
@@ -1334,9 +1340,9 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>logo</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Sets the logo sys draws, and remembers it.</td>
-<td><code>'haelide logo</code></td>
+<td><code>&#x27;haelide logo</code></td>
 </tr>
 <tr>
 <td><code>logos</code></td>
@@ -1458,39 +1464,39 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>compile</code></td>
-<td><code>'x -- addr len</code></td>
+<td><code>&#x27;x -- addr len</code></td>
 <td>Compiles a word now. Gives its code address, size.</td>
-<td><code>'sq compile</code></td>
+<td><code>&#x27;sq compile</code></td>
 </tr>
 <tr>
 <td><code>addr</code></td>
-<td><code>'x -- addr</code></td>
-<td>The address of a word's compiled code.</td>
-<td><code>'sq addr</code></td>
+<td><code>&#x27;x -- addr</code></td>
+<td>The address of a word&#x27;s compiled code.</td>
+<td><code>&#x27;sq addr</code></td>
 </tr>
 <tr>
 <td><code>dis</code></td>
 <td><code>addr n --</code></td>
 <td>Disassembles n instructions at an address.</td>
-<td><code>'sq addr 10 dis</code></td>
+<td><code>&#x27;sq addr 10 dis</code></td>
 </tr>
 <tr>
 <td><code>disr</code></td>
 <td><code>addr bytes --</code></td>
 <td>Disassembles a range of bytes.</td>
-<td><code>'sq compile disr</code></td>
+<td><code>&#x27;sq compile disr</code></td>
 </tr>
 <tr>
 <td><code>jitdis</code></td>
-<td><code>'x --</code></td>
+<td><code>&#x27;x --</code></td>
 <td>Compiles a word and disassembles all of it.</td>
-<td><code>'sq jitdis</code></td>
+<td><code>&#x27;sq jitdis</code></td>
 </tr>
 <tr>
 <td><code>xray</code></td>
-<td><code>'x --</code></td>
-<td>A word's source, then its machine code.</td>
-<td><code>'sq xray</code></td>
+<td><code>&#x27;x --</code></td>
+<td>A word&#x27;s source, then its machine code.</td>
+<td><code>&#x27;sq xray</code></td>
 </tr>
 <tr>
 <td><code>bench</code></td>
@@ -1751,7 +1757,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>diagonal</code></td>
 <td><code>--</code></td>
-<td>Cantor's proof the reals can't be listed.</td>
+<td>Cantor&#x27;s proof the reals can&#x27;t be listed.</td>
 <td><code>diagonal</code></td>
 </tr>
 <tr>
@@ -1795,7 +1801,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>life</code></td>
 <td><code>--</code></td>
-<td>Conway's Game of Life on raw memory.</td>
+<td>Conway&#x27;s Game of Life on raw memory.</td>
 <td><code>life</code></td>
 </tr>
 <tr>
@@ -2311,7 +2317,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

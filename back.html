@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,7 +79,7 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="back">back</h1>
-<p><code>back</code> undoes the last line that changed your tab's <a href="world.html">world</a>: its stack and its definitions. Each tab remembers the 64 most recent changes, so up to 64 lines can be undone.</p>
+<p><code>back</code> undoes the last line that changed your tab&#x27;s <a href="world.html">world</a>: its stack and its definitions. Each tab remembers the 64 most recent changes, so up to 64 lines can be undone.</p>
 <p><img src="images/07-back.png" alt="back"></p>
 <h2 id="using-it">Using it</h2>
 <p>Type <code>back</code> on a line of its own:</p>
@@ -95,13 +95,13 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p>rewinds three lines and prints <code>rewound 3</code>. If fewer lines are recorded than requested, it rewinds as many as it can. With nothing recorded it prints <code>there is nothing to go back to</code>.</p>
 <h2 id="which-lines-count">Which lines count</h2>
-<p>Only lines that changed the stack or the definitions are recorded. A line that only printed something, such as <code>words</code>, <code>help</code> or <code>&quot;hi&quot; say</code>, leaves the world exactly as it was, so it isn't recorded and <code>back</code> skips over it. A failed line never changed the world in the first place (<a href="transactions.html">transactions</a>), so it isn't recorded either.</p>
+<p>Only lines that changed the stack or the definitions are recorded. A line that only printed something, such as <code>words</code>, <code>help</code> or <code>&quot;hi&quot; say</code>, leaves the world exactly as it was, so it isn&#x27;t recorded and <code>back</code> skips over it. A failed line never changed the world in the first place (<a href="transactions.html">transactions</a>), so it isn&#x27;t recorded either.</p>
 <p>This means <code>back</code> always undoes something visible. After running <code>top</code> five times and then defining a word, a single <code>back</code> removes the definition.</p>
 <h2 id="the-rest-of-the-line-is-discarded">The rest of the line is discarded</h2>
-<p>A line that calls <code>back</code> doesn't commit anything else. Whatever else it did to the stack or the definitions is thrown away, and the world is replaced by the older one:</p>
+<p>A line that calls <code>back</code> doesn&#x27;t commit anything else. Whatever else it did to the stack or the definitions is thrown away, and the world is replaced by the older one:</p>
 <pre><code>[ 1 ] :x back
 </code></pre>
-<p>doesn't define <code>x</code>, and it rewinds the line before it. Put <code>back</code> on a line of its own unless that is what you want.</p>
+<p>doesn&#x27;t define <code>x</code>, and it rewinds the line before it. Put <code>back</code> on a line of its own unless that is what you want.</p>
 <p>Code that calls <code>back</code> inside a definition works the same way, so <code>[ back ] :undo</code> followed by <code>undo</code> rewinds one line.</p>
 <h2 id="redo">redo</h2>
 <p><code>redo</code> takes a <code>back</code> back:</p>
@@ -114,17 +114,17 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p>Each <code>back</code> puts the world it leaves onto a redo list, and <code>redo</code> takes worlds off that list again, newest first. <code>redo redo</code> redoes two. Like <code>back</code>, it discards everything else on its line.</p>
 <p>Any line that changes the world in a new way clears the redo list, since the worlds on it no longer follow from the current one. With nothing to redo, <code>redo</code> prints <code>nothing to redo</code>. A line with both <code>back</code> and <code>redo</code> only goes back.</p>
-<p>The redo list holds up to 64 worlds and isn't saved to disk, so it is empty after a reboot.</p>
+<p>The redo list holds up to 64 worlds and isn&#x27;t saved to disk, so it is empty after a reboot.</p>
 <h2 id="what-back-restores">What back restores</h2>
-<p><code>back</code> restores exactly what a transaction protects: the stack and the tab's definitions. These are outside its reach:</p>
+<p><code>back</code> restores exactly what a transaction protects: the stack and the tab&#x27;s definitions. These are outside its reach:</p>
 <ul>
 <li><strong>Root.</strong> Root edits are separate and have their own rule for failures (<a href="root.html">root</a>). To undo a root edit, open the unit and change it back.</li>
 <li><strong>Other tabs.</strong> Each tab has its own history, and <code>back</code> in one tab never affects another.</li>
-<li><strong>The machine.</strong> Memory written with <code>poke</code>, ports written with <code>out</code>, <code>alloc</code>, the screen, the tab title and the clock are changed the moment the word runs. <code>back</code> doesn't put them back.</li>
+<li><strong>The machine.</strong> Memory written with <code>poke</code>, ports written with <code>out</code>, <code>alloc</code>, the screen, the tab title and the clock are changed the moment the word runs. <code>back</code> doesn&#x27;t put them back.</li>
 <li><strong>Printed text</strong> stays on the screen.</li>
 </ul>
 <h2 id="rewinding-and-saving">Rewinding and saving</h2>
-<p>On an installed disk, a rewind is saved like any other change, so the world on disk after <code>back</code> is the older one (<a href="saving.html">saving</a>). The history itself isn't saved. After a reboot each tab starts with an empty history, and the first <code>back</code> prints <code>there is nothing to go back to</code>.</p>
+<p>On an installed disk, a rewind is saved like any other change, so the world on disk after <code>back</code> is the older one (<a href="saving.html">saving</a>). The history itself isn&#x27;t saved. After a reboot each tab starts with an empty history, and the first <code>back</code> prints <code>there is nothing to go back to</code>.</p>
 <h2 id="cost">Cost</h2>
 <p>Rewinding is instant regardless of how much is defined. A world is only a pointer to a stack and a pointer to the head of a dictionary, and old worlds share almost all of their entries with new ones, so keeping 64 of them takes little memory. See <a href="worlds.html">how worlds work</a>.</p>
 <h2 id="back-and-the-up-arrow">back and the Up arrow</h2>
@@ -132,7 +132,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

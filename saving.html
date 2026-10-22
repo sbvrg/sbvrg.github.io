@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -80,11 +80,11 @@ document.querySelector(".mode").onclick = function () {
 <main class="doc">
 <h1 id="saving">Saving</h1>
 <p>An installed Subverge saves after every line that changes something, without being asked, so a reboot or a power cut loses at most the line that was running.</p>
-<p>The live ISO doesn't save anything. To keep your work, <a href="installation.html">install</a> Subverge to a disk image first. On the live ISO <code>home</code> returns <code>-1</code> and <code>save</code> fails with <code>you haven't installed yet, run install</code>.</p>
+<p>The live ISO doesn&#x27;t save anything. To keep your work, <a href="installation.html">install</a> Subverge to a disk image first. On the live ISO <code>home</code> returns <code>-1</code> and <code>save</code> fails with <code>you haven&#x27;t installed yet, run install</code>.</p>
 <h2 id="when-saving-happens">When saving happens</h2>
 <p>On an installed disk, these are saved straight away:</p>
 <ul>
-<li><strong>A line that changed a tab's world.</strong> Only that tab's slot is written. A line that leaves the stack and definitions as they were, such as <code>words</code> or <code>&quot;hi&quot; say</code>, writes nothing.</li>
+<li><strong>A line that changed a tab&#x27;s world.</strong> Only that tab&#x27;s slot is written. A line that leaves the stack and definitions as they were, such as <code>words</code> or <code>&quot;hi&quot; say</code>, writes nothing.</li>
 <li><strong>A <code>back</code></strong>, since it changes the world back.</li>
 <li><strong>A root edit that builds.</strong> The whole of root is written to its slot. An edit that fails to build writes nothing (<a href="root.html">root</a>).</li>
 <li><strong>A theme or logo change</strong>, which rewrites only the header sector (<a href="themes.html">themes</a>, <a href="logos.html">logos</a>).</li>
@@ -93,9 +93,9 @@ document.querySelector(".mode").onclick = function () {
 <p><code>save</code> writes root and all four tabs at once. It is rarely needed, since everything is already saved, but it is harmless.</p>
 <p><code>home</code> returns the number of the drive Subverge is installed on and saves to.</p>
 <h2 id="slots">Slots</h2>
-<p>The saved state lives in five slots of 1 MiB at fixed positions on the drive: slot 0 holds root and slots 1 to 4 hold the four tabs. A small header in front of them records each slot's length and checksum and a counter of saves. See <a href="disk-layout.html">disk layout</a> for the exact positions.</p>
-<p>Saving a tab rewrites only that tab's slot and the header. The other slots aren't touched.</p>
-<h2 id="whats-in-a-slot">What's in a slot</h2>
+<p>The saved state lives in five slots of 1 MiB at fixed positions on the drive: slot 0 holds root and slots 1 to 4 hold the four tabs. A small header in front of them records each slot&#x27;s length and checksum and a counter of saves. See <a href="disk-layout.html">disk layout</a> for the exact positions.</p>
+<p>Saving a tab rewrites only that tab&#x27;s slot and the header. The other slots aren&#x27;t touched.</p>
+<h2 id="whatx27s-in-a-slot">What&#x27;s in a slot</h2>
 <p>A slot holds plain omega source. A tab is written as its definitions, oldest first, followed by its stack on one line:</p>
 <pre><code># saved world
 [ dup * ] :sq2
@@ -104,39 +104,39 @@ document.querySelector(".mode").onclick = function () {
 1 2 3
 </code></pre>
 <p>Only the newest definition of each name is written, and names removed with <code>forget</code> are left out, so the saved text is as short as the world allows.</p>
-<p>Root is written as each unit's source after its <code>#&gt;&gt; name</code> header line, in order, which is the same format as the <code>root/</code> files in the source tree.</p>
-<p>At boot, root's slot is built, then each tab's slot is run as if it had been typed at that tab's prompt. A world that was saved is therefore always one that omega can read back.</p>
+<p>Root is written as each unit&#x27;s source after its <code>#&gt;&gt; name</code> header line, in order, which is the same format as the <code>root/</code> files in the source tree.</p>
+<p>At boot, root&#x27;s slot is built, then each tab&#x27;s slot is run as if it had been typed at that tab&#x27;s prompt. A world that was saved is therefore always one that omega can read back.</p>
 <h2 id="values-that-survive">Values that survive</h2>
 <p>A value survives only if it can be written as source and read back. These can:</p>
 <ul>
 <li>integers and bignums;</li>
 <li>strings, with escapes for newlines, tabs, escape characters and the omega and aleph glyphs;</li>
 <li>quotes and lists, nested to any depth;</li>
-<li>symbols (<code>'name</code>);</li>
+<li>symbols (<code>&#x27;name</code>);</li>
 <li>ordinals, written back as arithmetic such as <code>omega 2 ^ omega +</code>;</li>
 <li>cardinals, written as <code>0 aleph</code> or <code>2 0 aleph ^</code>.</li>
 </ul>
-<p>Two things change on the way. Identity is lost: two definitions that held the very same quote hold two equal quotes after a reboot (<a href="values.html">values and objects</a>). And memory from <code>alloc</code> isn't saved, so an address kept on the stack points at whatever the heap holds there after the reboot.</p>
+<p>Two things change on the way. Identity is lost: two definitions that held the very same quote hold two equal quotes after a reboot (<a href="values.html">values and objects</a>). And memory from <code>alloc</code> isn&#x27;t saved, so an address kept on the stack points at whatever the heap holds there after the reboot.</p>
 <h2 id="not-saved">Not saved</h2>
 <ul>
 <li>the <a href="back.html">back</a> history and the prompt history;</li>
 <li>tab titles and screen contents;</li>
 <li>memory from <code>alloc</code>, and anything written with <code>poke</code> or <code>out</code>;</li>
-<li>the JIT's compiled code, which is rebuilt as code runs.</li>
+<li>the JIT&#x27;s compiled code, which is rebuilt as code runs.</li>
 </ul>
 <p>After a reboot every tab starts with an empty history, its saved stack and definitions, and the title <code>omega</code>.</p>
 <h2 id="size">Size</h2>
-<p>Each slot holds at most 1 MiB of source, minus a little room the kernel keeps free. A tab or root that grows past that isn't saved, and the previous save of that slot stays on the disk. Nothing is printed when this happens, so keep an eye on tabs that hold very large lists or many long strings. <code>'name src len .</code> prints the size in bytes of the root unit that defines <code>name</code>.</p>
+<p>Each slot holds at most 1 MiB of source, minus a little room the kernel keeps free. A tab or root that grows past that isn&#x27;t saved, and the previous save of that slot stays on the disk. Nothing is printed when this happens, so keep an eye on tabs that hold very large lists or many long strings. <code>&#x27;name src len .</code> prints the size in bytes of the root unit that defines <code>name</code>.</p>
 <h2 id="damaged-slots">Damaged slots</h2>
-<p>Each slot is checked against its checksum when it is loaded. A slot that doesn't match is treated as empty: a damaged tab boots fresh, and a damaged root is replaced by the root built into the kernel.</p>
-<p>A slot can also be intact and still fail to run, which can happen after upgrading to a kernel that removed or renamed a word. A tab whose saved world fails prints the error and starts empty. A saved root that fails to build is replaced by the built-in one, with the message <code>the saved root didn't build, using the built-in one</code>.</p>
+<p>Each slot is checked against its checksum when it is loaded. A slot that doesn&#x27;t match is treated as empty: a damaged tab boots fresh, and a damaged root is replaced by the root built into the kernel.</p>
+<p>A slot can also be intact and still fail to run, which can happen after upgrading to a kernel that removed or renamed a word. A tab whose saved world fails prints the error and starts empty. A saved root that fails to build is replaced by the built-in one, with the message <code>the saved root didn&#x27;t build, using the built-in one</code>.</p>
 <h2 id="starting-over">Starting over</h2>
 <p>To reset one tab, remove its definitions with <code>forget</code> and clear its stack with <code>empty</code>.</p>
-<p><code>install</code> writes the running system's current root and tabs, so installing again from an installed system copies its state. To start completely fresh, boot the live ISO with only a new blank disk image attached and install onto that.</p>
+<p><code>install</code> writes the running system&#x27;s current root and tabs, so installing again from an installed system copies its state. To start completely fresh, boot the live ISO with only a new blank disk image attached and install onto that.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

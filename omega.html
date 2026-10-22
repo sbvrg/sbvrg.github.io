@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -132,7 +132,7 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td>symbol</td>
-<td><code>'name</code></td>
+<td><code>&#x27;name</code></td>
 <td><a href="names.html">names</a></td>
 </tr>
 <tr>
@@ -147,10 +147,10 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 </tbody>
 </table>
-<p>Integers have no fixed size. A result that doesn't fit in 64 bits becomes a bignum, so <code>2 100 ^ .</code> prints all 31 digits of 2^100 (<a href="bignums.html">bignums</a>). <code>type</code> gives the name of a value's type, such as <code>&quot;list&quot;</code> for a quote.</p>
+<p>Integers have no fixed size. A result that doesn&#x27;t fit in 64 bits becomes a bignum, so <code>2 100 ^ .</code> prints all 31 digits of 2^100 (<a href="bignums.html">bignums</a>). <code>type</code> gives the name of a value&#x27;s type, such as <code>&quot;list&quot;</code> for a quote.</p>
 <p>Comparisons leave <code>1</code> for true and <code>0</code> for false, and any value other than <code>0</code> counts as true in a condition.</p>
 <h2 id="quotes">Quotes</h2>
-<p>Square brackets make a quote. The code inside isn't run, and the whole quote is pushed as one value to be run later:</p>
+<p>Square brackets make a quote. The code inside isn&#x27;t run, and the whole quote is pushed as one value to be run later:</p>
 <pre><code>[ 2 3 + ]       pushes the quote
 [ 2 3 + ] do    runs it, leaves 5
 </code></pre>
@@ -162,8 +162,8 @@ document.querySelector(".mode").onclick = function () {
 42 :answer
 answer          leaves 42
 </code></pre>
-<p>A name bound to a quote runs the quote when it is used. A name bound to anything else pushes its value. Definitions made at the prompt belong to your tab's <a href="world.html">world</a>. Words that every tab should see go in <a href="root.html">root</a>, which is also where every program that ships with Subverge lives.</p>
-<p>A symbol, written with a quote mark in front, is a name that isn't run. Words that work on names take a symbol, such as <code>'sq see</code> to show a definition and <code>'sq forget</code> to remove it (<a href="names.html">names</a>).</p>
+<p>A name bound to a quote runs the quote when it is used. A name bound to anything else pushes its value. Definitions made at the prompt belong to your tab&#x27;s <a href="world.html">world</a>. Words that every tab should see go in <a href="root.html">root</a>, which is also where every program that ships with Subverge lives.</p>
+<p>A symbol, written with a quote mark in front, is a name that isn&#x27;t run. Words that work on names take a symbol, such as <code>&#x27;sq see</code> to show a definition and <code>&#x27;sq forget</code> to remove it (<a href="names.html">names</a>).</p>
 <h2 id="locals">Locals</h2>
 <p><code>{ w h }</code> takes two values off the stack and binds them to <code>w</code> and <code>h</code> until the quote it is in finishes:</p>
 <pre><code>[ { w h } w h * ] :area
@@ -185,13 +185,13 @@ answer          leaves 42
 </code></pre>
 <p><code>back</code> undoes whole lines that worked, up to the last 64, and <code>redo</code> reverses a <code>back</code> (<a href="back.html">back</a>). <code>try</code> runs a quote and leaves <code>0</code> instead of failing the line, for code that expects a failure (<a href="catching.html">catching</a>). See <a href="errors.html">errors</a> for the messages and what causes them.</p>
 <h2 id="compiling">Compiling</h2>
-<p>You never compile anything by hand. A quote runs in the interpreter the first time, and the second time it runs, the kernel compiles it to x86-64 machine code. <code>'sq xray</code> shows the code it produced (<a href="jit.html">JIT</a>).</p>
+<p>You never compile anything by hand. A quote runs in the interpreter the first time, and the second time it runs, the kernel compiles it to x86-64 machine code. <code>&#x27;sq xray</code> shows the code it produced (<a href="jit.html">JIT</a>).</p>
 <h2 id="help">Help</h2>
-<p><code>help</code> lists every word by group, <code>'group help</code> lists one group, and <code>'word help</code> shows a word's stack effect, what it does and an example. <code>&quot;text&quot; apropos</code> searches the help text. <a href="all-words.html">All words</a> has the same list on one page, and <code>learn</code> teaches the language in short lessons with a line to try in each.</p>
+<p><code>help</code> lists every word by group, <code>&#x27;group help</code> lists one group, and <code>&#x27;word help</code> shows a word&#x27;s stack effect, what it does and an example. <code>&quot;text&quot; apropos</code> searches the help text. <a href="all-words.html">All words</a> has the same list on one page, and <code>learn</code> teaches the language in short lessons with a line to try in each.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

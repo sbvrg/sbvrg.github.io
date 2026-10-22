@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,7 +79,7 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="tools">Tools</h1>
-<p>The tools are utility programs in <a href="root.html">root</a>. They are ordinary omega words, so <code>'name see</code> prints any of them and <code>'name open</code> opens the unit it lives in. Full-screen tools leave with <code>q</code>, Escape or Ctrl-C. <a href="games.html">Games</a> and <a href="demos.html">demos</a> cover the rest of <code>apps</code>.</p>
+<p>The tools are utility programs in <a href="root.html">root</a>. They are ordinary omega words, so <code>&#x27;name see</code> prints any of them and <code>&#x27;name open</code> opens the unit it lives in. Full-screen tools leave with <code>q</code>, Escape or Ctrl-C. <a href="games.html">Games</a> and <a href="demos.html">demos</a> cover the rest of <code>apps</code>.</p>
 <h2 id="clock">clock</h2>
 <pre><code>clock
 </code></pre>
@@ -93,14 +93,14 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="timer">timer</h2>
 <pre><code>90 timer
 </code></pre>
-<p>Counts down the given number of seconds in the middle of the screen, then shows <code>Time is up</code> and waits for a key. <code>q</code> cancels it early. A timer runs in its own tab while you work in another, and the tab's <code>*</code> in the tab bar shows when it has finished.</p>
+<p>Counts down the given number of seconds in the middle of the screen, then shows <code>Time is up</code> and waits for a key. <code>q</code> cancels it early. A timer runs in its own tab while you work in another, and the tab&#x27;s <code>*</code> in the tab bar shows when it has finished.</p>
 <p><img src="images/56-timer.png" alt="timer"></p>
 <h2 id="cal-month-and-date">cal, month and date</h2>
 <pre><code>cal                 this month, with today in red
 2026 12 month       any month
 date say            2026-10-19
 </code></pre>
-<p><code>cal</code> and <code>month</code> print a calendar with weeks starting on Monday, and <code>date</code> leaves today's date as a string in ISO order, which sorts correctly as text. All three use the real-time clock, so in QEMU they show the UTC date unless the clock is set to local time.</p>
+<p><code>cal</code> and <code>month</code> print a calendar with weeks starting on Monday, and <code>date</code> leaves today&#x27;s date as a string in ISO order, which sorts correctly as text. All three use the real-time clock, so in QEMU they show the UTC date unless the clock is set to local time.</p>
 <p>The helpers are usable on their own:</p>
 <pre><code>2024 leap? .                1
 2024 2 month-days .         29
@@ -118,7 +118,7 @@ todo
 <h2 id="calc">calc</h2>
 <pre><code>calc
 </code></pre>
-<p>An infix calculator with its own prompt, <code>calc »</code>. It takes the usual operators with the usual precedence, which omega itself doesn't:</p>
+<p>An infix calculator with its own prompt, <code>calc »</code>. It takes the usual operators with the usual precedence, which omega itself doesn&#x27;t:</p>
 <table>
 <thead>
 <tr>
@@ -155,7 +155,7 @@ todo
 </table>
 <p><code>^</code> is exclusive or, as in C, and power is <code>**</code>. Numbers can be written in decimal, <code>0x</code> hex and <code>0b</code> binary, and <code>ans</code> is the previous result.</p>
 <p>Arithmetic is fixed point with six decimal places, so <code>1/3</code> is <code>0.333333</code>. Bitwise operators work on the whole part. A whole result is also shown in hex and, when it is short enough, in binary.</p>
-<p>An empty line leaves. <code>calc</code> keeps its own line history, separate from the prompt's, and the history survives between runs in the same tab.</p>
+<p>An empty line leaves. <code>calc</code> keeps its own line history, separate from the prompt&#x27;s, and the history survives between runs in the same tab.</p>
 <p><img src="images/14-calc.png" alt="calc"></p>
 <h2 id="bases-and-ascii">bases and ascii</h2>
 <pre><code>255 bases
@@ -175,7 +175,7 @@ todo
 <pre><code>password            five random passwords
 24 password-of say  one of a given length
 </code></pre>
-<p>Passwords are drawn from letters and digits with the easily confused ones left out (<code>l</code>, <code>I</code>, <code>O</code>, <code>0</code>, <code>1</code>). They use <code>rand</code>, which is seeded from the CPU's cycle counter and fine for a throwaway test account, but not designed for real secrets (<a href="numbers.html">numbers</a>).</p>
+<p>Passwords are drawn from letters and digits with the easily confused ones left out (<code>l</code>, <code>I</code>, <code>O</code>, <code>0</code>, <code>1</code>). They use <code>rand</code>, which is seeded from the CPU&#x27;s cycle counter and fine for a throwaway test account, but not designed for real secrets (<a href="numbers.html">numbers</a>).</p>
 <p><img src="images/61-password.png" alt="password"></p>
 <h2 id="colors-and-themes">colors and themes</h2>
 <pre><code>colors              the 16 colour numbers, drawn in their colours
@@ -190,9 +190,9 @@ themes              the colour themes
 <ul>
 <li>the CPU model and the idle percentage, with a bar;</li>
 <li>heap used and total, with a bar;</li>
-<li>the kernel's size;</li>
-<li>each tab's title and state, with <code>*</code> on the visible one;</li>
-<li>the current tab's world: definitions, stack depth and history length;</li>
+<li>the kernel&#x27;s size;</li>
+<li>each tab&#x27;s title and state, with <code>*</code> on the visible one;</li>
+<li>the current tab&#x27;s world: definitions, stack depth and history length;</li>
 <li>live objects and garbage collections in the current tab;</li>
 <li>timer and keyboard interrupts, in total and per second;</li>
 <li>uptime.</li>
@@ -224,7 +224,7 @@ themes              the colour themes
 </tr>
 <tr>
 <td><code>memls</code></td>
-<td>the firmware's memory map</td>
+<td>the firmware&#x27;s memory map</td>
 </tr>
 <tr>
 <td><code>cpuinfo</code></td>
@@ -245,14 +245,14 @@ themes              the colour themes
 <h2 id="hexview">hexview</h2>
 <pre><code>0xB8000 hexview
 </code></pre>
-<p>A hex editor on live memory, starting at the given address. The arrow keys move the cursor, Page Up and Page Down move by a screen of 336 bytes, and typing two hex digits writes a byte at the cursor. Writes go straight to RAM and can't be undone, by <code>back</code> or anything else. At <code>0xB8000</code> the screen itself is being edited, which is a safe way to try it; elsewhere it can crash the tab or the machine (<a href="memory.html">memory</a>).</p>
+<p>A hex editor on live memory, starting at the given address. The arrow keys move the cursor, Page Up and Page Down move by a screen of 336 bytes, and typing two hex digits writes a byte at the cursor. Writes go straight to RAM and can&#x27;t be undone, by <code>back</code> or anything else. At <code>0xB8000</code> the screen itself is being edited, which is a safe way to try it; elsewhere it can crash the tab or the machine (<a href="memory.html">memory</a>).</p>
 <p><img src="images/13-hexview.png" alt="hexview"></p>
 <h2 id="install">install</h2>
 <p>For <code>install</code> and <code>disks</code>, see <a href="installation.html">installation</a> and <a href="machine.html">machine</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

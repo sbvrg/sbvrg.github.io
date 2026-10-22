@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -148,7 +148,7 @@ document.querySelector(".mode").onclick = function () {
 <pre><code>[ [ &quot;ann&quot; 31 ] [ &quot;bob&quot; 27 ] ] :people
 people [ first &quot;bob&quot; = ] filter first 1 at  27
 </code></pre>
-<p>Totals with a local accumulator, when <code>sum</code> and <code>fold</code> don't fit:</p>
+<p>Totals with a local accumulator, when <code>sum</code> and <code>fold</code> don&#x27;t fit:</p>
 <pre><code>0 { total } [ 1 2 3 ] [ total + -&gt;total ] each total        6
 </code></pre>
 <h2 id="the-stack">The stack</h2>
@@ -184,15 +184,15 @@ people [ first &quot;bob&quot; = ] filter first 1 at  27
 </code></pre>
 <h2 id="themes-and-the-logo">Themes and the logo</h2>
 <p>Switch the colours, and the logo with them:</p>
-<pre><code>'haelide theme
-'dusk theme
+<pre><code>&#x27;haelide theme
+&#x27;dusk theme
 </code></pre>
 <p>Change one colour until the next theme switch:</p>
 <pre><code>14 255 120 0 rgb
 </code></pre>
 <p>Draw <code>sys</code> with a logo of your own:</p>
 <pre><code>[ [ &quot; /\\ /\\&quot; &quot; (o.o)&quot; &quot;  &gt;^&lt;&quot; ] ] :logo-fox
-'fox logo
+&#x27;fox logo
 sys
 </code></pre>
 <p>Change the name before the <code>@</code> for this tab:</p>
@@ -213,14 +213,14 @@ uptime say              the same, as hours, minutes and seconds
 </code></pre>
 <p>then write the definitions in the editor, save with Ctrl-S and leave with Ctrl-Q (<a href="units.html">units</a>).</p>
 <p>Trying a change to a root word in one tab only:</p>
-<pre><code>'top edit
+<pre><code>&#x27;top edit
 </code></pre>
-<p>makes a private copy that hides the root one in this tab. <code>'top forget</code> removes the copy again (<a href="names.html">names</a>).</p>
+<p>makes a private copy that hides the root one in this tab. <code>&#x27;top forget</code> removes the copy again (<a href="names.html">names</a>).</p>
 <h2 id="machine">Machine</h2>
 <p>The first 16 bytes of the screen memory, which hold the tab bar:</p>
 <pre><code>0 16 range [ 0xB8000 + peek ] map
 </code></pre>
-<p>The CPU's vendor string:</p>
+<p>The CPU&#x27;s vendor string:</p>
 <pre><code>0 cpuid { a b c d } b reg&gt;str d reg&gt;str cat c reg&gt;str cat
 </code></pre>
 <p>All PCI devices from one vendor:</p>
@@ -230,7 +230,7 @@ uptime say              the same, as hours, minutes and seconds
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

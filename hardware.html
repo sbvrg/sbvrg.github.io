@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -85,11 +85,11 @@ document.querySelector(".mode").onclick = function () {
 </blockquote>
 <h2 id="what-subverge-needs">What Subverge needs</h2>
 <p><strong>An x86-64 CPU.</strong> Any 64-bit Intel or AMD CPU qualifies. Subverge uses one core. The kernel is compiled without SSE, so no particular extensions are required.</p>
-<p><strong>BIOS booting.</strong> The ISO boots through GRUB in BIOS mode, and an installed disk boots through Subverge's own MBR and stage 2, which use BIOS disk services (<a href="boot.html">boot</a>). Firmware that only boots UEFI can't start it, which includes most recent laptops. Many desktops can still enable a compatibility support module, often called CSM or legacy boot.</p>
-<p><strong>VGA text mode.</strong> All output goes to the 80 by 25 text screen at <code>0xB8000</code>, and the kernel reprograms the VGA palette and font registers directly. Most graphics cards still implement text mode when the firmware boots in legacy mode. UEFI-only setups often leave the card in a graphics mode where writes to <code>0xB8000</code> show nothing. Graphics mode, started with <code>gfx</code>, uses the Bochs display registers of QEMU's standard VGA card.</p>
-<p><strong>A PS/2 keyboard controller.</strong> Keys are read from ports <code>0x60</code> and <code>0x64</code> (<a href="keyboard.html">keyboard</a>). Machines without a PS/2 port usually emulate one for USB keyboards when legacy USB support is enabled in the firmware. Without it, Subverge boots and draws its screen but can't be typed at.</p>
+<p><strong>BIOS booting.</strong> The ISO boots through GRUB in BIOS mode, and an installed disk boots through Subverge&#x27;s own MBR and stage 2, which use BIOS disk services (<a href="boot.html">boot</a>). Firmware that only boots UEFI can&#x27;t start it, which includes most recent laptops. Many desktops can still enable a compatibility support module, often called CSM or legacy boot.</p>
+<p><strong>VGA text mode.</strong> All output goes to the 80 by 25 text screen at <code>0xB8000</code>, and the kernel reprograms the VGA palette and font registers directly. Most graphics cards still implement text mode when the firmware boots in legacy mode. UEFI-only setups often leave the card in a graphics mode where writes to <code>0xB8000</code> show nothing. Graphics mode, started with <code>gfx</code>, uses the Bochs display registers of QEMU&#x27;s standard VGA card.</p>
+<p><strong>A PS/2 keyboard controller.</strong> Keys are read from ports <code>0x60</code> and <code>0x64</code> (<a href="keyboard.html">keyboard</a>). Machines without a PS/2 port usually emulate one for USB keyboards when legacy USB support is enabled in the firmware. Without it, Subverge boots and draws its screen but can&#x27;t be typed at.</p>
 <p><strong>The PIT and the 8259 PICs</strong> for the timer and interrupts. Every PC chipset still emulates these.</p>
-<p><strong>IDE disks</strong>, reached through the legacy ports at <code>0x1F0</code> and <code>0x170</code> (<a href="drives.html">drives</a>). SATA controllers in IDE or legacy mode present their disks there. In AHCI mode, which is the usual default, <code>disks</code> finds nothing. NVMe and USB disks are never visible. The live ISO doesn't need a disk at all.</p>
+<p><strong>IDE disks</strong>, reached through the legacy ports at <code>0x1F0</code> and <code>0x170</code> (<a href="drives.html">drives</a>). SATA controllers in IDE or legacy mode present their disks there. In AHCI mode, which is the usual default, <code>disks</code> finds nothing. NVMe and USB disks are never visible. The live ISO doesn&#x27;t need a disk at all.</p>
 <p><strong>RAM</strong>: 64 MiB or more. The kernel uses at most 64 MiB for its heap and maps the first 4 GiB.</p>
 <h2 id="trying-it">Trying it</h2>
 <ol>
@@ -104,14 +104,14 @@ document.querySelector(".mode").onclick = function () {
 </li>
 <li><p>Boot from the stick.</p>
 </li>
-<li><p>Don't run <code>install</code>. The live system saves nothing and never writes to a disk unless asked.</p>
+<li><p>Don&#x27;t run <code>install</code>. The live system saves nothing and never writes to a disk unless asked.</p>
 </li>
 </ol>
 <p>Then try a few things: type at the prompt, switch tabs, run <code>sys</code>, <code>top</code>, <code>pcils</code> and <code>disks</code>, and leave <code>mandel</code> running for a while.</p>
 <h2 id="reporting-the-result">Reporting the result</h2>
 <p>Reports from real machines are welcome whether it works or not. Include:</p>
 <ul>
-<li>the machine's make and model, or the mainboard;</li>
+<li>the machine&#x27;s make and model, or the mainboard;</li>
 <li>the firmware settings you changed;</li>
 <li>how far it got: GRUB menu, Subverge screen, keyboard working, <code>disks</code> output;</li>
 <li>a photograph of the screen if anything went wrong.</li>
@@ -128,14 +128,14 @@ document.querySelector(".mode").onclick = function () {
 <tbody>
 <tr>
 <td>the machine skips the USB stick</td>
-<td>UEFI-only boot, or the stick wasn't written as a raw image</td>
+<td>UEFI-only boot, or the stick wasn&#x27;t written as a raw image</td>
 </tr>
 <tr>
 <td>GRUB starts, then a black screen</td>
-<td>the graphics card isn't in text mode</td>
+<td>the graphics card isn&#x27;t in text mode</td>
 </tr>
 <tr>
-<td>Subverge's screen appears, keys do nothing</td>
+<td>Subverge&#x27;s screen appears, keys do nothing</td>
 <td>no PS/2 emulation for the USB keyboard</td>
 </tr>
 <tr>
@@ -153,7 +153,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

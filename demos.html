@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,8 +79,8 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="demos">Demos</h1>
-<p>The demos show omega's infinite values at work, and <code>mandel</code> shows what the JIT does for a tight loop. Their source, shown by <code>'name open</code>, uses the ordinal and cardinal words throughout. For the values themselves, see <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p>
-<p><code>pairing</code>, <code>diagonal</code> and <code>supertask</code> act out three of the arguments from Vsauce's <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a>: pairing sets off one to one, Cantor's diagonal, and fitting infinitely many steps into a finite time. Watch it first and the demos make more sense.</p>
+<p>The demos show omega&#x27;s infinite values at work, and <code>mandel</code> shows what the JIT does for a tight loop. Their source, shown by <code>&#x27;name open</code>, uses the ordinal and cardinal words throughout. For the values themselves, see <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p>
+<p><code>pairing</code>, <code>diagonal</code> and <code>supertask</code> act out three of the arguments from Vsauce&#x27;s <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a>: pairing sets off one to one, Cantor&#x27;s diagonal, and fitting infinitely many steps into a finite time. Watch it first and the demos make more sense.</p>
 <h2 id="count">count</h2>
 <pre><code>count
 </code></pre>
@@ -93,7 +93,7 @@ document.querySelector(".mode").onclick = function () {
 <li>ε₀, the limit of those towers, where ω^x = x;</li>
 <li>ω₁, the first uncountable ordinal, and its size, ℵ₁.</li>
 </ol>
-<p>The last part is about the continuum hypothesis. Whether ℵ₁ is the size of the real numbers can't be decided in ZFC.</p>
+<p>The last part is about the continuum hypothesis. Whether ℵ₁ is the size of the real numbers can&#x27;t be decided in ZFC.</p>
 <p>Every value it shows is computed by ordinary arithmetic, such as <code>w w * show</code> and <code>w w w ^ ^ show</code>.</p>
 <p><img src="images/17-count.png" alt="count"></p>
 <h2 id="ord-demo">ord-demo</h2>
@@ -193,15 +193,15 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="diagonal">diagonal</h2>
 <pre><code>diagonal
 </code></pre>
-<p>Cantor's diagonal argument, drawn. It fills the screen with rows of random binary digits, standing for a supposed list of every infinite binary sequence. Then it walks down the diagonal, highlighting digit k of row k and writing its opposite into a new row at the bottom.</p>
-<p>The new row differs from every row in the list at one position at least, so it isn't in the list, and no list of binary sequences can be complete. That is why <code>2 aleph0 ^</code> is bigger than <code>aleph0</code>:</p>
+<p>Cantor&#x27;s diagonal argument, drawn. It fills the screen with rows of random binary digits, standing for a supposed list of every infinite binary sequence. Then it walks down the diagonal, highlighting digit k of row k and writing its opposite into a new row at the bottom.</p>
+<p>The new row differs from every row in the list at one position at least, so it isn&#x27;t in the list, and no list of binary sequences can be complete. That is why <code>2 aleph0 ^</code> is bigger than <code>aleph0</code>:</p>
 <pre><code>aleph0 2 aleph0 ^ &lt; .           1
 </code></pre>
 <p><img src="images/19-diagonal.png" alt="diagonal"></p>
 <h2 id="supertask">supertask</h2>
 <pre><code>supertask
 </code></pre>
-<p>Zeno's dichotomy as a picture. It draws half of a line, then half of what is left, then half again, each step twice as fast as the one before. The screen runs out of character cells after a handful of steps, but the series it illustrates has infinitely many steps that add up to the whole line, and since the waits halve too, it would also finish in finite time.</p>
+<p>Zeno&#x27;s dichotomy as a picture. It draws half of a line, then half of what is left, then half again, each step twice as fast as the one before. The screen runs out of character cells after a handful of steps, but the series it illustrates has infinitely many steps that add up to the whole line, and since the waits halve too, it would also finish in finite time.</p>
 <p><img src="images/20-supertask.png" alt="supertask"></p>
 <h2 id="powerset">powerset</h2>
 <pre><code>[ 1 2 3 ] powerset .
@@ -219,12 +219,12 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p><img src="images/37-mandel-1.png" alt="mandel"></p>
 <p><img src="images/38-mandel-2.png" alt="mandel, further in"></p>
-<p>Its inner loop, <code>mb-iter</code>, is a <code>while</code> over integer arithmetic, which the <a href="jit.html">JIT</a> compiles into a tight loop. <code>'mb-iter xray</code> shows the machine code, and running <code>mandel</code> once with <code>jit-off</code> and once with <code>jit-on</code> shows the difference in speed.</p>
+<p>Its inner loop, <code>mb-iter</code>, is a <code>while</code> over integer arithmetic, which the <a href="jit.html">JIT</a> compiles into a tight loop. <code>&#x27;mb-iter xray</code> shows the machine code, and running <code>mandel</code> once with <code>jit-off</code> and once with <code>jit-on</code> shows the difference in speed.</p>
 <p><img src="images/39-mandel-xray.png" alt="mandel xray"></p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

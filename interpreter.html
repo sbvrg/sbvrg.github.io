@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -80,9 +80,9 @@ document.querySelector(".mode").onclick = function () {
 <main class="doc">
 <h1 id="the-interpreter">The interpreter</h1>
 <h2 id="reading-the-line">Reading the line</h2>
-<p>The <a href="prompt.html">prompt</a> collects up to 200 printable characters into a buffer. Only bytes from space to <code>~</code> can be typed, which is why <code>\w</code> and <code>\A</code> exist as string escapes for the omega and aleph glyphs. Tab completes names against the tab's definitions, root and the built-ins. When Enter is pressed the line is added to the tab's prompt history, unless it is empty or the same as the previous line, and handed to the evaluator.</p>
+<p>The <a href="prompt.html">prompt</a> collects up to 200 printable characters into a buffer. Only bytes from space to <code>~</code> can be typed, which is why <code>\w</code> and <code>\A</code> exist as string escapes for the omega and aleph glyphs. Tab completes names against the tab&#x27;s definitions, root and the built-ins. When Enter is pressed the line is added to the tab&#x27;s prompt history, unless it is empty or the same as the previous line, and handed to the evaluator.</p>
 <h2 id="starting-the-transaction">Starting the transaction</h2>
-<p>Before anything runs, the evaluator copies the committed stack of the tab's <a href="world.html">world</a> into the working stack and points the working dictionary at the committed one. It then clears the error flag, the <code>back</code> counter, the call depth, the local variables, the trace flag and the keep stack. From here until the end of the line, everything happens on the working copies.</p>
+<p>Before anything runs, the evaluator copies the committed stack of the tab&#x27;s <a href="world.html">world</a> into the working stack and points the working dictionary at the committed one. It then clears the error flag, the <code>back</code> counter, the call depth, the local variables, the trace flag and the keep stack. From here until the end of the line, everything happens on the working copies.</p>
 <h2 id="parsing">Parsing</h2>
 <p>The whole line is parsed into one quote before any of it runs. A syntax error such as an unclosed bracket therefore fails the line before the first word executes, which is why <code>1 2 + [</code> prints nothing and pushes nothing.</p>
 <p>The parser reads tokens separated by spaces, tabs and newlines. <code>[</code>, <code>]</code>, <code>{</code>, <code>}</code> and <code>&quot;</code> end a token even without a space, so <code>[1 2]</code> parses as <code>[ 1 2 ]</code>. A <code>#</code> where a token could start begins a comment that runs to the end of the line.</p>
@@ -91,13 +91,13 @@ document.querySelector(".mode").onclick = function () {
 <li><code>[</code> starts a nested quote. Nesting deeper than 32 levels fails with <code>the brackets are nested too deep</code>, and a single quote can hold at most 256 items.</li>
 <li><code>{</code> reads names up to the matching <code>}</code> and becomes a local list. Up to 32 names fit in one list.</li>
 <li><code>&quot;</code> reads a string up to the next unescaped <code>&quot;</code>. The escapes are <code>\n</code>, <code>\t</code>, <code>\e</code> (escape), <code>\w</code> (the omega glyph) and <code>\A</code> (the aleph glyph). A backslash before any other character produces that character.</li>
-<li>A token that reads as a number in decimal, <code>0x</code> hex or <code>0b</code> binary becomes an integer. If it is valid but doesn't fit in 64 bits, it is parsed again as a <a href="bignums.html">bignum</a>.</li>
-<li>A token starting with <code>'</code> becomes a symbol, one starting with <code>:</code> a definition, and one starting with <code>-&gt;</code> a local assignment. These prefixes only count when something follows them, so <code>:</code> and <code>'</code> on their own are ordinary words.</li>
+<li>A token that reads as a number in decimal, <code>0x</code> hex or <code>0b</code> binary becomes an integer. If it is valid but doesn&#x27;t fit in 64 bits, it is parsed again as a <a href="bignums.html">bignum</a>.</li>
+<li>A token starting with <code>&#x27;</code> becomes a symbol, one starting with <code>:</code> a definition, and one starting with <code>-&gt;</code> a local assignment. These prefixes only count when something follows them, so <code>:</code> and <code>&#x27;</code> on their own are ordinary words.</li>
 <li>Anything else becomes a word.</li>
 </ul>
 <p>Names are interned as they are read (<a href="values.html">values and objects</a>), so parsing a line that mentions <code>dup</code> twice creates no new objects for the second <code>dup</code>.</p>
 <h2 id="running-a-quote">Running a quote</h2>
-<p>Running a quote first gives the <a href="jit.html">JIT</a> a chance. If the quote already has current machine code, that code runs and the interpreter is done with it. If this is the quote's second run, it is compiled first. Otherwise the quote is interpreted.</p>
+<p>Running a quote first gives the <a href="jit.html">JIT</a> a chance. If the quote already has current machine code, that code runs and the interpreter is done with it. If this is the quote&#x27;s second run, it is compiled first. Otherwise the quote is interpreted.</p>
 <p>The interpreter keeps a call depth. Each quote it enters adds one, and going past 400 fails with <code>this nests too deep</code>. This is what stops unbounded recursion long before the 256 KiB tab stack runs out.</p>
 <p>For each cell, in order, the interpreter:</p>
 <ol>
@@ -108,7 +108,7 @@ document.querySelector(".mode").onclick = function () {
 </ol>
 <p>It stops at the first error. Errors are a flag and a message on the tab, so after a failure every word that is still on its way out sees the flag and returns without doing anything.</p>
 <h2 id="executing-a-cell">Executing a cell</h2>
-<p>What happens depends on the cell's tag:</p>
+<p>What happens depends on the cell&#x27;s tag:</p>
 <ul>
 <li><strong>A word</strong> is resolved and run, as described below.</li>
 <li><strong>A definition</strong> (<code>:name</code>) pops the top value and adds an entry binding <code>name</code> to it at the front of the working dictionary.</li>
@@ -120,12 +120,12 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="resolving-a-word">Resolving a word</h2>
 <p>A word is looked up in this order, and the first match wins:</p>
 <ol>
-<li><strong>Locals</strong>, newest first. A local's value is pushed, never run, even if it is a quote.</li>
-<li><strong>The tab's definitions</strong>, newest first. If the value is a quote it is run, otherwise it is pushed.</li>
-<li><strong>Root's definitions</strong>, newest first, with the same rule.</li>
+<li><strong>Locals</strong>, newest first. A local&#x27;s value is pushed, never run, even if it is a quote.</li>
+<li><strong>The tab&#x27;s definitions</strong>, newest first. If the value is a quote it is run, otherwise it is pushed.</li>
+<li><strong>Root&#x27;s definitions</strong>, newest first, with the same rule.</li>
 <li><strong>The built-in</strong> stored on the interned name, if any.</li>
 </ol>
-<p>If nothing matches, the line fails with <code>foo isn't defined</code>.</p>
+<p>If nothing matches, the line fails with <code>foo isn&#x27;t defined</code>.</p>
 <p>This order is why a tab can override a root word without changing root, why <code>forget</code> uncovers whatever was underneath, and why a local called <code>x</code> hides a definition called <code>x</code> inside the quote that bound it. See <a href="names.html">names</a> for the user-facing consequences, including dynamic scoping.</p>
 <h2 id="locals-and-their-lifetime">Locals and their lifetime</h2>
 <p>Locals live in a per-tab table of 256 entries, separate from the stack. When a quote finishes, the interpreter cuts the table back to the size it had when the quote started, so every local bound inside the quote disappears with it. A word called from inside the quote can still see those locals while it runs, because lookup searches the whole live table. This is dynamic scoping, and it is a direct consequence of keeping locals in one table rather than in per-quote frames.</p>
@@ -140,7 +140,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

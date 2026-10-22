@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -91,23 +91,23 @@ document.querySelector(".mode").onclick = function () {
 <p>Because the saved world is loaded first, <code>startup</code> can use words defined in tab 1, and a <code>startup</code> defined in tab 1 replaces the one in root.</p>
 <p><code>startup</code> runs as an ordinary line in tab 1. If it fails, the error is printed and the prompt appears as usual, and nothing it did is kept.</p>
 <h2 id="changing-it">Changing it</h2>
-<pre><code>'startup open
+<pre><code>&#x27;startup open
 </code></pre>
 <p>and edit the definition. <code>[ sys ] :startup</code> drops the welcome text, and <code>[ ] :startup</code> starts at a bare prompt.</p>
-<pre><code>'user open
+<pre><code>&#x27;user open
 </code></pre>
 <p>changes the <code>user</code> in <code>user@subverge</code>. <code>host</code>, <code>os</code> and <code>kernel-name</code> set the other lines of the <code>sys</code> screen, and <code>logo</code> changes the drawing on the left (<a href="logos.html">logos</a>).</p>
 <h2 id="overriding-it-per-tab">Overriding it per tab</h2>
-<p>On an installed disk, tab 1's saved <a href="world.html">world</a> is loaded before <code>startup</code> runs, and tab definitions take precedence over root (<a href="names.html">names</a>). Defining <code>startup</code> in tab 1 therefore overrides the root version without changing it:</p>
-<pre><code>[ &quot;it's me again&quot; say ] :startup
+<p>On an installed disk, tab 1&#x27;s saved <a href="world.html">world</a> is loaded before <code>startup</code> runs, and tab definitions take precedence over root (<a href="names.html">names</a>). Defining <code>startup</code> in tab 1 therefore overrides the root version without changing it:</p>
+<pre><code>[ &quot;it&#x27;s me again&quot; say ] :startup
 </code></pre>
-<p><code>'startup see</code> then shows your version in tab 1 and the root version in tab 2.</p>
+<p><code>&#x27;startup see</code> then shows your version in tab 1 and the root version in tab 2.</p>
 <h2 id="missing-startup">Missing startup</h2>
 <p>If <code>startup</code> is undefined, tab 1 runs <code>sys</code> instead. If root failed to build at boot, it shows <code>sys-c</code> and the root error in red.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

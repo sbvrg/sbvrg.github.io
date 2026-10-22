@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,8 +81,8 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="logos">Logos</h1>
 <p><code>sys</code> draws a logo on the left and the system information on the right. Two logos come with the system:</p>
 <pre><code>logos               list the logos, with the current one marked
-'haelide logo       switch to the haelide logo
-'subverge logo      switch back to the cat and moon
+&#x27;haelide logo       switch to the haelide logo
+&#x27;subverge logo      switch back to the cat and moon
 logo@ say           print the name of the current logo
 </code></pre>
 <p><img src="images/86-logos.png" alt="logos"></p>
@@ -90,29 +90,29 @@ logo@ say           print the name of the current logo
 <p><img src="images/88-logo-haelide.png" alt="the haelide logo"></p>
 <p>An installed system saves the logo name on the disk with the <a href="themes.html">theme</a>, and <code>sys</code> uses it at the next boot. The <code>haelide</code> theme switches to the <code>haelide</code> logo by itself.</p>
 <h2 id="making-a-logo">Making a logo</h2>
-<p>A logo is a word named <code>logo-</code> followed by the logo's name. The word leaves a list of lines, and <code>logo</code> takes the name without the <code>logo-</code> part:</p>
-<pre><code>[ [ &quot;  .-.&quot; &quot; (o o)&quot; [ &quot; | O |&quot; &quot;  mine&quot; ] &quot;  '~'&quot; ] ] :logo-mine
-'mine logo
+<p>A logo is a word named <code>logo-</code> followed by the logo&#x27;s name. The word leaves a list of lines, and <code>logo</code> takes the name without the <code>logo-</code> part:</p>
+<pre><code>[ [ &quot;  .-.&quot; &quot; (o o)&quot; [ &quot; | O |&quot; &quot;  mine&quot; ] &quot;  &#x27;~&#x27;&quot; ] ] :logo-mine
+&#x27;mine logo
 sys
 </code></pre>
 <p><img src="images/87-logo-mine.png" alt="a custom logo"></p>
 <p>A line that is a string is drawn in colour 14, the accent of the theme. A line that is a list of strings is drawn piece by piece, alternating between colours 14 and 15, so <code>[ &quot; | O |&quot; &quot;  mine&quot; ]</code> draws <code> | O |</code> in the accent and <code>  mine</code> in bright text. The default logo uses this to draw the moon in one colour and the cat in the other:</p>
-<pre><code>'logo-subverge see
+<pre><code>&#x27;logo-subverge see
 </code></pre>
 <p>The system information starts three columns to the right of the widest line. <code>sys</code> draws as many rows as the logo has, and at least nine. Values that would run past the right edge of the screen are cut off, so keep logos under about 40 columns.</p>
 <p>A backslash in a string starts an escape, so write <code>\\</code> for each backslash in the drawing. <code>&quot;/\\_/\\&quot;</code> draws <code>/\_/\</code>.</p>
 <h2 id="keeping-a-logo">Keeping a logo</h2>
-<p>A definition typed at the prompt belongs to the tab it was typed in. <code>sys</code> runs on tab 1 at boot, so a logo defined in tab 2 can't be found there. Put the logo in a root <a href="units.html">unit</a> instead, so every tab sees it:</p>
+<p>A definition typed at the prompt belongs to the tab it was typed in. <code>sys</code> runs on tab 1 at boot, so a logo defined in tab 2 can&#x27;t be found there. Put the logo in a root <a href="units.html">unit</a> instead, so every tab sees it:</p>
 <pre><code>&quot;mylogo&quot; unit
 </code></pre>
-<p>opens a new unit in <a href="scrawl.html">scrawl</a>. Write the <code>:logo-mine</code> line in it, save with Ctrl-S, quit with Ctrl-Q, and then run <code>'mine logo</code>.</p>
+<p>opens a new unit in <a href="scrawl.html">scrawl</a>. Write the <code>:logo-mine</code> line in it, save with Ctrl-S, quit with Ctrl-Q, and then run <code>&#x27;mine logo</code>.</p>
 <p>If the saved logo is removed later, <code>sys</code> draws the <code>subverge</code> logo instead.</p>
 <h2 id="the-rest-of-the-sys-screen">The rest of the sys screen</h2>
-<p><code>sys</code> is an ordinary root word. <code>'sys open</code> opens it in scrawl. The name before the <code>@</code> is the word <code>user</code>, and the name after it is <code>host</code>, so <code>'user open</code> changes them. <code>stat</code> prints one labelled line, and can be used to add lines of your own.</p>
+<p><code>sys</code> is an ordinary root word. <code>&#x27;sys open</code> opens it in scrawl. The name before the <code>@</code> is the word <code>user</code>, and the name after it is <code>host</code>, so <code>&#x27;user open</code> changes them. <code>stat</code> prints one labelled line, and can be used to add lines of your own.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

@@ -65,6 +65,8 @@ Row 0 is drawn by the kernel, not by any tab, so you can't draw over it with `pu
 | `gfx-off` | `--` | back to the text screen |
 | `dot` | `x y col --` | set one pixel |
 | `box` | `x y w h col --` | fill a rectangle |
+| `text` | `s x y col --` | draw a string, 8 by 16 pixels per character |
+| `window` | `x y w h title --` | draw a frame with a title bar |
 
 Coordinates start at `0 0` in the top-left corner, and anything outside the screen is cut off. Colours are the same numbers as in text mode, 0 to 15. `dot` and `box` fail with `graphics mode is off, run gfx first` when it isn't running.
 
@@ -87,7 +89,13 @@ The picture is eight `box` calls, one per line, after `gfx`:
 
 The text screen isn't shown in graphics mode, so the prompt and anything the tabs print are hidden. The tabs keep running and keep their screens, and a word that fails shows its error once you're back. F1 to F4 and alt-1 to alt-4 switch tabs and also leave graphics mode, which is the way out when you can't see the prompt. Use `theme` and `rgb` before `gfx`, since they set the text screen's colours.
 
-Drawing text and mouse input aren't in graphics mode yet. It is the first step toward the planned desktop with windows ([roadmap](roadmap.md)).
+`window` draws a light border, a title bar with the title in it and a dark body, all in the theme's colours, and `text` draws into it:
+
+    gfx 0 0 640 480 1 box 60 50 360 220 "first" window "hello" 80 100 14 text key drop gfx-off
+
+![window](images/93-window.png)
+
+Mouse input isn't in graphics mode yet, and windows don't move or overlap on their own. It is the first step toward the planned desktop with windows ([roadmap](roadmap.md)).
 
 `gfx` needs QEMU's default `-vga std` display, which is the one that has the Bochs display registers at ports `0x1CE` and `0x1CF` ([ports](ports.md)). On anything else it fails with `no Bochs display here, start QEMU with -vga std`.
 

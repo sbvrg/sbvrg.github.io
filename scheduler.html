@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,31 +81,31 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="scheduler">Scheduler</h1>
 <p>The four <a href="tabs.html">tabs</a> share one CPU. The scheduler switches to the next tab a hundred times a second.</p>
 <h2 id="tasks">Tasks</h2>
-<p>There are five tasks, one for each tab and one idle task. Each tab's task has its own 256 KiB stack, from the heap, and runs <code>omega_main</code>, which is the prompt loop: read a line, run it, repeat. The idle task is <code>kmain</code> itself, which ends in <code>hlt</code> in a loop.</p>
+<p>There are five tasks, one for each tab and one idle task. Each tab&#x27;s task has its own 256 KiB stack, from the heap, and runs <code>omega_main</code>, which is the prompt loop: read a line, run it, repeat. The idle task is <code>kmain</code> itself, which ends in <code>hlt</code> in a loop.</p>
 <p>The number of tasks is fixed at four, and the four tabs match the four tab slots in the <a href="disk-layout.html">disk layout</a>.</p>
 <h2 id="switching">Switching</h2>
-<p>The PIT fires IRQ 0 a hundred times a second. Every interrupt, timer or not, goes through one common handler that pushes all the registers onto the current task's stack. For the timer, the handler calls <code>schedule</code> with a pointer to those saved registers, which:</p>
+<p>The PIT fires IRQ 0 a hundred times a second. Every interrupt, timer or not, goes through one common handler that pushes all the registers onto the current task&#x27;s stack. For the timer, the handler calls <code>schedule</code> with a pointer to those saved registers, which:</p>
 <ol>
-<li>stores that pointer as the current task's saved <code>rsp</code></li>
-<li>looks at the tabs in order, starting after the current one, for the first one that's runnable</li>
-<li>returns that task's saved <code>rsp</code>, or the idle task's if none are</li>
+<li>stores that pointer as the current task&#x27;s saved <code>rsp</code></li>
+<li>looks at the tabs in order, starting after the current one, for the first one that&#x27;s runnable</li>
+<li>returns that task&#x27;s saved <code>rsp</code>, or the idle task&#x27;s if none are</li>
 </ol>
 <p>and the handler then switches to whatever stack it was given and pops the registers off it. The return from the interrupt <em>is</em> the context switch. The registers stay on that stack, and no FPU state is saved, because the kernel is compiled to never touch SSE.</p>
 <h2 id="runnable">Runnable</h2>
-<p>A tab is runnable unless it's waiting. It can be waiting for a key, in which case it's runnable once its key queue isn't empty, or sleeping until a tick, in which case it's runnable once that tick has passed. A tab doing neither is always runnable, so a tab in a tight loop gets its full share, and the others still get theirs.</p>
-<p>Only the tab you're looking at receives keys. Keys typed while you're on tab 1 go into tab 1's queue and nowhere else.</p>
+<p>A tab is runnable unless it&#x27;s waiting. It can be waiting for a key, in which case it&#x27;s runnable once its key queue isn&#x27;t empty, or sleeping until a tick, in which case it&#x27;s runnable once that tick has passed. A tab doing neither is always runnable, so a tab in a tight loop gets its full share, and the others still get theirs.</p>
+<p>Only the tab you&#x27;re looking at receives keys. Keys typed while you&#x27;re on tab 1 go into tab 1&#x27;s queue and nowhere else.</p>
 <h2 id="yielding">Yielding</h2>
-<p>A task that has nothing to do right now, because it's waiting for a key or sleeping, gives up the CPU early with <code>int 48</code>, which goes through the same handler and the same <code>schedule</code> as the timer does. A tab waiting at the prompt therefore uses no CPU time.</p>
+<p>A task that has nothing to do right now, because it&#x27;s waiting for a key or sleeping, gives up the CPU early with <code>int 48</code>, which goes through the same handler and the same <code>schedule</code> as the timer does. A tab waiting at the prompt therefore uses no CPU time.</p>
 <h2 id="faults">Faults</h2>
-<p>If a tab's code causes a CPU exception, the fault handler doesn't panic. It records the message on the tab, clears whatever it was waiting for, builds a brand new stack frame that starts <code>omega_main</code> from the top, and returns that. The tab's world isn't touched, because a line's effects only reach the world when the line finishes, which it didn't. The new <code>omega_main</code> sees the recorded fault, prints it, prints <code>your last line was dropped</code>, and goes back to the prompt. See <a href="transactions.html">transactions</a>.</p>
+<p>If a tab&#x27;s code causes a CPU exception, the fault handler doesn&#x27;t panic. It records the message on the tab, clears whatever it was waiting for, builds a brand new stack frame that starts <code>omega_main</code> from the top, and returns that. The tab&#x27;s world isn&#x27;t touched, because a line&#x27;s effects only reach the world when the line finishes, which it didn&#x27;t. The new <code>omega_main</code> sees the recorded fault, prints it, prints <code>your last line was dropped</code>, and goes back to the prompt. See <a href="transactions.html">transactions</a>.</p>
 <p>A fault in the idle task, or in the kernel when no tab is running, is a real panic, and the machine stops.</p>
 <h2 id="sharing">Sharing</h2>
-<p>All four tabs share one heap, one screen, one keyboard controller and one disk. The allocator and the disk code disable interrupts around the parts that can't be interrupted. Everything else per tab is separate: the omega state, the stack, the screen buffer, the key queue and the prompt history.</p>
+<p>All four tabs share one heap, one screen, one keyboard controller and one disk. The allocator and the disk code disable interrupts around the parts that can&#x27;t be interrupted. Everything else per tab is separate: the omega state, the stack, the screen buffer, the key queue and the prompt history.</p>
 <p>The <a href="jit.html">JIT</a> needs extra care, since compiled code can still be running in one tab when another tab invalidates it. See <a href="jit.html">JIT</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

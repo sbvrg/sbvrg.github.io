@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -95,27 +95,27 @@ document.querySelector(".mode").onclick = function () {
 <p>It is untested. Read <a href="hardware.html">hardware</a> first, and <a href="bugs.html">report</a> the result either way.</p>
 <h3 id="does-it-run-in-virtualbox-vmware-or-hyper-v">Does it run in VirtualBox, VMware or Hyper-V?</h3>
 <p>They are untested. A virtual machine with IDE disks, a PS/2 keyboard and BIOS booting should work, but only <a href="qemu.html">QEMU</a> is tested.</p>
-<h3 id="why-cant-it-see-my-disk">Why can't it see my disk?</h3>
+<h3 id="why-canx27t-it-see-my-disk">Why can&#x27;t it see my disk?</h3>
 <p>Subverge only has an IDE driver. Attach the disk image with <code>-hda</code>, or with <code>-drive file=disk.img,format=raw,if=ide</code>. <code>disks</code> lists what the kernel found (<a href="installation.html">installation</a>).</p>
 <h3 id="where-are-my-files">Where are my files?</h3>
-<p>Subverge has no files. Your definitions are kept in your tab's <a href="world.html">world</a>, programs are kept in <a href="root.html">root</a>, and an installed disk <a href="saving.html">saves</a> both.</p>
+<p>Subverge has no files. Your definitions are kept in your tab&#x27;s <a href="world.html">world</a>, programs are kept in <a href="root.html">root</a>, and an installed disk <a href="saving.html">saves</a> both.</p>
 <h3 id="why-was-my-work-lost-after-a-reboot">Why was my work lost after a reboot?</h3>
-<p>The live ISO doesn't save anything. <a href="installation.html">Install</a> Subverge to a disk image to keep your work. An installed system saves after every line that succeeds, so the most you can lose is the line you were typing.</p>
+<p>The live ISO doesn&#x27;t save anything. <a href="installation.html">Install</a> Subverge to a disk image to keep your work. An installed system saves after every line that succeeds, so the most you can lose is the line you were typing.</p>
 <h3 id="i-booted-the-new-iso-and-sys-still-shows-the-old-version">I booted the new ISO and sys still shows the old version</h3>
 <p>You booted with an installed disk attached. The live system loads the root and tabs saved on that disk, and the saved root still has the old <code>sys</code>. The kernel and the built-in words are new. See <a href="installation.html#upgrading-an-installed-disk">upgrading an installed disk</a>. Boot without <code>-hda</code> to see the new root.</p>
 <h2 id="the-system">The system</h2>
 <h3 id="is-it-posix-compliant">Is it POSIX-compliant?</h3>
 <p>No, and it never will be. Subverge has no processes, files, file descriptors or system calls for POSIX to describe. Programs are omega words, and memory, I/O ports and PCI devices are reached with words such as <code>peek</code>, <code>in</code> and <code>pci@</code>. See <a href="smarties.html">omega for smarties</a>.</p>
 <h3 id="does-it-have-its-own-bootloader">Does it have its own bootloader?</h3>
-<p>Installed disks use Subverge's own <a href="boot.html">bootloader</a>. The ISO uses GRUB.</p>
+<p>Installed disks use Subverge&#x27;s own <a href="boot.html">bootloader</a>. The ISO uses GRUB.</p>
 <h3 id="why-does-everything-run-in-ring-0">Why does everything run in ring 0?</h3>
-<p>Every word at the prompt can read and write the machine directly, the same way TempleOS works. Separating programs from the kernel would need user mode, system calls and paging per process, and Subverge leaves that layer out. <a href="transactions.html">Transactions</a> undo most mistakes, and the ones they can't undo are writes to the hardware.</p>
+<p>Every word at the prompt can read and write the machine directly, the same way TempleOS works. Separating programs from the kernel would need user mode, system calls and paging per process, and Subverge leaves that layer out. <a href="transactions.html">Transactions</a> undo most mistakes, and the ones they can&#x27;t undo are writes to the hardware.</p>
 <h3 id="is-it-self-hosting">Is it self-hosting?</h3>
 <p>No. Subverge has no C compiler or assembler of its own, so the kernel is built on Linux. The programs in root are omega source and can be edited and rebuilt inside Subverge (<a href="root.html">root</a>).</p>
 <h3 id="is-it-multi-user">Is it multi-user?</h3>
-<p>No. The user name on the <code>sys</code> screen is a string, and <code>'user open</code> changes it.</p>
+<p>No. The user name on the <code>sys</code> screen is a string, and <code>&#x27;user open</code> changes it.</p>
 <h3 id="can-i-change-the-colours">Can I change the colours?</h3>
-<p>Yes. <code>themes</code> lists the themes and <code>'haelide theme</code> switches to one. <code>n r g b rgb</code> changes a single colour, and <code>logos</code> lists the logos <code>sys</code> can draw. See <a href="themes.html">themes</a> and <a href="logos.html">logos</a>.</p>
+<p>Yes. <code>themes</code> lists the themes and <code>&#x27;haelide theme</code> switches to one. <code>n r g b rgb</code> changes a single colour, and <code>logos</code> lists the logos <code>sys</code> can draw. See <a href="themes.html">themes</a> and <a href="logos.html">logos</a>.</p>
 <h3 id="why-is-the-screen-so-small">Why is the screen so small?</h3>
 <p>Subverge uses 80 by 25 VGA text mode, with the top row taken by the tab bar. <code>gfx</code> starts a 640 by 480 graphics mode, which can draw dots and boxes but not text yet. Text in graphics mode is on the <a href="roadmap.html">roadmap</a>. See <a href="screen.html">screen</a>.</p>
 <h3 id="does-it-have-networking-sound-or-a-gui">Does it have networking, sound or a GUI?</h3>
@@ -130,26 +130,26 @@ document.querySelector(".mode").onclick = function () {
 <h3 id="how-big-can-a-number-get">How big can a number get?</h3>
 <p>Up to 2^65536, which is about 19,700 digits. A result past that fails with an error (<a href="bignums.html">bignums</a>). The infinite values, such as <code>omega</code> and <code>aleph0</code>, are a different kind of value: they compare above every integer, but they are positions and sizes rather than very large integers (<a href="ordinals.html">ordinals</a>).</p>
 <h3 id="what-is-omega-the-value">What is omega, the value?</h3>
-<p><code>omega</code> pushes ω, the first position after all the natural numbers. It is the reason the shell is called omega. Watch Vsauce's <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a>, then see <a href="ordinals.html">ordinals</a>.</p>
+<p><code>omega</code> pushes ω, the first position after all the natural numbers. It is the reason the shell is called omega. Watch Vsauce&#x27;s <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a>, then see <a href="ordinals.html">ordinals</a>.</p>
 <h3 id="why-does-omega-1---fail">Why does omega 1 - fail?</h3>
-<p>Ordinals only support <code>+</code>, <code>*</code> and <code>^</code>. ω has no position directly before it, so ω−1 isn't an ordinal. See <a href="ordinals.html">ordinals</a>.</p>
+<p>Ordinals only support <code>+</code>, <code>*</code> and <code>^</code>. ω has no position directly before it, so ω−1 isn&#x27;t an ordinal. See <a href="ordinals.html">ordinals</a>.</p>
 <h3 id="why-did-my-whole-line-do-nothing">Why did my whole line do nothing?</h3>
 <p>One of its words failed, so the whole line was undone. See <a href="transactions.html">transactions</a> and <a href="errors.html">errors</a>.</p>
 <h3 id="how-do-i-undo-a-line">How do I undo a line?</h3>
 <p>Type <code>back</code>. See <a href="back.html">back</a>.</p>
-<h3 id="how-do-i-stop-a-program-that-wont-stop">How do I stop a program that won't stop?</h3>
-<p>Press Ctrl-C. It stops the code running in the current tab and undoes the line. If the tab doesn't respond, switch to another <a href="tabs.html">tab</a> with F2 to F4. The tabs are scheduled separately, so the others keep working.</p>
+<h3 id="how-do-i-stop-a-program-that-wonx27t-stop">How do I stop a program that won&#x27;t stop?</h3>
+<p>Press Ctrl-C. It stops the code running in the current tab and undoes the line. If the tab doesn&#x27;t respond, switch to another <a href="tabs.html">tab</a> with F2 to F4. The tabs are scheduled separately, so the others keep working.</p>
 <h2 id="the-project">The project</h2>
 <h3 id="how-do-i-report-a-bug">How do I report a bug?</h3>
 <p>Read <a href="bugs.html">bugs</a>, then use the <a href="https://github.com/texivi/Subverge/issues">issue tracker</a> or message <code>texivi</code> on Discord.</p>
 <h3 id="can-i-contribute">Can I contribute?</h3>
 <p>Yes. Read <a href="development.html">development</a> and <a href="testing.html">testing</a>, then send a pull request.</p>
-<h3 id="whats-the-license">What's the license?</h3>
+<h3 id="whatx27s-the-license">What&#x27;s the license?</h3>
 <p><a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -87,7 +87,7 @@ document.querySelector(".mode").onclick = function () {
 <li><code>[</code> or <code>]</code>, which open and close a quote, and <code>{</code>, which opens a list of local names closed by <code>}</code></li>
 <li><code>#</code>, which ends the line</li>
 <li>a number: an optional <code>-</code>, then decimal digits, <code>0x</code> and hex digits, or <code>0b</code> and binary digits, of any length up to 2^65536</li>
-<li><code>'name</code>, a symbol</li>
+<li><code>&#x27;name</code>, a symbol</li>
 <li><code>:name</code>, a definition</li>
 <li><code>-&gt;name</code>, a local assignment</li>
 <li>anything else, a word</li>
@@ -127,7 +127,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td>symbol</td>
 <td>interned name</td>
-<td><code>'x</code> and <code>&quot;x&quot; &gt;sym</code> are the same object</td>
+<td><code>&#x27;x</code> and <code>&quot;x&quot; &gt;sym</code> are the same object</td>
 </tr>
 <tr>
 <td>word</td>
@@ -146,17 +146,17 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 </tbody>
 </table>
-<p>Heap objects belong to the tab's <a href="gc.html">collector</a>.</p>
+<p>Heap objects belong to the tab&#x27;s <a href="gc.html">collector</a>.</p>
 <h2 id="evaluation">Evaluation</h2>
-<p>A quote is evaluated left to right. Literals push themselves. A word is resolved and run. <code>:name</code> pops one value and binds it in the tab's dictionary. <code>-&gt;name</code> pops one value and updates the innermost bound local called <code>name</code>, and otherwise binds a new local. <code>{ a b c }</code> pops as many values as names and binds them so that the last name gets the top.</p>
-<p>When a word is run, it's resolved in this order: bound locals, innermost first; the tab's dictionary; root's dictionary; built-ins. A binding whose value is a quote is called. Any other bound value is pushed. A tab binding with no value, which is what <code>forget</code> creates, ends the search of the tab's dictionary and lookup carries on in root, so forgetting a tab definition uncovers whatever it shadowed.</p>
-<p>Locals live on a single per-tab array of 256 entries, pushed when bound and popped when the binding quote returns. Lookup scans it from the top, which makes scoping dynamic: a callee sees its caller's locals. Exceeding 256 live locals fails with <code>too many local names</code>.</p>
+<p>A quote is evaluated left to right. Literals push themselves. A word is resolved and run. <code>:name</code> pops one value and binds it in the tab&#x27;s dictionary. <code>-&gt;name</code> pops one value and updates the innermost bound local called <code>name</code>, and otherwise binds a new local. <code>{ a b c }</code> pops as many values as names and binds them so that the last name gets the top.</p>
+<p>When a word is run, it&#x27;s resolved in this order: bound locals, innermost first; the tab&#x27;s dictionary; root&#x27;s dictionary; built-ins. A binding whose value is a quote is called. Any other bound value is pushed. A tab binding with no value, which is what <code>forget</code> creates, ends the search of the tab&#x27;s dictionary and lookup carries on in root, so forgetting a tab definition uncovers whatever it shadowed.</p>
+<p>Locals live on a single per-tab array of 256 entries, pushed when bound and popped when the binding quote returns. Lookup scans it from the top, which makes scoping dynamic: a callee sees its caller&#x27;s locals. Exceeding 256 live locals fails with <code>too many local names</code>.</p>
 <p>Call depth is limited, and exceeding it fails with <code>this nests too deep</code>. The data stack holds 1024 values.</p>
 <p>See <a href="limits.html">limits</a> for the numbers and <a href="worlds.html">how worlds work</a> for what happens after a line runs.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

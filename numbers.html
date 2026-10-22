@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,7 +79,7 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="numbers">Numbers</h1>
-<p>omega's finite numbers are exact integers. Up to 64 bits they are stored directly in the value, and beyond that they become bignums, up to 2^65536. For infinite values, see <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p>
+<p>omega&#x27;s finite numbers are exact integers. Up to 64 bits they are stored directly in the value, and beyond that they become bignums, up to 2^65536. For infinite values, see <a href="ordinals.html">ordinals</a> and <a href="cardinals.html">cardinals</a>.</p>
 <h2 id="literals">Literals</h2>
 <pre><code>42   -7   0x2a   0b101010   -0x10
 </code></pre>
@@ -190,15 +190,15 @@ document.querySelector(".mode").onclick = function () {
 </ul>
 <p>Division by zero fails with <code>division by zero</code>. Dividing the most negative 64-bit integer by <code>-1</code> gives a bignum rather than overflowing.</p>
 <h2 id="powers-and-roots">Powers and roots</h2>
-<p><code>^</code> raises to a non-negative whole power, exactly. Negative exponents fail with <code>negative powers aren't supported</code>. A power whose result would pass 2^65536 fails before it is computed, so <code>2 70000 ^</code> fails at once instead of running out of memory.</p>
+<p><code>^</code> raises to a non-negative whole power, exactly. Negative exponents fail with <code>negative powers aren&#x27;t supported</code>. A power whose result would pass 2^65536 fails before it is computed, so <code>2 70000 ^</code> fails at once instead of running out of memory.</p>
 <p><code>sqrt</code> rounds down and works on bignums: <code>2 200 ^ sqrt</code> is exactly <code>2 100 ^</code>. Negative numbers fail. <code>gcd</code> always returns a non-negative result, and <code>0 0 gcd</code> is <code>0</code>.</p>
 <h2 id="big-numbers">Big numbers</h2>
-<p>Integers never wrap. A result that doesn't fit in 64 bits becomes a bignum, and a bignum result that fits again becomes a plain integer:</p>
+<p>Integers never wrap. A result that doesn&#x27;t fit in 64 bits becomes a bignum, and a bignum result that fits again becomes a plain integer:</p>
 <pre><code>2 100 ^ .                   1267650600228229401496703205376
 2 100 ^ 2 100 ^ - .         0
 2 1000 ^ str len .          302
 </code></pre>
-<p>Code doesn't see the switch. Every arithmetic and comparison word accepts both kinds, and so do <code>str</code>, <code>&gt;num</code>, <code>min</code>, <code>max</code>, conditions and saving. Compiled code checks for overflow after every addition, subtraction and multiplication and calls the bignum code when it happens (<a href="jit.html">JIT</a>).</p>
+<p>Code doesn&#x27;t see the switch. Every arithmetic and comparison word accepts both kinds, and so do <code>str</code>, <code>&gt;num</code>, <code>min</code>, <code>max</code>, conditions and saving. Compiled code checks for overflow after every addition, subtraction and multiplication and calls the bignum code when it happens (<a href="jit.html">JIT</a>).</p>
 <p>Words that need a machine integer, such as <code>times</code>, <code>at</code>, <code>peek</code>, <code>alloc</code> and the bitwise words, fail with <code>name needs a number that fits in 64 bits</code>. In a condition a bignum is always true, since a bignum is never zero.</p>
 <p>The limit is 2^65536, about 19,700 decimal digits. Larger results fail with <code>that number is too big, the limit is 2^65536</code>. See <a href="bignums.html">bignums</a> for the representation and the algorithms.</p>
 <h2 id="comparisons-and-truth">Comparisons and truth</h2>
@@ -279,7 +279,7 @@ document.querySelector(".mode").onclick = function () {
 </table>
 <p>The bitwise words work on 64-bit integers only. Shift counts are taken modulo 64, and <code>&gt;&gt;</code> is a logical shift, so <code>-1 60 &gt;&gt;</code> is <code>15</code>. Note the difference between <code>and</code>, which is logical, and <code>&amp;</code>: <code>12 10 and</code> is <code>1</code>, but <code>12 10 &amp;</code> is <code>8</code>.</p>
 <h2 id="random-numbers">Random numbers</h2>
-<p><code>n rand</code> returns a number from 0 to n-1, from a xorshift generator seeded from the CPU's cycle counter at the first call. Use it for games and shuffling, not for secrets: its whole state is one 64-bit number. <code>rand</code> fails with <code>rand needs a number above 0</code> for zero or less.</p>
+<p><code>n rand</code> returns a number from 0 to n-1, from a xorshift generator seeded from the CPU&#x27;s cycle counter at the first call. Use it for games and shuffling, not for secrets: its whole state is one 64-bit number. <code>rand</code> fails with <code>rand needs a number above 0</code> for zero or less.</p>
 <pre><code>6 rand 1 + .            a dice roll
 </code></pre>
 <h2 id="converting">Converting</h2>
@@ -294,7 +294,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

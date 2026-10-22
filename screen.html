@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,7 +81,7 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="screen">Screen</h1>
 <p>Subverge normally uses 80 by 25 VGA text mode. Row 0 is the tab bar and the rest belongs to the current <a href="tabs.html">tab</a>. <code>gfx</code> starts a separate <a href="#graphics-mode">graphics mode</a>.</p>
 <h2 id="tabs-have-their-own-screens">Tabs have their own screens</h2>
-<p>Each tab has an 80 by 24 buffer of its own, in memory. Everything a tab prints or draws goes into its buffer, and the buffer of the visible tab is copied to the real screen at <code>0xB8000</code>. When you switch tabs, the new tab's buffer is shown, exactly as it was left. So <code>snake</code> in tab 3 keeps its picture while you're in tab 1, and a tab can draw while you're on another one. If a tab writes to its screen while you're not looking at it, its name in the tab bar gets a <code>*</code>.</p>
+<p>Each tab has an 80 by 24 buffer of its own, in memory. Everything a tab prints or draws goes into its buffer, and the buffer of the visible tab is copied to the real screen at <code>0xB8000</code>. When you switch tabs, the new tab&#x27;s buffer is shown, exactly as it was left. So <code>snake</code> in tab 3 keeps its picture while you&#x27;re in tab 1, and a tab can draw while you&#x27;re on another one. If a tab writes to its screen while you&#x27;re not looking at it, its name in the tab bar gets a <code>*</code>.</p>
 <h2 id="drawing-words">Drawing words</h2>
 <table>
 <thead>
@@ -110,7 +110,7 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td><code>wipe</code></td>
 <td><code>--</code></td>
-<td>clear the tab's screen</td>
+<td>clear the tab&#x27;s screen</td>
 </tr>
 <tr>
 <td><code>cursor</code></td>
@@ -139,18 +139,18 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 </tbody>
 </table>
-<p>Coordinates start at <code>0 0</code>, the top-left of the tab's area, under the tab bar. <code>cursor</code> moves the cursor without showing it, and anything printed afterwards starts there. Despite the name, it isn't the opposite of <code>nocursor</code>.</p>
-<p><code>put</code> and <code>text</code> don't move the cursor and don't scroll. <code>say</code> and <code>write</code> do both. Programs that draw a full screen use <code>wipe</code>, <code>nocursor</code>, then <code>put</code> and <code>text</code>, and never print. See <a href="games.html">games</a> for the pattern.</p>
+<p>Coordinates start at <code>0 0</code>, the top-left of the tab&#x27;s area, under the tab bar. <code>cursor</code> moves the cursor without showing it, and anything printed afterwards starts there. Despite the name, it isn&#x27;t the opposite of <code>nocursor</code>.</p>
+<p><code>put</code> and <code>text</code> don&#x27;t move the cursor and don&#x27;t scroll. <code>say</code> and <code>write</code> do both. Programs that draw a full screen use <code>wipe</code>, <code>nocursor</code>, then <code>put</code> and <code>text</code>, and never print. See <a href="games.html">games</a> for the pattern.</p>
 <h2 id="colours">Colours</h2>
-<p>Text mode has 16 colours, numbered 0 to 15, and <code>colors</code> shows them all. The kernel loads them from the current <a href="themes.html">theme</a> at boot and whenever the theme changes, so they aren't the usual VGA colours. Each number keeps its role in every theme: 0 is the background, 7 normal text, 8 dim text, 12 errors and 14 the accent.</p>
+<p>Text mode has 16 colours, numbered 0 to 15, and <code>colors</code> shows them all. The kernel loads them from the current <a href="themes.html">theme</a> at boot and whenever the theme changes, so they aren&#x27;t the usual VGA colours. Each number keeps its role in every theme: 0 is the background, 7 normal text, 8 dim text, 12 errors and 14 the accent.</p>
 <p>All sixteen work as background colours too. The kernel switches off the VGA blink bit at boot, which would otherwise turn backgrounds 8 to 15 into blinking text on a darker background.</p>
 <p><code>color</code> sets the colour for printed text, foreground only. <code>put</code> and <code>text</code> take a full attribute byte, which is the foreground plus 16 times the background, and <code>attr</code> builds one for you:</p>
 <pre><code>14 1 attr           the accent on colour 1
 &quot;hi&quot; 10 5 14 1 attr text
 </code></pre>
-<p><code>fill</code> draws a row of one character, <code>bar</code> draws a meter that's some percent full, and <code>header</code> draws a title bar across the top. They're in root, under util.</p>
+<p><code>fill</code> draws a row of one character, <code>bar</code> draws a meter that&#x27;s some percent full, and <code>header</code> draws a title bar across the top. They&#x27;re in root, under util.</p>
 <p><img src="images/60-colors.png" alt="colors"></p>
-<h2 id="characters-that-werent-there">Characters that weren't there</h2>
+<h2 id="characters-that-werenx27t-there">Characters that weren&#x27;t there</h2>
 <p>The VGA font lives in plane 2 of video memory, and the kernel rewrites part of it at boot. Characters <code>0x80</code> to <code>0x8B</code> are replaced with:</p>
 <table>
 <thead>
@@ -176,7 +176,7 @@ document.querySelector(".mode").onclick = function () {
 </table>
 <p>The <a href="ordinals.html">ordinals</a> print with them as real <code>ω</code> and the <a href="cardinals.html">cardinals</a> as real <code>ℵ₀</code>. In a string, <code>\w</code> is <code>0x80</code> and <code>\A</code> is <code>0x81</code>. The subscript digits have no escape, so use <code>130 chr</code> and up. The original characters at those codes are gone.</p>
 <h2 id="the-tab-bar">The tab bar</h2>
-<p>Row 0 is drawn by the kernel, not by any tab, so you can't draw over it with <code>put</code>. It shows the four tab titles, highlights the current one, marks the ones with something new with <code>*</code>, and shows the clock at the right edge. The clock is the machine's real-time clock, which in QEMU is UTC by default.</p>
+<p>Row 0 is drawn by the kernel, not by any tab, so you can&#x27;t draw over it with <code>put</code>. It shows the four tab titles, highlights the current one, marks the ones with something new with <code>*</code>, and shows the clock at the right edge. The clock is the machine&#x27;s real-time clock, which in QEMU is UTC by default.</p>
 <h2 id="graphics-mode">Graphics mode</h2>
 <p><code>gfx</code> switches the screen to 640 by 480 graphics with the sixteen colours of the current <a href="themes.html">theme</a>, and <code>gfx-off</code> switches back to the text screen.</p>
 <table>
@@ -208,9 +208,19 @@ document.querySelector(".mode").onclick = function () {
 <td><code>x y w h col --</code></td>
 <td>fill a rectangle</td>
 </tr>
+<tr>
+<td><code>text</code></td>
+<td><code>s x y col --</code></td>
+<td>draw a string, 8 by 16 pixels per character</td>
+</tr>
+<tr>
+<td><code>window</code></td>
+<td><code>x y w h title --</code></td>
+<td>draw a frame with a title bar</td>
+</tr>
 </tbody>
 </table>
-<p>Coordinates start at <code>0 0</code> in the top-left corner, and anything outside the screen is cut off. Colours are the same numbers as in text mode, 0 to 15. <code>dot</code> and <code>box</code> fail with <code>graphics mode is off, run gfx first</code> when it isn't running.</p>
+<p>Coordinates start at <code>0 0</code> in the top-left corner, and anything outside the screen is cut off. Colours are the same numbers as in text mode, 0 to 15. <code>dot</code> and <code>box</code> fail with <code>graphics mode is off, run gfx first</code> when it isn&#x27;t running.</p>
 <pre><code>gfx 20 20 100 60 5 box key drop gfx-off
 </code></pre>
 <p>draws a rectangle, waits for a key and goes back to text.</p>
@@ -225,17 +235,21 @@ document.querySelector(".mode").onclick = function () {
 300 300 240 120 4 box
 330 330 180 60 6 box
 </code></pre>
-<p>The text screen isn't shown in graphics mode, so the prompt and anything the tabs print are hidden. The tabs keep running and keep their screens, and a word that fails shows its error once you're back. F1 to F4 and alt-1 to alt-4 switch tabs and also leave graphics mode, which is the way out when you can't see the prompt. Use <code>theme</code> and <code>rgb</code> before <code>gfx</code>, since they set the text screen's colours.</p>
-<p>Drawing text and mouse input aren't in graphics mode yet. It is the first step toward the planned desktop with windows (<a href="roadmap.html">roadmap</a>).</p>
-<p><code>gfx</code> needs QEMU's default <code>-vga std</code> display, which is the one that has the Bochs display registers at ports <code>0x1CE</code> and <code>0x1CF</code> (<a href="ports.html">ports</a>). On anything else it fails with <code>no Bochs display here, start QEMU with -vga std</code>.</p>
+<p>The text screen isn&#x27;t shown in graphics mode, so the prompt and anything the tabs print are hidden. The tabs keep running and keep their screens, and a word that fails shows its error once you&#x27;re back. F1 to F4 and alt-1 to alt-4 switch tabs and also leave graphics mode, which is the way out when you can&#x27;t see the prompt. Use <code>theme</code> and <code>rgb</code> before <code>gfx</code>, since they set the text screen&#x27;s colours.</p>
+<p><code>window</code> draws a light border, a title bar with the title in it and a dark body, all in the theme&#x27;s colours, and <code>text</code> draws into it:</p>
+<pre><code>gfx 0 0 640 480 1 box 60 50 360 220 &quot;first&quot; window &quot;hello&quot; 80 100 14 text key drop gfx-off
+</code></pre>
+<p><img src="images/93-window.png" alt="window"></p>
+<p>Mouse input isn&#x27;t in graphics mode yet, and windows don&#x27;t move or overlap on their own. It is the first step toward the planned desktop with windows (<a href="roadmap.html">roadmap</a>).</p>
+<p><code>gfx</code> needs QEMU&#x27;s default <code>-vga std</code> display, which is the one that has the Bochs display registers at ports <code>0x1CE</code> and <code>0x1CF</code> (<a href="ports.html">ports</a>). On anything else it fails with <code>no Bochs display here, start QEMU with -vga std</code>.</p>
 <h2 id="poking-it">Poking it</h2>
 <p><code>poke</code> can write into <code>0xB8000</code> directly. What it writes is overwritten the next time the visible tab is drawn. See <a href="memory.html">memory</a> for the details.</p>
 <h2 id="why-80-by-25">Why 80 by 25</h2>
-<p>VGA text mode is 80 by 25. Every program in <a href="root.html">root</a> is drawn for it. Graphics mode is a separate screen and doesn't change the text one.</p>
+<p>VGA text mode is 80 by 25. Every program in <a href="root.html">root</a> is drawn for it. Graphics mode is a separate screen and doesn&#x27;t change the text one.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

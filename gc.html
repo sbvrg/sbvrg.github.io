@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,19 +79,19 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="gc">GC</h1>
-<p>Each tab has its own mark-sweep garbage collector. It runs between words, marks every object the tab can still reach, and frees the rest. Tabs never share objects, so one tab's collection never has to stop or look at another tab.</p>
-<h2 id="whats-collected">What's collected</h2>
-<p>Strings, quotes, bignums, ordinals and dictionary bindings are heap objects. Each tab keeps every object it allocated on one linked list. Integers that fit in 64 bits, cardinals and symbols aren't objects: the first two live inside the value itself, and names are interned once and never freed.</p>
-<p>Raw memory from <code>alloc</code> isn't an object either, and the collector doesn't know it exists. It's yours to free (see <a href="memory.html">memory</a>).</p>
+<p>Each tab has its own mark-sweep garbage collector. It runs between words, marks every object the tab can still reach, and frees the rest. Tabs never share objects, so one tab&#x27;s collection never has to stop or look at another tab.</p>
+<h2 id="whatx27s-collected">What&#x27;s collected</h2>
+<p>Strings, quotes, bignums, ordinals and dictionary bindings are heap objects. Each tab keeps every object it allocated on one linked list. Integers that fit in 64 bits, cardinals and symbols aren&#x27;t objects: the first two live inside the value itself, and names are interned once and never freed.</p>
+<p>Raw memory from <code>alloc</code> isn&#x27;t an object either, and the collector doesn&#x27;t know it exists. It&#x27;s yours to free (see <a href="memory.html">memory</a>).</p>
 <h2 id="when-it-runs">When it runs</h2>
 <p>At safe points, which are the gaps between words, and only once the tab has allocated past a threshold. After every collection the threshold is set to twice the number of objects that survived, with a minimum of 8192, so a tab that keeps a lot of live data collects less often. Compiled code from the <a href="jit.html">JIT</a> calls the same safe point on every loop iteration, so long-running compiled loops collect too.</p>
-<p>It never runs in the middle of a word, so a built-in word in C can hold pointers to objects in local variables without registering them, as long as it doesn't call back into omega in the meantime.</p>
+<p>It never runs in the middle of a word, so a built-in word in C can hold pointers to objects in local variables without registering them, as long as it doesn&#x27;t call back into omega in the meantime.</p>
 <h2 id="the-roots">The roots</h2>
 <p>Everything reachable from these survives:</p>
 <ul>
 <li>the current world, the stack snapshot and the dictionary</li>
 <li>all 64 worlds in the <a href="back.html">back</a> history</li>
-<li>the working stack of the line that's running</li>
+<li>the working stack of the line that&#x27;s running</li>
 <li>every bound local</li>
 <li>the working dictionary</li>
 <li>the parsed line itself</li>
@@ -99,8 +99,8 @@ document.querySelector(".mode").onclick = function () {
 </ul>
 <p>Because the old worlds are roots, nothing they point at is freed until they fall off the end of the 64, and <code>back</code> can always return to them.</p>
 <h2 id="the-keep-stack">The keep stack</h2>
-<p><code>do</code>, <code>times</code>, <code>for</code>, <code>while</code>, <code>each</code>, <code>map</code> and <code>filter</code>, and the <code>call</code> function in C that all of them use, pop their quotes off the data stack and then run them, which means for the length of the loop, the quote they're running isn't on the stack anymore. So they push it onto a separate keep stack first, and pop it when they're done, and the keep stack is a root. If you write a built-in that pops something and then calls back into omega, it has to do the same, or the collector will free the thing you're running while you're running it.</p>
-<p>If the keep stack is deeper than 256, collection is skipped until it isn't, rather than risk missing a root.</p>
+<p><code>do</code>, <code>times</code>, <code>for</code>, <code>while</code>, <code>each</code>, <code>map</code> and <code>filter</code>, and the <code>call</code> function in C that all of them use, pop their quotes off the data stack and then run them, which means for the length of the loop, the quote they&#x27;re running isn&#x27;t on the stack anymore. So they push it onto a separate keep stack first, and pop it when they&#x27;re done, and the keep stack is a root. If you write a built-in that pops something and then calls back into omega, it has to do the same, or the collector will free the thing you&#x27;re running while you&#x27;re running it.</p>
+<p>If the keep stack is deeper than 256, collection is skipped until it isn&#x27;t, rather than risk missing a root.</p>
 <h2 id="freeing-quotes">Freeing quotes</h2>
 <p>When a quote is freed, any machine code the <a href="jit.html">JIT</a> compiled for it is retired too, through the same dead list as invalidation, because another tab might be executing it right now.</p>
 <h2 id="make-stress">make stress</h2>
@@ -110,7 +110,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

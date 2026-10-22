@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,7 +79,7 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="omega-for-forth-programmers">omega for Forth programmers</h1>
-<p>omega is a stack language with postfix syntax and Forth's stack words, so a Forth programmer can read most of it at once. Underneath it works differently: values are typed and garbage collected, code is quotes, names are bound late, and every line is a transaction. This page lists the differences that matter in practice.</p>
+<p>omega is a stack language with postfix syntax and Forth&#x27;s stack words, so a Forth programmer can read most of it at once. Underneath it works differently: values are typed and garbage collected, code is quotes, names are bound late, and every line is a transaction. This page lists the differences that matter in practice.</p>
 <h2 id="side-by-side">Side by side</h2>
 <table>
 <thead>
@@ -118,8 +118,8 @@ document.querySelector(".mode").onclick = function () {
 <td><code>5 [ body ] times</code></td>
 </tr>
 <tr>
-<td><code>' sq EXECUTE</code></td>
-<td><code>'sq get do</code>, or <code>[ sq ] do</code></td>
+<td><code>&#x27; sq EXECUTE</code></td>
+<td><code>&#x27;sq get do</code>, or <code>[ sq ] do</code></td>
 </tr>
 <tr>
 <td><code>S&quot; text&quot; EVALUATE</code></td>
@@ -159,21 +159,21 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>RECURSE</code></td>
-<td>the word's own name</td>
+<td>the word&#x27;s own name</td>
 </tr>
 <tr>
 <td><code>FORGET x</code></td>
-<td><code>'x forget</code>, which only removes the newest definition</td>
+<td><code>&#x27;x forget</code>, which only removes the newest definition</td>
 </tr>
 </tbody>
 </table>
-<p>The stack words <code>dup drop swap over rot nip tuck pick 2dup depth</code> behave as in Forth. <code>-rot</code>, <code>?dup</code>, <code>2drop</code> and <code>2swap</code> aren't built in; define them if you want them, for example <code>[ rot rot ] :-rot</code>.</p>
+<p>The stack words <code>dup drop swap over rot nip tuck pick 2dup depth</code> behave as in Forth. <code>-rot</code>, <code>?dup</code>, <code>2drop</code> and <code>2swap</code> aren&#x27;t built in; define them if you want them, for example <code>[ rot rot ] :-rot</code>.</p>
 <h2 id="truth">Truth</h2>
 <p>Comparisons leave <code>1</code> for true, not <code>-1</code>, and <code>0</code> for false. Conditions treat any non-zero number as true. Code that uses a flag as a bit mask, such as <code>flag AND</code> to keep or clear a value, needs <code>neg</code> first, since <code>1 neg</code> is <code>-1</code>.</p>
 <p><code>and</code>, <code>or</code> and <code>not</code> are logical and always return <code>1</code> or <code>0</code>. The bitwise words are <code>&amp; | xor ~ &lt;&lt; &gt;&gt;</code>.</p>
 <h2 id="values">Values</h2>
 <p>Forth cells are untyped. omega values carry a type: integers, bignums, strings, quotes, symbols, ordinals and cardinals (<a href="values.html">values and objects</a>). <code>+</code> on two strings fails with <code>+ needs numbers</code> instead of adding two addresses.</p>
-<p>Integers don't wrap. Results past 64 bits become bignums, up to 2^65536, so double-cell arithmetic and <code>*/</code> aren't needed (<a href="numbers.html">numbers</a>). <code>/</code> and <code>mod</code> truncate toward zero, so <code>-7 2 mod</code> is <code>-1</code> and <code>-7 2 /</code> is <code>-3</code>.</p>
+<p>Integers don&#x27;t wrap. Results past 64 bits become bignums, up to 2^65536, so double-cell arithmetic and <code>*/</code> aren&#x27;t needed (<a href="numbers.html">numbers</a>). <code>/</code> and <code>mod</code> truncate toward zero, so <code>-7 2 mod</code> is <code>-1</code> and <code>-7 2 /</code> is <code>-3</code>.</p>
 <p>Strings are values, not address and length pairs. <code>&quot;text&quot;</code> pushes one value, <code>cat</code> joins two, <code>len</code> gives the length, and the garbage collector frees them (<a href="strings.html">strings</a>). For raw memory, <code>alloc</code> returns a plain address that <code>peek</code> and <code>poke</code> use and that you <code>free</code> yourself.</p>
 <h2 id="code-is-quotes">Code is quotes</h2>
 <p>Forth compiles words between <code>:</code> and <code>;</code>. omega parses a whole line into a quote, a list of values, and <code>:name</code> binds the value on top of the stack to a name. A quote is data until something runs it:</p>
@@ -190,14 +190,14 @@ document.querySelector(".mode").onclick = function () {
 [ 10 ] :one
 two                     11
 </code></pre>
-<p>Redefining <code>one</code> changes <code>two</code>. This is what lets a tab override a root word, or a test replace <code>rand</code> with a fixed value (<a href="programming.html">writing programs</a>). It also means a typo in a name is only found when the code runs, with <code>foo isn't defined</code>.</p>
+<p>Redefining <code>one</code> changes <code>two</code>. This is what lets a tab override a root word, or a test replace <code>rand</code> with a fixed value (<a href="programming.html">writing programs</a>). It also means a typo in a name is only found when the code runs, with <code>foo isn&#x27;t defined</code>.</p>
 <p>A word can call itself by name, since its name is looked up at run time.</p>
 <h2 id="locals-instead-of-the-return-stack">Locals instead of the return stack</h2>
 <p>Values that would go on the return stack go in locals:</p>
 <pre><code>[ { a b } a a * b b * + ] :hyp2
 </code></pre>
 <p><code>{ a b }</code> pops two values into locals, the last name taking the top. <code>-&gt;name</code> pops one value into a local, updating it if it is already live. Locals end with the quote that bound them.</p>
-<p>Locals are dynamically scoped: a word called from a quote can see that quote's locals. In Forth terms, a local behaves like a variable that exists only while its quote runs and is visible to everything called during that time. A word that refers to a name it doesn't bind picks up its caller's local of that name if there is one (<a href="names.html">names</a>).</p>
+<p>Locals are dynamically scoped: a word called from a quote can see that quote&#x27;s locals. In Forth terms, a local behaves like a variable that exists only while its quote runs and is visible to everything called during that time. A word that refers to a name it doesn&#x27;t bind picks up its caller&#x27;s local of that name if there is one (<a href="names.html">names</a>).</p>
 <h2 id="transactions">Transactions</h2>
 <p>Each line at the prompt is a transaction on the stack and the definitions. If any word fails, the whole line is undone, including definitions it made (<a href="transactions.html">transactions</a>). An error ends the line and leaves the world as it was, so code needs no cleanup after one. <code>back</code> undoes up to 64 lines that succeeded, and <code>redo</code> takes a <code>back</code> back (<a href="back.html">back</a>).</p>
 <p><code>try</code> catches a failure inside a line, like <code>CATCH</code>, but without restoring the stack: values pushed before the failure stay (<a href="catching.html">catching</a>).</p>
@@ -205,19 +205,19 @@ two                     11
 <h2 id="the-dictionary">The dictionary</h2>
 <p>Each tab has its own dictionary, layered over the shared <a href="root.html">root</a>:</p>
 <ul>
-<li>a definition at the prompt goes into the tab's dictionary;</li>
+<li>a definition at the prompt goes into the tab&#x27;s dictionary;</li>
 <li>root words are built from units of source and shared by all tabs;</li>
 <li>a tab definition hides a root word or a built-in of the same name, in that tab only.</li>
 </ul>
-<p><code>words</code> lists the tab's own definitions, <code>see</code> prints one, and <code>'name forget</code> removes the newest definition of a name, uncovering whatever was underneath. <code>back</code> does the job of <code>MARKER</code>.</p>
+<p><code>words</code> lists the tab&#x27;s own definitions, <code>see</code> prints one, and <code>&#x27;name forget</code> removes the newest definition of a name, uncovering whatever was underneath. <code>back</code> does the job of <code>MARKER</code>.</p>
 <h2 id="compilation">Compilation</h2>
-<p>Forth compiles every definition. omega interprets a quote the first time it runs and compiles it to x86-64 the second time (<a href="jit.html">JIT</a>). The compiler inlines the stack words, integer arithmetic with overflow checks, comparisons and the control words when their quotes are written in place, and calls everything else. <code>'name xray</code> shows the result with the built-in disassembler.</p>
+<p>Forth compiles every definition. omega interprets a quote the first time it runs and compiles it to x86-64 the second time (<a href="jit.html">JIT</a>). The compiler inlines the stack words, integer arithmetic with overflow checks, comparisons and the control words when their quotes are written in place, and calls everything else. <code>&#x27;name xray</code> shows the result with the built-in disassembler.</p>
 <h2 id="ring-0">Ring 0</h2>
 <p>omega runs in ring 0 without memory protection, like a Forth on bare hardware. <code>peek</code>, <code>poke</code>, <code>in</code>, <code>out</code>, <code>cpuid</code>, <code>cr</code> and <code>pci@</code> access the hardware directly (<a href="smarties.html">omega for smarties</a>). A fault restarts only the tab that caused it (<a href="tabs.html">tabs</a>).</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

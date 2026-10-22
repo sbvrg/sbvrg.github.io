@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,13 +79,13 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="boot">Boot</h1>
-<p>The ISO boots with GRUB. Installed disks boot with Subverge's own MBR and second stage, and both paths end in <code>kmain</code>.</p>
+<p>The ISO boots with GRUB. Installed disks boot with Subverge&#x27;s own MBR and second stage, and both paths end in <code>kmain</code>.</p>
 <h2 id="from-the-iso">From the ISO</h2>
-<p>The ISO is built with <code>grub-mkrescue</code> and a <code>grub.cfg</code> that does <code>multiboot /boot/subverge.elf</code>. GRUB loads the kernel at 1 MiB, fills in a Multiboot information block, and jumps to <code>_start</code> in 32-bit protected mode. GRUB is the only code in the system that wasn't written for Subverge, and it runs only on the ISO.</p>
+<p>The ISO is built with <code>grub-mkrescue</code> and a <code>grub.cfg</code> that does <code>multiboot /boot/subverge.elf</code>. GRUB loads the kernel at 1 MiB, fills in a Multiboot information block, and jumps to <code>_start</code> in 32-bit protected mode. GRUB is the only code in the system that wasn&#x27;t written for Subverge, and it runs only on the ISO.</p>
 <h2 id="from-an-installed-disk">From an installed disk</h2>
-<p>Installed disks don't have GRUB. They have two stages of Subverge's own, written in nasm, in <code>boot/</code>.</p>
+<p>Installed disks don&#x27;t have GRUB. They have two stages of Subverge&#x27;s own, written in nasm, in <code>boot/</code>.</p>
 <h3 id="the-mbr">The MBR</h3>
-<p><code>boot/mbr.asm</code> is the 512-byte boot sector at LBA 0. The BIOS loads it at <code>0x7C00</code>. It uses the int 13h extensions to read 16 sectors, LBA 1 to 16, to <code>0x7E00</code>, and jumps there. If the read fails, it prints <code>subverge: can't read stage 2</code> and halts.</p>
+<p><code>boot/mbr.asm</code> is the 512-byte boot sector at LBA 0. The BIOS loads it at <code>0x7C00</code>. It uses the int 13h extensions to read 16 sectors, LBA 1 to 16, to <code>0x7E00</code>, and jumps there. If the read fails, it prints <code>subverge: can&#x27;t read stage 2</code> and halts.</p>
 <h3 id="stage-2">Stage 2</h3>
 <p><code>boot/stage2.asm</code> does the work GRUB would do, and starts with a header at byte 8:</p>
 <table>
@@ -102,11 +102,11 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td>16</td>
-<td>the kernel's starting LBA</td>
+<td>the kernel&#x27;s starting LBA</td>
 </tr>
 <tr>
 <td>20</td>
-<td>the kernel's length in sectors</td>
+<td>the kernel&#x27;s length in sectors</td>
 </tr>
 <tr>
 <td>24</td>
@@ -122,19 +122,19 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 </tbody>
 </table>
-<p><code>install</code> fills in those fields from the running kernel when it writes stage 2 to the disk, so stage 2 itself never needs to know anything about the kernel. The kernel looks for that same <code>SUBVERGE</code> magic to find out which drive it's installed on.</p>
+<p><code>install</code> fills in those fields from the running kernel when it writes stage 2 to the disk, so stage 2 itself never needs to know anything about the kernel. The kernel looks for that same <code>SUBVERGE</code> magic to find out which drive it&#x27;s installed on.</p>
 <p>Then stage 2:</p>
 <ol>
 <li>turns on the A20 line through port <code>0x92</code></li>
-<li>reads the kernel into low memory in chunks of 64 sectors with int 13h extensions, and prints <code>subverge: can't read the kernel</code> if it can't</li>
+<li>reads the kernel into low memory in chunks of 64 sectors with int 13h extensions, and prints <code>subverge: can&#x27;t read the kernel</code> if it can&#x27;t</li>
 <li>collects the memory map with E820 and the memory size</li>
 <li>builds a Multiboot information block, with its name as the loader name, <code>subverge stage2</code></li>
 <li>switches to protected mode, copies the kernel up to 1 MiB, clears bss</li>
 <li>jumps to the entry point with the Multiboot magic in <code>eax</code> and the info block in <code>ebx</code></li>
 </ol>
-<p>The kernel can't tell which of the two loaders started it, so the rest of the kernel only ever has to handle one boot protocol.</p>
+<p>The kernel can&#x27;t tell which of the two loaders started it, so the rest of the kernel only ever has to handle one boot protocol.</p>
 <h2 id="_start">_start</h2>
-<p><code>boot/boot.asm</code> is the kernel's entry, and the first code the kernel runs either way. It has the Multiboot header, and then:</p>
+<p><code>boot/boot.asm</code> is the kernel&#x27;s entry, and the first code the kernel runs either way. It has the Multiboot header, and then:</p>
 <ol>
 <li>sets up a 256 KiB boot stack</li>
 <li>builds the page tables: one PML4 entry, four PDPT entries, and 2048 page directory entries of 2 MiB each, which identity-maps the first 4 GiB</li>
@@ -144,11 +144,11 @@ document.querySelector(".mode").onclick = function () {
 </ol>
 <p>See <a href="internals.html">internals</a> for what <code>kmain</code> does next.</p>
 <h2 id="why-not-uefi">Why not UEFI</h2>
-<p>Multiboot and BIOS were enough to boot in QEMU, and the whole system is built on VGA text mode, which UEFI machines often don't have. Graphics mode needs QEMU's display card on top of that. See <a href="hardware.html">hardware</a> for what that means on real machines. UEFI booting is on the <a href="roadmap.html">roadmap</a>.</p>
+<p>Multiboot and BIOS were enough to boot in QEMU, and the whole system is built on VGA text mode, which UEFI machines often don&#x27;t have. Graphics mode needs QEMU&#x27;s display card on top of that. See <a href="hardware.html">hardware</a> for what that means on real machines. UEFI booting is on the <a href="roadmap.html">roadmap</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

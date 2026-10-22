@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,10 +79,10 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="words">Words</h1>
-<p>The everyday words, grouped the way <code>help</code> groups them, with a few notes on each group. <code>'word help</code> shows the stack effect and an example for any of them, and <code>'group help</code> lists a group, such as <code>'flow help</code>. See <a href="all-words.html">all words</a> for the complete table and <a href="smarties.html">omega for smarties</a> for the memory, port, screen, machine and compiler words.</p>
+<p>The everyday words, grouped the way <code>help</code> groups them, with a few notes on each group. <code>&#x27;word help</code> shows the stack effect and an example for any of them, and <code>&#x27;group help</code> lists a group, such as <code>&#x27;flow help</code>. See <a href="all-words.html">all words</a> for the complete table and <a href="smarties.html">omega for smarties</a> for the memory, port, screen, machine and compiler words.</p>
 <h2 id="syntax">syntax</h2>
-<p><code>[ ]</code> <a href="quotes.html">quotes</a>, <code>:name</code> definitions, <code>-&gt;name</code> and <code>{ a b }</code> locals, <code>'name</code> symbols (<a href="names.html">names</a>), <code>&quot;text&quot;</code> <a href="strings.html">strings</a>, <code>42 0x2a 0b101</code> <a href="numbers.html">numbers</a>, <code>#</code> comments.</p>
-<p>These aren't words you look up. The parser recognises them by their first character, so <code>:sq</code> is one token that defines <code>sq</code>, and <code>'sq</code> is one token that pushes the symbol. A space is needed between every token, including after <code>[</code> and before <code>]</code>.</p>
+<p><code>[ ]</code> <a href="quotes.html">quotes</a>, <code>:name</code> definitions, <code>-&gt;name</code> and <code>{ a b }</code> locals, <code>&#x27;name</code> symbols (<a href="names.html">names</a>), <code>&quot;text&quot;</code> <a href="strings.html">strings</a>, <code>42 0x2a 0b101</code> <a href="numbers.html">numbers</a>, <code>#</code> comments.</p>
+<p>These aren&#x27;t words you look up. The parser recognises them by their first character, so <code>:sq</code> is one token that defines <code>sq</code>, and <code>&#x27;sq</code> is one token that pushes the symbol. A space is needed between every token, including after <code>[</code> and before <code>]</code>.</p>
 <h2 id="stack">stack</h2>
 <p><code>dup drop swap over rot nip tuck 2dup pick depth empty</code>. See <a href="stack.html">stack</a>.</p>
 <p>These only move values around. When a word needs more than three values at once, locals are usually clearer than a chain of <code>rot</code> and <code>over</code>.</p>
@@ -107,17 +107,17 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="time">time</h2>
 <p><code>ticks hz time idle sleep rand</code>. The timer runs at 100 ticks a second, so <code>100 sleep</code> waits one second. In QEMU the clock is UTC unless configured otherwise (<a href="qemu.html">QEMU</a>).</p>
 <h2 id="screen">screen</h2>
-<p><code>put text screen@ wipe cursor nocursor where size title tab mytab</code>, <code>gfx gfx-off dot box</code> for graphics mode, <code>theme themes theme@ rgb</code> for colours, and <code>logo logos logo@</code> for the <code>sys</code> logo. See <a href="screen.html">screen</a>, <a href="themes.html">themes</a> and <a href="logos.html">logos</a>.</p>
+<p><code>put text screen@ wipe cursor nocursor where size title tab mytab</code>, <code>gfx gfx-off dot box window</code> for graphics mode, <code>theme themes theme@ rgb</code> for colours, and <code>logo logos logo@</code> for the <code>sys</code> logo. See <a href="screen.html">screen</a>, <a href="themes.html">themes</a> and <a href="logos.html">logos</a>.</p>
 <h2 id="tools-demos-and-games">tools, demos and games</h2>
 <p>The programs in root, described in <a href="tools.html">tools</a>, <a href="demos.html">demos</a> and <a href="games.html">games</a>.</p>
 <h2 id="util">util</h2>
 <p><code>sq inc dec kb mb uptime &gt;hex fmt attr fill bar header quit-key?</code>. Small helpers used by the programs, available to yours as well. <code>quit-key?</code> is true for <code>q</code>, Esc and Ctrl-C, which is why those keys exit almost every program. For the drawing helpers, see <a href="screen.html">screen</a>.</p>
 <h2 id="helpers">helpers</h2>
-<p>Words used internally by the root programs, listed by <code>'helpers help</code>. <code>user</code>, <code>host</code> and <code>os</code> are the strings shown on the <code>sys</code> screen (<a href="startup.html">startup</a>).</p>
+<p>Words used internally by the root programs, listed by <code>&#x27;helpers help</code>. <code>user</code>, <code>host</code> and <code>os</code> are the strings shown on the <code>sys</code> screen (<a href="startup.html">startup</a>).</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

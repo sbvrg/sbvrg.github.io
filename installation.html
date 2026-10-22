@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -114,7 +114,7 @@ $ make iso
 <p><code>-m 256M</code> gives the guest 256 MB. The kernel heap takes up to 64 MiB of it, and everything omega allocates comes from the heap (<a href="memory.html">memory</a>).</p>
 <p>If you end up at a GRUB prompt, <code>multiboot /boot/subverge.elf</code> followed by <code>boot</code> loads the kernel by hand.</p>
 <h2 id="installing-to-a-disk-image">Installing to a disk image</h2>
-<p>An installed disk boots with Subverge's own <a href="boot.html">bootloader</a> and saves your work after every line. Create an image of at least 8 MB and boot the ISO with it attached:</p>
+<p>An installed disk boots with Subverge&#x27;s own <a href="boot.html">bootloader</a> and saves your work after every line. Create an image of at least 8 MB and boot the ISO with it attached:</p>
 <pre><code>$ truncate -s 64M disk.img
 $ qemu-system-x86_64 -cdrom build/subverge.iso -boot d -hda disk.img -m 256M
 </code></pre>
@@ -122,21 +122,21 @@ $ qemu-system-x86_64 -cdrom build/subverge.iso -boot d -hda disk.img -m 256M
 <pre><code>$ qemu-system-x86_64 -hda disk.img -m 256M
 </code></pre>
 <p>Anything you defined on the live system is carried over. See <a href="saving.html">saving</a> for when the disk is written.</p>
-<p><code>install</code> writes four things to the drive: Subverge's MBR in sector 0, the second stage loader after it, a copy of the running kernel, and the state area that holds root and the four tabs. The image doesn't need a partition table or a filesystem, and any partitions already on it are overwritten. See <a href="disk-layout.html">disk layout</a> for the exact sectors.</p>
+<p><code>install</code> writes four things to the drive: Subverge&#x27;s MBR in sector 0, the second stage loader after it, a copy of the running kernel, and the state area that holds root and the four tabs. The image doesn&#x27;t need a partition table or a filesystem, and any partitions already on it are overwritten. See <a href="disk-layout.html">disk layout</a> for the exact sectors.</p>
 <h2 id="upgrading-an-installed-disk">Upgrading an installed disk</h2>
 <p>A new release brings a new kernel, and usually a new root as well. Booting the new ISO with an old disk attached runs the new kernel, but the live system finds the installed disk and loads the root and tabs saved on it. That root is the old one, so <code>sys</code> still shows the old version and the new root words are missing, even though the built-in words written in C are new.</p>
 <p>To put the new kernel on the disk and keep your work, boot the new ISO with the disk attached and run <code>install</code> on the same drive. The kernel and bootloader are replaced, and the root and tabs that were loaded are written back.</p>
-<p>To get the new root as well, install onto a fresh image instead. Copy your own units across first: <code>'name src say</code> prints a unit's source on the old system, and <code>&quot;name&quot; unit</code> makes a new unit on the new one (<a href="units.html">units</a>).</p>
+<p>To get the new root as well, install onto a fresh image instead. Copy your own units across first: <code>&#x27;name src say</code> prints a unit&#x27;s source on the old system, and <code>&quot;name&quot; unit</code> makes a new unit on the new one (<a href="units.html">units</a>).</p>
 <h2 id="removing-it">Removing it</h2>
 <p>An installed disk image is an ordinary file, so deleting the file removes the system. To reuse the image for something else, overwrite the first sectors, or recreate it with <code>truncate</code>. Subverge writes nothing outside the drive it was installed to.</p>
 <h2 id="disk-not-found">Disk not found</h2>
-<p>Subverge only supports IDE, so attach the image with <code>-hda</code>, or with <code>-drive file=disk.img,format=raw,if=ide</code>. virtio and NVMe disks aren't detected, and <code>disks</code> prints <code>No drives were found.</code> QEMU's default machine has two IDE channels with two drives each, and Subverge looks at all four. For other flags, see <a href="qemu.html">QEMU</a>.</p>
+<p>Subverge only supports IDE, so attach the image with <code>-hda</code>, or with <code>-drive file=disk.img,format=raw,if=ide</code>. virtio and NVMe disks aren&#x27;t detected, and <code>disks</code> prints <code>No drives were found.</code> QEMU&#x27;s default machine has two IDE channels with two drives each, and Subverge looks at all four. For other flags, see <a href="qemu.html">QEMU</a>.</p>
 <h2 id="next">Next</h2>
 <p>Continue with <a href="first-steps.html">first steps</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

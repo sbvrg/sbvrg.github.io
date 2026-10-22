@@ -1,5 +1,10 @@
 # Roadmap
 
+## Subverge 0.9.3
+
+- [x] `text` draws in [graphics mode](screen.md)
+- [x] `window` draws a titled window frame
+
 ## Subverge 0.9.2
 
 - [x] `beep`, for the PC speaker

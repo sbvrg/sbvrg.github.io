@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -85,7 +85,7 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p>Without <code>try</code>, a failure anywhere in a line ends the line and undoes it (<a href="transactions.html">transactions</a>). With <code>try</code>, the line carries on after the quote, and the code after <code>try</code> decides what to do from the <code>1</code> or <code>0</code>.</p>
 <h2 id="no-rollback">No rollback</h2>
-<p><code>try</code> doesn't roll anything back:</p>
+<p><code>try</code> doesn&#x27;t roll anything back:</p>
 <pre><code>[ 5 6 0 / ] try
 </code></pre>
 <p>leaves <code>5 0</code>. The <code>5</code> was pushed before the failure and stays. The <code>6</code> was taken by <code>/</code> when it failed, and the <code>0</code> comes from <code>try</code>. Only the line as a whole is a <a href="transactions.html">transaction</a>, so whatever the quote changed before it failed is still there, definitions included.</p>
@@ -93,7 +93,7 @@ document.querySelector(".mode").onclick = function () {
 <pre><code>depth list -&gt;saved saved spread
 [ risky-word ] try not [ empty saved spread ] when
 </code></pre>
-<p><code>depth list</code> takes every value off the stack and makes one list of them, <code>-&gt;saved</code> keeps that list in a local, and <code>saved spread</code> pushes the values back at once, so the stack is unchanged and a copy is kept. If the quote fails, <code>empty</code> clears whatever it left and <code>saved spread</code> restores the copy. <code>learn</code> runs every exercise like this, so a mistake in a lesson can't mess up the stack you had before (<code>'lesson see</code>).</p>
+<p><code>depth list</code> takes every value off the stack and makes one list of them, <code>-&gt;saved</code> keeps that list in a local, and <code>saved spread</code> pushes the values back at once, so the stack is unchanged and a copy is kept. If the quote fails, <code>empty</code> clears whatever it left and <code>saved spread</code> restores the copy. <code>learn</code> runs every exercise like this, so a mistake in a lesson can&#x27;t mess up the stack you had before (<code>&#x27;lesson see</code>).</p>
 <h2 id="failing-on-purpose">Failing on purpose</h2>
 <p><code>fail</code> takes a string and fails with it as the message:</p>
 <pre><code>&quot;the file is empty&quot; fail
@@ -113,18 +113,18 @@ document.querySelector(".mode").onclick = function () {
 <pre><code>[ 1000000000 [ ] times ] try &quot;after&quot; say
 </code></pre>
 <p>Pressing Ctrl-C there prints <code>! interrupted</code> and then <code>after</code>. The <code>stopped</code> error from <code>trace</code> is caught the same way. A program that wants Ctrl-C to always leave should avoid wrapping its main loop in <code>try</code>.</p>
-<h2 id="what-it-cant-catch">What it can't catch</h2>
-<p><code>try</code> can't catch a CPU fault, such as a page fault from a bad <code>peek</code>. A fault restarts the tab and drops the line (<a href="tabs.html">tabs</a>). <code>halt</code> stops the machine, and nothing runs after it.</p>
+<h2 id="what-it-canx27t-catch">What it can&#x27;t catch</h2>
+<p><code>try</code> can&#x27;t catch a CPU fault, such as a page fault from a bad <code>peek</code>. A fault restarts the tab and drops the line (<a href="tabs.html">tabs</a>). <code>halt</code> stops the machine, and nothing runs after it.</p>
 <h2 id="when-to-use-it">When to use it</h2>
 <p>Use <code>try</code> for failures you expect, where the program has something sensible to do next:</p>
 <pre><code>&quot;12x&quot; [ &gt;num ] try [ &quot;number&quot; say ] [ &quot;not a number&quot; say ] if
 </code></pre>
-<p>Here <code>&gt;num</code> fails on text that isn't a number, and the line prints <code>not a number</code> instead of ending.</p>
+<p>Here <code>&gt;num</code> fails on text that isn&#x27;t a number, and the line prints <code>not a number</code> instead of ending.</p>
 <p>Wrapping code in <code>try</code> just in case makes failures harder to find. A line that fails outright points at the word that failed and leaves the world as it was. A line that carries on after a caught failure keeps going with a stack that may be missing values or have extra ones. See <a href="errors.html">errors</a> for the messages.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

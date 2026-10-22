@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -89,43 +89,43 @@ document.querySelector(".mode").onclick = function () {
 <p>boots the live ISO with a disk image attached, ready for <code>install</code>. <code>-boot d</code> makes QEMU boot from the CD even though a disk is attached.</p>
 <pre><code>$ qemu-system-x86_64 -hda disk.img -m 256M
 </code></pre>
-<p>boots an installed disk image with Subverge's own bootloader.</p>
+<p>boots an installed disk image with Subverge&#x27;s own bootloader.</p>
 <pre><code>$ qemu-system-x86_64 -kernel build/subverge.elf -m 256M
 </code></pre>
-<p>boots a kernel you built, without an ISO, through QEMU's built-in Multiboot loader. This is what <code>make run</code> does (<a href="development.html">development</a>).</p>
+<p>boots a kernel you built, without an ISO, through QEMU&#x27;s built-in Multiboot loader. This is what <code>make run</code> does (<a href="development.html">development</a>).</p>
 <h2 id="disk-images">Disk images</h2>
 <p>A raw image of at least 8 MiB works:</p>
 <pre><code>$ truncate -s 64M disk.img
 </code></pre>
-<p><code>-hda</code> attaches it as drive 0. <code>-hdb</code>, <code>-hdc</code> and <code>-hdd</code> attach drives 1 to 3, which is the same numbering <code>disks</code> and <code>install</code> use. The long form, <code>-drive file=disk.img,format=raw,if=ide</code>, does the same as <code>-hda</code> and avoids QEMU's warning about guessing the format.</p>
-<p>Subverge reads and writes the image directly with no filesystem, so don't mount it or let another program write to it while QEMU is running.</p>
+<p><code>-hda</code> attaches it as drive 0. <code>-hdb</code>, <code>-hdc</code> and <code>-hdd</code> attach drives 1 to 3, which is the same numbering <code>disks</code> and <code>install</code> use. The long form, <code>-drive file=disk.img,format=raw,if=ide</code>, does the same as <code>-hda</code> and avoids QEMU&#x27;s warning about guessing the format.</p>
+<p>Subverge reads and writes the image directly with no filesystem, so don&#x27;t mount it or let another program write to it while QEMU is running.</p>
 <h2 id="memory">Memory</h2>
-<p><code>-m 256M</code> is enough for anything Subverge does. The kernel heap is at most 64 MiB, and memory beyond that is reported by <code>memmap</code> and <code>kernel</code> but otherwise unused. With less RAM the heap shrinks to fit, and large bignums and big worlds run out of memory sooner. The page tables map the first 4 GiB, so memory above that can't be reached.</p>
+<p><code>-m 256M</code> is enough for anything Subverge does. The kernel heap is at most 64 MiB, and memory beyond that is reported by <code>memmap</code> and <code>kernel</code> but otherwise unused. With less RAM the heap shrinks to fit, and large bignums and big worlds run out of memory sooner. The page tables map the first 4 GiB, so memory above that can&#x27;t be reached.</p>
 <h2 id="the-clock">The clock</h2>
-<p>QEMU's real-time clock runs in UTC by default, so the clock in the tab bar and <code>time</code> show UTC. Add</p>
+<p>QEMU&#x27;s real-time clock runs in UTC by default, so the clock in the tab bar and <code>time</code> show UTC. Add</p>
 <pre><code>-rtc base=localtime
 </code></pre>
 <p>to see local time.</p>
 <h2 id="flags-that-cause-trouble">Flags that cause trouble</h2>
 <ul>
-<li><strong>virtio, NVMe, AHCI, SCSI or USB disks</strong> (<code>if=virtio</code>, <code>-device nvme</code>, <code>-device ahci</code>) aren't detected, and <code>install</code> finds no drives. Use <code>-hda</code> or <code>if=ide</code>.</li>
+<li><strong>virtio, NVMe, AHCI, SCSI or USB disks</strong> (<code>if=virtio</code>, <code>-device nvme</code>, <code>-device ahci</code>) aren&#x27;t detected, and <code>install</code> finds no drives. Use <code>-hda</code> or <code>if=ide</code>.</li>
 <li><strong>A <code>-vga</code> other than <code>std</code></strong> has no Bochs display registers, so <code>gfx</code> fails. <code>std</code> is the default.</li>
 <li><strong><code>-machine q35</code></strong> puts the disks on an AHCI controller. Use the default <code>pc</code> machine.</li>
 <li><strong><code>-nographic</code> and <code>-display none</code></strong> hide the only output Subverge has, since it writes to the VGA screen and not to a serial port.</li>
-<li><strong>UEFI firmware</strong> such as OVMF can't boot Subverge (<a href="boot.html">boot</a>).</li>
+<li><strong>UEFI firmware</strong> such as OVMF can&#x27;t boot Subverge (<a href="boot.html">boot</a>).</li>
 <li><strong><code>-enable-kvm</code></strong> should work but is untested. Reproduce a problem without KVM before reporting it.</li>
 </ul>
 <h2 id="keyboard-and-mouse">Keyboard and mouse</h2>
-<p>Click into the QEMU window to give it the keyboard. Ctrl-Alt-G releases the keyboard and mouse again. F1 to F4 switch Subverge's tabs, and the keys that QEMU itself grabs, such as Ctrl-Alt-1 and Ctrl-Alt-2 for its monitor, never reach Subverge.</p>
+<p>Click into the QEMU window to give it the keyboard. Ctrl-Alt-G releases the keyboard and mouse again. F1 to F4 switch Subverge&#x27;s tabs, and the keys that QEMU itself grabs, such as Ctrl-Alt-1 and Ctrl-Alt-2 for its monitor, never reach Subverge.</p>
 <p>Subverge uses a US layout. On other host layouts some symbols are on different keys than printed, since QEMU passes on key positions.</p>
 <h2 id="screenshots">Screenshots</h2>
-<p>The QEMU monitor's <code>screendump file.ppm</code> command saves the screen exactly as Subverge drew it. Attach one to <a href="bugs.html">bug reports</a>.</p>
+<p>The QEMU monitor&#x27;s <code>screendump file.ppm</code> command saves the screen exactly as Subverge drew it. Attach one to <a href="bugs.html">bug reports</a>.</p>
 <h2 id="other-emulators">Other emulators</h2>
 <p>Bochs, VirtualBox and VMware provide similar hardware and may work with an IDE controller and BIOS firmware, but only QEMU is tested. For real machines, see <a href="hardware.html">hardware</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

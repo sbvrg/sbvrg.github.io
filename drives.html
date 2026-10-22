@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,8 +81,8 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="drives">Drives</h1>
 <p>Subverge talks to disks through the legacy IDE interface, using programmed I/O.</p>
 <h2 id="finding-drives">Finding drives</h2>
-<p>At boot the kernel probes four positions: master and slave on the primary channel (ports <code>0x1F0</code> to <code>0x1F7</code>, control <code>0x3F6</code>) and on the secondary channel (<code>0x170</code> to <code>0x177</code>, control <code>0x376</code>). They are numbered 0 to 3 in that order, which matches QEMU's <code>-hda</code> to <code>-hdd</code>.</p>
-<p>For each position the kernel checks for a floating bus, selects the drive and sends <code>IDENTIFY DEVICE</code>. A position counts as a drive if it answers, isn't an ATAPI device and reports a non-zero size. CD-ROM drives answer as ATAPI and are skipped, which is why the drive the live ISO boots from never shows up in <code>disks</code>.</p>
+<p>At boot the kernel probes four positions: master and slave on the primary channel (ports <code>0x1F0</code> to <code>0x1F7</code>, control <code>0x3F6</code>) and on the secondary channel (<code>0x170</code> to <code>0x177</code>, control <code>0x376</code>). They are numbered 0 to 3 in that order, which matches QEMU&#x27;s <code>-hda</code> to <code>-hdd</code>.</p>
+<p>For each position the kernel checks for a floating bus, selects the drive and sends <code>IDENTIFY DEVICE</code>. A position counts as a drive if it answers, isn&#x27;t an ATAPI device and reports a non-zero size. CD-ROM drives answer as ATAPI and are skipped, which is why the drive the live ISO boots from never shows up in <code>disks</code>.</p>
 <p>From the identify data the kernel keeps the model string, whether the drive supports 48-bit addressing, and the number of sectors.</p>
 <pre><code>drives .             [ [ 0 &quot;QEMU HARDDISK&quot; 64 0 ] ]
 </code></pre>
@@ -90,7 +90,7 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="reading-and-writing">Reading and writing</h2>
 <p>Transfers use 28-bit LBA commands for drives that only support them and 48-bit LBA commands otherwise. Each command moves at most 128 sectors, so larger transfers are split. After a write the kernel sends a cache flush and waits for it to finish.</p>
 <p>Every transfer is done with interrupts disabled, polling the status register between sectors. This keeps the code short and makes a transfer impossible to interrupt halfway, at the cost of stopping the other tabs while it runs. A save of a full 1 MiB slot is 2048 sectors, which takes a noticeable fraction of a second in QEMU.</p>
-<p>Errors are reported by the status register's error and fault bits, and a transfer that doesn't become ready after a fixed number of polls is treated as failed. A save writes the slot first and the header that describes it last (<a href="disk-layout.html">disk layout</a>). If a save fails partway, the header still holds the old length and checksum, the checksum no longer matches, and that slot boots fresh next time.</p>
+<p>Errors are reported by the status register&#x27;s error and fault bits, and a transfer that doesn&#x27;t become ready after a fixed number of polls is treated as failed. A save writes the slot first and the header that describes it last (<a href="disk-layout.html">disk layout</a>). If a save fails partway, the header still holds the old length and checksum, the checksum no longer matches, and that slot boots fresh next time.</p>
 <h2 id="the-home-drive">The home drive</h2>
 <p>After probing, the kernel looks for an installed system by reading sector 1 of each drive and checking for the <code>SUBVERGE</code> signature in the stage 2 header. The first drive that has it becomes the home drive, <code>home</code> returns its number, and <a href="saving.html">saving</a> writes there. With no home drive, <code>home</code> returns <code>-1</code>.</p>
 <p>Installing makes the target drive the home drive immediately, without a reboot.</p>
@@ -101,7 +101,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

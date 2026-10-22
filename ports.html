@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,7 +79,7 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="ports">Ports</h1>
-<p>These words talk to I/O ports, the CPU and the PCI bus. They run in ring 0, check nothing and can't be undone. <code>in</code> and <code>out</code> accept any port, including those that reset the machine.</p>
+<p>These words talk to I/O ports, the CPU and the PCI bus. They run in ring 0, check nothing and can&#x27;t be undone. <code>in</code> and <code>out</code> accept any port, including those that reset the machine.</p>
 <h2 id="io-ports">I/O ports</h2>
 <table>
 <thead>
@@ -118,7 +118,7 @@ document.querySelector(".mode").onclick = function () {
 <thead>
 <tr>
 <th>Port</th>
-<th>What's there</th>
+<th>What&#x27;s there</th>
 </tr>
 </thead>
 <tbody>
@@ -171,7 +171,7 @@ document.querySelector(".mode").onclick = function () {
 <p>Reprogramming the PIT changes the scheduling rate and the length of <code>sleep</code>. Masking interrupts at the PIC stops the timer or the keyboard. Writing to the IDE ports during a save can corrupt a slot.</p>
 <h2 id="the-cpu">The CPU</h2>
 <pre><code>0 cpuid             leaves eax ebx ecx edx for leaf 0
-cpu say             the CPU's brand string
+cpu say             the CPU&#x27;s brand string
 0 cr                control register 0
 rdtsc               the time stamp counter
 </code></pre>
@@ -184,7 +184,7 @@ rdtsc               the time stamp counter
 <p>Vector 48 is the software interrupt a tab uses to give up the CPU early. See the <a href="scheduler.html">scheduler</a>.</p>
 <h2 id="pci">PCI</h2>
 <pre><code>pci                 every PCI function as [ bus dev fn vendor device class subclass ]
-0 0 0 0 pci@        a dword from a function's configuration space
+0 0 0 0 pci@        a dword from a function&#x27;s configuration space
 </code></pre>
 <p><code>pci@</code> takes the bus, device, function and offset, and reads through <code>0xCF8</code> and <code>0xCFC</code>. A PCI write is <code>outd</code> to <code>0xCF8</code> followed by <code>outd</code> to <code>0xCFC</code>.</p>
 <p><code>pcils</code> prints the list with vendor and class names from <code>vendor</code> and <code>class-name</code>, which only know the vendors QEMU presents.</p>
@@ -193,13 +193,13 @@ rdtsc               the time stamp counter
 <p>The real-time clock sits behind two ports. Writing a register number to <code>0x70</code> selects it, and reading <code>0x71</code> returns its value. Register 0 holds the seconds:</p>
 <pre><code>0 0x70 out 0x71 in hex say
 </code></pre>
-<p>The clock stores its values in BCD, one decimal digit per hex digit, so 42 seconds is the byte <code>0x42</code>. <code>hex</code> prints that as <code>42</code>, while <code>.</code> would print <code>66</code>. Registers 2 and 4 hold the minutes and hours, and <code>time</code> reads all of them the same way, waiting until the clock isn't in the middle of an update (<a href="interrupts.html">interrupts</a>).</p>
+<p>The clock stores its values in BCD, one decimal digit per hex digit, so 42 seconds is the byte <code>0x42</code>. <code>hex</code> prints that as <code>42</code>, while <code>.</code> would print <code>66</code>. Registers 2 and 4 hold the minutes and hours, and <code>time</code> reads all of them the same way, waiting until the clock isn&#x27;t in the middle of an update (<a href="interrupts.html">interrupts</a>).</p>
 <p>The selection in <code>0x70</code> is shared by everything that reads the clock, including the tab bar, which redraws once a second. A read can occasionally get the register the tab bar selected instead. Run the line again if a value looks wrong.</p>
 <p>See <a href="memory.html">memory</a> for the other half of talking to hardware, and <a href="machine.html">machine</a> for the words that act on the whole machine.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

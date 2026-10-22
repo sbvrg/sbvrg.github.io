@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -85,17 +85,17 @@ document.querySelector(".mode").onclick = function () {
 <p>The kernel carries the original root, concatenated from the files in <code>root/</code> at build time (<a href="development.html">development</a>). An installed system also has a saved root in slot 0 (<a href="disk-layout.html">disk layout</a>). At boot the kernel tries the saved root first, and falls back to the built-in one if it is missing, damaged or fails to build.</p>
 <p>Root holds at most 32 units, and up to 96 names are tracked per unit for <code>root</code> and <code>open</code>.</p>
 <h2 id="building">Building</h2>
-<p>A build runs each unit's source, in order, as one quote. It uses the tab that asked for it, with three changes:</p>
+<p>A build runs each unit&#x27;s source, in order, as one quote. It uses the tab that asked for it, with three changes:</p>
 <ul>
-<li><strong>Pinning is on.</strong> Every object created during the build is pinned: it is kept out of the tab's object list and is never collected (<a href="values.html">values and objects</a>). Root's definitions are shared by all four tabs, so they can't belong to any one of them.</li>
-<li><strong>The dictionary starts empty</strong>, or at the end of the last unit before the edited one. A unit's definitions go on top of everything before it, so later units see earlier ones.</li>
-<li><strong>The tab's stack, locals and trace state are saved</strong> before the build and restored after it, so a build can't disturb whatever the tab was doing.</li>
+<li><strong>Pinning is on.</strong> Every object created during the build is pinned: it is kept out of the tab&#x27;s object list and is never collected (<a href="values.html">values and objects</a>). Root&#x27;s definitions are shared by all four tabs, so they can&#x27;t belong to any one of them.</li>
+<li><strong>The dictionary starts empty</strong>, or at the end of the last unit before the edited one. A unit&#x27;s definitions go on top of everything before it, so later units see earlier ones.</li>
+<li><strong>The tab&#x27;s stack, locals and trace state are saved</strong> before the build and restored after it, so a build can&#x27;t disturb whatever the tab was doing.</li>
 </ul>
 <p>The <a href="jit.html">JIT</a> is off for the length of the build.</p>
-<p>When a unit finishes, the build records where its definitions end in the dictionary and which names it defined. Those records are what <code>root</code> prints and what <code>'name open</code> searches to find the unit that defines <code>name</code>.</p>
-<p>If any unit fails, the build stops there, the tab's state is restored, and the error is reported with the unit's name in front of it.</p>
+<p>When a unit finishes, the build records where its definitions end in the dictionary and which names it defined. Those records are what <code>root</code> prints and what <code>&#x27;name open</code> searches to find the unit that defines <code>name</code>.</p>
+<p>If any unit fails, the build stops there, the tab&#x27;s state is restored, and the error is reported with the unit&#x27;s name in front of it.</p>
 <h2 id="rebuilding-after-an-edit">Rebuilding after an edit</h2>
-<p>When you leave <a href="scrawl.html">scrawl</a> after <code>'name open</code>, the kernel rebuilds from the edited unit onward. Units before it are not run again: their part of the dictionary is reused as it is, and the new definitions are built on top of the point where the unit before the edited one ended.</p>
+<p>When you leave <a href="scrawl.html">scrawl</a> after <code>&#x27;name open</code>, the kernel rebuilds from the edited unit onward. Units before it are not run again: their part of the dictionary is reused as it is, and the new definitions are built on top of the point where the unit before the edited one ended.</p>
 <p>A rebuild either succeeds completely or changes nothing:</p>
 <ul>
 <li><strong>If it fails</strong>, the old root stays in place and keeps working. Your edited text is kept as a draft attached to the unit, <code>root</code> marks it <code>(draft)</code>, and the next <code>open</code> of that unit shows the draft, so you can fix it without retyping. The error has the form <code>root unchanged, unit: message (your edit is kept: open it again)</code>.</li>
@@ -110,16 +110,16 @@ document.querySelector(".mode").onclick = function () {
 </ul>
 <p>Old root objects are not freed. A tab may have copied a quote out of the old root with <code>get</code>, and it stays valid.</p>
 <h2 id="shadowing-built-ins">Shadowing built-ins</h2>
-<p>After a rebuild the kernel looks through the new root for definitions whose names are also built-ins. If it finds any, it prints <code>shadows:</code> followed by the names in orange. This isn't an error. It is a warning that every tab will now run your definition instead of the built-in, including inside other root words that use the name.</p>
+<p>After a rebuild the kernel looks through the new root for definitions whose names are also built-ins. If it finds any, it prints <code>shadows:</code> followed by the names in orange. This isn&#x27;t an error. It is a warning that every tab will now run your definition instead of the built-in, including inside other root words that use the name.</p>
 <h2 id="order">Order</h2>
 <p>New units from <code>&quot;name&quot; unit</code> are appended at the end, so they can use every other unit, and editing one only rebuilds that unit. Because rebuilding starts at the edited unit, editing <code>core</code>, the first unit, rebuilds all of root, and a mistake there can make every later unit fail. The draft mechanism keeps that recoverable.</p>
 <h2 id="when-the-saved-root-fails-at-boot">When the saved root fails at boot</h2>
-<p>If the saved root doesn't build at boot, for example after a kernel upgrade removed a built-in that a unit used, the kernel reports <code>the saved root didn't build, using the built-in one</code> and runs the built-in root instead. The saved copy on disk is left alone until the next successful root edit replaces it, so the old source can still be recovered by booting the previous kernel.</p>
+<p>If the saved root doesn&#x27;t build at boot, for example after a kernel upgrade removed a built-in that a unit used, the kernel reports <code>the saved root didn&#x27;t build, using the built-in one</code> and runs the built-in root instead. The saved copy on disk is left alone until the next successful root edit replaces it, so the old source can still be recovered by booting the previous kernel.</p>
 <p>If the built-in root fails too, tab 1 shows the system information screen and the root error in red, and the tabs start with only the built-in words.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

@@ -263,7 +263,7 @@ Drawing on the screen.
 | Word | Effect | What it does | Example |
 |---|---|---|---|
 | `put` | `ch x y color --` | Puts one character on the screen. | `42 10 5 14 put` |
-| `text` | `s x y color --` | Writes a string at a position. | `"hi" 10 5 14 text` |
+| `text` | `s x y color --` | Writes a string at a position, in graphics mode too. | `"hi" 10 5 14 text` |
 | `screen@` | `x y -- ch color` | Reads the character and colour there. | `10 5 screen@` |
 | `wipe` | `--` | Clears the screen. | `wipe` |
 | `cursor` | `x y --` | Moves the cursor. | `0 0 cursor` |
@@ -274,6 +274,7 @@ Drawing on the screen.
 | `gfx-off` | `--` | Back to the text screen. | `gfx-off` |
 | `dot` | `x y col --` | Sets one pixel in graphics mode. | `320 240 14 dot` |
 | `box` | `x y w h col --` | Fills a rectangle in graphics mode. | `20 20 100 60 5 box` |
+| `window` | `x y w h title --` | Draws a titled window frame in graphics mode. | `40 40 300 160 "first" window` |
 | `title` | `s --` | Names this tab in the tab bar. | `"build" title` |
 | `tab` | `n -- l` | About tab n: [ title state active ]. | `2 tab` |
 | `mytab` | `-- n` | Which tab you are in, 1 to 4. | `mytab` |

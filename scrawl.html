@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -82,14 +82,14 @@ document.querySelector(".mode").onclick = function () {
 <p>scrawl is the text editor in Subverge. It is used for anything longer than one line: definitions, <a href="units.html">root units</a> and new programs. It has no modes, so typing always inserts text, and every command is a Ctrl key.</p>
 <h2 id="opening-it">Opening it</h2>
 <p>scrawl is never started directly. It is opened by one of three words, which decide what happens to the text when you quit:</p>
-<pre><code>'sq edit            a definition in this tab
-'top open           the root unit that defines top
+<pre><code>&#x27;sq edit            a definition in this tab
+&#x27;top open           the root unit that defines top
 &quot;mine&quot; unit         a new, empty root unit
 </code></pre>
-<p><code>edit</code> works on your tab's <a href="world.html">world</a>, and <code>open</code> and <code>unit</code> work on <a href="root.html">root</a>.</p>
-<p>While scrawl is open, the tab's title becomes <code>edit</code> followed by the name, and the tab is otherwise busy. The other tabs keep running, and each tab can have its own scrawl open.</p>
+<p><code>edit</code> works on your tab&#x27;s <a href="world.html">world</a>, and <code>open</code> and <code>unit</code> work on <a href="root.html">root</a>.</p>
+<p>While scrawl is open, the tab&#x27;s title becomes <code>edit</code> followed by the name, and the tab is otherwise busy. The other tabs keep running, and each tab can have its own scrawl open.</p>
 <h2 id="the-screen">The screen</h2>
-<p>The top row shows <code>scrawl</code>, the name being edited, <code>[+]</code> when there are unsaved changes, and the cursor's line and column on the right. Each line of text has its line number in the gutter on the left, and rows past the end of the text show <code>~</code>. The bottom row lists the main keys, and is replaced by messages such as <code>saved, 412 bytes</code> or <code>not found: foo</code>.</p>
+<p>The top row shows <code>scrawl</code>, the name being edited, <code>[+]</code> when there are unsaved changes, and the cursor&#x27;s line and column on the right. Each line of text has its line number in the gutter on the left, and rows past the end of the text show <code>~</code>. The bottom row lists the main keys, and is replaced by messages such as <code>saved, 412 bytes</code> or <code>not found: foo</code>.</p>
 <p>Lines longer than the screen scroll sideways as the cursor moves along them.</p>
 <h2 id="keys">Keys</h2>
 <table>
@@ -118,7 +118,7 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td>Enter</td>
-<td>splits the line, keeping the current line's indentation</td>
+<td>splits the line, keeping the current line&#x27;s indentation</td>
 </tr>
 <tr>
 <td>Backspace</td>
@@ -179,25 +179,25 @@ document.querySelector(".mode").onclick = function () {
 </ul>
 <p>If the text has unsaved changes, the first Ctrl-Q shows <code>unsaved. ^Q again to discard</code>, and a second Ctrl-Q quits without them. Quitting without ever saving changes nothing at all.</p>
 <h2 id="edit-in-detail">edit in detail</h2>
-<p><code>'name edit</code> opens the body of a definition without its outer brackets:</p>
+<p><code>&#x27;name edit</code> opens the body of a definition without its outer brackets:</p>
 <pre><code>[ { a b } a a * b b * + ] :hyp
-'hyp edit
+&#x27;hyp edit
 </code></pre>
 <p>shows <code>{ a b } a a * b b * +</code>. On quit, the text is parsed back into a quote and defined as <code>hyp</code> in your tab. A few consequences:</p>
 <ul>
 <li><strong>A new name</strong> opens an empty editor, and quitting defines the word. Use it for anything longer than a line.</li>
 <li><strong>A root word</strong> opens its root definition, and quitting defines a private copy in your tab that hides the root one. Use <code>open</code> to change root itself.</li>
-<li><strong>A value that isn't a quote</strong>, such as a string, is opened as its plain text, and saved back as a string.</li>
-<li><strong>Text that doesn't parse</strong>, for example with an unclosed bracket, is kept as a string, and scrawl reports <code>that didn't parse</code> with the reason. The word then pushes that string when run. Open it again with <code>edit</code> to fix it.</li>
+<li><strong>A value that isn&#x27;t a quote</strong>, such as a string, is opened as its plain text, and saved back as a string.</li>
+<li><strong>Text that doesn&#x27;t parse</strong>, for example with an unclosed bracket, is kept as a string, and scrawl reports <code>that didn&#x27;t parse</code> with the reason. The word then pushes that string when run. Open it again with <code>edit</code> to fix it.</li>
 </ul>
 <p>Since <code>edit</code> redefines the word, the change is an ordinary change to the world: <code>back</code> undoes it, and on an installed disk it is <a href="saving.html">saved</a>.</p>
-<p>Comments don't survive <code>edit</code>. The text is parsed into a quote, and printing the quote back for the next <code>edit</code> produces the code without them. Code whose comments matter belongs in a root unit, where the source is kept as written.</p>
+<p>Comments don&#x27;t survive <code>edit</code>. The text is parsed into a quote, and printing the quote back for the next <code>edit</code> produces the code without them. Code whose comments matter belongs in a root unit, where the source is kept as written.</p>
 <h2 id="size">Size</h2>
-<p><code>edit</code> shows at most 16 KiB of a definition's text. Root units have no limit of their own beyond the 1 MiB slot that all of root is saved in.</p>
+<p><code>edit</code> shows at most 16 KiB of a definition&#x27;s text. Root units have no limit of their own beyond the 1 MiB slot that all of root is saved in.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

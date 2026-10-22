@@ -56,7 +56,7 @@ Many of them work on both. `len`, `at`, `cat`, `reverse` and `each` treat a stri
 
 ## screen
 
-`put text screen@ wipe cursor nocursor where size title tab mytab`, `gfx gfx-off dot box` for graphics mode, `theme themes theme@ rgb` for colours, and `logo logos logo@` for the `sys` logo. See [screen](screen.md), [themes](themes.md) and [logos](logos.md).
+`put text screen@ wipe cursor nocursor where size title tab mytab`, `gfx gfx-off dot box window` for graphics mode, `theme themes theme@ rgb` for colours, and `logo logos logo@` for the `sys` logo. See [screen](screen.md), [themes](themes.md) and [logos](logos.md).
 
 ## tools, demos and games
 

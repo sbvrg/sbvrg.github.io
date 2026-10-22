@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -86,30 +86,30 @@ kernel              kernel image bytes, then bytes of RAM
 drives              [ n model megabytes home ] for each drive
 sys-c               the system info screen, written in C
 </code></pre>
-<p><code>memmap</code> is the BIOS memory map, as passed in by GRUB or by Subverge's own <a href="boot.html">bootloader</a>, which collects it with E820 so the kernel can't tell the difference. Type 1 is usable RAM. The other types are reserved, ACPI tables, or memory the firmware keeps for itself, and the kernel leaves them alone. <code>memls</code> prints it with names. See <a href="memory.html">memory</a> for what lives where.</p>
-<p><code>drives</code> lists up to four IDE drives, the primary and secondary controller's master and slave, with the model string the drive reports, its size in megabytes, and <code>1</code> for the one Subverge is installed on. <code>disks</code> prints the same list as a table, and <code>home</code> gives the installed drive's number on its own.</p>
+<p><code>memmap</code> is the BIOS memory map, as passed in by GRUB or by Subverge&#x27;s own <a href="boot.html">bootloader</a>, which collects it with E820 so the kernel can&#x27;t tell the difference. Type 1 is usable RAM. The other types are reserved, ACPI tables, or memory the firmware keeps for itself, and the kernel leaves them alone. <code>memls</code> prints it with names. See <a href="memory.html">memory</a> for what lives where.</p>
+<p><code>drives</code> lists up to four IDE drives, the primary and secondary controller&#x27;s master and slave, with the model string the drive reports, its size in megabytes, and <code>1</code> for the one Subverge is installed on. <code>disks</code> prints the same list as a table, and <code>home</code> gives the installed drive&#x27;s number on its own.</p>
 <h2 id="rebooting-and-halting">Rebooting and halting</h2>
 <pre><code>reboot              restarts the machine
 halt                stops it
 </code></pre>
-<p><code>reboot</code> pulses the reset line through the keyboard controller. On an installed disk it's safe, because every <a href="world.html">world</a> was <a href="saving.html">saved</a> after its last line. On the live ISO, everything is lost.</p>
-<p><code>halt</code> prints <code>the machine is halted</code>, disables interrupts and halts the CPU. Only a reset recovers from it. <code>try</code> can't catch it. Close QEMU to get out.</p>
+<p><code>reboot</code> pulses the reset line through the keyboard controller. On an installed disk it&#x27;s safe, because every <a href="world.html">world</a> was <a href="saving.html">saved</a> after its last line. On the live ISO, everything is lost.</p>
+<p><code>halt</code> prints <code>the machine is halted</code>, disables interrupts and halts the CPU. Only a reset recovers from it. <code>try</code> can&#x27;t catch it. Close QEMU to get out.</p>
 <h2 id="installing-without-asking">Installing without asking</h2>
 <pre><code>0 install-to
 </code></pre>
 <p>installs Subverge on drive 0 without listing drives or asking for confirmation. It writes the boot sector, stage 2, a fresh copy of the kernel and an empty state header, then saves root and all four tabs into the new slots, and prints <code>installed</code>. <code>install</code> (<a href="installation.html">installation</a>) is the omega program in root that asks for a drive, waits for <code>yes</code> and then calls <code>install-to</code>.</p>
 <p>This is the most destructive word in the system. With a disk image in QEMU it is harmless, but on real hardware it erases whichever drive number you give it. See <a href="disk-layout.html">disk layout</a> for exactly which sectors it writes.</p>
-<p>It refuses drives smaller than 8 MB, and it refuses to run if the kernel's own data section couldn't be copied at boot, because it installs a clean copy of the kernel as it was before anything ran, not the running one with all your changes poked into it.</p>
+<p>It refuses drives smaller than 8 MB, and it refuses to run if the kernel&#x27;s own data section couldn&#x27;t be copied at boot, because it installs a clean copy of the kernel as it was before anything ran, not the running one with all your changes poked into it.</p>
 <h2 id="saving-by-hand">Saving by hand</h2>
 <pre><code>save
 </code></pre>
-<p>writes root and all four tabs to the installed disk right now. Everything is already saved after each line, so this is rarely needed. It fails on the live ISO with <code>you haven't installed yet, run install</code>.</p>
+<p>writes root and all four tabs to the installed disk right now. Everything is already saved after each line, so this is rarely needed. It fails on the live ISO with <code>you haven&#x27;t installed yet, run install</code>.</p>
 <h2 id="the-rest">The rest</h2>
 <p>See <a href="memory.html">memory</a> for raw memory, <a href="ports.html">ports</a> for ports and PCI, <a href="screen.html">screen</a> for the screen, and <a href="internals.html">internals</a> for what happens underneath.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

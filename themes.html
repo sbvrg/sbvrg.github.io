@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,7 +81,7 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="themes">Themes</h1>
 <p>A theme sets the 16 colours of the text screen and of graphics mode. Programs pick colours by number, 0 to 15, and the theme decides the actual colour behind each number.</p>
 <pre><code>themes              list the themes, with the current one marked
-'raw theme          switch to raw
+&#x27;raw theme          switch to raw
 theme@ say          print the name of the current theme
 </code></pre>
 <p>Switching changes all four <a href="tabs.html">tabs</a> at once, including text that is already on the screen. An installed system writes the choice to disk and uses it at the next boot. The live ISO starts with <code>dusk</code>.</p>
@@ -211,15 +211,15 @@ theme@ say          print the name of the current theme
 <pre><code>14 255 120 0 rgb        orange accent
 0 20 0 30 rgb           dark purple background
 </code></pre>
-<p>The change applies to all tabs at once. The VGA palette has 6 bits per channel, so values are rounded down to a multiple of 4. <code>rgb</code> isn't saved, and the next <code>theme</code> or reboot resets it. To keep a custom palette, add the <code>rgb</code> lines to <code>startup</code> with <code>'startup open</code>.</p>
+<p>The change applies to all tabs at once. The VGA palette has 6 bits per channel, so values are rounded down to a multiple of 4. <code>rgb</code> isn&#x27;t saved, and the next <code>theme</code> or reboot resets it. To keep a custom palette, add the <code>rgb</code> lines to <code>startup</code> with <code>&#x27;startup open</code>.</p>
 <h2 id="saving">Saving</h2>
 <p>The theme is stored as a number in the state header on the disk (<a href="disk-layout.html">disk layout</a>). Switching writes only that sector. <code>install</code> copies the current theme to the new drive.</p>
 <h2 id="adding-a-theme">Adding a theme</h2>
-<p>The themes are a table in <code>kernel/vga.c</code>. Each entry has a name and 16 RGB values. Add an entry and rebuild (<a href="development.html">development</a>). If a word named <code>logo-</code> followed by the theme's name exists, switching to the theme also switches to that logo. Installed disks store a theme by its position in the table, so add new ones at the end.</p>
+<p>The themes are a table in <code>kernel/vga.c</code>. Each entry has a name and 16 RGB values. Add an entry and rebuild (<a href="development.html">development</a>). If a word named <code>logo-</code> followed by the theme&#x27;s name exists, switching to the theme also switches to that logo. Installed disks store a theme by its position in the table, so add new ones at the end.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

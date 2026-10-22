@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,14 +79,14 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="bignums">Bignums</h1>
-<p>An integer that doesn't fit in 64 bits becomes a bignum, and every arithmetic word keeps working on it. The sections below cover how bignums are stored and computed. For the words and the rules, see <a href="numbers.html">numbers</a>.</p>
+<p>An integer that doesn&#x27;t fit in 64 bits becomes a bignum, and every arithmetic word keeps working on it. The sections below cover how bignums are stored and computed. For the words and the rules, see <a href="numbers.html">numbers</a>.</p>
 <h2 id="small-and-big">Small and big</h2>
 <p>A number that fits in a signed 64-bit integer is stored directly in the value cell, with no allocation (<a href="values.html">values and objects</a>). When a result needs more, it becomes a bignum, and whenever a bignum result fits in 64 bits again, it is turned back into a plain integer. Every number therefore has exactly one representation:</p>
 <pre><code>2 64 ^ 2 64 ^ - .           0, a plain integer
 2 63 ^ 1 - .                9223372036854775807, still plain
 2 63 ^ .                    a bignum
 </code></pre>
-<p>Code that only ever sees small numbers never touches the bignum code, and <code>=</code> can compare a bignum with a plain integer by type alone: if one is big and the other isn't, they are different numbers.</p>
+<p>Code that only ever sees small numbers never touches the bignum code, and <code>=</code> can compare a bignum with a plain integer by type alone: if one is big and the other isn&#x27;t, they are different numbers.</p>
 <h2 id="representation">Representation</h2>
 <p>A bignum is a heap object holding a sign and an array of 32-bit digits, least significant first, with no leading zero digits. The <a href="gc.html">garbage collector</a> frees it like any other object. The digit array holds at most 2048 digits, which is 65,536 bits; that is where the limit of 2^65536 comes from.</p>
 <h2 id="algorithms">Algorithms</h2>
@@ -108,7 +108,7 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>/</code> <code>mod</code></td>
-<td>Knuth's Algorithm D, with a fast path for one-digit divisors</td>
+<td>Knuth&#x27;s Algorithm D, with a fast path for one-digit divisors</td>
 </tr>
 <tr>
 <td><code>^</code></td>
@@ -116,11 +116,11 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>sqrt</code></td>
-<td>Newton's iteration on bignums</td>
+<td>Newton&#x27;s iteration on bignums</td>
 </tr>
 <tr>
 <td><code>gcd</code></td>
-<td>Euclid's algorithm with <code>mod</code></td>
+<td>Euclid&#x27;s algorithm with <code>mod</code></td>
 </tr>
 <tr>
 <td>parsing</td>
@@ -141,13 +141,13 @@ document.querySelector(".mode").onclick = function () {
 <p><code>has</code> and <code>index</code> compare bignums by identity, not by value, so look them up with <code>=</code> in a <code>filter</code> instead.</p>
 <p>With ordinals, a bignum works on the left of <code>+</code> and <code>*</code>, where it is absorbed: <code>2 100 ^ omega +</code> is ω. On the right it fails with <code>that number is too big to mix with an ordinal that way</code>.</p>
 <h2 id="bignums-and-the-jit">Bignums and the JIT</h2>
-<p>Compiled code does <code>+</code>, <code>-</code>, <code>*</code> and <code>neg</code> in registers and checks the CPU's overflow flag after each one. On overflow, it jumps to a slow path that calls the ordinary word, which builds the bignum, so compiled code and the interpreter always agree. Once a value is a bignum, every inline operation on it takes the slow path, since the fast path only handles plain integers. See <a href="jit.html">JIT</a>.</p>
+<p>Compiled code does <code>+</code>, <code>-</code>, <code>*</code> and <code>neg</code> in registers and checks the CPU&#x27;s overflow flag after each one. On overflow, it jumps to a slow path that calls the ordinary word, which builds the bignum, so compiled code and the interpreter always agree. Once a value is a bignum, every inline operation on it takes the slow path, since the fast path only handles plain integers. See <a href="jit.html">JIT</a>.</p>
 <h2 id="saving">Saving</h2>
 <p>Bignums are saved as their decimal digits and parsed back at boot (<a href="saving.html">saving</a>). A tab holding many large numbers can grow past its 1 MiB slot, since each one takes up to about 20 KB of text.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

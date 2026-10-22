@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -82,8 +82,8 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="make-host">make host</h2>
 <pre><code>$ make host
 </code></pre>
-<p>builds the omega interpreter as an ordinary Linux program, <code>build/host</code>, from the same source files as the kernel. <code>test/host.c</code> provides a fake screen, keyboard and clock, so anything that doesn't need real hardware can be tested without a VM. Lines on standard input are fed to tab 1 one at a time:</p>
-<pre><code>$ printf '1 2 + .\n@screen\n' | build/host
+<p>builds the omega interpreter as an ordinary Linux program, <code>build/host</code>, from the same source files as the kernel. <code>test/host.c</code> provides a fake screen, keyboard and clock, so anything that doesn&#x27;t need real hardware can be tested without a VM. Lines on standard input are fed to tab 1 one at a time:</p>
+<pre><code>$ printf &#x27;1 2 + .\n@screen\n&#x27; | build/host
 </code></pre>
 <p>Besides omega, it accepts a few directives:</p>
 <table>
@@ -108,7 +108,7 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>@dis name</code></td>
-<td>writes a word's compiled code to <code>build/dis.bin</code> and the <a href="dis.html">disassembler</a>'s listing of it to <code>build/dis.txt</code></td>
+<td>writes a word&#x27;s compiled code to <code>build/dis.bin</code> and the <a href="dis.html">disassembler</a>&#x27;s listing of it to <code>build/dis.txt</code></td>
 </tr>
 <tr>
 <td><code>@docs</code></td>
@@ -118,9 +118,9 @@ document.querySelector(".mode").onclick = function () {
 </table>
 <p>It is also the quickest way to check what a line does.</p>
 <h2 id="the-docs-check">The docs check</h2>
-<pre><code>$ printf '@docs\n' | build/host
+<pre><code>$ printf &#x27;@docs\n&#x27; | build/host
 </code></pre>
-<p>must print <code>0 problems</code>. It reports built-in or root words without a help entry, entries for words that don't exist, entries in unknown groups, and descriptions over 52 characters or stack effects over 15.</p>
+<p>must print <code>0 problems</code>. It reports built-in or root words without a help entry, entries for words that don&#x27;t exist, entries in unknown groups, and descriptions over 52 characters or stack effects over 15.</p>
 <h2 id="make-stress">make stress</h2>
 <pre><code>$ make stress
 </code></pre>
@@ -153,7 +153,7 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 <tr>
 <td><code>key name</code></td>
-<td>presses one key, by QEMU's name for it, like <code>ret</code>, <code>f2</code> or <code>ctrl-c</code></td>
+<td>presses one key, by QEMU&#x27;s name for it, like <code>ret</code>, <code>f2</code> or <code>ctrl-c</code></td>
 </tr>
 <tr>
 <td><code>shot file.png</code></td>
@@ -179,7 +179,7 @@ $ build/qdrive test/shots.qd -- qemu-system-x86_64 -cdrom build/subverge.iso -m 
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

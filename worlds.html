@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,9 +79,9 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="how-worlds-work">How worlds work</h1>
-<p>A world is a tab's stack and its definitions, which is what a <a href="transactions.html">transaction</a> protects.</p>
+<p>A world is a tab&#x27;s stack and its definitions, which is what a <a href="transactions.html">transaction</a> protects.</p>
 <h2 id="what-a-world-holds">What a world holds</h2>
-<p>A world holds the stack as a quote that never changes, and a list of definitions. Defining a word with <code>:name</code> doesn't change any existing definition. It adds a new one to the front of the list, so older worlds still see the list as it was. Each tab keeps its current world and the 64 before it.</p>
+<p>A world holds the stack as a quote that never changes, and a list of definitions. Defining a word with <code>:name</code> doesn&#x27;t change any existing definition. It adds a new one to the front of the list, so older worlds still see the list as it was. Each tab keeps its current world and the 64 before it.</p>
 <h2 id="running-a-line">Running a line</h2>
 <p>Before a line runs, the stack of the current world is copied, and the line works on that copy. The whole line is parsed first, so a parse error means nothing ran at all. When a word fails, the line stops there.</p>
 <p>When the line ends, one of four things happens:</p>
@@ -94,14 +94,14 @@ document.querySelector(".mode").onclick = function () {
 <p>On an installed disk, the tab is <a href="saving.html">saved</a> right after 2 and 4, before the prompt comes back.</p>
 <h2 id="fast-undo">Fast undo</h2>
 <p>Nothing in a world is ever changed in place, so a new world only costs a copy of the stack. The definitions are shared with the worlds before it. Old worlds keep everything they point to alive until they drop out of the history, which is how the <a href="gc.html">garbage collector</a> knows not to free it.</p>
-<h2 id="what-isnt-in-a-world">What isn't in a world</h2>
+<h2 id="what-isnx27t-in-a-world">What isn&#x27;t in a world</h2>
 <p>Memory, ports, the screen, <code>alloc</code> and <a href="root.html">root</a>. They are never rolled back.</p>
-<p><code>try</code> stops a failure from ending the line, but it doesn't roll anything back either, so whatever its quote did before failing stays. See <a href="catching.html">catching</a> for examples.</p>
+<p><code>try</code> stops a failure from ending the line, but it doesn&#x27;t roll anything back either, so whatever its quote did before failing stays. See <a href="catching.html">catching</a> for examples.</p>
 <p>A CPU fault restarts the tab before the line finishes, so the world is left as it was. See <a href="scheduler.html">scheduler</a>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -94,9 +94,9 @@ LBA 12289       slot 4, tab 4
 LBA 14337       the end of everything Subverge uses
 </code></pre>
 <p>About 7 MiB in all. <code>install</code> refuses any drive smaller than 8M. Anything past the end is ignored.</p>
-<p>The kernel gets the sectors from 64 up to 4095, which is just under 2 MiB. If a kernel you've built doesn't fit, <code>install</code> fails with <code>the kernel doesn't fit in its slot</code>. The current one is under a megabyte.</p>
+<p>The kernel gets the sectors from 64 up to 4095, which is just under 2 MiB. If a kernel you&#x27;ve built doesn&#x27;t fit, <code>install</code> fails with <code>the kernel doesn&#x27;t fit in its slot</code>. The current one is under a megabyte.</p>
 <h2 id="the-kernel-copy">The kernel copy</h2>
-<p><code>install</code> doesn't write the running kernel. At boot, before anything else runs, the kernel copies its own <code>.data</code> section aside, and <code>install</code> writes the code from memory followed by that untouched copy of the data. So an installed kernel boots fresh, without whatever state the live system had built up, and without anything you poked into it.</p>
+<p><code>install</code> doesn&#x27;t write the running kernel. At boot, before anything else runs, the kernel copies its own <code>.data</code> section aside, and <code>install</code> writes the code from memory followed by that untouched copy of the data. So an installed kernel boots fresh, without whatever state the live system had built up, and without anything you poked into it.</p>
 <h2 id="the-state-header">The state header</h2>
 <p>One sector at LBA 4096:</p>
 <table>
@@ -116,12 +116,12 @@ LBA 14337       the end of everything Subverge uses
 <tr>
 <td>8</td>
 <td>5 × 4</td>
-<td>the length in bytes of each slot's contents</td>
+<td>the length in bytes of each slot&#x27;s contents</td>
 </tr>
 <tr>
 <td>28</td>
 <td>5 × 4</td>
-<td>an FNV-1a checksum of each slot's contents</td>
+<td>an FNV-1a checksum of each slot&#x27;s contents</td>
 </tr>
 <tr>
 <td>48</td>
@@ -147,8 +147,8 @@ LBA 14337       the end of everything Subverge uses
 </table>
 <p>If the magic is wrong, the header is treated as empty, and every slot as unused. Disks installed before 0.9.0 have zero in the theme field, which is <code>dusk</code>. Disks installed before 0.9.1 have an empty logo name, and <code>sys</code> then draws the <code>subverge</code> logo. When a slot is saved, its data is written first and the header second, so a save interrupted halfway leaves the old header pointing at a slot whose checksum no longer matches, and that slot is ignored at the next boot rather than loaded half-written.</p>
 <h2 id="the-slots">The slots</h2>
-<p>Each slot is 2048 sectors, 1 MiB, and holds plain omega source with a zero byte after it, padded to a whole sector. Slot 0 is root, every unit after its <code>#&gt;&gt; name</code> line. Slots 1 to 4 are the <a href="world.html">worlds</a> of tabs 1 to 4. See <a href="saving.html">saving</a> for what's in them and when they're written.</p>
-<p>A slot whose length is 0, too big, or whose checksum doesn't match is treated as empty.</p>
+<p>Each slot is 2048 sectors, 1 MiB, and holds plain omega source with a zero byte after it, padded to a whole sector. Slot 0 is root, every unit after its <code>#&gt;&gt; name</code> line. Slots 1 to 4 are the <a href="world.html">worlds</a> of tabs 1 to 4. See <a href="saving.html">saving</a> for what&#x27;s in them and when they&#x27;re written.</p>
+<p>A slot whose length is 0, too big, or whose checksum doesn&#x27;t match is treated as empty.</p>
 <h2 id="finding-the-home-drive">Finding the home drive</h2>
 <p>At boot the kernel reads sector 1 of each of the four IDE drives, and the first one with <code>SUBVERGE</code> at byte 8 is home. If two drives both have Subverge installed, the first one is home and the other one is not used.</p>
 <h2 id="looking-at-it">Looking at it</h2>
@@ -156,11 +156,11 @@ LBA 14337       the end of everything Subverge uses
 <pre><code>$ dd if=disk.img bs=512 skip=4096 count=1 | xxd | head -4
 $ dd if=disk.img bs=512 skip=6145 count=4 | strings
 </code></pre>
-<p>shows you the header and the start of tab 1's world. Don't write to the image while QEMU has it open.</p>
+<p>shows you the header and the start of tab 1&#x27;s world. Don&#x27;t write to the image while QEMU has it open.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -81,7 +81,7 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="ordinals">Ordinals</h1>
 <p>omega has transfinite ordinals as ordinary values. <code>omega</code> pushes the first infinite ordinal, and ordinals can be added, multiplied, raised to powers, compared, stored, printed and saved like any number. For cardinals, see <a href="cardinals.html">cardinals</a>.</p>
 <h2 id="what-they-are">What they are</h2>
-<p>Watch Vsauce's <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a> first. The infinite values in Subverge come from it, and the rest of this page assumes the idea it starts with: a number can say how many things there are, or where something is in a line, and past the finite those are different questions. Ordinals answer the second one. <a href="cardinals.html">Cardinals</a> answer the first.</p>
+<p>Watch Vsauce&#x27;s <a href="https://www.youtube.com/watch?v=SrU9YDoXE88">How To Count Past Infinity</a> first. The infinite values in Subverge come from it, and the rest of this page assumes the idea it starts with: a number can say how many things there are, or where something is in a line, and past the finite those are different questions. Ordinals answer the second one. <a href="cardinals.html">Cardinals</a> answer the first.</p>
 <p>The natural numbers 0, 1, 2, ... never end, and <code>omega</code> is the position right after all of them:</p>
 <pre><code>1000000 omega &lt; .       1
 2 1000 ^ omega &lt; .      1
@@ -134,7 +134,7 @@ omega 2 ^ omega + .     ω²+ω
 omega omega 2 ^ + .     ω²
 </code></pre>
 <h2 id="multiplication">Multiplication</h2>
-<p><code>a b *</code> is <code>b</code> copies of <code>a</code> placed one after another, and it isn't commutative either:</p>
+<p><code>a b *</code> is <code>b</code> copies of <code>a</code> placed one after another, and it isn&#x27;t commutative either:</p>
 <pre><code>omega 2 * .             ω·2, two copies of ω
 2 omega * .             ω, ω copies of a pair
 omega 1 + 2 * .         ω·2+1
@@ -160,12 +160,12 @@ epsilon0 omega1 &lt; .             1
 </code></pre>
 <p>Every finite number, bignums included, is below every infinite ordinal. Negative numbers compare as smaller than all ordinals.</p>
 <p><code>=</code> on two ordinals compares them by value, so <code>1 omega + omega =</code> is <code>1</code> even though they were built differently.</p>
-<h2 id="what-doesnt-exist">What doesn't exist</h2>
+<h2 id="what-doesnx27t-exist">What doesn&#x27;t exist</h2>
 <p>Ordinals have no subtraction, division or negatives, and the attempts fail:</p>
 <pre><code>omega 1 -           ordinals only support + * and ^
 omega -3 +          ordinals are never negative
 </code></pre>
-<p>Bignums mix with ordinals only where they would be absorbed anyway: <code>2 100 ^ omega +</code> is ω, but <code>omega 2 100 ^ +</code> fails with <code>that number is too big to mix with an ordinal that way</code>, since ω followed by 2^100 elements can't be written with a 64-bit coefficient.</p>
+<p>Bignums mix with ordinals only where they would be absorbed anyway: <code>2 100 ^ omega +</code> is ω, but <code>omega 2 100 ^ +</code> fails with <code>that number is too big to mix with an ordinal that way</code>, since ω followed by 2^100 elements can&#x27;t be written with a 64-bit coefficient.</p>
 <h2 id="testing-and-converting">Testing and converting</h2>
 <pre><code>omega ordinal? .        1
 5 ordinal? .            0
@@ -181,11 +181,11 @@ omega omega 2 * ^ .             ω^(ω·2)
 <p><code>.</code> and <code>say</code> print this form, and <code>str</code> gives the same text. When a tab is <a href="saving.html">saved</a>, ordinals are written back as omega code, so <code>ω·2+3</code> is saved as <code>omega 2 * 3 +</code> and read back exactly.</p>
 <p><a href="infinity.html">How infinity works</a> shows the representation and the algorithms.</p>
 <h2 id="using-them">Using them</h2>
-<p>Ordinals are mostly a demonstration, but they are real values that programs can use. A program can count past the end of a loop, use ω as an &quot;unbounded&quot; marker that compares above every number, or build termination arguments, where each step must decrease an ordinal. <code>count</code>, <code>ord-demo</code> and <code>'show see</code> are short examples.</p>
+<p>Ordinals are mostly a demonstration, but they are real values that programs can use. A program can count past the end of a loop, use ω as an &quot;unbounded&quot; marker that compares above every number, or build termination arguments, where each step must decrease an ordinal. <code>count</code>, <code>ord-demo</code> and <code>&#x27;show see</code> are short examples.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

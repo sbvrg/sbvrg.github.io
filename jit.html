@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -83,17 +83,17 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="looking-at-it">Looking at it</h2>
 <pre><code>jit                 is it on, and what has it compiled
 jit-off  jit-on     turn it off and on
-'fib compile        compile now, leaves address and length
-'fib addr           the address of its code
+&#x27;fib compile        compile now, leaves address and length
+&#x27;fib addr           the address of its code
 addr n dis          disassemble n instructions at addr
 addr len disr       disassemble a range of bytes
-'fib jitdis         compile and disassemble all of it
-'fib xray           source, then machine code
+&#x27;fib jitdis         compile and disassemble all of it
+&#x27;fib xray           source, then machine code
 [ ... ] bench       time a quote with the JIT off, then on
 </code></pre>
-<p><code>xray</code> is the most useful of these. It shows the word's source and then every instruction the JIT made for it, so you can see which words were inlined and which became calls.</p>
+<p><code>xray</code> is the most useful of these. It shows the word&#x27;s source and then every instruction the JIT made for it, so you can see which words were inlined and which became calls.</p>
 <p><img src="images/15-jit-xray.png" alt="xray"></p>
-<p><code>bench</code> runs a quote with the JIT off and then on and shows both times. On a recursive <code>fib</code>, it's about 80 ticks interpreted and 4 compiled, twenty times faster.</p>
+<p><code>bench</code> runs a quote with the JIT off and then on and shows both times. On a recursive <code>fib</code>, it&#x27;s about 80 ticks interpreted and 4 compiled, twenty times faster.</p>
 <p><img src="images/16-jit-bench.png" alt="bench"></p>
 <h2 id="what-it-generates">What it generates</h2>
 <p>The JIT makes call-threaded x86-64. Each item in a quote becomes either inline code or a call back into the interpreter, and a few registers are reserved while compiled code runs:</p>
@@ -131,23 +131,23 @@ addr len disr       disassemble a range of bytes
 </tr>
 </tbody>
 </table>
-<p>These words are inlined, each with a type check that falls back to the real built-in if the values aren't plain integers: <code>+ - * &amp; | xor</code>, the comparisons, and <code>dup over drop swap nip not neg</code>. <code>+</code>, <code>-</code>, <code>*</code> and <code>neg</code> also check the CPU's overflow flag, and on overflow they jump to the built-in, which makes a bignum. The result is computed in a register first and only stored once it's known to fit, so nothing on the stack is touched on the slow path. Literals are inlined. <code>if</code>, <code>when</code>, <code>unless</code>, <code>times</code>, <code>for</code> and <code>while</code> become real native jumps and loops when their quotes are written right there in the source, instead of coming off the stack. Everything else is a call back into the interpreter.</p>
-<p>So <code>fib</code> goes from about 80 ticks to 4, since it's all comparisons, arithmetic and an <code>if</code> with literal quotes, while a loop that spends its time in <code>say</code> speeds up a lot less, since <code>say</code> is still <code>say</code>.</p>
+<p>These words are inlined, each with a type check that falls back to the real built-in if the values aren&#x27;t plain integers: <code>+ - * &amp; | xor</code>, the comparisons, and <code>dup over drop swap nip not neg</code>. <code>+</code>, <code>-</code>, <code>*</code> and <code>neg</code> also check the CPU&#x27;s overflow flag, and on overflow they jump to the built-in, which makes a bignum. The result is computed in a register first and only stored once it&#x27;s known to fit, so nothing on the stack is touched on the slow path. Literals are inlined. <code>if</code>, <code>when</code>, <code>unless</code>, <code>times</code>, <code>for</code> and <code>while</code> become real native jumps and loops when their quotes are written right there in the source, instead of coming off the stack. Everything else is a call back into the interpreter.</p>
+<p>So <code>fib</code> goes from about 80 ticks to 4, since it&#x27;s all comparisons, arithmetic and an <code>if</code> with literal quotes, while a loop that spends its time in <code>say</code> speeds up a lot less, since <code>say</code> is still <code>say</code>.</p>
 <p>Compiled loops still check for Ctrl-C and let the <a href="gc.html">garbage collector</a> run.</p>
 <h2 id="when-it-compiles">When it compiles</h2>
-<p>A quote counts how many times it's been run. On the second run it's compiled, and the code is attached to the quote. Quotes that can't be compiled are marked so it doesn't try again, and <code>compile</code> on one fails with <code>foo can't be compiled</code>.</p>
+<p>A quote counts how many times it&#x27;s been run. On the second run it&#x27;s compiled, and the code is attached to the quote. Quotes that can&#x27;t be compiled are marked so it doesn&#x27;t try again, and <code>compile</code> on one fails with <code>foo can&#x27;t be compiled</code>.</p>
 <h2 id="invalidation">Invalidation</h2>
-<p>Compiled code makes assumptions, mostly that <code>+</code> still means <code>+</code>. So every piece of code is stamped with <code>jit_version</code>, and that number goes up whenever a definition shadows a built-in or <a href="root.html">root</a> is rebuilt. Code with an old stamp isn't run again, and the quote is compiled again the next time it's run twice.</p>
-<p>Old code can't be freed straight away, because another <a href="tabs.html">tab</a> might be in the middle of running it. So it goes on a dead list of up to 512 entries, and an atomic <code>jit_running</code> counter tracks how many tasks are inside compiled code right now. The dead list is only swept when that counter is zero, which means nobody anywhere is in compiled code, and only then is the memory freed.</p>
+<p>Compiled code makes assumptions, mostly that <code>+</code> still means <code>+</code>. So every piece of code is stamped with <code>jit_version</code>, and that number goes up whenever a definition shadows a built-in or <a href="root.html">root</a> is rebuilt. Code with an old stamp isn&#x27;t run again, and the quote is compiled again the next time it&#x27;s run twice.</p>
+<p>Old code can&#x27;t be freed straight away, because another <a href="tabs.html">tab</a> might be in the middle of running it. So it goes on a dead list of up to 512 entries, and an atomic <code>jit_running</code> counter tracks how many tasks are inside compiled code right now. The dead list is only swept when that counter is zero, which means nobody anywhere is in compiled code, and only then is the memory freed.</p>
 <p>A root rebuild retires the code of every unit it replaced. A quote freed by the collector retires its code the same way.</p>
 <h2 id="turning-it-off">Turning it off</h2>
 <p><code>jit-off</code> makes everything run in the interpreter. Results are identical either way, so any difference in behaviour is a JIT bug. <a href="bugs.html">Report it</a> with the <code>xray</code> output.</p>
 <h2 id="mandel">mandel</h2>
-<p><code>mandel</code> is the best real program to watch it on, because its inner loop, <code>mb-iter</code>, is almost nothing but arithmetic. Try <code>'mb-iter xray</code> and <code>[ -32768 0 2816 40 mandel-at ] bench</code>.</p>
+<p><code>mandel</code> is the best real program to watch it on, because its inner loop, <code>mb-iter</code>, is almost nothing but arithmetic. Try <code>&#x27;mb-iter xray</code> and <code>[ -32768 0 2816 40 mandel-at ] bench</code>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

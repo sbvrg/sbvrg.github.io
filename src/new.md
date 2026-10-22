@@ -1,5 +1,19 @@
 # What's new
 
+## Subverge 0.9.3
+
+Subverge 0.9.3 comes with ordinal 1.0.3 and omega 1.0.3. Get it from the [releases page](https://github.com/texivi/Subverge/releases/tag/v0.9.3).
+
+### Text and windows in graphics mode
+
+`text` now draws in graphics mode, using the same arguments as in the text screen. The new `window` word draws a frame with a title bar:
+
+    gfx 40 40 300 160 "first" window "hello" 60 90 14 text key drop gfx-off
+
+![window](images/93-window.png)
+
+`window` takes `x y w h title --`. See [screen](screen.md).
+
 ## Subverge 0.9.2
 
 Subverge 0.9.2 comes with ordinal 1.0.2 and omega 1.0.2. Get it from the [releases page](https://github.com/texivi/Subverge/releases/tag/v0.9.2).

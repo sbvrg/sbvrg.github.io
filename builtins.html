@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,7 +79,7 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="writing-a-built-in">Writing a built-in</h1>
-<p>Most new words belong in a <a href="units.html">root unit</a>, written in omega, where they can be edited without rebuilding the kernel. A built-in is the right choice when the word needs hardware access that the existing words don't give, or when it has to be fast without relying on the <a href="jit.html">JIT</a>.</p>
+<p>Most new words belong in a <a href="units.html">root unit</a>, written in omega, where they can be edited without rebuilding the kernel. A built-in is the right choice when the word needs hardware access that the existing words don&#x27;t give, or when it has to be fast without relying on the <a href="jit.html">JIT</a>.</p>
 <h2 id="where-built-ins-live">Where built-ins live</h2>
 <p>Each C file that defines words ends with a table of name and function pairs, terminated by a null entry. At boot the kernel walks every table and stores each function on the interned name (<a href="values.html">values and objects</a>). Adding a word means writing a function and adding a line to the table of the file it belongs in:</p>
 <table>
@@ -120,7 +120,7 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 </tbody>
 </table>
-<p>A built-in takes no arguments and returns nothing. It works on the current tab's state through the <code>W</code> macro, which points at the running tab's interpreter.</p>
+<p>A built-in takes no arguments and returns nothing. It works on the current tab&#x27;s state through the <code>W</code> macro, which points at the running tab&#x27;s interpreter.</p>
 <h2 id="taking-arguments">Taking arguments</h2>
 <p>Arguments are popped from the stack with helpers that check their count and type and fail the line with a readable message:</p>
 <pre><code>static void b_double(void) {
@@ -129,20 +129,20 @@ document.querySelector(".mode").onclick = function () {
     push(I(n * 2));
 }
 </code></pre>
-<p><code>pop_int</code> fails with <code>double needs more values on the stack</code> when the stack is empty, <code>double needs a number</code> when the top isn't an integer, and <code>double needs a number that fits in 64 bits</code> for a bignum. <code>pop_str</code> does the same for strings. For other types, check the count with <code>need</code> and the tag with <code>want</code>.</p>
+<p><code>pop_int</code> fails with <code>double needs more values on the stack</code> when the stack is empty, <code>double needs a number</code> when the top isn&#x27;t an integer, and <code>double needs a number that fits in 64 bits</code> for a bignum. <code>pop_str</code> does the same for strings. For other types, check the count with <code>need</code> and the tag with <code>want</code>.</p>
 <p>Arguments come off in reverse order. A word with the stack effect <code>a b -- c</code> pops <code>b</code> first:</p>
 <pre><code>i64 a, b;
 if (!pop_int(&quot;w&quot;, &amp;b) || !pop_int(&quot;w&quot;, &amp;a)) return;
 </code></pre>
-<p>The word's name is passed to each helper only for the error message. Use the name the user types.</p>
+<p>The word&#x27;s name is passed to each helper only for the error message. Use the name the user types.</p>
 <h2 id="failing">Failing</h2>
-<p><code>fail(fmt, arg)</code> sets the tab's error flag and message. The format takes exactly one <code>%s</code>, so a message without an argument is written as <code>fail(&quot;that went wrong%s&quot;, &quot;&quot;)</code>. Only the first failure on a line is kept.</p>
+<p><code>fail(fmt, arg)</code> sets the tab&#x27;s error flag and message. The format takes exactly one <code>%s</code>, so a message without an argument is written as <code>fail(&quot;that went wrong%s&quot;, &quot;&quot;)</code>. Only the first failure on a line is kept.</p>
 <p>A built-in must return soon after failing. Nothing is unwound for it: the interpreter notices the flag after the built-in returns and stops. Anything the built-in already did outside the stack and dictionary, such as writing to a port, stays done (<a href="transactions.html">transactions</a>).</p>
 <p>Write messages the way the existing ones are written: lowercase, without a trailing full stop, and saying what is wrong in terms the user knows, such as <code>the tab number has to be 1 to 4</code>.</p>
 <h2 id="results">Results</h2>
 <p><code>push</code> takes a value cell. <code>I(n)</code> makes an integer, <code>S(str_new(p, len))</code> a string and <code>Q(quote_new(cells, n))</code> a quote, which is also how lists are returned. <code>push</code> checks for a full stack and does nothing once the line has failed, so a built-in can push several results without checking in between.</p>
 <h2 id="allocating">Allocating</h2>
-<p>Objects for omega values come from the tab's collected heap through the constructors above. They can fail when memory runs out, in which case they set the error and return null, and the built-in should return.</p>
+<p>Objects for omega values come from the tab&#x27;s collected heap through the constructors above. They can fail when memory runs out, in which case they set the error and return null, and the built-in should return.</p>
 <p>Memory that is not an omega value, such as a scratch buffer, comes from <code>kmalloc_try</code> and must be released with <code>kfree</code> before returning, including on every failure path. <code>kmalloc</code> without <code>_try</code> stops the machine with a panic when memory runs out, so it is only used where that is acceptable.</p>
 <h2 id="calling-back-into-omega">Calling back into omega</h2>
 <p>A built-in that runs a quote, as <code>times</code> and <code>map</code> do, must protect it from the <a href="gc.html">garbage collector</a>. Once the quote is popped, nothing else refers to it, and a collection while it runs would free it. Push it onto the keep stack before calling it and pop it afterwards:</p>
@@ -159,17 +159,17 @@ unkeep(1);
 irq_restore(f);
 </code></pre>
 <p>Keep these sections short, since the timer and keyboard wait for them.</p>
-<p>Long waits should yield instead of spinning. Set the tab's <code>wake_at</code> or <code>wait_key</code> and call <code>yield()</code> in a loop, as <code>sleep</code> and <code>waitkey</code> do, so that the <a href="scheduler.html">scheduler</a> skips the tab until there is a reason to run it.</p>
+<p>Long waits should yield instead of spinning. Set the tab&#x27;s <code>wake_at</code> or <code>wait_key</code> and call <code>yield()</code> in a loop, as <code>sleep</code> and <code>waitkey</code> do, so that the <a href="scheduler.html">scheduler</a> skips the tab until there is a reason to run it.</p>
 <h2 id="the-jit">The JIT</h2>
-<p>A built-in is called from compiled code the same way the interpreter calls it, so most built-ins need nothing special. If the new word should be inlined into compiled code, as <code>+</code> and <code>dup</code> are, it needs a case in the JIT's inliner, and it must still fall back to calling the built-in when the inline fast path doesn't apply (<a href="jit.html">JIT</a>).</p>
+<p>A built-in is called from compiled code the same way the interpreter calls it, so most built-ins need nothing special. If the new word should be inlined into compiled code, as <code>+</code> and <code>dup</code> are, it needs a case in the JIT&#x27;s inliner, and it must still fall back to calling the built-in when the inline fast path doesn&#x27;t apply (<a href="jit.html">JIT</a>).</p>
 <h2 id="documenting-it">Documenting it</h2>
-<p>Every built-in needs a <code>help</code> entry: its group, the stack effect, a description of at most 52 characters and an example that runs. The docs check, <code>printf '@docs\n' | build/host</code>, reports a word without an entry and an entry for a word that doesn't exist, and must print <code>0 problems</code> (<a href="testing.html">testing</a>). Add the word to the <a href="all-words.html">all words</a> page in the website repository as well.</p>
+<p>Every built-in needs a <code>help</code> entry: its group, the stack effect, a description of at most 52 characters and an example that runs. The docs check, <code>printf &#x27;@docs\n&#x27; | build/host</code>, reports a word without an entry and an entry for a word that doesn&#x27;t exist, and must print <code>0 problems</code> (<a href="testing.html">testing</a>). Add the word to the <a href="all-words.html">all words</a> page in the website repository as well.</p>
 <h2 id="testing-it">Testing it</h2>
 <p>Run <code>make host</code> and try the word in the Linux build of the interpreter, then <code>make stress</code>, which collects garbage before every word and fills freed memory with <code>0xDD</code>, so a missing <code>keep</code> shows up at once. Finally boot it in QEMU with <code>make run</code>.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>

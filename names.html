@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792581363">
+<link rel="icon" type="image/png" href="logo.png?v=1792710629">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792581363">
+<link rel="stylesheet" href="style.css?v=1792710629">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792581363" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
 <nav>
 <div class="dd"><a href="features.html">About</a>
 <ul>
@@ -79,7 +79,7 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="names">Names</h1>
-<p>Every word you call is a name that omega looks up when the word runs. Names can be bound in four places: locals inside a running quote, your tab's definitions, root, and the built-in words written in C. The sections below cover how each kind is made and the order they are searched in.</p>
+<p>Every word you call is a name that omega looks up when the word runs. Names can be bound in four places: locals inside a running quote, your tab&#x27;s definitions, root, and the built-in words written in C. The sections below cover how each kind is made and the order they are searched in.</p>
 <h2 id="definitions">Definitions</h2>
 <pre><code>[ dup * ] :sq
 42 :answer
@@ -87,16 +87,16 @@ document.querySelector(".mode").onclick = function () {
 <p><code>:name</code> pops the top value and binds it to a name in your tab. Using the name runs the value if it is a quote and pushes it otherwise. Definitions belong to the <a href="tabs.html">tab</a> that made them and are part of its <a href="world.html">world</a>. For a word every tab can see, use <a href="root.html">root</a>.</p>
 <h2 id="symbols">Symbols</h2>
 <p>A leading quote mark turns a name into a value, which is how words that operate on other words receive them:</p>
-<pre><code>'sq see             the definition
-'sq help            the help entry
-'sq get             the quote itself
-'sq defined?        1 or 0
-&quot;sq&quot; &gt;sym get       same as 'sq get
+<pre><code>&#x27;sq see             the definition
+&#x27;sq help            the help entry
+&#x27;sq get             the quote itself
+&#x27;sq defined?        1 or 0
+&quot;sq&quot; &gt;sym get       same as &#x27;sq get
 </code></pre>
 <h2 id="lookup-order">Lookup order</h2>
 <ol>
 <li>bound locals</li>
-<li>your tab's definitions</li>
+<li>your tab&#x27;s definitions</li>
 <li>root</li>
 <li>built-in words</li>
 </ol>
@@ -114,15 +114,15 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="forgetting">Forgetting</h2>
 <pre><code>[ 2 ] :sq
 4 sq .              2
-'sq forget
-4 sq .              16, root's sq again
+&#x27;sq forget
+4 sq .              16, root&#x27;s sq again
 </code></pre>
-<p><code>forget</code> only removes definitions made in your tab, which uncovers whatever they shadowed. <code>'top forget</code> without a tab definition of <code>top</code> fails with <code>top isn't defined in this tab</code>. Root words are changed by editing <a href="root.html">root</a>.</p>
+<p><code>forget</code> only removes definitions made in your tab, which uncovers whatever they shadowed. <code>&#x27;top forget</code> without a tab definition of <code>top</code> fails with <code>top isn&#x27;t defined in this tab</code>. Root words are changed by editing <a href="root.html">root</a>.</p>
 <p><code>back</code> undoes a <code>forget</code> like any other line.</p>
 <h2 id="looking-at-definitions">Looking at definitions</h2>
-<p><code>see</code> prints a definition and marks root definitions with <code>(root)</code>. <code>words</code> lists your tab's definitions, and <code>src</code> returns the source of the root unit that defines a name.</p>
+<p><code>see</code> prints a definition and marks root definitions with <code>(root)</code>. <code>words</code> lists your tab&#x27;s definitions, and <code>src</code> returns the source of the root unit that defines a name.</p>
 <p><img src="images/64-see-words.png" alt="see and words"></p>
-<p><code>'name edit</code> edits a tab definition in <a href="scrawl.html">scrawl</a>. Root words use <code>'name open</code>.</p>
+<p><code>&#x27;name edit</code> edits a tab definition in <a href="scrawl.html">scrawl</a>. Root words use <code>&#x27;name open</code>.</p>
 <h2 id="locals">Locals</h2>
 <pre><code>[ { a b } a b - ] :diff
 9 4 diff            5
@@ -139,11 +139,11 @@ x .                 fails on the next line
 [ { n } shown ] :caller
 5 caller            prints 5
 </code></pre>
-<p><code>shown</code> never binds <code>n</code>, but it runs while <code>caller</code>'s binding is live. This lets a helper read its caller's state without passing it on the stack.</p>
-<p>Keep in mind that a callee can shadow your locals by binding the same name, and a word that reads a name it never bound silently gets the caller's value instead of failing. Bugs that only appear when a word is called from one particular place usually come from this, so check local names first when a word works at the prompt but not inside another word.</p>
+<p><code>shown</code> never binds <code>n</code>, but it runs while <code>caller</code>&#x27;s binding is live. This lets a helper read its caller&#x27;s state without passing it on the stack.</p>
+<p>Keep in mind that a callee can shadow your locals by binding the same name, and a word that reads a name it never bound silently gets the caller&#x27;s value instead of failing. Bugs that only appear when a word is called from one particular place usually come from this, so check local names first when a word works at the prompt but not inside another word.</p>
 <h2 id="allowed-names">Allowed names</h2>
-<p>A name is any token that isn't a number, string or bracket, so <code>km&gt;mi</code>, <code>quit-key?</code> and <code>&gt;hex</code> are all valid, and <code>2x</code> is a name while <code>2</code> is a number. <a href="units.html">Units</a> have stricter rules.</p>
-<p>Using an unbound name fails with <code>foo isn't defined</code> and undoes the line. The check happens when the word runs, not when it is defined, so a quote can mention a word that doesn't exist yet. Defining it later makes the quote work:</p>
+<p>A name is any token that isn&#x27;t a number, string or bracket, so <code>km&gt;mi</code>, <code>quit-key?</code> and <code>&gt;hex</code> are all valid, and <code>2x</code> is a name while <code>2</code> is a number. <a href="units.html">Units</a> have stricter rules.</p>
+<p>Using an unbound name fails with <code>foo isn&#x27;t defined</code> and undoes the line. The check happens when the word runs, not when it is defined, so a quote can mention a word that doesn&#x27;t exist yet. Defining it later makes the quote work:</p>
 <pre><code>[ helper 2 * ] :twice-helper
 [ 21 ] :helper
 twice-helper .      42
@@ -151,7 +151,7 @@ twice-helper .      42
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792581363" alt="">
+<img class="cat" src="mark-footer.png?v=1792710629" alt="">
 </footer>
 </body>
 </html>
