@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Design - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="design">Design</h1>
+<ul class="toc">
+<li><a href="#one-language">One language</a></li>
+<li><a href="#ring-0">Ring 0</a></li>
+<li><a href="#every-line-is-a-transaction">Every line is a transaction</a></li>
+<li><a href="#no-files">No files</a></li>
+<li><a href="#the-system-edits-itself">The system edits itself</a></li>
+<li><a href="#exact-numbers">Exact numbers</a></li>
+<li><a href="#small-enough-to-know">Small enough to know</a></li>
+<li><a href="#hardware-kept-simple">Hardware kept simple</a></li>
+</ul>
+<p>These are the rules the system is built to, and they are followed throughout. The exceptions are listed in <a href="decisions.html">decisions</a>.</p>
+<h2 id="one-language">One language</h2>
+<p>The shell, the utilities, the games, the installer and the lessons are all omega. The kernel is the only other layer. A command typed at the prompt becomes a program by putting <code>[ ]</code> around it and a name after it, and a program becomes part of the system by moving it into <a href="root.html">root</a>.</p>
+<h2 id="ring-0">Ring 0</h2>
+<p>All code runs in ring 0 and nothing is off limits. Memory, I/O ports, control registers and every instruction are available to a line typed at the prompt. A call into the kernel is a call to a function, so system calls are not needed. A bad write can stop the machine. In return the prompt reaches everything the hardware does, with no layers in between.</p>
+<p>Mistakes that stay inside omega, such as an error in a word or a wrong stack, are handled by the transaction rule below. Raw memory and port writes are the one place where the system leaves the consequences to the user.</p>
+<h2 id="every-line-is-a-transaction">Every line is a transaction</h2>
+<p>A line either completes or has no effect. This is what makes ring 0 comfortable at a prompt: a typo, a division by zero or an interrupted loop leaves the stack and the definitions as they were. Undo is built on the same mechanism. The world, which is the stack and the definitions of a shell, is a value that the kernel keeps copies of, 64 deep (<a href="world.html">world</a>, <a href="transactions.html">transactions</a>).</p>
+<h2 id="no-files">No files</h2>
+<p>Subverge has no processes, users, permissions or file paths. Everything you write is an omega word, kept in a shell or in root, and an installed disk stores those words as omega source in fixed slots. Because the saved form is source, a saved world is something you can read, and loading one is running it.</p>
+<h2 id="the-system-edits-itself">The system edits itself</h2>
+<p>Root is the part of the system that is written in omega, and it can be opened from the prompt with <code>&#x27;name open</code>. An edit is built before it is accepted, so an edit that doesn&#x27;t build changes nothing, and one that does build is in use at once in all four shells. Nothing needs to be restarted (<a href="units.html">units</a>, <a href="root-build.html">root build</a>).</p>
+<h2 id="exact-numbers">Exact numbers</h2>
+<p>An integer never wraps. Values that overflow 64 bits become bignums, and the compiled code does the same, so the interpreter and the JIT give the same answers. Infinite values are ordinary numbers with ordinary rules, which means the arithmetic of ordinals is part of the shell rather than a library.</p>
+<h2 id="small-enough-to-know">Small enough to know</h2>
+<p>The whole system, kernel and omega programs, is about ten thousand lines. The pages under <a href="smarties.html">for smarties</a> explain each part of the kernel in the order it runs.</p>
+<h2 id="hardware-kept-simple">Hardware kept simple</h2>
+<p>Subverge uses the PC hardware that every emulator provides: the PIT and PIC for time and interrupts, a PS/2 keyboard and mouse, IDE disks through legacy ports, and a VGA display with an optional Bochs graphics mode. Each kind of device has one driver. Planned additions, such as USB, AHCI and networking, are on the <a href="roadmap.html">roadmap</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

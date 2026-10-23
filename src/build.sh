@@ -24,6 +24,27 @@ page() {
         print "<h" m[1] " id=\"" id "\">" m[2] "</h" m[1] ">"; next
       }
       { print }' > "$S/.body"
+  # contents list from the headings
+  if [ "$tpl" = template ] && [ "$(grep -c '^<h[23] id=' "$S/.body")" -ge 4 ]; then
+    gawk '
+      { line[NR] = $0 }
+      END {
+        for (i = 1; i <= NR; i++) if (match(line[i], /^<h([23]) id="([^"]*)">(.*)<\/h[23]>$/, m)) {
+          n++; lv[n] = m[1]; id[n] = m[2]; tx[n] = m[3]; gsub(/<\/?a[^>]*>/, "", tx[n])
+        }
+        done = 0
+        for (i = 1; i <= NR; i++) {
+          print line[i]
+          if (!done && line[i] ~ /^<h1/) {
+            done = 1
+            print "<ul class=\"toc\">"
+            for (k = 1; k <= n; k++)
+              printf "<li%s><a href=\"#%s\">%s</a></li>\n", (lv[k] == 3 ? " class=\"sub\"" : ""), id[k], tx[k]
+            print "</ul>"
+          }
+        }
+      }' "$S/.body" > "$S/.body2" && mv "$S/.body2" "$S/.body"
+  fi
   awk -v t="$title" -v v="$V" -v d="$D" -v b="$S/.body" -v h="$SRC/header.html" -v f="$SRC/footer.html" '
     function inc(p,  l) { while ((getline l < p) > 0) sub_print(l); close(p) }
     function sub_print(l) { gsub(/@TITLE@/, t, l); gsub(/@VER@/, v, l); gsub(/@DATE@/, d, l); print l }

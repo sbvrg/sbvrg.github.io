@@ -55,6 +55,8 @@ to see local time.
 
 Click into the QEMU window to give it the keyboard. Ctrl-Alt-G releases the keyboard and mouse again. F1 to F4 switch Subverge's tabs, and the keys that QEMU itself grabs, such as Ctrl-Alt-1 and Ctrl-Alt-2 for its monitor, never reach Subverge.
 
+Subverge reads the PS/2 mouse that QEMU provides by default. The pointer follows the host mouse after the first click in the window ([mouse](mouse.md)).
+
 Subverge uses a US layout. On other host layouts some symbols are on different keys than printed, since QEMU passes on key positions.
 
 ## Screenshots

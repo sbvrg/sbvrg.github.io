@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uncountable sets - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Uncountable sets - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="uncountable-sets">Uncountable sets</h1>
+<ul class="toc">
+<li><a href="#the-diagonal-argument">The diagonal argument</a></li>
+<li><a href="#subsets">Subsets</a></li>
+<li><a href="#the-continuum">The continuum</a></li>
+<li><a href="#between--and-the-continuum">Between ℵ₀ and the continuum</a></li>
+<li><a href="#programs-and-numbers">Programs and numbers</a></li>
+</ul>
+<p>Some sets can&#x27;t be paired off with the natural numbers, however the pairing is chosen. Such a set is uncountable, and its size is larger than <a href="aleph-null.html">ℵ₀</a>. This page gives Cantor&#x27;s argument for the real numbers and for the subsets of a set, and names the words that act it out.</p>
+<h2 id="the-diagonal-argument">The diagonal argument</h2>
+<p>Take any list of real numbers between 0 and 1, written as infinite decimals, one at each position 0, 1, 2 and so on:</p>
+<pre><code class="language-text">0   0.5 1 4 1 5 ...
+1   0.3 3 3 3 3 ...
+2   0.7 1 8 2 8 ...
+3   0.2 5 0 0 0 ...
+</code></pre>
+<p>Build a new number from the digits on the diagonal: digit 0 of row 0, digit 1 of row 1, and so on. They are 5, 3, 8, 0. Give the new number digit k equal to 1 when the diagonal digit k is not 1, and 2 when it is. Here that gives 0.1 1 1 1 ... The rule gives a digit that differs from the diagonal digit at every place, and it never uses 0 or 9, so the number has only one decimal expansion.</p>
+<p>The new number is between 0 and 1. It is not at position 0, because its digit 0 differs from the digit 0 of row 0. It is not at position 1, because its digit 1 differs from the digit 1 of row 1. For every position k it differs from the number there at digit k, so it is nowhere in the list.</p>
+<p>Every list of real numbers therefore misses at least one real number. A list is what a pairing with the natural numbers gives, so no pairing reaches all of the real numbers. <code>diagonal</code> draws a table of digits and flips the diagonal on screen (<a href="demos.html">demos</a>):</p>
+<pre><code>diagonal
+</code></pre>
+<h2 id="subsets">Subsets</h2>
+<p>The argument works for any set. A subset of the natural numbers can be written as a row of yes and no, with one place for each natural number. A list of subsets is a table of yes and no. The subset that says no where the diagonal says yes, and yes where it says no, is not in the table.</p>
+<p>For a finite set the number of subsets is 2 to the power of the size of the set:</p>
+<pre><code>[ 1 2 3 ] powerset .
+[ 1 2 3 ] powerset len .        8
+[ 1 2 3 4 ] powerset len .      16
+</code></pre>
+<p>Each new member doubles the number of subsets, since every old subset can be taken with or without it. For the natural numbers the same count gives 2^ℵ₀, and the diagonal argument shows that it is larger than ℵ₀.</p>
+<pre><code>2 aleph0 ^ .            2^ℵ₀
+aleph0 2 aleph0 ^ &lt; .   1
+</code></pre>
+<p>Cantor&#x27;s theorem is the general form: for every set, the set of its subsets is larger than the set. It applies to the subsets of the subsets too, so no size is the largest. ℵ₀ &lt; 2^ℵ₀ &lt; 2^(2^ℵ₀), and so on.</p>
+<h2 id="the-continuum">The continuum</h2>
+<p>The real numbers can be paired off with the subsets of the natural numbers, so the real numbers have the size 2^ℵ₀. That size is the continuum, and <code>continuum</code> is the word for it.</p>
+<pre><code>2 aleph0 ^ continuum = .        1
+</code></pre>
+<p>The interval from 0 to 1, a line, a square and a cube all have the size of the continuum.</p>
+<h2 id="between--and-the-continuum">Between ℵ₀ and the continuum</h2>
+<p>ℵ₁ is the size right after ℵ₀. The continuum hypothesis says that 2^ℵ₀ is ℵ₁, so that no set has a size strictly between the natural numbers and the real numbers. The usual axioms of set theory, ZFC, can neither prove nor disprove it. omega leaves the comparison without a result:</p>
+<pre><code>aleph1 continuum =
+</code></pre>
+<p>fails with <code>ZFC can&#x27;t decide this one</code>. Comparisons that come out the same under both answers still work, such as <code>aleph1 continuum &lt;=</code>, which is <code>1</code> (<a href="cardinals.html">cardinals</a>).</p>
+<h2 id="programs-and-numbers">Programs and numbers</h2>
+<p>There are ℵ₀ texts, so there are ℵ₀ omega programs (<a href="countable-sets.html">countable-sets</a>). A real number that a program can print digit by digit is a number that has a finite description. Most real numbers have none, since 2^ℵ₀ is larger than ℵ₀. The numbers π, e and √2 have programs, and nearly all other numbers in the interval do not.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

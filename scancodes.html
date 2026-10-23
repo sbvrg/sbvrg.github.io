@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scancodes - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Scancodes - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="scancodes">Scancodes</h1>
+<p>The keyboard sends scancodes of set 1. This page lists the ones that Subverge reads. A release is the same code with bit 7 set, and the handler ignores releases of every key except the modifiers.</p>
+<h2 id="the-main-block">The main block</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Key</th>
+<th>Code</th>
+<th>Key</th>
+<th>Code</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Esc</td>
+<td>0x10</td>
+<td>Q</td>
+<td>0x1E</td>
+<td>A</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>1</td>
+<td>0x11</td>
+<td>W</td>
+<td>0x1F</td>
+<td>S</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>2</td>
+<td>0x12</td>
+<td>E</td>
+<td>0x20</td>
+<td>D</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>3</td>
+<td>0x13</td>
+<td>R</td>
+<td>0x21</td>
+<td>F</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>4</td>
+<td>0x14</td>
+<td>T</td>
+<td>0x22</td>
+<td>G</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>5</td>
+<td>0x15</td>
+<td>Y</td>
+<td>0x23</td>
+<td>H</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>6</td>
+<td>0x16</td>
+<td>U</td>
+<td>0x24</td>
+<td>J</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>7</td>
+<td>0x17</td>
+<td>I</td>
+<td>0x25</td>
+<td>K</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>8</td>
+<td>0x18</td>
+<td>O</td>
+<td>0x26</td>
+<td>L</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>9</td>
+<td>0x19</td>
+<td>P</td>
+<td>0x27</td>
+<td>;</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>0</td>
+<td>0x1A</td>
+<td>[</td>
+<td>0x28</td>
+<td>&#x27;</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>-</td>
+<td>0x1B</td>
+<td>]</td>
+<td>0x29</td>
+<td>`</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>=</td>
+<td>0x1C</td>
+<td>Enter</td>
+<td>0x2B</td>
+<td>\</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Backspace</td>
+<td>0x1D</td>
+<td>Ctrl</td>
+<td>0x2A</td>
+<td>left Shift</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>Tab</td>
+<td></td>
+<td></td>
+<td>0x36</td>
+<td>right Shift</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Key</th>
+<th>Code</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x2C</td>
+<td>Z</td>
+<td>0x32</td>
+<td>M</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>X</td>
+<td>0x33</td>
+<td>,</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>C</td>
+<td>0x34</td>
+<td>.</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>V</td>
+<td>0x35</td>
+<td>/</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>B</td>
+<td>0x38</td>
+<td>Alt</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>N</td>
+<td>0x39</td>
+<td>Space</td>
+</tr>
+</tbody>
+</table>
+<h2 id="function-keys-and-the-pad">Function keys and the pad</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x3B to 0x44</td>
+<td>F1 to F10</td>
+</tr>
+<tr>
+<td>0x57, 0x58</td>
+<td>F11, F12</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>Caps Lock</td>
+</tr>
+<tr>
+<td>0x45, 0x46</td>
+<td>Num Lock, Scroll Lock</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>Home</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>Up</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Page Up</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>Left</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>Right</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>End</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Down</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>Page Down</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Insert</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Delete</td>
+</tr>
+</tbody>
+</table>
+<p>The cursor block has the same codes as the pad. When the keys are on the cursor block, an <code>0xE0</code> comes first, and the handler uses the prefix only to tell the pad&#x27;s Enter from the main one. The Windows key sends <code>0xE0</code> and <code>0x5B</code>.</p>
+<h2 id="translation">Translation</h2>
+<p>A key that is not one of the tab keys is translated with the US layout, with Shift and Caps Lock applied. Ctrl with a letter gives the control code, so Ctrl-A is 1 and Ctrl-Z is 26.</p>
+<p>See <a href="keyboard.html">keyboard</a> for the codes that programs see and <a href="ps2.html">ps2</a> for the controller.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

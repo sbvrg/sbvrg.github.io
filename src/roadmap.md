@@ -1,5 +1,11 @@
 # Roadmap
 
+## Subverge 0.9.4
+
+- [x] The help pages inside the system, read with `docs` and `doc`
+- [x] A PS/2 mouse on the text screen, with `mouse` and `mouse?`
+- [x] `scribble`, and the infinity words `hotel`, `rationals`, `ulam`, `pair` and `unpair`
+
 ## Subverge 0.9.3
 
 - [x] `text` draws in [graphics mode](screen.md)

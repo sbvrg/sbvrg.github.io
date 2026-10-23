@@ -10,67 +10,36 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792710629">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792710629">
+<link rel="stylesheet" href="style.css?v=1792754253">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
-<div class="dd"><a href="features.html">About</a>
-<ul>
-<li><a href="features.html">Features</a></li>
-<li><a href="new.html">What's new</a></li>
-<li><a href="learn.html">Learn</a></li>
-<li><a href="roadmap.html">Roadmap</a></li>
-<li><a href="expectations.html">Expectations</a></li>
-<li><a href="history.html">History</a></li>
-</ul></div>
-<div class="dd"><a href="installation.html">Get Subverge</a>
-<ul>
-<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="qemu.html">QEMU</a></li>
-<li><a href="hardware.html">Hardware</a></li>
-<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
-</ul></div>
-<div class="dd"><a href="handbook.html">Documentation</a>
-<ul>
-<li><a href="handbook.html">Handbook</a></li>
-<li><a href="readme.html">README</a></li>
-<li><a href="first-steps.html">First steps</a></li>
-<li><a href="programming.html">Writing programs</a></li>
-<li><a href="snippets.html">Snippets</a></li>
-<li><a href="omega.html">omega</a></li>
-<li><a href="smarties.html">For smarties</a></li>
-<li><a href="all-words.html">All words</a></li>
-</ul></div>
-<div class="dd"><a href="faq.html">Support</a>
-<ul>
-<li><a href="faq.html">FAQ</a></li>
-<li><a href="troubleshooting.html">Troubleshooting</a></li>
-<li><a href="errors.html">Errors</a></li>
-<li><a href="bugs.html">Reporting bugs</a></li>
-</ul></div>
-<div class="dd"><a href="development.html">Developers</a>
-<ul>
-<li><a href="development.html">Building</a></li>
-<li><a href="testing.html">Testing</a></li>
-<li><a href="source-layout.html">Source layout</a></li>
-<li><a href="builtins.html">Writing a built-in</a></li>
-<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
-</ul></div>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
 </nav>
-<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
 <button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
 </div>
 </header>
 <script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
 document.querySelector(".mode").onclick = function () {
   var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   d.dataset.theme = dark ? "light" : "dark";
@@ -79,6 +48,30 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="all-words">All words</h1>
+<ul class="toc">
+<li><a href="#syntax">syntax</a></li>
+<li><a href="#stack">stack</a></li>
+<li><a href="#math">math</a></li>
+<li><a href="#logic">logic</a></li>
+<li><a href="#flow">flow</a></li>
+<li><a href="#lists">lists</a></li>
+<li><a href="#text">text</a></li>
+<li><a href="#io">io</a></li>
+<li><a href="#names">names</a></li>
+<li><a href="#world">world</a></li>
+<li><a href="#infinity">infinity</a></li>
+<li><a href="#memory">memory</a></li>
+<li><a href="#ports">ports</a></li>
+<li><a href="#time">time</a></li>
+<li><a href="#screen">screen</a></li>
+<li><a href="#machine">machine</a></li>
+<li><a href="#dev">dev</a></li>
+<li><a href="#tools">tools</a></li>
+<li><a href="#demos">demos</a></li>
+<li><a href="#games">games</a></li>
+<li><a href="#util">util</a></li>
+<li><a href="#helpers">helpers</a></li>
+</ul>
 <p>These are the words <code>help</code> lists, grouped as <code>help</code> groups them. In each stack effect the top of the stack is on the right.</p>
 <h2 id="syntax">syntax</h2>
 <p>How code is written.</p>
@@ -1357,6 +1350,30 @@ document.querySelector(".mode").onclick = function () {
 <td><code>logo@ say</code></td>
 </tr>
 <tr>
+<td><code>mouse</code></td>
+<td><code>-- x y buttons</code></td>
+<td>Where the pointer is, and 1 left, 2 right, 4 middle.</td>
+<td><code>mouse</code></td>
+</tr>
+<tr>
+<td><code>mouse?</code></td>
+<td><code>-- 1|0</code></td>
+<td>1 when a mouse was found.</td>
+<td><code>mouse?</code></td>
+</tr>
+<tr>
+<td><code>doc</code></td>
+<td><code>s --</code></td>
+<td>Opens a help page. Q leaves.</td>
+<td><code>&quot;prompt&quot; doc</code></td>
+</tr>
+<tr>
+<td><code>docs</code></td>
+<td><code>--</code></td>
+<td>Opens the index of help pages.</td>
+<td><code>docs</code></td>
+</tr>
+<tr>
 <td><code>rgb</code></td>
 <td><code>n r g b --</code></td>
 <td>Sets colour n to red, green, blue 0 to 255.</td>
@@ -1755,6 +1772,66 @@ document.querySelector(".mode").onclick = function () {
 <td><code>pairing</code></td>
 </tr>
 <tr>
+<td><code>hotel</code></td>
+<td><code>--</code></td>
+<td>A full hotel takes guests, then infinite buses.</td>
+<td><code>hotel</code></td>
+</tr>
+<tr>
+<td><code>rationals</code></td>
+<td><code>--</code></td>
+<td>Every positive fraction gets a number.</td>
+<td><code>rationals</code></td>
+</tr>
+<tr>
+<td><code>pair</code></td>
+<td><code>a b -- n</code></td>
+<td>Cantor pairing: two numbers into one number.</td>
+<td><code>3 4 pair</code></td>
+</tr>
+<tr>
+<td><code>unpair</code></td>
+<td><code>n -- a b</code></td>
+<td>Undoes pair.</td>
+<td><code>32 unpair</code></td>
+</tr>
+<tr>
+<td><code>fusc</code></td>
+<td><code>n -- f</code></td>
+<td>Stern&#x27;s diatomic sequence.</td>
+<td><code>5 fusc</code></td>
+</tr>
+<tr>
+<td><code>rational</code></td>
+<td><code>n -- p q</code></td>
+<td>The n-th positive fraction in Calkin-Wilf order.</td>
+<td><code>7 rational</code></td>
+</tr>
+<tr>
+<td><code>collatz</code></td>
+<td><code>n -- steps</code></td>
+<td>Steps for n to reach 1 by halving or 3n+1.</td>
+<td><code>27 collatz</code></td>
+</tr>
+<tr>
+<td><code>thue</code></td>
+<td><code>n -- bit</code></td>
+<td>Parity of the 1 bits of n.</td>
+<td><code>0 16 range [ thue ] map</code></td>
+</tr>
+<tr>
+<td><code>prime?</code></td>
+<td><code>n -- flag</code></td>
+<td>1 when n is prime.</td>
+<td><code>97 prime?</code></td>
+</tr>
+<tr>
+<td><code>ulam</code></td>
+<td><code>--</code></td>
+<td>Primes laid out on a square spiral.</td>
+<td><code>ulam</code></td>
+</tr>
+<tr>
 <td><code>diagonal</code></td>
 <td><code>--</code></td>
 <td>Cantor&#x27;s proof the reals can&#x27;t be listed.</td>
@@ -1797,6 +1874,12 @@ document.querySelector(".mode").onclick = function () {
 <td><code>--</code></td>
 <td>Arrow keys steer, q quits.</td>
 <td><code>snake</code></td>
+</tr>
+<tr>
+<td><code>scribble</code></td>
+<td><code>--</code></td>
+<td>Draws with the mouse. Q leaves.</td>
+<td><code>scribble</code></td>
 </tr>
 <tr>
 <td><code>life</code></td>
@@ -1963,6 +2046,12 @@ document.querySelector(".mode").onclick = function () {
 <td><code>-- list</code></td>
 <td>The lessons that learn walks through.</td>
 <td><code>lessons len</code></td>
+</tr>
+<tr>
+<td><code>scribble-hint</code></td>
+<td><code>--</code></td>
+<td>Prints the keys line of scribble.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>app-list</code></td>
@@ -2317,7 +2406,10 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792710629" alt="">
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
 </footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
 </body>
 </html>

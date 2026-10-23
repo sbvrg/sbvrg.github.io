@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The hotel - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="The hotel - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="the-hotel">The hotel</h1>
+<ul class="toc">
+<li><a href="#a-full-hotel">A full hotel</a></li>
+<li><a href="#infinitely-many-new-guests">Infinitely many new guests</a></li>
+<li><a href="#infinitely-many-buses">Infinitely many buses</a></li>
+<li><a href="#where-it-stops">Where it stops</a></li>
+<li><a href="#the-hotel-and-ordinals">The hotel and ordinals</a></li>
+</ul>
+<p>Hilbert&#x27;s hotel has a room for every positive whole number: room 1, room 2, room 3, and so on without end. This page uses it to show how the sizes in <a href="aleph-null.html">aleph-null</a> behave when a set that is already full takes in more members. <code>hotel</code> prints the first rows of the first and the last step (<a href="demos.html">demos</a>).</p>
+<pre><code>hotel
+</code></pre>
+<h2 id="a-full-hotel">A full hotel</h2>
+<p>Every room has a guest. In an ordinary hotel a new guest would be turned away. Here the guest in room n moves to room n+1, for every n at once. Room 1 is empty afterwards and every old guest still has a room, since n+1 is a room whenever n is. The new guest gets room 1.</p>
+<pre><code class="language-text">guest   before   after
+1       1        2
+2       2        3
+3       3        4
+</code></pre>
+<p>This is the pairing of the rooms with the rooms from 2 up, and it is the reason <code>aleph0 1 +</code> is <code>aleph0</code>. A set that is full can take one more member and keep its size.</p>
+<p>For k new guests, every guest moves from room n to room n+k, which leaves rooms 1 to k empty. Any whole number k works.</p>
+<h2 id="infinitely-many-new-guests">Infinitely many new guests</h2>
+<p>When infinitely many guests arrive, moving up by a fixed number doesn&#x27;t help. Moving every guest from room n to room 2n does. Every even room is taken by an old guest, and no old guest is without a room. All the odd rooms are empty, there are infinitely many of them, and the new guests take rooms 1, 3, 5 and so on.</p>
+<p>This is <code>aleph0 aleph0 +</code> being <code>aleph0</code>: two copies of the natural numbers side by side are as many as one.</p>
+<h2 id="infinitely-many-buses">Infinitely many buses</h2>
+<p>Infinitely many buses arrive, each with infinitely many seats, all taken. A guest is named by the bus b and the seat s, both counted from 0. Cantor&#x27;s pairing from <a href="countable-sets.html">countable-sets</a> turns each (b, s) into a number, and no two guests get the same one:</p>
+<pre><code>0 0 pair .              0
+0 1 pair .              2
+1 0 pair .              1
+2 1 pair .              7
+</code></pre>
+<p>In an empty hotel the guest from bus b and seat s takes room (b s pair) + 1. In a full hotel the old guests first move from room n to room 2n, which frees the odd rooms, and the guest from bus b and seat s takes room 2·(b s pair) + 1. Every odd room is used once.</p>
+<p>All of this is <code>aleph0 aleph0 *</code> being <code>aleph0</code>. <code>hotel</code> prints the first buses and seats of the empty case.</p>
+<p>The hotel stays countable, and its guests can be listed in the order of their rooms.</p>
+<h2 id="where-it-stops">Where it stops</h2>
+<p>A hotel with a room for every natural number has the size ℵ₀, and a set of the size 2^ℵ₀ doesn&#x27;t fit in it. If one guest came for each real number, no assignment of rooms would work, since the real numbers can&#x27;t be paired off with the room numbers (<a href="uncountable-sets.html">uncountable-sets</a>).</p>
+<h2 id="the-hotel-and-ordinals">The hotel and ordinals</h2>
+<p>The first move, from room n to room n+1, is the same operation as putting a new member in front of a list of positions. It shows the difference between <code>1 omega +</code> and <code>omega 1 +</code>:</p>
+<pre><code>1 omega + .             ω
+omega 1 + .             ω+1
+</code></pre>
+<p>A member put in front moves every other member one place up, and the result is again a list of the natural numbers, so it ends where they end. A member put after all of them has no room number among the natural numbers. It gets the position ω, the first position after every natural number. In position order ω+1 is larger than ω, and in size the two are the same.</p>
+<pre><code>1 omega + omega = .     1
+omega 1 + omega = .     0
+omega 1 + card .        ℵ₀
+</code></pre>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

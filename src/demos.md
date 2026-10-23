@@ -65,6 +65,34 @@ Each column pairs off with the naturals one to one and nothing is left over in e
 
 ![pairing](images/21-pairing.png)
 
+## hotel
+
+    hotel
+
+Hilbert's hotel. It lists the first guests of a full hotel moving up one room to make room 1 free, and then the first seats of infinitely many buses, each with the room that `pair` gives it. See [hilbert-hotel](hilbert-hotel.md).
+
+## rationals
+
+    rationals
+
+Prints the first fifteen positive fractions in Calkin-Wilf order with their positions. Every positive fraction occurs once, so the fractions are countable. See [countable-sets](countable-sets.md).
+
+## ulam
+
+    ulam
+
+Writes the numbers from 1 outwards on a square spiral and marks the primes. The marked cells fall on diagonal lines. Any key leaves. `prime?` is the test it uses:
+
+    97 prime? .             1
+    91 prime? .             0
+
+## collatz and thue
+
+    27 collatz .            111
+    0 16 range [ thue ] map .
+
+`n collatz` counts the steps that n takes to reach 1 when an even number is halved and an odd number becomes 3n+1. `n thue` is the parity of the 1 bits of n, and the values for 0, 1, 2 and so on are the Thue-Morse sequence 0 1 1 0 1 0 0 1.
+
 ## diagonal
 
     diagonal

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Subverge - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="About Subverge - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="about-subverge">About Subverge</h1>
+<p>Subverge is a hobby operating system developed in the open at github.com/texivi/Subverge. It is a radical and experimental system.</p>
+<p>Its kernel, <strong>ordinal</strong>, its shell, <strong>omega</strong>, and its editor, <strong>scrawl</strong>, are named after ordinals and writing. The word <em>subverge</em> is a coinage from <em>subvert</em> and <em>diverge</em>; the <a href="history.html">history</a> page has the details, the inspiration, and a list of releases.</p>
+<h2 id="what-the-system-consists-of">What the system consists of</h2>
+<p>The kernel is C and x86-64 assembly. The boot code for ISOs is GRUB, and installed disks boot through Subverge&#x27;s own master boot record and second stage (<a href="boot.html">boot</a>). Everything above the kernel is omega: the utilities, the games, the installer, the lessons of <code>learn</code> are source code in <a href="root.html">root</a>, kept in the kernel image and rebuilt when you edit them.</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ordinal</td>
+<td>memory, interrupts, the scheduler, drivers and the JIT</td>
+</tr>
+<tr>
+<td>help</td>
+<td>the pager for these pages and the PS/2 mouse driver</td>
+</tr>
+<tr>
+<td>omega</td>
+<td>the language: parser, interpreter, garbage collector, bignums, ordinals</td>
+</tr>
+<tr>
+<td>scrawl</td>
+<td>the text editor, used by <code>&#x27;name edit</code> and <code>&#x27;name open</code></td>
+</tr>
+<tr>
+<td>root</td>
+<td>the programs written in omega</td>
+</tr>
+<tr>
+<td>docs</td>
+<td>the pages you are reading, linked into the kernel (<a href="docfs.html">where the pages live</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-help-you-are-reading">The help you are reading</h2>
+<p>These pages are part of the system and are stored in the kernel image, so they match the build you are running and work on the live ISO. <code>docs</code> opens the index and <code>&quot;name&quot; doc</code> opens a page. The pager is in the kernel and reads a small dialect of markdown. It finds each page by name in a table that was built together with the kernel, and reads nothing from a disk.</p>
+<h2 id="credits">Credits</h2>
+<p>The <a href="credits.html">credits</a> page lists who and what made it.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

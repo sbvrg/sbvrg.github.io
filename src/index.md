@@ -4,6 +4,6 @@ Download [subverge.iso](https://github.com/texivi/Subverge/releases/latest/downl
 
 READ THE [README](readme.md) AND THE [EXPECTATIONS](expectations.md) FIRST. Then run `learn`, and only after that open an [issue](bugs.md).
 
-## Subverge 0.9.3
+## Subverge 0.9.4
 
-Subverge 0.9.3 is the current release. Get it from the [releases page](https://github.com/texivi/Subverge/releases), and see [what's new](new.md) for the changes.
+Subverge 0.9.4 is the current release. Get it from the [releases page](https://github.com/texivi/Subverge/releases), and see [what's new](new.md) for the changes.

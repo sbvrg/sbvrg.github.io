@@ -10,67 +10,36 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792710629">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792710629">
+<link rel="stylesheet" href="style.css?v=1792754253">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
-<div class="dd"><a href="features.html">About</a>
-<ul>
-<li><a href="features.html">Features</a></li>
-<li><a href="new.html">What's new</a></li>
-<li><a href="learn.html">Learn</a></li>
-<li><a href="roadmap.html">Roadmap</a></li>
-<li><a href="expectations.html">Expectations</a></li>
-<li><a href="history.html">History</a></li>
-</ul></div>
-<div class="dd"><a href="installation.html">Get Subverge</a>
-<ul>
-<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="qemu.html">QEMU</a></li>
-<li><a href="hardware.html">Hardware</a></li>
-<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
-</ul></div>
-<div class="dd"><a href="handbook.html">Documentation</a>
-<ul>
-<li><a href="handbook.html">Handbook</a></li>
-<li><a href="readme.html">README</a></li>
-<li><a href="first-steps.html">First steps</a></li>
-<li><a href="programming.html">Writing programs</a></li>
-<li><a href="snippets.html">Snippets</a></li>
-<li><a href="omega.html">omega</a></li>
-<li><a href="smarties.html">For smarties</a></li>
-<li><a href="all-words.html">All words</a></li>
-</ul></div>
-<div class="dd"><a href="faq.html">Support</a>
-<ul>
-<li><a href="faq.html">FAQ</a></li>
-<li><a href="troubleshooting.html">Troubleshooting</a></li>
-<li><a href="errors.html">Errors</a></li>
-<li><a href="bugs.html">Reporting bugs</a></li>
-</ul></div>
-<div class="dd"><a href="development.html">Developers</a>
-<ul>
-<li><a href="development.html">Building</a></li>
-<li><a href="testing.html">Testing</a></li>
-<li><a href="source-layout.html">Source layout</a></li>
-<li><a href="builtins.html">Writing a built-in</a></li>
-<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
-</ul></div>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
 </nav>
-<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
 <button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
 </div>
 </header>
 <script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
 document.querySelector(".mode").onclick = function () {
   var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   d.dataset.theme = dark ? "light" : "dark";
@@ -79,6 +48,44 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="faq">FAQ</h1>
+<ul class="toc">
+<li><a href="#general">General</a></li>
+<li class="sub"><a href="#is-subverge-a-linux-distribution">Is Subverge a Linux distribution?</a></li>
+<li class="sub"><a href="#is-it-a-templeos-fork">Is it a TempleOS fork?</a></li>
+<li class="sub"><a href="#why-is-it-called-subverge">Why is it called Subverge?</a></li>
+<li class="sub"><a href="#can-i-use-it-every-day">Can I use it every day?</a></li>
+<li class="sub"><a href="#is-there-a-roadmap">Is there a roadmap?</a></li>
+<li><a href="#running-it">Running it</a></li>
+<li class="sub"><a href="#does-it-run-on-real-hardware">Does it run on real hardware?</a></li>
+<li class="sub"><a href="#does-it-run-in-virtualbox-vmware-or-hyper-v">Does it run in VirtualBox, VMware or Hyper-V?</a></li>
+<li class="sub"><a href="#why-canx27t-it-see-my-disk">Why can&#x27;t it see my disk?</a></li>
+<li class="sub"><a href="#where-are-my-files">Where are my files?</a></li>
+<li class="sub"><a href="#why-was-my-work-lost-after-a-reboot">Why was my work lost after a reboot?</a></li>
+<li class="sub"><a href="#i-booted-the-new-iso-and-sys-still-shows-the-old-version">I booted the new ISO and sys still shows the old version</a></li>
+<li><a href="#the-system">The system</a></li>
+<li class="sub"><a href="#is-it-posix-compliant">Is it POSIX-compliant?</a></li>
+<li class="sub"><a href="#does-it-have-its-own-bootloader">Does it have its own bootloader?</a></li>
+<li class="sub"><a href="#why-does-everything-run-in-ring-0">Why does everything run in ring 0?</a></li>
+<li class="sub"><a href="#is-it-self-hosting">Is it self-hosting?</a></li>
+<li class="sub"><a href="#is-it-multi-user">Is it multi-user?</a></li>
+<li class="sub"><a href="#can-i-change-the-colours">Can I change the colours?</a></li>
+<li class="sub"><a href="#why-is-the-screen-so-small">Why is the screen so small?</a></li>
+<li class="sub"><a href="#does-it-have-networking-sound-or-a-gui">Does it have networking, sound or a GUI?</a></li>
+<li><a href="#the-language">The language</a></li>
+<li class="sub"><a href="#why-is-the-shell-a-programming-language">Why is the shell a programming language?</a></li>
+<li class="sub"><a href="#why-is-everything-written-backwards">Why is everything written backwards?</a></li>
+<li class="sub"><a href="#why-are-locals-dynamically-scoped">Why are locals dynamically scoped?</a></li>
+<li class="sub"><a href="#how-big-can-a-number-get">How big can a number get?</a></li>
+<li class="sub"><a href="#what-is-omega-the-value">What is omega, the value?</a></li>
+<li class="sub"><a href="#why-does-omega-1---fail">Why does omega 1 - fail?</a></li>
+<li class="sub"><a href="#why-did-my-whole-line-do-nothing">Why did my whole line do nothing?</a></li>
+<li class="sub"><a href="#how-do-i-undo-a-line">How do I undo a line?</a></li>
+<li class="sub"><a href="#how-do-i-stop-a-program-that-wonx27t-stop">How do I stop a program that won&#x27;t stop?</a></li>
+<li><a href="#the-project">The project</a></li>
+<li class="sub"><a href="#how-do-i-report-a-bug">How do I report a bug?</a></li>
+<li class="sub"><a href="#can-i-contribute">Can I contribute?</a></li>
+<li class="sub"><a href="#whatx27s-the-license">What&#x27;s the license?</a></li>
+</ul>
 <h2 id="general">General</h2>
 <h3 id="is-subverge-a-linux-distribution">Is Subverge a Linux distribution?</h3>
 <p>No. The kernel, ordinal, was written for Subverge, and so were the bootloader, the shell, the editor and every program. Subverge is <em>built</em> on Linux, with gcc and nasm, but none of Linux ends up in the ISO apart from GRUB, which only boots the live system.</p>
@@ -117,9 +124,11 @@ document.querySelector(".mode").onclick = function () {
 <h3 id="can-i-change-the-colours">Can I change the colours?</h3>
 <p>Yes. <code>themes</code> lists the themes and <code>&#x27;haelide theme</code> switches to one. <code>n r g b rgb</code> changes a single colour, and <code>logos</code> lists the logos <code>sys</code> can draw. See <a href="themes.html">themes</a> and <a href="logos.html">logos</a>.</p>
 <h3 id="why-is-the-screen-so-small">Why is the screen so small?</h3>
-<p>Subverge uses 80 by 25 VGA text mode, with the top row taken by the tab bar. <code>gfx</code> starts a 640 by 480 graphics mode, which can draw dots and boxes but not text yet. Text in graphics mode is on the <a href="roadmap.html">roadmap</a>. See <a href="screen.html">screen</a>.</p>
+<p>Subverge uses 80 by 25 VGA text mode, with the top row taken by the tab bar. <code>gfx</code> starts a 640 by 480 graphics mode, which can draw dots, boxes, text and titled window frames. See <a href="screen.html">screen</a>.</p>
 <h3 id="does-it-have-networking-sound-or-a-gui">Does it have networking, sound or a GUI?</h3>
-<p>Not yet. All three are on the <a href="roadmap.html">roadmap</a>.</p>
+<p>Sound: yes, through the PC speaker. <code>beep</code> plays a tone with a pitch and a length (<a href="ports.html">ports</a>). Anything beyond the speaker is on the <a href="roadmap.html">roadmap</a>.</p>
+<p>GUI: graphics mode draws dots, boxes, text and window frames, and a PS/2 mouse works on the text screen (<a href="mouse.html">mouse</a>). A desktop with windows is the goal of the next releases and is on the <a href="roadmap.html">roadmap</a>.</p>
+<p>Networking: not yet. It is on the <a href="roadmap.html">roadmap</a>.</p>
 <h2 id="the-language">The language</h2>
 <h3 id="why-is-the-shell-a-programming-language">Why is the shell a programming language?</h3>
 <p>So that a command and a program are the same thing. A line you type at the prompt can be put in a quote, given a name and saved, and it becomes a program. See <a href="omega.html">omega</a>.</p>
@@ -149,7 +158,10 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792710629" alt="">
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
 </footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
 </body>
 </html>

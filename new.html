@@ -10,67 +10,36 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792710629">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792710629">
+<link rel="stylesheet" href="style.css?v=1792754253">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
-<div class="dd"><a href="features.html">About</a>
-<ul>
-<li><a href="features.html">Features</a></li>
-<li><a href="new.html">What's new</a></li>
-<li><a href="learn.html">Learn</a></li>
-<li><a href="roadmap.html">Roadmap</a></li>
-<li><a href="expectations.html">Expectations</a></li>
-<li><a href="history.html">History</a></li>
-</ul></div>
-<div class="dd"><a href="installation.html">Get Subverge</a>
-<ul>
-<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="qemu.html">QEMU</a></li>
-<li><a href="hardware.html">Hardware</a></li>
-<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
-</ul></div>
-<div class="dd"><a href="handbook.html">Documentation</a>
-<ul>
-<li><a href="handbook.html">Handbook</a></li>
-<li><a href="readme.html">README</a></li>
-<li><a href="first-steps.html">First steps</a></li>
-<li><a href="programming.html">Writing programs</a></li>
-<li><a href="snippets.html">Snippets</a></li>
-<li><a href="omega.html">omega</a></li>
-<li><a href="smarties.html">For smarties</a></li>
-<li><a href="all-words.html">All words</a></li>
-</ul></div>
-<div class="dd"><a href="faq.html">Support</a>
-<ul>
-<li><a href="faq.html">FAQ</a></li>
-<li><a href="troubleshooting.html">Troubleshooting</a></li>
-<li><a href="errors.html">Errors</a></li>
-<li><a href="bugs.html">Reporting bugs</a></li>
-</ul></div>
-<div class="dd"><a href="development.html">Developers</a>
-<ul>
-<li><a href="development.html">Building</a></li>
-<li><a href="testing.html">Testing</a></li>
-<li><a href="source-layout.html">Source layout</a></li>
-<li><a href="builtins.html">Writing a built-in</a></li>
-<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
-</ul></div>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
 </nav>
-<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
 <button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
 </div>
 </header>
 <script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
 document.querySelector(".mode").onclick = function () {
   var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   d.dataset.theme = dark ? "light" : "dark";
@@ -79,6 +48,50 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="whatx27s-new">What&#x27;s new</h1>
+<ul class="toc">
+<li><a href="#subverge-094">Subverge 0.9.4</a></li>
+<li class="sub"><a href="#help-pages">Help pages</a></li>
+<li class="sub"><a href="#the-mouse">The mouse</a></li>
+<li class="sub"><a href="#infinity">Infinity</a></li>
+<li><a href="#subverge-093">Subverge 0.9.3</a></li>
+<li class="sub"><a href="#text-and-windows-in-graphics-mode">Text and windows in graphics mode</a></li>
+<li><a href="#subverge-092">Subverge 0.9.2</a></li>
+<li class="sub"><a href="#beep">beep</a></li>
+<li class="sub"><a href="#graphics-mode">Graphics mode</a></li>
+<li><a href="#subverge-091">Subverge 0.9.1</a></li>
+<li class="sub"><a href="#the-haelide-theme">The haelide theme</a></li>
+<li class="sub"><a href="#logos">Logos</a></li>
+<li class="sub"><a href="#type">type</a></li>
+<li class="sub"><a href="#fail">fail</a></li>
+<li class="sub"><a href="#fixes">Fixes</a></li>
+<li class="sub"><a href="#upgrading-from-090">Upgrading from 0.9.0</a></li>
+</ul>
+<h2 id="subverge-094">Subverge 0.9.4</h2>
+<p>Subverge 0.9.4 comes with ordinal 1.0.4 and omega 1.0.4. Get it from the <a href="https://github.com/texivi/Subverge/releases/tag/v0.9.4">releases page</a>.</p>
+<h3 id="help-pages">Help pages</h3>
+<p>The help pages are inside the system now. <code>docs</code> opens the index and <code>&quot;name&quot; doc</code> opens one page:</p>
+<pre><code>docs
+&quot;first-steps&quot; doc
+</code></pre>
+<p><img src="images/94-docs.png" alt="the help pages"></p>
+<p>Tab selects the next link, Enter follows it, Backspace goes back and <code>q</code> leaves. A line of code in a page can be selected and run: Enter closes the viewer and runs the line at the prompt. Every word has a page with its stack effect and an example, reached from a link in a page or from the <a href="all-words.html">index of words</a>.</p>
+<p><img src="images/94-word.png" alt="the page of a word"></p>
+<p>The pages are the ones in this documentation, among them <a href="keys.html">keys</a>, <a href="cmdline.html">cmdline</a>, <a href="aleph-null.html">aleph-null</a> and <a href="quirks.html">quirks</a>. See <a href="help.html">help</a>.</p>
+<h3 id="the-mouse">The mouse</h3>
+<p>A PS/2 mouse works on the text screen. The pointer is one inverted cell. A click on a tab title in the top bar switches tab, and in the help pages a click follows a link, the wheel scrolls and the right button goes back. <code>mouse</code> leaves the pointer cell and the buttons, and <code>mouse?</code> is 1 when a mouse was found:</p>
+<pre><code>mouse? .
+mouse . . .
+</code></pre>
+<p><code>scribble</code> draws with the mouse: the left button draws, the right button erases, 1 to 9 pick a colour and <code>q</code> leaves.</p>
+<p><img src="images/94-scribble.png" alt="scribble"></p>
+<p>See <a href="mouse.html">mouse</a> and <a href="ps2.html">ps2</a>. QEMU gives the mouse to the guest after the first click in its window, and Ctrl-Alt-G takes it back.</p>
+<h3 id="infinity">Infinity</h3>
+<p><code>hotel</code> shows Hilbert&#x27;s hotel, <code>rationals</code> lists the positive fractions, and <code>ulam</code> marks the primes on a square spiral. <code>pair</code> and <code>unpair</code> number the pairs of naturals, <code>rational</code> gives the n-th positive fraction, <code>fusc</code>, <code>collatz</code>, <code>thue</code> and <code>prime?</code> are small helpers:</p>
+<pre><code>3 4 pair . 32 unpair . .
+7 rational . .
+27 collatz .
+</code></pre>
+<p><code>learn</code> has new lessons for them, and new pages explain the ideas: <a href="aleph-null.html">aleph-null</a>, <a href="countable-sets.html">countable sets</a>, <a href="hilbert-hotel.html">the hotel</a> and <a href="uncountable-sets.html">uncountable sets</a>. See <a href="demos.html">demos</a>.</p>
 <h2 id="subverge-093">Subverge 0.9.3</h2>
 <p>Subverge 0.9.3 comes with ordinal 1.0.3 and omega 1.0.3. Get it from the <a href="https://github.com/texivi/Subverge/releases/tag/v0.9.3">releases page</a>.</p>
 <h3 id="text-and-windows-in-graphics-mode">Text and windows in graphics mode</h3>
@@ -138,7 +151,10 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792710629" alt="">
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
 </footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
 </body>
 </html>

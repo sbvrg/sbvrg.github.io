@@ -4,7 +4,7 @@ Subverge has four tabs. Each is a complete omega session with its own stack, def
 
 ## Switching
 
-F1 to F4 switch to tabs 1 to 4, and so do Alt-1 to Alt-4. The switch happens inside the keyboard interrupt, so it works even while every tab is busy, and it is the way out of a program that doesn't respond to Ctrl-C.
+F1 to F4 switch to tabs 1 to 4, and so do Alt-1 to Alt-4. A click on a tab title in the top bar does the same when a PS/2 mouse is present ([mouse](mouse.md)). The switch happens inside the keyboard interrupt, so it works even while every tab is busy, and it is the way out of a program that doesn't respond to Ctrl-C.
 
 The screen shows one tab at a time. Switching copies the chosen tab's screen to the display, so you see it exactly as it was left, including output it printed while it was hidden.
 

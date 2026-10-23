@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Command Line Overview - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Command Line Overview - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="command-line-overview">Command Line Overview</h1>
+<ul class="toc">
+<li><a href="#looking-for-a-word">Looking for a word</a></li>
+<li><a href="#undoing">Undoing</a></li>
+<li><a href="#definitions">Definitions</a></li>
+<li><a href="#code-that-spans-lines">Code that spans lines</a></li>
+<li><a href="#running-things">Running things</a></li>
+<li><a href="#stopping">Stopping</a></li>
+<li><a href="#more">More</a></li>
+</ul>
+<p>The prompt feeds a line at a time to the omega compiler. A line that is not inside a definition runs as soon as you press Enter, and no main is needed. Definitions go into the shell&#x27;s <a href="world.html">world</a> and stay until you remove them.</p>
+<pre><code>2 3 + .
+</code></pre>
+<p>Words follow their arguments, so <code>+</code> comes after the numbers it adds. The stack is printed in grey before the <code>»</code>, which shows what the next word will see:</p>
+<pre><code>5 »
+</code></pre>
+<p>A bare name runs it:</p>
+<pre><code>sys
+top
+</code></pre>
+<p>A quoted name, <code>&#x27;sq</code>, passes the name without running it. Words that work on names take them that way:</p>
+<pre><code>&#x27;sq see
+&#x27;sq help
+&#x27;sq open
+</code></pre>
+<p><code>see</code> prints the source of a definition, <code>help</code> shows its page and <code>open</code> edits it in <a href="scrawl.html">scrawl</a>. The page for a word is in the <a href="words.html">index of words</a>.</p>
+<h2 id="looking-for-a-word">Looking for a word</h2>
+<pre><code>&quot;sort&quot; apropos
+</code></pre>
+<p>lists every word whose name or description mentions <code>sort</code>. Tab completes a name (<a href="prompt.html">prompt</a>),. <code>words</code> lists what you have defined in the shell, and <code>root</code> lists the programs that come with the system.</p>
+<h2 id="undoing">Undoing</h2>
+<p>A line that fails changes nothing. A line that worked can be undone:</p>
+<pre><code>1 2 3
+back
+redo
+</code></pre>
+<p><code>back</code> undoes the last line and <code>redo</code> undoes the <code>back</code>, up to 64 lines each way (<a href="back.html">back</a>, <a href="transactions.html">transactions</a>).</p>
+<h2 id="definitions">Definitions</h2>
+<pre><code>[ dup * ] :sq
+7 sq .
+</code></pre>
+<p>The quote on the left becomes the word <code>sq</code> in this shell. A definition in the shell hides a root word of the same name in that shell only (<a href="names.html">names</a>). To make a word available in every shell, put it in a root unit with <code>&#x27;name open</code>.</p>
+<h2 id="code-that-spans-lines">Code that spans lines</h2>
+<p>A line holds up to 200 characters. Longer programs belong in <a href="scrawl.html">scrawl</a>:</p>
+<pre><code>&#x27;newword open
+</code></pre>
+<p>opens an editor on the word, and saving builds it. On an installed disk, words defined in a shell are saved with the shell, and edits to root are saved with root (<a href="saving.html">saving</a>).</p>
+<h2 id="running-things">Running things</h2>
+<p>Programs are words, so they run like words:</p>
+<pre><code>snake
+90 timer
+0xB8000 hexview
+</code></pre>
+<p>A line of code in a help page can be selected with Tab and run with Enter, which closes the viewer and runs the line at the prompt. <code>docs</code> opens the index of pages.</p>
+<h2 id="stopping">Stopping</h2>
+<p>Ctrl-C stops the line the shell is running and undoes it. If the shell doesn&#x27;t respond, move to another one with F1 to F4 or Alt-1 to Alt-4. The others keep running.</p>
+<h2 id="more">More</h2>
+<p><a href="prompt.html">Prompt</a> covers the editing keys and the line limit. <a href="stack.html">Stack</a>, <a href="quotes.html">quotes</a>, <a href="names.html">names</a>, <a href="flow.html">flow</a>, <a href="strings.html">strings</a> and <a href="numbers.html">numbers</a> describe the language. <a href="first-steps.html">First steps</a> is a short session, and tour is the same session typed out for you.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

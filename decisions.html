@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decisions - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Decisions - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="decisions">Decisions</h1>
+<ul class="toc">
+<li><a href="#omega-is-a-stack-language">omega is a stack language</a></li>
+<li><a href="#everything-runs-in-ring-0">Everything runs in ring 0</a></li>
+<li><a href="#every-line-is-a-transaction">Every line is a transaction</a></li>
+<li><a href="#the-disk-has-no-files">The disk has no files</a></li>
+<li><a href="#the-jit-compiles-on-the-second-run">The JIT compiles on the second run</a></li>
+<li><a href="#root-is-rebuilt-from-source">Root is rebuilt from source</a></li>
+<li><a href="#four-shells">Four shells</a></li>
+<li><a href="#the-help-is-part-of-the-kernel">The help is part of the kernel</a></li>
+<li><a href="#the-machine-is-qemu">The machine is QEMU</a></li>
+<li><a href="#what-is-not-there-yet">What is not there yet</a></li>
+</ul>
+<p>Each of these is a choice the system makes and what follows from it. They go with the rules on the <a href="design.html">design</a> page.</p>
+<h2 id="omega-is-a-stack-language">omega is a stack language</h2>
+<p>A line is split on spaces and brackets and evaluated from left to right, so precedence never comes up and a word&#x27;s arguments are the values before it. Programs, commands and saved state share one syntax, which means the saved form of a <a href="world.html">world</a> is its own source (<a href="saving.html">saving</a>). <code>calc</code> is the one place that parses infix, for arithmetic you want to type as usual.</p>
+<h2 id="everything-runs-in-ring-0">Everything runs in ring 0</h2>
+<p>The prompt reaches all memory, every I/O port and every disk, and a call into the kernel is a function call. A line can do anything the hardware allows, and so can a mistake: a bad <code>poke</code> or <code>out</code> is outside the transaction and can stop the machine (<a href="smarties.html">smarties</a>, <a href="expectations.html">expectations</a>).</p>
+<h2 id="every-line-is-a-transaction">Every line is a transaction</h2>
+<p>A line works on a copy of the world. If every word succeeds the copy becomes the new world and the old one goes into the history, and if a word fails the copy is thrown away. The same history gives <code>back</code> and <code>redo</code>, 64 worlds deep (<a href="transactions.html">transactions</a>, <a href="back.html">back</a>). Printed text, the screen, the machine and root edits that already built are outside it.</p>
+<h2 id="the-disk-has-no-files">The disk has no files</h2>
+<p>An installed drive has no partitions and no filesystem. The kernel, root and each shell&#x27;s world are written at fixed sectors, as omega source, so an image can be read with a hex editor (<a href="disk-layout.html">disk layout</a>). Nothing is allocated and nothing has a path.</p>
+<h2 id="the-jit-compiles-on-the-second-run">The JIT compiles on the second run</h2>
+<p>The first run of a quote is interpreted, and the second compiles it to x86-64. Compiled code and the interpreter give the same results, including the switch to bignums on overflow, so <code>jit-off</code> can be used to check one against the other (<a href="jit.html">JIT</a>).</p>
+<h2 id="root-is-rebuilt-from-source">Root is rebuilt from source</h2>
+<p>The programs in root are omega source that is built at boot and again after every edit. An edit that fails to build leaves the old root in place. A new root becomes visible to all four shells at once (<a href="root-build.html">root build</a>).</p>
+<h2 id="four-shells">Four shells</h2>
+<p>The kernel runs exactly four shells at the same time under a timer-driven scheduler. Each has its own world, history and key queue and a 256 KiB kernel stack. They share root, the heap and the hardware (<a href="tabs.html">tabs</a>, <a href="scheduler.html">scheduler</a>).</p>
+<h2 id="the-help-is-part-of-the-kernel">The help is part of the kernel</h2>
+<p>The pages are text in the kernel image, found by name in a table built together with it. They match the build that is running, and they are available on the live ISO with no disk attached. <code>docs</code> and <code>&quot;name&quot; doc</code> open them in a pager that draws on the text screen (<a href="help.html">help</a>).</p>
+<h2 id="the-machine-is-qemu">The machine is QEMU</h2>
+<p>Every driver is written for the hardware QEMU provides: the PIT and PICs, a PS/2 keyboard and mouse, IDE disks through the legacy ports, and a VGA card with an optional Bochs graphics mode.</p>
+<h2 id="what-is-not-there-yet">What is not there yet</h2>
+<p>UEFI booting, USB, AHCI, networking, sound beyond the PC speaker, floating point numbers and more than one CPU core are on the <a href="roadmap.html">roadmap</a>.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

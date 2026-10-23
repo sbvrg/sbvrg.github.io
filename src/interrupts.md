@@ -1,6 +1,6 @@
 # Interrupts and the timer
 
-Subverge uses three sources of interrupts: CPU exceptions, the timer and the keyboard. Everything else is masked.
+Subverge uses four sources of interrupts: CPU exceptions, the timer, the keyboard and the mouse. Everything else is masked.
 
 ## The interrupt table
 
@@ -18,7 +18,7 @@ Because every tab runs in ring 0, the CPU never switches stacks on an interrupt.
 
 ## The PICs
 
-At boot the two 8259 PICs are reinitialised so that IRQ 0 to 7 arrive at vectors 32 to 39 and IRQ 8 to 15 at 40 to 47, away from the CPU exceptions. Then every IRQ is masked except IRQ 0, the timer, and IRQ 1, the keyboard.
+At boot the two 8259 PICs are reinitialised so that IRQ 0 to 7 arrive at vectors 32 to 39 and IRQ 8 to 15 at 40 to 47, away from the CPU exceptions. Then every IRQ is masked except IRQ 0, the timer, IRQ 1, the keyboard, IRQ 2, the cascade to the second PIC, and IRQ 12, the mouse.
 
 The disks are driven by polling ([drives](drives.md)), so their IRQs are never used. Nothing else in the machine can interrupt Subverge.
 
@@ -43,6 +43,10 @@ The idle check works by reading the byte just before the saved instruction point
 
 IRQ 1 reads one scancode from port `0x60` and turns it into a key for the visible tab. See [keyboard](keyboard.md).
 
+## The mouse
+
+IRQ 12 reads one byte from port `0x60` and collects the bytes into a packet of three, or four when the mouse has a wheel. A packet moves the pointer, and a button press or a wheel step is queued for the visible tab if it asked for mouse events. See [ps2](ps2.md) and [mouse](mouse.md).
+
 ## Exceptions
 
 A CPU exception in a tab doesn't stop the machine. The handler formats a message from the vector, including the faulting address from `cr2` for a page fault, and asks the scheduler to restart the faulting tab from the top of its shell. The tab prints the message and `your last line was dropped`, and its [world](world.md) is unchanged because the line never committed.
@@ -53,7 +57,7 @@ If an exception happens while no tab is running, in the idle loop or during boot
 
 ## Counting interrupts
 
-`0 irq` and `1 irq` return how many timer and keyboard interrupts have arrived since boot. `irqmon` shows both live with their rates per second. The other IRQ numbers always return 0, since those lines are masked.
+`0 irq` and `1 irq` return how many timer and keyboard interrupts have arrived since boot. `irqmon` shows both live with their rates per second. `12 irq` counts the bytes the mouse has sent. The other IRQ numbers always return 0, since those lines are masked.
 
     0 irq .              ticks so far, the same as ticks
     1 irq .              at least two per key, one for press and one for release

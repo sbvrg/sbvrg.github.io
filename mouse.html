@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mouse - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Mouse - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="mouse">Mouse</h1>
+<p>A PS/2 mouse works on the text screen. The pointer is one cell drawn with its colours inverted, and it moves in whole cells. The controller and the packets are described in <a href="ps2.html">the PS/2 controller</a>.</p>
+<h2 id="what-the-mouse-does">What the mouse does</h2>
+<ul>
+<li>A click on a tab title in the top bar switches to that <a href="tabs.html">tab</a>.</li>
+<li>In the help viewer a click follows a link or runs a line of code, the wheel scrolls and a right click goes back (<a href="help.html">help</a>).</li>
+</ul>
+<h2 id="words">Words</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mouse</code></td>
+<td><code>-- x y buttons</code></td>
+<td>the pointer cell and the buttons</td>
+</tr>
+<tr>
+<td><code>mouse?</code></td>
+<td><code>-- 1/0</code></td>
+<td>1 when a mouse was found at boot</td>
+</tr>
+</tbody>
+</table>
+<p><code>x</code> and <code>y</code> count from the top-left cell of the tab&#x27;s area, so <code>y</code> is one less than the screen row, and <code>y</code> is <code>-1</code> over the top bar. <code>buttons</code> is the sum of 1 for the left button, 2 for the right button and 4 for the middle button:</p>
+<pre><code>mouse? .            1
+mouse . . .         buttons, then y, then x
+</code></pre>
+<p>A mouse that reports a wheel is detected at boot. One that doesn&#x27;t answer is left unused, and <code>mouse?</code> is <code>0</code>. Under QEMU the pointer follows the host mouse after the first click in the QEMU window, and Ctrl-Alt-G releases it.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

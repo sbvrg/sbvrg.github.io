@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quirks - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Quirks - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="quirks">Quirks</h1>
+<ul>
+<li>A name can&#x27;t be a number, so <code>2048</code> can&#x27;t be defined as a word. Anything that parses as a number is a number (<a href="values.html">values</a>).</li>
+<li>Locals bound in the condition of a <code>while</code> are gone by the time the body runs. Keep the value on the stack instead (<a href="flow.html">flow</a>).</li>
+<li>A tab&#x27;s key queue holds 63 keys. Keys pressed while a long computation runs are dropped once it is full, and keys queued during a failing line are thrown away (<a href="keyboard.html">keyboard</a>).</li>
+<li>A line holds 200 characters, less when the stack takes up room before the <code>»</code>. Longer code goes in a definition.</li>
+<li><code>ask</code> and <code>calc</code> read a line with the prompt&#x27;s editing keys but without history and without completion.</li>
+<li>Tab titles set with <code>title</code> aren&#x27;t saved and aren&#x27;t part of a <a href="world.html">world</a>. A program that fails halfway leaves its title behind.</li>
+<li>The mouse belongs to QEMU&#x27;s window after the first click. Ctrl-Alt-G releases it, and keys QEMU grabs itself, such as Ctrl-Alt-1 and Ctrl-Alt-2, never reach Subverge.</li>
+<li>The first run of a quote is interpreted, and the compiled version is used from the second. A very short quote can be slower on the second run than it looks, since compiling has a cost (<a href="jit.html">JIT</a>).</li>
+<li>Booting a new ISO with an old installed disk attached loads the root saved on that disk, so <code>sys</code> shows the old version until you run <code>install</code> again.</li>
+<li><code>rand</code> is seeded from the CPU&#x27;s cycle counter, which is fine for games and not for secrets (<a href="numbers.html">numbers</a>).</li>
+<li>The clock shows UTC unless the machine was started with a local-time clock.</li>
+<li>A write with <code>poke</code>, <code>out</code> or <code>hexview</code> can&#x27;t be undone by <code>back</code>, because it isn&#x27;t part of the world (<a href="smarties.html">smarties</a>).</li>
+<li>A failing line is undone completely, including definitions made earlier on the same line.</li>
+<li>Everything a line prints before it fails stays on the screen, even though the line itself is undone.</li>
+<li>Characters outside ASCII, such as <code>ω</code> and <code>ℵ₀</code>, are drawn by redefining unused characters of the VGA font, and they can&#x27;t be typed. Use <code>omega</code>, <code>aleph0</code> and the <code>\w</code> and <code>\A</code> escapes (<a href="prompt.html">prompt</a>).</li>
+<li>An installed disk holds your tabs and root. It doesn&#x27;t hold the help pages, which come from the kernel and always match the version that is running.</li>
+</ul>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

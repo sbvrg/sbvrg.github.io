@@ -46,6 +46,10 @@ A line holds up to 200 characters, or less when the prompt itself is wide, since
 
 Code longer than one line belongs in a definition, written with `'name edit` in [scrawl](scrawl.md), or in a [root unit](units.md).
 
+## Help pages
+
+`docs` opens the help pages and `"name" doc` opens one page. A line of code shown in a page can be selected with Tab and run with Enter, which closes the viewer and runs the line at the prompt ([help](help.md)).
+
 ## History
 
 Up and Down step through the last 16 lines typed in the tab. Empty lines and a line identical to the one before it are not added. The history is per tab, it is not saved to disk, and it holds text only: recalling a line and pressing Enter runs it again, which is different from undoing it with [back](back.md).

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debugging Overview - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Debugging Overview - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="debugging-overview">Debugging Overview</h1>
+<ul class="toc">
+<li><a href="#the-line-failed">The line failed</a></li>
+<li><a href="#the-line-did-nothing">The line did nothing</a></li>
+<li><a href="#the-stack-is-not-what-you-expected">The stack is not what you expected</a></li>
+<li><a href="#the-program-loops">The program loops</a></li>
+<li><a href="#what-the-machine-is-doing">What the machine is doing</a></li>
+<li><a href="#the-compiled-code">The compiled code</a></li>
+<li><a href="#memory">Memory</a></li>
+<li><a href="#a-fault">A fault</a></li>
+</ul>
+<p>Everything runs in ring 0 and the tools for finding out what went wrong are words at the prompt. This page lists them in the order they are usually needed.</p>
+<h2 id="the-line-failed">The line failed</h2>
+<p>A line that fails prints its error in red under the line and is undone. The error says which word failed and why, and <a href="errors.html">errors</a> lists the messages. The stack is as it was before the line, so the line can be run again after a change.</p>
+<pre><code>1 2 3
+4 5 0 /
+</code></pre>
+<p>If an error message is not enough, <code>&#x27;name see</code> prints the source of the word that failed, and <code>&#x27;name help</code> prints its page (<a href="help.html">help</a>).</p>
+<h2 id="the-line-did-nothing">The line did nothing</h2>
+<p>A line that fails is undone as a whole, including the parts that ran before the failure. If a line seems to do nothing, check for a red error above it. <code>back</code> shows nothing was recorded, since a line that failed has no entry in the history (<a href="back.html">back</a>).</p>
+<h2 id="the-stack-is-not-what-you-expected">The stack is not what you expected</h2>
+<p>The prompt shows the stack in grey before the <code>»</code>. <code>depth</code> counts it, <code>.</code> prints and removes the top value, and <code>&#x27;dup help</code> shows the stack effect of any word. A word written as <code>a b -- c</code> takes two values and leaves one (<a href="help.html">help</a>).</p>
+<p>A value that looks right and isn&#x27;t often has the wrong type. <code>type</code> leaves the name of a value&#x27;s type.</p>
+<h2 id="the-program-loops">The program loops</h2>
+<p>Ctrl-C stops the line and undoes it. A line that doesn&#x27;t respond to Ctrl-C is one that is inside a single long built-in word, and the other shells are not affected. Switch to one with F1 to F4 or Alt-1 to Alt-4, and use <code>reboot</code> if the stuck shell has to go (<a href="tabs.html">tabs</a>).</p>
+<h2 id="what-the-machine-is-doing">What the machine is doing</h2>
+<p><code>top</code> shows the CPU model, the idle percentage, the heap, the state of each shell and the interrupts, and updates twice a second. <code>irqmon</code> counts interrupts as they arrive.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>top</code></td>
+<td>the machine, live</td>
+</tr>
+<tr>
+<td><code>irqmon</code></td>
+<td>the interrupts, live</td>
+</tr>
+<tr>
+<td><code>sys</code></td>
+<td>the versions and the memory</td>
+</tr>
+<tr>
+<td><code>cpuinfo</code></td>
+<td>what the CPU reports</td>
+</tr>
+<tr>
+<td><code>memls</code></td>
+<td>the memory map from the firmware</td>
+</tr>
+<tr>
+<td><code>pcils</code></td>
+<td>the PCI devices</td>
+</tr>
+<tr>
+<td><code>disks</code></td>
+<td>the drives</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-compiled-code">The compiled code</h2>
+<p>A quote is compiled on its second run. If a word gives a different answer the second time, compare it with the interpreter: <code>jit-off</code> makes everything run in the interpreter, <code>jit-on</code> turns the compiler back on, and the results must be identical. <code>&#x27;name xray</code> prints the machine code of a word, and <code>[ ... ] bench</code> times a quote both ways (<a href="jit.html">JIT</a>, <a href="dis.html">dis</a>).</p>
+<h2 id="memory">Memory</h2>
+<p><code>hexview</code> is an editor for live memory, and <code>peek</code> and <code>poke</code> read and write a byte. <code>alloc</code> and <code>free</code> take and give back memory, and a program that forgets to free leaks it. The words that allocate are described on the <a href="memory.html">memory</a> page. A write to memory or to a port can&#x27;t be undone and is not part of the transaction (<a href="transactions.html">transactions</a>).</p>
+<h2 id="a-fault">A fault</h2>
+<p>A fault in one shell, such as an access to an address that isn&#x27;t mapped, stops that shell&#x27;s line and no other. The shell prints the fault and <code>your last line was dropped</code>, and starts again at its prompt with the world it had before the line (<a href="tabs.html">tabs</a>). A fault that happens while no task is running, in the idle loop, is a panic: the screen turns red, prints the message and the system halts.</p>
+<p>See <a href="troubleshooting.html">troubleshooting</a> for common problems and <a href="limits.html">limits</a> for what the system can hold.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

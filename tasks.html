@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task records - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Task records - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="task-records">Task records</h1>
+<p>A task is the record the kernel keeps for something that runs. There are four, one for each shell. The idle task has a record of its own (<a href="idle.html">idle</a>).</p>
+<h2 id="the-record">The record</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>the slot, from 0 to 3, and -1 for the idle task</td>
+</tr>
+<tr>
+<td><code>entry</code></td>
+<td>the function the task runs, empty for a slot that is free</td>
+</tr>
+<tr>
+<td><code>stack</code></td>
+<td>the 256 KiB kernel stack, taken from the heap the first time the slot is started</td>
+</tr>
+<tr>
+<td><code>wait_key</code>, <code>wake_at</code></td>
+<td>what the task is waiting for: a key, a tick, or neither (<a href="scheduler.html">scheduler</a>)</td>
+</tr>
+<tr>
+<td>key queue</td>
+<td>the keys waiting for the task (<a href="queues.html">queues</a>)</td>
+</tr>
+<tr>
+<td><code>brkflag</code></td>
+<td>set by Ctrl-C and checked by the interpreter between steps</td>
+</tr>
+<tr>
+<td><code>term</code></td>
+<td>the screen of the task, 80 by 24 cells with their colours and the cursor</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>the name shown in the tab bar</td>
+</tr>
+<tr>
+<td><code>fault</code></td>
+<td>the message of the last fault</td>
+</tr>
+<tr>
+<td><code>om</code></td>
+<td>the omega world of the task</td>
+</tr>
+</tbody>
+</table>
+<h2 id="starting-and-ending">Starting and ending</h2>
+<p>A task starts with a stack filled with a known byte, so that <code>top</code> can tell how much of it was used. A task never returns from its entry.</p>
+<p>See <a href="scheduler.html">scheduler</a> for how the next task is chosen.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

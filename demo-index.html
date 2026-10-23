@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo Index - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Demo Index - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="demo-index">Demo Index</h1>
+<ul class="toc">
+<li><a href="#start-here">Start here</a></li>
+<li><a href="#small-tools">Small tools</a></li>
+<li><a href="#games">Games</a></li>
+<li><a href="#animations">Animations</a></li>
+<li><a href="#infinity">Infinity</a></li>
+<li><a href="#reading-the-machine">Reading the machine</a></li>
+<li><a href="#looking-inside">Looking inside</a></li>
+<li><a href="#starting-a-program">Starting a program</a></li>
+</ul>
+<p>These are arranged in increasing order of difficulty, more or less, and can be used as a tutorial if you start at the top and work down. Click a program to run it, or type its name in a shell.</p>
+<h2 id="start-here">Start here</h2>
+<ul>
+<li><a href="first-steps.html">first steps</a>, a short session at the prompt</li>
+<li>tour, the same session typed out for you</li>
+<li>learn, 47 lessons on omega from the stack upwards</li>
+</ul>
+<h2 id="small-tools">Small tools</h2>
+<ul>
+<li>clock shows the time and date</li>
+<li>stopwatch counts hundredths and records laps</li>
+<li>timer counts down from 90 seconds</li>
+<li>calc is an infix calculator</li>
+<li>todo keeps a list</li>
+<li>convert converts units</li>
+<li>password makes passwords</li>
+<li>cal prints the month</li>
+<li>colors draws the sixteen colours</li>
+<li>themes lists the themes</li>
+</ul>
+<h2 id="games">Games</h2>
+<ul>
+<li>snake</li>
+<li>tiles</li>
+<li>pong</li>
+<li>life</li>
+</ul>
+<h2 id="animations">Animations</h2>
+<ul>
+<li>rain</li>
+<li>stars</li>
+<li>bounce</li>
+<li>sorting</li>
+<li>sieve</li>
+<li>mandel, which zooms into the Mandelbrot set and shows what the JIT does for a tight loop</li>
+<li>fortune</li>
+</ul>
+<h2 id="infinity">Infinity</h2>
+<p>These act out arguments from Vsauce&#x27;s video on counting past infinity (<a href="demos.html">demos</a>, <a href="ordinals.html">ordinals</a>, <a href="cardinals.html">cardinals</a>).</p>
+<ul>
+<li>count counts from 0 past ω and on to ω₁</li>
+<li>ord-demo lists ordinal and cardinal arithmetic as facts</li>
+<li>pairing sets the naturals against the evens</li>
+<li>hotel is Hilbert&#x27;s hotel with one new guest and then infinitely many buses</li>
+<li>rationals numbers every positive fraction</li>
+<li>ulam draws the primes on a square spiral</li>
+<li>diagonal is Cantor&#x27;s diagonal argument</li>
+<li>supertask halves a line forever</li>
+</ul>
+<h2 id="reading-the-machine">Reading the machine</h2>
+<ul>
+<li>top shows the CPU, the heap, the shells and the interrupts live</li>
+<li>irqmon counts interrupts as they arrive</li>
+<li>sys prints the system information</li>
+<li>pcils lists the PCI devices</li>
+<li>memls lists the firmware&#x27;s memory map</li>
+<li>cpuinfo shows what the CPU reports</li>
+<li>disks lists the IDE drives</li>
+<li>hexview edits live memory, starting at the text screen</li>
+</ul>
+<h2 id="looking-inside">Looking inside</h2>
+<p>Click a line to type it into the first shell.</p>
+<pre><code>&#x27;mb-iter see
+&#x27;mb-iter xray
+[ -32768 0 2816 40 mandel-at ] bench
+</code></pre>
+<p><code>see</code> prints the source of a word, <code>xray</code> the machine code the JIT made for it (<a href="dis.html">dis</a>), and <code>bench</code> times a quote with the JIT off and then on (<a href="jit.html">jit</a>). <code>&#x27;name open</code> edits any word in <a href="scrawl.html">scrawl</a>.</p>
+<p>The <a href="tools.html">tools</a>, <a href="games.html">games</a> and <a href="demos.html">demos</a> pages describe each one.</p>
+<h2 id="starting-a-program">Starting a program</h2>
+<p>A line in this index can be selected and run with Enter. The same names work at the prompt of a shell.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

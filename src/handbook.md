@@ -14,6 +14,8 @@
 - [Installation](installation.md)
 - [First steps](first-steps.md)
 - [What's new](new.md)
+- [About](about.md)
+- [Credits](credits.md)
 - [Snippets](snippets.md)
 - [learn](learn.md)
 
@@ -36,6 +38,10 @@
 - [Catching](catching.md)
 - [Errors](errors.md)
 - [Help](help.md)
+- [Aleph-null](aleph-null.md)
+- [Countable sets](countable-sets.md)
+- [The hotel](hilbert-hotel.md)
+- [Uncountable sets](uncountable-sets.md)
 
 </div>
 
@@ -47,6 +53,9 @@
 - [back](back.md)
 - [World](world.md)
 - [Tabs](tabs.md)
+- [Keys](keys.md)
+- [Mouse](mouse.md)
+- [Command line](cmdline.md)
 - [Saving](saving.md)
 - [Root](root.md)
 - [Units](units.md)
@@ -65,6 +74,7 @@
 - [Tools](tools.md)
 - [Games](games.md)
 - [Demos](demos.md)
+- [Demo index](demo-index.md)
 
 </div>
 
@@ -74,6 +84,8 @@
 - [QEMU](qemu.md)
 - [Hardware](hardware.md)
 - [Troubleshooting](troubleshooting.md)
+- [Quirks](quirks.md)
+- [Tips](tips.md)
 - [Bugs](bugs.md)
 
 </div>
@@ -106,6 +118,8 @@
 - [Ports](ports.md)
 - [Screen](screen.md)
 - [Keyboard](keyboard.md)
+- [The PS/2 controller](ps2.md)
+- [Scancodes](scancodes.md)
 - [Drives](drives.md)
 - [Machine](machine.md)
 - [JIT](jit.md)
@@ -122,7 +136,15 @@
 - [Boot](boot.md)
 - [Disk layout](disk-layout.md)
 - [Scheduler](scheduler.md)
+- [Task records](tasks.md)
+- [Queues and rings](queues.md)
+- [The idle loop](idle.md)
+- [Where the help pages live](docfs.md)
 - [GC](gc.md)
+- [Design](design.md)
+- [Decisions](decisions.md)
+- [Debugging](debugging.md)
+- [Why not more?](why-not-more.md)
 
 </div>
 

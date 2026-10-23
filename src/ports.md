@@ -20,7 +20,7 @@ Notable ports:
 | `0x20`, `0xA0` | the two interrupt controllers |
 | `0x40` to `0x43` | the PIT, which drives the 100 Hz timer and therefore the [scheduler](scheduler.md) |
 | `0x61` | the PC speaker gate, which `beep` uses together with PIT channel 2 |
-| `0x60`, `0x64` | the PS/2 keyboard controller, which `reboot` also uses |
+| `0x60`, `0x64` | the PS/2 controller, for the keyboard and the mouse, which `reboot` also uses |
 | `0x80` | the POST port, harmless to write, which is why the examples use it |
 | `0x1F0` to `0x1F7`, `0x3F6` | the primary IDE controller, where installed disks live |
 | `0x170` to `0x177`, `0x376` | the secondary IDE controller |
@@ -46,7 +46,7 @@ Reprogramming the PIT changes the scheduling rate and the length of `sleep`. Mas
 
     1 irq               how many times IRQ 1 has fired
 
-The interrupt controllers are remapped to vectors `0x20` and up, and only IRQ 0, the timer, and IRQ 1, the keyboard, are unmasked. All other lines are masked, so their counts stay at `0`. The disks are driven by polling, not interrupts. `irqmon` shows the counts live, and `top` shows the rates.
+The interrupt controllers are remapped to vectors `0x20` and up, and only IRQ 0, the timer, IRQ 1, the keyboard, and IRQ 12, the mouse, are unmasked. All other lines are masked, so their counts stay at `0`. The disks are driven by polling, not interrupts. `irqmon` shows the counts live, and `top` shows the rates.
 
 Vector 48 is the software interrupt a tab uses to give up the CPU early. See the [scheduler](scheduler.md).
 

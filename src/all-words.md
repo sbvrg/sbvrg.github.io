@@ -284,6 +284,10 @@ Drawing on the screen.
 | `logo` | `'x --` | Sets the logo sys draws, and remembers it. | `'haelide logo` |
 | `logos` | `--` | Lists the logos. | `logos` |
 | `logo@` | `-- s` | The name of the current logo. | `logo@ say` |
+| `mouse` | `-- x y buttons` | Where the pointer is, and 1 left, 2 right, 4 middle. | `mouse` |
+| `mouse?` | `-- 1|0` | 1 when a mouse was found. | `mouse?` |
+| `doc` | `s --` | Opens a help page. Q leaves. | `"prompt" doc` |
+| `docs` | `--` | Opens the index of help pages. | `docs` |
 | `rgb` | `n r g b --` | Sets colour n to red, green, blue 0 to 255. | `14 255 0 0 rgb` |
 
 ## machine
@@ -369,6 +373,16 @@ Math demos.
 | `ord-demo` | `--` | Ordinal and cardinal arithmetic, live. | `ord-demo` |
 | `powerset` | `l -- list` | Every subset of a list. | `[ 1 2 ] powerset` |
 | `pairing` | `--` | The naturals and the evens match up. | `pairing` |
+| `hotel` | `--` | A full hotel takes guests, then infinite buses. | `hotel` |
+| `rationals` | `--` | Every positive fraction gets a number. | `rationals` |
+| `pair` | `a b -- n` | Cantor pairing: two numbers into one number. | `3 4 pair` |
+| `unpair` | `n -- a b` | Undoes pair. | `32 unpair` |
+| `fusc` | `n -- f` | Stern's diatomic sequence. | `5 fusc` |
+| `rational` | `n -- p q` | The n-th positive fraction in Calkin-Wilf order. | `7 rational` |
+| `collatz` | `n -- steps` | Steps for n to reach 1 by halving or 3n+1. | `27 collatz` |
+| `thue` | `n -- bit` | Parity of the 1 bits of n. | `0 16 range [ thue ] map` |
+| `prime?` | `n -- flag` | 1 when n is prime. | `97 prime?` |
+| `ulam` | `--` | Primes laid out on a square spiral. | `ulam` |
 | `diagonal` | `--` | Cantor's proof the reals can't be listed. | `diagonal` |
 | `supertask` | `--` | Halve a line forever, in finite time. | `supertask` |
 | `mandel` | `--` | The Mandelbrot set, zooming in. Any key goes on. | `mandel` |
@@ -381,6 +395,7 @@ Games and toys.
 | Word | Effect | What it does | Example |
 |---|---|---|---|
 | `snake` | `--` | Arrow keys steer, q quits. | `snake` |
+| `scribble` | `--` | Draws with the mouse. Q leaves. | `scribble` |
 | `life` | `--` | Conway's Game of Life on raw memory. | `life` |
 | `rain` | `--` | A screensaver. Any key leaves. | `rain` |
 | `fortune` | `--` | Prints one short fact. | `fortune` |
@@ -418,6 +433,7 @@ Words the utilities use inside.
 | Word | Effect | What it does | Example |
 |---|---|---|---|
 | `lessons` | `-- list` | The lessons that learn walks through. | `lessons len` |
+| `scribble-hint` | `--` | Prints the keys line of scribble. |  |
 | `app-list` | `-- list` | The programs that apps lists. | `app-list len` |
 | `app-cell` | `e w --` | Prints one entry of apps. |  |
 | `mb-iter` | `cx cy mx -- n` | Steps a point until it escapes, up to mx steps. | `0 0 40 mb-iter   gives 40` |

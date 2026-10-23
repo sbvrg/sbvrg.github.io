@@ -84,6 +84,15 @@ searches the name and the description of every entry, ignoring case, and lists t
 
 The search is a plain substring match, so `"sort" apropos` finds `sort`, `sorting` and `sort-col`, and a short search such as `"a"` matches nearly everything.
 
+## The pages
+
+`docs` opens the index of the help pages and `"name" doc` opens one by name, for example `"first-steps" doc`. Every word in the [index of words](words.md) has a page, and ``text`` links in a page open the page of a word. Up, Down, PgUp, PgDn, Home and End scroll, Space pages down, Tab selects the next link and Enter follows it. Backspace goes back and `q` or Esc leaves. Enter on a line of code closes the viewer and runs the line at the prompt. With a mouse, a click follows a link or runs a code line, the wheel scrolls and a right click goes back.
+
+
+![the help pages](images/94-docs.png)
+
+![the page of a word](images/94-word.png)
+
 ## Other ways to look things up
 
 - `words` lists the definitions in your tab, with their values.

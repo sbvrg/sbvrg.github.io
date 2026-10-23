@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tips - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Tips - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="tips">Tips</h1>
+<ul>
+<li>Ctrl-C stops the line a shell is running and undoes it. If a shell doesn&#x27;t answer, switch to another with F1 to F4. The others keep running, and <code>reboot</code> from any of them restarts the machine (<a href="tabs.html">tabs</a>).</li>
+<li><code>&#x27;name see</code> prints the source of a word, and <code>&#x27;name open</code> edits it in <a href="scrawl.html">scrawl</a>. Both work on any word defined in omega, which includes everything in <a href="root.html">root</a>.</li>
+<li><code>&quot;sort&quot; apropos</code> lists every word whose name or description mentions <code>sort</code>. The <a href="words.html">index of words</a> has the same information with a page for each word.</li>
+<li>Tab completes a name at the prompt. A <code>&#x27;</code>, <code>:</code> or <code>-&gt;</code> in front of the name is kept. (<a href="prompt.html">prompt</a>).</li>
+<li><code>back</code> undoes the last line that worked, and <code>redo</code> undoes the <code>back</code>. Both go 64 lines deep (<a href="back.html">back</a>).</li>
+<li>A shell&#x27;s definitions are its own. A word you define in shell 1 doesn&#x27;t exist in shell 2 until it goes into root (<a href="names.html">names</a>, <a href="units.html">units</a>).</li>
+<li>An edit to root takes effect only if it builds. If it doesn&#x27;t build, the old version stays in use and the error is shown (<a href="root-build.html">root build</a>).</li>
+<li>The first run of a quote is interpreted and the second compiles it to machine code. <code>&#x27;name xray</code> shows what was generated, and <code>bench</code> compares the two (<a href="jit.html">JIT</a>, <a href="dis.html">dis</a>).</li>
+<li>Integers never wrap. <code>2 1000 ^</code> is exact, and compiled code switches to bignums at the same point the interpreter does (<a href="bignums.html">bignums</a>).</li>
+<li><code>0x2a</code> is a hex literal and <code>0b101010</code> a binary one. <code>bases</code> prints a number in all of them (<a href="numbers.html">numbers</a>, <a href="tools.html">tools</a>).</li>
+<li><code>[ ... ] watch</code> reruns a quote twice a second until a key is pressed, and <code>timeit</code> times one run in ticks and CPU cycles.</li>
+<li><code>440 50 beep</code> plays 440 Hz for half a second on the PC speaker.</li>
+<li><code>calc</code> is an infix calculator with fixed point arithmetic, and it keeps its own history.</li>
+<li><code>date</code> leaves today&#x27;s date as a string and <code>cal</code> prints the month. The clock shows UTC unless the machine was started with a local-time clock.</li>
+<li><code>themes</code> lists the colour themes and <code>&#x27;raw theme</code> switches to one. An installed disk remembers the choice (<a href="themes.html">themes</a>).</li>
+<li><code>14 255 0 0 rgb</code> sets colour 14 to red. This recolours every tab (<a href="themes.html">themes</a>).</li>
+<li><code>logos</code> lists the logos that <code>sys</code> can draw, and <code>&#x27;haelide logo</code> picks one (<a href="logos.html">logos</a>).</li>
+<li><code>&#x27;startup open</code> edits what the first shell runs at boot, and <code>&#x27;user open</code> changes the name shown by <code>sys</code> (<a href="startup.html">startup</a>).</li>
+<li><code>&quot;build&quot; title</code> renames the tab that runs it. Programs do this while they run and put <code>omega</code> back when they leave.</li>
+<li><code>2 tab</code> returns a list describing tab 2: its title, what it is doing and whether it is in front.</li>
+<li>A line holds 200 characters. Put longer code in a definition with <code>&#x27;name open</code>.</li>
+<li>Locals set with <code>{ a b }</code> or <code>-&gt;name</code> exist only while a quote runs, so they can&#x27;t be seen from the prompt after it finishes (<a href="names.html">names</a>).</li>
+<li><code>1 2 3 empty</code> clears the stack. <code>depth</code> counts it, and <code>pick</code>, <code>tuck</code>, <code>2dup</code>, <code>nip</code> and <code>rot</code> rearrange it (<a href="stack.html">stack</a>).</li>
+<li><code>root</code> lists the programs in root, and <code>apps</code> lists the ones meant to be run. Adding one is a line in the <code>apps</code> unit (<a href="apps.html">apps</a>).</li>
+<li><code>hexview</code> edits live memory. <code>0xB8000</code> is the memory of the text screen, which is redrawn from the tab on the next change, so it is a safe place to try it (<a href="memory.html">memory</a>).</li>
+<li>The mouse belongs to QEMU&#x27;s window after you click it, and Ctrl-Alt-G gives it back. A click on a tab title in the top bar switches tab (<a href="ps2.html">ps2</a>).</li>
+<li><code>docs</code> opens the index of the help pages and <code>&quot;name&quot; doc</code> opens one. Tab selects the next link, Enter follows it, Backspace goes back and <code>q</code> leaves. Enter on a line of code closes the viewer and runs the line at the prompt.</li>
+<li>Disks are used only when you run <code>install</code>. Until then nothing writes to one, so the live ISO is safe to try with a real disk attached.</li>
+</ul>
+<p>See <a href="quirks.html">quirks</a> for the things that surprise people, and <a href="troubleshooting.html">troubleshooting</a> when something doesn&#x27;t work.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

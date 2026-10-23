@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ℵ₀ - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="ℵ₀ - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="">ℵ₀</h1>
+<ul class="toc">
+<li><a href="#size-by-pairing">Size by pairing</a></li>
+<li><a href="#the-size-of-the-naturals">The size of the naturals</a></li>
+<li><a href="#sets-of-size-">Sets of size ℵ₀</a></li>
+<li><a href="#arithmetic">Arithmetic</a></li>
+<li><a href="#order-and-position">Order and position</a></li>
+<li><a href="#what-is-larger">What is larger</a></li>
+<li><a href="#in-omega">In omega</a></li>
+</ul>
+<p>ℵ₀ (<code>aleph0</code>) is the size of the set of natural numbers 0, 1, 2, 3 and so on. It is the smallest infinite size. This page covers what it means for two infinite sets to have the same size, which sets have size ℵ₀, and what happens when ℵ₀ is added, multiplied and compared. The size of a set is a <a href="cardinals.html">cardinal</a>, and a position in a list is an <a href="ordinals.html">ordinal</a>.</p>
+<h2 id="size-by-pairing">Size by pairing</h2>
+<p>For finite sets, two sets have the same size when counting them gives the same number. Counting doesn&#x27;t finish for a set that never ends, so the definition is replaced by one that agrees with counting on finite sets and also works on infinite ones: two sets have the same size when every member of one can be given exactly one partner in the other, with nobody left over on either side.</p>
+<p>Seven chairs and seven people have the same size under both definitions. Only the second one applies to the natural numbers and the even numbers. Give each natural number n the partner 2n:</p>
+<pre><code class="language-text">0 1 2 3 4  5 ...
+0 2 4 6 8 10 ...
+</code></pre>
+<p>Every natural number has one partner, and every even number is the partner of exactly one natural number. By the definition, the natural numbers and the even numbers have the same size, although the even numbers are only a part of the natural numbers. A part of a finite set is always smaller than the whole. A part of an infinite set can be as large as the whole.</p>
+<p><code>pairing</code> prints the first rows of this match, with the squares and the whole numbers next to it (<a href="demos.html">demos</a>).</p>
+<h2 id="the-size-of-the-naturals">The size of the naturals</h2>
+<p>ℵ₀ is the size of the natural numbers, and by the definition above it is also the size of every set that can be paired off with them. Such a set is countable. Its members can be written in a list where each one has a position: the member paired with 0 first, the one paired with 1 second, and so on. Every member is reached after finitely many steps, although the list has no last position.</p>
+<pre><code>aleph0 .                ℵ₀
+omega card .            ℵ₀
+</code></pre>
+<p><code>card</code> turns an ordinal into the size of the set of positions before it. The first infinite ordinal ω is the position after every natural number, so the positions before it are the natural numbers, and their size is ℵ₀.</p>
+<h2 id="sets-of-size-">Sets of size ℵ₀</h2>
+<p>All of these can be paired off with the natural numbers:</p>
+<ul>
+<li>The even numbers, the odd numbers, the squares and the multiples of any number, as above.</li>
+<li>The whole numbers 0, 1, −1, 2, −2 and so on, taking the positive and the negative ones in turns.</li>
+<li>Pairs of natural numbers. The word <code>pair</code> gives each pair its own number and <code>unpair</code> goes back (<a href="countable-sets.html">countable-sets</a>).</li>
+<li>The positive fractions. The word <code>rational</code> gives the n-th one (<a href="countable-sets.html">countable-sets</a>).</li>
+<li>Finite lists of natural numbers, and with them every text that can be typed, since a text is a finite list of character codes.</li>
+</ul>
+<p>Several of these look larger than the natural numbers. There are infinitely many fractions between any two fractions. Under the definition of size they are all the same.</p>
+<h2 id="arithmetic">Arithmetic</h2>
+<p>Adding two sizes gives the size of the two sets put side by side, and multiplying gives the size of the set of pairs. For infinite sizes the result is the larger of the two:</p>
+<pre><code>5 aleph0 + .            ℵ₀
+aleph0 aleph0 + .       ℵ₀
+aleph0 aleph0 * .       ℵ₀
+aleph0 3 ^ .            ℵ₀
+</code></pre>
+<p>Five more members, or as many more again, or a whole copy of the set for each member of the set, all leave a set that can be paired off with the natural numbers. The <a href="hilbert-hotel.html">hotel</a> goes through the first three.</p>
+<p>Subtraction and division have no single answer. ℵ₀ − ℵ₀ could be 0, 5 or ℵ₀, depending on which part is taken away, and omega doesn&#x27;t define them (<code>cardinals only support + * and ^</code>).</p>
+<h2 id="order-and-position">Order and position</h2>
+<p>Sizes and positions are different questions with different answers. In a list, ω is the position after all of 0, 1, 2 and so on, ω+1 is the position after that, and ω·2 is the position after a second copy of the naturals. These are all different positions. Each has only countably many positions before it, so each has the size ℵ₀:</p>
+<pre><code>omega 1 + card .        ℵ₀
+omega 2 * card .        ℵ₀
+omega omega ^ card .    ℵ₀
+</code></pre>
+<p>The split shows in addition too. A member added in front of a list of the naturals gives a list that has the same shape, so <code>1 omega +</code> is <code>ω</code>. A member added after all of them gives a list with a last position, so <code>omega 1 +</code> is <code>ω+1</code>, and the two orders are different. The sizes of both are ℵ₀.</p>
+<pre><code>1 omega + omega = .     1
+omega 1 + omega = .     0
+</code></pre>
+<h2 id="what-is-larger">What is larger</h2>
+<p>Some sets can&#x27;t be paired off with the natural numbers, whatever the pairing. The real numbers are one, and so is the set of all subsets of the natural numbers. Both have the size 2^ℵ₀, which is larger than ℵ₀:</p>
+<pre><code>aleph0 continuum &lt; .    1
+</code></pre>
+<p>The proof is in <a href="uncountable-sets.html">uncountable-sets</a>. The next infinite size after ℵ₀ is ℵ₁, and whether ℵ₁ equals 2^ℵ₀ is not settled by the usual axioms of set theory (<a href="cardinals.html">cardinals</a>).</p>
+<h2 id="in-omega">In omega</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aleph0</code></td>
+<td>pushes ℵ₀</td>
+</tr>
+<tr>
+<td><code>n aleph</code></td>
+<td>pushes ℵₙ</td>
+</tr>
+<tr>
+<td><code>n card</code></td>
+<td>the size of an ordinal</td>
+</tr>
+<tr>
+<td><code>a b pair</code></td>
+<td>one number for the two</td>
+</tr>
+<tr>
+<td><code>n unpair</code></td>
+<td>the two numbers back</td>
+</tr>
+<tr>
+<td><code>n rational</code></td>
+<td>the n-th positive fraction</td>
+</tr>
+<tr>
+<td><code>hotel</code>, <code>rationals</code>, <code>pairing</code>, <code>diagonal</code></td>
+<td>demos</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="learn.html">learn</a> lessons from &quot;Same size&quot; to &quot;Alephs&quot; go through the same material with lines to run.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

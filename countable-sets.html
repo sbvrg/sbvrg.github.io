@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Countable sets - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Countable sets - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="countable-sets">Countable sets</h1>
+<ul class="toc">
+<li><a href="#whole-numbers">Whole numbers</a></li>
+<li><a href="#pairs">Pairs</a></li>
+<li><a href="#fractions">Fractions</a></li>
+<li><a href="#larger-collections">Larger collections</a></li>
+</ul>
+<p>A set is countable when its members can be paired off with the natural numbers, which means they can be put in a list where each member has a position. The size of such a set is <a href="aleph-null.html">ℵ₀</a>. This page builds the lists for the whole numbers, for pairs of numbers and for fractions, and shows how the words <code>pair</code>, <code>unpair</code> and <code>rational</code> compute positions in them.</p>
+<h2 id="whole-numbers">Whole numbers</h2>
+<p>The whole numbers need a list that reaches in both directions. Start at 0 and alternate: 0, 1, −1, 2, −2, 3, and so on. The number at position n is −n/2 when n is even and (n+1)/2 when n is odd. <code>pairing</code> prints this column (<a href="demos.html">demos</a>).</p>
+<pre><code>pairing
+</code></pre>
+<p>Every whole number is somewhere in the list: k &gt; 0 at position 2k−1, and k &lt; 0 at position −2k.</p>
+<h2 id="pairs">Pairs</h2>
+<p>A table with a row for every natural number and a column for every natural number can&#x27;t be read row by row, since the first row never ends and the second row would never be reached. It can be read along diagonals. The first diagonal is the single cell (0, 0). The second has two cells, the third has three, and each diagonal is finite, so each cell is reached after finitely many steps.</p>
+<pre><code class="language-text">pair   0   1   2   3
+0      0   2   5   9
+1      1   4   8  13
+2      3   7  12  18
+3      6  11  17  24
+</code></pre>
+<p><code>a b pair</code> gives the position of the cell in row a and column b in this order:</p>
+<pre><code>0 0 pair .              0
+1 0 pair .              1
+0 1 pair .              2
+3 4 pair .              32
+</code></pre>
+<p>The formula is (a+b)(a+b+1)/2 + b. The first part counts the cells on the diagonals before the one the cell is on, and b is the place of the cell along its own diagonal. This is Cantor&#x27;s pairing function. Two different cells never get the same position, and every position belongs to some cell.</p>
+<p><code>n unpair</code> goes the other way and leaves the row and then the column, with the column on top of the stack:</p>
+<pre><code>32 unpair . .           4 and then 3
+</code></pre>
+<p>Both words work on any natural number, so <code>n unpair pair</code> is always <code>n</code>.</p>
+<p>The pairs of natural numbers have the size ℵ₀ · ℵ₀, and the list shows that this is ℵ₀:</p>
+<pre><code>aleph0 aleph0 * .       ℵ₀
+</code></pre>
+<h2 id="fractions">Fractions</h2>
+<p>A positive fraction is a pair of natural numbers, so the fractions can be listed by listing pairs and dropping the ones that repeat a value, since 1/2 and 2/4 are the same number. The Calkin-Wilf order lists every positive fraction exactly once. The first terms are</p>
+<pre><code class="language-text">1/1  1/2  2/1  1/3  3/2  2/3  3/1  1/4  4/3  3/5
+</code></pre>
+<p><code>n rational</code> leaves the n-th fraction as a numerator and a denominator, with the denominator on top. Positions start at 1.</p>
+<pre><code>1 rational . .          1 and 1
+7 rational . .          1 and 3, which is 3/1
+100 rational . .        19 and 7, which is 7/19
+</code></pre>
+<p><code>rationals</code> prints the first fifteen (<a href="demos.html">demos</a>).</p>
+<p>The numerator of the n-th fraction is the n-th term of Stern&#x27;s diatomic sequence, <code>n fusc</code>, and the denominator is the next term. The sequence follows two rules. Its value at 2n is its value at n, and its value at 2n+1 is the sum of its values at n and at n+1. <code>fusc</code> applies the rules to the binary digits of n, so a position near a million takes about twenty steps.</p>
+<pre><code>5 fusc .                3
+6 fusc .                2
+7 fusc .                3
+</code></pre>
+<p>A fraction can sit between any two others, so the list doesn&#x27;t keep the fractions in order of size. A list that went from the smallest upwards could not exist, since there is no smallest positive fraction.</p>
+<h2 id="larger-collections">Larger collections</h2>
+<p>Countable sets can be combined without leaving ℵ₀. The union of two countable sets is countable. So is the union of countably many countable sets, by the pairing above with the number of the set as the row. A finite list of natural numbers can be given one number by prime factorisation, as 2^a · 3^b · 5^c and so on, and a text is a finite list of numbers, so every text that can be typed has a position in one list. Every omega program is a text, and the set of omega programs has the size ℵ₀.</p>
+<p>Because the programs are countable, most real numbers have no program that prints their digits. There are 2^ℵ₀ real numbers and only ℵ₀ programs (<a href="uncountable-sets.html">uncountable-sets</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

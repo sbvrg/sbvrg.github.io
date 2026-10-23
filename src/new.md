@@ -1,5 +1,47 @@
 # What's new
 
+## Subverge 0.9.4
+
+Subverge 0.9.4 comes with ordinal 1.0.4 and omega 1.0.4. Get it from the [releases page](https://github.com/texivi/Subverge/releases/tag/v0.9.4).
+
+### Help pages
+
+The help pages are inside the system now. `docs` opens the index and `"name" doc` opens one page:
+
+    docs
+    "first-steps" doc
+
+![the help pages](images/94-docs.png)
+
+Tab selects the next link, Enter follows it, Backspace goes back and `q` leaves. A line of code in a page can be selected and run: Enter closes the viewer and runs the line at the prompt. Every word has a page with its stack effect and an example, reached from a link in a page or from the [index of words](all-words.md).
+
+![the page of a word](images/94-word.png)
+
+The pages are the ones in this documentation, among them [keys](keys.md), [cmdline](cmdline.md), [aleph-null](aleph-null.md) and [quirks](quirks.md). See [help](help.md).
+
+### The mouse
+
+A PS/2 mouse works on the text screen. The pointer is one inverted cell. A click on a tab title in the top bar switches tab, and in the help pages a click follows a link, the wheel scrolls and the right button goes back. `mouse` leaves the pointer cell and the buttons, and `mouse?` is 1 when a mouse was found:
+
+    mouse? .
+    mouse . . .
+
+`scribble` draws with the mouse: the left button draws, the right button erases, 1 to 9 pick a colour and `q` leaves.
+
+![scribble](images/94-scribble.png)
+
+See [mouse](mouse.md) and [ps2](ps2.md). QEMU gives the mouse to the guest after the first click in its window, and Ctrl-Alt-G takes it back.
+
+### Infinity
+
+`hotel` shows Hilbert's hotel, `rationals` lists the positive fractions, and `ulam` marks the primes on a square spiral. `pair` and `unpair` number the pairs of naturals, `rational` gives the n-th positive fraction, `fusc`, `collatz`, `thue` and `prime?` are small helpers:
+
+    3 4 pair . 32 unpair . .
+    7 rational . .
+    27 collatz .
+
+`learn` has new lessons for them, and new pages explain the ideas: [aleph-null](aleph-null.md), [countable sets](countable-sets.md), [the hotel](hilbert-hotel.md) and [uncountable sets](uncountable-sets.md). See [demos](demos.md).
+
 ## Subverge 0.9.3
 
 Subverge 0.9.3 comes with ordinal 1.0.3 and omega 1.0.3. Get it from the [releases page](https://github.com/texivi/Subverge/releases/tag/v0.9.3).

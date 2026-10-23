@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Queues and rings - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Queues and rings - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="queues-and-rings">Queues and rings</h1>
+<p>The kernel has a few queues that an interrupt handler fills and a task empties. Each is a ring with a head where entries are added and a tail where they are taken, so neither side needs a lock. A ring holds one entry fewer than it has slots.</p>
+<table>
+<thead>
+<tr>
+<th>Ring</th>
+<th>Filled by</th>
+<th>Emptied by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key queue, one for each tab</td>
+<td>the keyboard handler</td>
+<td>the program, with <code>key</code>, <code>key?</code>, <code>waitkey</code> and the prompt</td>
+</tr>
+<tr>
+<td>mouse events</td>
+<td>the mouse handler</td>
+<td>the program or viewer that reads the mouse</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-key-queue">The key queue</h2>
+<p>The keyboard handler puts a key into the queue of the tab in front, and the program takes it out. When the queue is empty the program waits and the scheduler doesn&#x27;t run it until a key arrives (<a href="scheduler.html">scheduler</a>). Keys pressed while the queue is full, after 63 keys, are dropped. When a line fails, the prompt throws away the keys that arrived during it, so keys typed while a broken loop was running don&#x27;t reach the next prompt. Printable keys are their ASCII code, and the arrow and paging keys are 256 and up (<a href="keyboard.html">keyboard</a>).</p>
+<h2 id="mouse-events">Mouse events</h2>
+<p>The mouse handler records a button press or a wheel step, and not every movement, so a drag doesn&#x27;t fill the ring. The ring holds 15 events and drops new ones when it is full. The pointer position is kept apart and is read with <code>mouse</code> (<a href="mouse.html">mouse</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The PS/2 controller - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="The PS/2 controller - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="the-ps2-controller">The PS/2 controller</h1>
+<ul class="toc">
+<li><a href="#the-keyboard">The keyboard</a></li>
+<li><a href="#the-mouse">The mouse</a></li>
+<li><a href="#the-reset-line">The reset line</a></li>
+<li><a href="#real-machines">Real machines</a></li>
+</ul>
+<p>The keyboard and the mouse are attached to one chip, the keyboard controller, which has a channel for each. It is reached through port <code>0x60</code> for data and port <code>0x64</code> for the status and for commands. A program has to wait until the controller is ready before it writes and until it has a byte before it reads. The kernel gives up if the controller never answers.</p>
+<h2 id="the-keyboard">The keyboard</h2>
+<p>The keyboard sends scancodes of set 1. Each press sends one code and each release sends the same code with the top bit set (<a href="scancodes.html">scancodes</a>). The keyboard raises IRQ 1, and the handler reads exactly one byte each time, since the controller doesn&#x27;t raise the interrupt again until the byte is taken (<a href="interrupts.html">interrupts</a>).</p>
+<h2 id="the-mouse">The mouse</h2>
+<p>The mouse raises IRQ 12. At boot the kernel turns on the second channel and asks the mouse to send packets of movement and buttons. A mouse that answers with a wheel gets four-byte packets, and one that doesn&#x27;t gets three. If the mouse doesn&#x27;t answer, the system runs without it and <code>mouse?</code> is <code>0</code> (<a href="mouse.html">mouse</a>). The pointer is drawn on the text screen as an inverted cell.</p>
+<h2 id="the-reset-line">The reset line</h2>
+<p>The controller also holds the line that resets the processor, and <code>reboot</code> pulses it (<a href="machine.html">machine</a>).</p>
+<h2 id="real-machines">Real machines</h2>
+<p>Many machines have no PS/2 ports and emulate the controller for a USB keyboard and mouse. The emulation is often called legacy support and has to be turned on in the firmware. Where it isn&#x27;t there the system starts and can&#x27;t be typed at (<a href="why-not-more.html">why not more</a>).</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

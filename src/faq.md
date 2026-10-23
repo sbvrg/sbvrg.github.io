@@ -76,11 +76,15 @@ Yes. `themes` lists the themes and `'haelide theme` switches to one. `n r g b rg
 
 ### Why is the screen so small?
 
-Subverge uses 80 by 25 VGA text mode, with the top row taken by the tab bar. `gfx` starts a 640 by 480 graphics mode, which can draw dots and boxes but not text yet. Text in graphics mode is on the [roadmap](roadmap.md). See [screen](screen.md).
+Subverge uses 80 by 25 VGA text mode, with the top row taken by the tab bar. `gfx` starts a 640 by 480 graphics mode, which can draw dots, boxes, text and titled window frames. See [screen](screen.md).
 
 ### Does it have networking, sound or a GUI?
 
-Not yet. All three are on the [roadmap](roadmap.md).
+Sound: yes, through the PC speaker. `beep` plays a tone with a pitch and a length ([ports](ports.md)). Anything beyond the speaker is on the [roadmap](roadmap.md).
+
+GUI: graphics mode draws dots, boxes, text and window frames, and a PS/2 mouse works on the text screen ([mouse](mouse.md)). A desktop with windows is the goal of the next releases and is on the [roadmap](roadmap.md).
+
+Networking: not yet. It is on the [roadmap](roadmap.md).
 
 ## The language
 

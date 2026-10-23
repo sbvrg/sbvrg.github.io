@@ -10,67 +10,36 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792710629">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792710629">
+<link rel="stylesheet" href="style.css?v=1792754253">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark-light.png?v=1792710629" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
-<div class="dd"><a href="features.html">About</a>
-<ul>
-<li><a href="features.html">Features</a></li>
-<li><a href="new.html">What's new</a></li>
-<li><a href="learn.html">Learn</a></li>
-<li><a href="roadmap.html">Roadmap</a></li>
-<li><a href="expectations.html">Expectations</a></li>
-<li><a href="history.html">History</a></li>
-</ul></div>
-<div class="dd"><a href="installation.html">Get Subverge</a>
-<ul>
-<li><a href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download the ISO</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="qemu.html">QEMU</a></li>
-<li><a href="hardware.html">Hardware</a></li>
-<li><a href="https://github.com/texivi/Subverge/releases">All releases</a></li>
-</ul></div>
-<div class="dd"><a href="handbook.html">Documentation</a>
-<ul>
-<li><a href="handbook.html">Handbook</a></li>
-<li><a href="readme.html">README</a></li>
-<li><a href="first-steps.html">First steps</a></li>
-<li><a href="programming.html">Writing programs</a></li>
-<li><a href="snippets.html">Snippets</a></li>
-<li><a href="omega.html">omega</a></li>
-<li><a href="smarties.html">For smarties</a></li>
-<li><a href="all-words.html">All words</a></li>
-</ul></div>
-<div class="dd"><a href="faq.html">Support</a>
-<ul>
-<li><a href="faq.html">FAQ</a></li>
-<li><a href="troubleshooting.html">Troubleshooting</a></li>
-<li><a href="errors.html">Errors</a></li>
-<li><a href="bugs.html">Reporting bugs</a></li>
-</ul></div>
-<div class="dd"><a href="development.html">Developers</a>
-<ul>
-<li><a href="development.html">Building</a></li>
-<li><a href="testing.html">Testing</a></li>
-<li><a href="source-layout.html">Source layout</a></li>
-<li><a href="builtins.html">Writing a built-in</a></li>
-<li><a href="https://github.com/texivi/Subverge">Source code</a></li>
-</ul></div>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
 </nav>
-<a class="get" href="https://github.com/texivi/Subverge/releases/latest/download/subverge.iso">Download</a>
 <button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
 </div>
 </header>
 <script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
 document.querySelector(".mode").onclick = function () {
   var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   d.dataset.theme = dark ? "light" : "dark";
@@ -79,9 +48,21 @@ document.querySelector(".mode").onclick = function () {
 </script>
 <main class="doc">
 <h1 id="tabs">Tabs</h1>
+<ul class="toc">
+<li><a href="#switching">Switching</a></li>
+<li><a href="#what-each-tab-has">What each tab has</a></li>
+<li><a href="#the-tab-bar">The tab bar</a></li>
+<li><a href="#working-with-tabs-from-omega">Working with tabs from omega</a></li>
+<li><a href="#running-things-in-parallel">Running things in parallel</a></li>
+<li><a href="#a-way-to-use-them">A way to use them</a></li>
+<li><a href="#titles-in-programs">Titles in programs</a></li>
+<li><a href="#stopping-a-tab">Stopping a tab</a></li>
+<li><a href="#faults">Faults</a></li>
+<li><a href="#startup">Startup</a></li>
+</ul>
 <p>Subverge has four tabs. Each is a complete omega session with its own stack, definitions and screen, and all four run at the same time. Tabs are the only form of concurrency in Subverge, and there are always exactly four of them.</p>
 <h2 id="switching">Switching</h2>
-<p>F1 to F4 switch to tabs 1 to 4, and so do Alt-1 to Alt-4. The switch happens inside the keyboard interrupt, so it works even while every tab is busy, and it is the way out of a program that doesn&#x27;t respond to Ctrl-C.</p>
+<p>F1 to F4 switch to tabs 1 to 4, and so do Alt-1 to Alt-4. A click on a tab title in the top bar does the same when a PS/2 mouse is present (<a href="mouse.html">mouse</a>). The switch happens inside the keyboard interrupt, so it works even while every tab is busy, and it is the way out of a program that doesn&#x27;t respond to Ctrl-C.</p>
 <p>The screen shows one tab at a time. Switching copies the chosen tab&#x27;s screen to the display, so you see it exactly as it was left, including output it printed while it was hidden.</p>
 <h2 id="what-each-tab-has">What each tab has</h2>
 <p>Each tab has its own:</p>
@@ -161,7 +142,10 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792710629" alt="">
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
 </footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
 </body>
 </html>

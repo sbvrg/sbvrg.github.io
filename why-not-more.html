@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Not More? - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Why Not More? - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792754253">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792754253">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792754253" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="why-not-more">Why Not More?</h1>
+<ul class="toc">
+<li><a href="#real-hardware">Real hardware</a></li>
+<li><a href="#uefi">UEFI</a></li>
+<li><a href="#usb">USB</a></li>
+<li><a href="#disks">Disks</a></li>
+<li><a href="#networking">Networking</a></li>
+<li><a href="#sound">Sound</a></li>
+<li><a href="#floating-point">Floating point</a></li>
+<li><a href="#more-than-one-cpu">More than one CPU</a></li>
+<li><a href="#files">Files</a></li>
+<li><a href="#protection">Protection</a></li>
+<li><a href="#fonts">Fonts</a></li>
+</ul>
+<p>Subverge leaves out much that other systems have. Each item on this page is missing because it is a driver or a layer of its own, and each of them is on the <a href="roadmap.html">roadmap</a> or has a reason it isn&#x27;t.</p>
+<h2 id="real-hardware">Real hardware</h2>
+<p>Subverge is developed and tested in QEMU only. The drivers are written for the hardware QEMU provides, which is a PC from the late 1990s with a 64-bit CPU: a PIT and two PICs for time and interrupts, a PS/2 keyboard and mouse, IDE disks through the legacy ports and a VGA card, with Bochs graphics for the <code>gfx</code> mode. Many real machines provide the same things through compatibility modes in their firmware. A machine that does not, such as one that boots only through UEFI, can&#x27;t start the system.</p>
+<h2 id="uefi">UEFI</h2>
+<p>The ISO boots through GRUB in BIOS mode and an installed disk boots through Subverge&#x27;s own boot sector and second stage, which use BIOS disk services (<a href="boot.html">boot</a>). UEFI is on the roadmap. It needs a loader that is a program in a different format and a different way of finding the memory map, and it takes away the VGA text mode that the text screen needs.</p>
+<h2 id="usb">USB</h2>
+<p>A USB keyboard or mouse works only where the firmware emulates a PS/2 controller for it. A USB driver is a stack of layers, one for each of the controllers that PCs have had, and each one is large. It is on the roadmap.</p>
+<h2 id="disks">Disks</h2>
+<p>Subverge reads and writes IDE disks through the legacy ports and uses programmed I/O, so it is slow and works everywhere QEMU&#x27;s IDE controller does. Disks behind an AHCI controller, an NVMe controller or a virtio device are not seen. AHCI is on the roadmap (<a href="drives.html">drives</a>).</p>
+<h2 id="networking">Networking</h2>
+<p>There is no network driver. A network stack is a driver and a set of protocols, and the protocols are most of the work. It is on the roadmap.</p>
+<h2 id="sound">Sound</h2>
+<p>The only sound is the PC speaker, which plays one tone at a time through <code>beep</code>. A sound card driver would need the PCI bus, and the format of the sound is not decided. It is on the roadmap.</p>
+<h2 id="floating-point">Floating point</h2>
+<p>omega&#x27;s numbers are exact integers, bignums, ordinals and cardinals. The kernel is compiled without floating point so that it doesn&#x27;t have to save the registers of the unit when it switches tasks. A floating point number type is on the roadmap.</p>
+<h2 id="more-than-one-cpu">More than one CPU</h2>
+<p>The system uses one core. The scheduler, the heap and the interrupt handlers assume nothing runs in parallel with them. Several cores are on the roadmap.</p>
+<h2 id="files">Files</h2>
+<p>The disk holds fixed slots and not files, so there is no file manager and no paths (<a href="disk-layout.html">disk layout</a>). Programs and definitions are omega words, and an installed disk saves them as omega source. There is nothing on the roadmap for files.</p>
+<h2 id="protection">Protection</h2>
+<p>All code runs in ring 0 with access to everything, and a bad write can stop the machine. Nothing on the roadmap changes this (<a href="design.html">design</a>).</p>
+<h2 id="fonts">Fonts</h2>
+<p>There is one font, the 8 by 16 font of the VGA card,.</p>
+<p>See <a href="decisions.html">decisions</a> for what the system chose to do and <a href="expectations.html">expectations</a> for what to expect of it.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792754253" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

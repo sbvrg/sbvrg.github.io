@@ -34,26 +34,30 @@ The whole tutorial runs as a single line, so all the definitions you made in it 
 
 | | Lesson | | Lesson |
 |---|---|---|---|
-| 1 | Operand stack | 21 | Tabs |
-| 2 | Postfix evaluation | 22 | Help |
-| 3 | Stack words | 23 | Time |
-| 4 | Integers | 24 | Keys |
-| 5 | Big numbers | 25 | Drawing |
-| 6 | Truth | 26 | Themes |
-| 7 | Strings | 27 | Ordinals |
-| 8 | Quotes | 28 | Cardinals |
-| 9 | Definitions | 29 | Counting past infinity |
-| 10 | Reflection | 30 | Machine access |
-| 11 | Locals | 31 | JIT |
-| 12 | Dynamic scope | 32 | Programs |
-| 13 | Conditionals | 33 | Small tools |
-| 14 | Loops | 34 | Editing a word |
-| 15 | Recursion | 35 | Writing a program |
-| 16 | Tracing | 36 | Registering it in apps |
-| 17 | Lists | 37 | Checking the entry |
-| 18 | Transactions | 38 | Root units |
-| 19 | Undo | 39 | Persistence |
-| 20 | Catching errors | 40 | Where next |
+| 1 | Operand stack | 25 | Drawing |
+| 2 | Postfix evaluation | 26 | Themes |
+| 3 | Stack words | 27 | Ordinals |
+| 4 | Integers | 28 | Cardinals |
+| 5 | Big numbers | 29 | Counting past infinity |
+| 6 | Truth | 30 | Same size |
+| 7 | Strings | 31 | The hotel |
+| 8 | Quotes | 32 | Fractions |
+| 9 | Definitions | 33 | Too many reals |
+| 10 | Reflection | 34 | Alephs |
+| 11 | Locals | 35 | Hailstones |
+| 12 | Dynamic scope | 36 | Bit parity |
+| 13 | Conditionals | 37 | Machine access |
+| 14 | Loops | 38 | JIT |
+| 15 | Recursion | 39 | Programs |
+| 16 | Tracing | 40 | Small tools |
+| 17 | Lists | 41 | Editing a word |
+| 18 | Transactions | 42 | Writing a program |
+| 19 | Undo | 43 | Registering it in apps |
+| 20 | Catching errors | 44 | Checking the entry |
+| 21 | Tabs | 45 | Root units |
+| 22 | Help | 46 | Persistence |
+| 23 | Time | 47 | Where next |
+| 24 | Keys | | |
 
 The first half is the language: the stack, values, definitions, locals and their dynamic scope, control flow and lists. The middle covers what makes Subverge different, namely [transactions](transactions.md), [back](back.md), `try`, [tabs](tabs.md), [themes](themes.md), and the ordinals and cardinals. The last part walks through writing a small program, adding it to [apps](apps.md) and putting it in a [root unit](units.md) so it is saved.
 

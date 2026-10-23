@@ -30,10 +30,11 @@ All of Subverge was written for it, in C, assembly and omega. The only outside c
 
 ## Releases
 
-The current release is **Subverge 0.9.3**, with ordinal 1.0.3 and omega 1.0.3. It added text and windows to graphics mode. See the [roadmap](roadmap.md) for what each release added.
+The current release is **Subverge 0.9.4**, with ordinal 1.0.4 and omega 1.0.4. It added the help pages inside the system and the mouse. See the [roadmap](roadmap.md) for what each release added.
 
 | Release | ordinal | omega |
 |---|---|---|
+| 0.9.4 | 1.0.4 | 1.0.4 |
 | 0.9.3 | 1.0.3 | 1.0.3 |
 | 0.9.2 | 1.0.2 | 1.0.2 |
 | 0.9.1 | 1.0.1 | 1.0.1 |
