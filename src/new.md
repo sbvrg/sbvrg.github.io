@@ -1,5 +1,44 @@
 # What's new
 
+## Subverge 0.9.5
+
+Subverge 0.9.5 comes with ordinal 1.0.5 and omega 1.0.5. Get it from the [releases page](https://github.com/texivi/Subverge/releases/tag/v0.9.5).
+
+### Pictures
+
+The kernel has a JPEG decoder and nine pictures built in. `gallery` shows them one at a time, with the arrows to move and `q` to leave:
+
+    gallery
+
+![the gallery](images/95-gallery-fjord.jpg)
+
+Graphics mode is 24-bit colour now, so a photograph is drawn as it is and not cut down to a palette. The words that draw with the sixteen theme colours, `dot`, `box`, `window` and `text`, work as before. See [pictures](pictures.md).
+
+### Bitmaps
+
+A program can make its own pictures. `bitmap` makes a pixel grid, `bmp-set`, `bmp-fill` and `bmp-box` change it and `bmp-show` draws it:
+
+    gfx
+    200 100 bitmap { b }
+    b 0x102030 bmp-fill
+    b 10 10 180 80 0xFFC040 bmp-box
+    b 20 20 bmp-show
+    key drop gfx-off
+
+`picture` decodes a built-in picture into a bitmap, so one can be drawn on and shown again.
+
+### Credits
+
+`credits` shows the credits with the author's picture. The haelide theme is credited to HaliadeSYS by gretagen, and the photographs to the people who took them. See [credits](credits.md).
+
+![the credits screen](images/95-credits.png)
+
+### Fixes
+
+- A PS/2 mouse packet with the overflow bit set is dropped and no longer moves the pointer far away.
+- `install` works again with the help pages linked in. The pages had made the kernel's data too large to copy.
+- The installed boot stage loads a kernel of any size that fits its slot. It stopped at 576 KiB before.
+
 ## Subverge 0.9.4
 
 Subverge 0.9.4 comes with ordinal 1.0.4 and omega 1.0.4. Get it from the [releases page](https://github.com/texivi/Subverge/releases/tag/v0.9.4).

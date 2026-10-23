@@ -57,7 +57,7 @@ Row 0 is drawn by the kernel, not by any tab, so you can't draw over it with `pu
 
 ## Graphics mode
 
-`gfx` switches the screen to 640 by 480 graphics with the sixteen colours of the current [theme](themes.md), and `gfx-off` switches back to the text screen.
+`gfx` switches the screen to 640 by 480 graphics, and `gfx-off` switches back to the text screen. The drawing words below use the sixteen colours of the current [theme](themes.md). Pictures and bitmaps use any 24-bit colour and are described in [pictures](pictures.md).
 
 | Word | Effect | |
 |---|---|---|
@@ -96,6 +96,8 @@ The text screen isn't shown in graphics mode, so the prompt and anything the tab
 ![window](images/93-window.png)
 
 Mouse input isn't in graphics mode yet, and windows don't move or overlap on their own. It is the first step toward the planned desktop with windows ([roadmap](roadmap.md)).
+
+`bitmap`, `bmp-show` and the other words for full-colour drawing are in [pictures](pictures.md).
 
 `gfx` needs QEMU's default `-vga std` display, which is the one that has the Bochs display registers at ports `0x1CE` and `0x1CF` ([ports](ports.md)). On anything else it fails with `no Bochs display here, start QEMU with -vga std`.
 

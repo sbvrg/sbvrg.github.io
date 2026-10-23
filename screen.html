@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792772213">
+<link rel="icon" type="image/png" href="logo.png?v=1792773754">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792772213">
+<link rel="stylesheet" href="style.css?v=1792773754">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1792772213" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1792773754" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
@@ -157,7 +157,7 @@ document.querySelector(".mode").onclick = function () {
 <h2 id="the-tab-bar">The tab bar</h2>
 <p>Row 0 is drawn by the kernel, not by any tab, so you can&#x27;t draw over it with <code>put</code>. It shows the four tab titles, highlights the current one, marks the ones with something new with <code>*</code>, and shows the clock at the right edge. The clock is the machine&#x27;s real-time clock, which in QEMU is UTC by default.</p>
 <h2 id="graphics-mode">Graphics mode</h2>
-<p><code>gfx</code> switches the screen to 640 by 480 graphics with the sixteen colours of the current <a href="themes.html">theme</a>, and <code>gfx-off</code> switches back to the text screen.</p>
+<p><code>gfx</code> switches the screen to 640 by 480 graphics, and <code>gfx-off</code> switches back to the text screen. The drawing words below use the sixteen colours of the current <a href="themes.html">theme</a>. Pictures and bitmaps use any 24-bit colour and are described in <a href="pictures.html">pictures</a>.</p>
 <table>
 <thead>
 <tr>
@@ -220,6 +220,7 @@ document.querySelector(".mode").onclick = function () {
 </code></pre>
 <p><img src="images/93-window.png" alt="window"></p>
 <p>Mouse input isn&#x27;t in graphics mode yet, and windows don&#x27;t move or overlap on their own. It is the first step toward the planned desktop with windows (<a href="roadmap.html">roadmap</a>).</p>
+<p><code>bitmap</code>, <code>bmp-show</code> and the other words for full-colour drawing are in <a href="pictures.html">pictures</a>.</p>
 <p><code>gfx</code> needs QEMU&#x27;s default <code>-vga std</code> display, which is the one that has the Bochs display registers at ports <code>0x1CE</code> and <code>0x1CF</code> (<a href="ports.html">ports</a>). On anything else it fails with <code>no Bochs display here, start QEMU with -vga std</code>.</p>
 <h2 id="poking-it">Poking it</h2>
 <p><code>poke</code> can write into <code>0xB8000</code> directly. What it writes is overwritten the next time the visible tab is drawn. See <a href="memory.html">memory</a> for the details.</p>
@@ -228,7 +229,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792772213" alt="">
+<img class="cat" src="mark-footer.png?v=1792773754" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

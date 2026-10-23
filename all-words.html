@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792772213">
+<link rel="icon" type="image/png" href="logo.png?v=1792773754">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792772213">
+<link rel="stylesheet" href="style.css?v=1792773754">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1792772213" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1792773754" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
@@ -1296,6 +1296,84 @@ document.querySelector(".mode").onclick = function () {
 <td><code>40 40 300 160 &quot;first&quot; window</code></td>
 </tr>
 <tr>
+<td><code>bitmap</code></td>
+<td><code>w h -- id</code></td>
+<td>A new black bitmap, w by h pixels.</td>
+<td><code>320 200 bitmap</code></td>
+</tr>
+<tr>
+<td><code>bmp-set</code></td>
+<td><code>id x y rgb --</code></td>
+<td>Sets one pixel of a bitmap.</td>
+<td><code>0 10 10 0xFF0000 bmp-set</code></td>
+</tr>
+<tr>
+<td><code>bmp-get</code></td>
+<td><code>id x y -- rgb</code></td>
+<td>The colour of one pixel of a bitmap.</td>
+<td><code>0 10 10 bmp-get</code></td>
+</tr>
+<tr>
+<td><code>bmp-fill</code></td>
+<td><code>id rgb --</code></td>
+<td>Fills a bitmap with one colour.</td>
+<td><code>0 0x203040 bmp-fill</code></td>
+</tr>
+<tr>
+<td><code>bmp-box</code></td>
+<td><code>id x y w h c --</code></td>
+<td>Fills a rectangle of a bitmap.</td>
+<td><code>0 5 5 20 10 0xFFFF00 bmp-box</code></td>
+</tr>
+<tr>
+<td><code>bmp-size</code></td>
+<td><code>id -- w h</code></td>
+<td>The width and height of a bitmap.</td>
+<td><code>0 bmp-size</code></td>
+</tr>
+<tr>
+<td><code>bmp-free</code></td>
+<td><code>id --</code></td>
+<td>Frees a bitmap. There is room for 16.</td>
+<td><code>0 bmp-free</code></td>
+</tr>
+<tr>
+<td><code>bmp-show</code></td>
+<td><code>id x y --</code></td>
+<td>Draws a bitmap in graphics mode.</td>
+<td><code>gfx 0 20 20 bmp-show</code></td>
+</tr>
+<tr>
+<td><code>pack-rgb</code></td>
+<td><code>r g b -- n</code></td>
+<td>Joins red, green, blue 0 to 255 into one colour.</td>
+<td><code>255 128 0 pack-rgb</code></td>
+</tr>
+<tr>
+<td><code>picture</code></td>
+<td><code>s -- id</code></td>
+<td>Decodes a built-in picture into a bitmap.</td>
+<td><code>&quot;mountain-lake&quot; picture</code></td>
+</tr>
+<tr>
+<td><code>pictures</code></td>
+<td><code>-- l</code></td>
+<td>The names of the built-in pictures.</td>
+<td><code>pictures</code></td>
+</tr>
+<tr>
+<td><code>gallery</code></td>
+<td><code>--</code></td>
+<td>Shows the built-in pictures. Arrows, q leaves.</td>
+<td><code>gallery</code></td>
+</tr>
+<tr>
+<td><code>credits</code></td>
+<td><code>--</code></td>
+<td>Who made what, with the author&#x27;s picture.</td>
+<td><code>credits</code></td>
+</tr>
+<tr>
 <td><code>title</code></td>
 <td><code>s --</code></td>
 <td>Names this tab in the tab bar.</td>
@@ -2406,7 +2484,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792772213" alt="">
+<img class="cat" src="mark-footer.png?v=1792773754" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

@@ -47,6 +47,7 @@ The two repositories are independent. The website build finds the OS repository 
 | `kernel/` | the C source, one file per subsystem, and its headers |
 | `root/` | the omega units, one per file, in the order they are built |
 | `doc/` | the help pages, one markdown file per page |
+| `art/` | the JPEG pictures that `picture` and `gallery` use |
 | `test/` | the host harness, the QEMU driver and the `.qd` scripts |
 | `build/` | everything the Makefile produces, thrown away by `make clean` |
 
@@ -74,12 +75,13 @@ A new `.c` file in `kernel/` is picked up by the wildcard in the Makefile. A new
 
 ### Blobs linked into the kernel
 
-Three kinds of data are linked into the kernel with `ld -r -b binary`, which turns a file into an object with `_binary_<path>_start` and `_binary_<path>_end` symbols:
+Four kinds of data are linked into the kernel with `ld -r -b binary`, which turns a file into an object with `_binary_<path>_start` and `_binary_<path>_end` symbols:
 
 | Blob | Made from | Read by |
 |---|---|---|
 | `build/rootfs.bin` | every file in `root/`, concatenated in file name order | `kernel/root.c`, at boot |
 | `build/docfs.bin` | every file in `doc/`, each preceded by a line `#>> name` | `kernel/doc.c`, when a page is opened |
+| `build/pics.bin` | every file in `art/`, each preceded by a line `#>> name length` | `kernel/img.c`, when a picture is decoded |
 | `build/bootbins.o` | the MBR and stage 2, assembled as flat binaries | `kernel/persist.c`, by `install` |
 
 Unit files start with a number to set the order, so a unit can use the words of the units before it. The help pages are sorted by name, and the order doesn't matter, since the pager looks pages up by name.
@@ -175,11 +177,12 @@ Each tab then loads its saved world, tab 1 runs `startup`, and all four wait at 
 | `cpu.c` | IDT, PICs, PIT, interrupt and fault handlers | [interrupts](interrupts.md) |
 | `sched.c` | the four tab tasks and the scheduler | [scheduler](scheduler.md) |
 | `mem.c` | the heap, one first-fit allocator | [memory](memory.md) |
-| `vga.c`, `font.c` | text mode, a screen buffer per tab, tab bar, palette, graphics mode, the pointer | [screen](screen.md) |
+| `vga.c`, `font.c` | text mode, a screen buffer per tab, tab bar, palette, the pointer | [screen](screen.md) |
 | `kbd.c`, `mouse.c` | PS/2 keyboard and mouse, one key queue per task | [keyboard](keyboard.md), [mouse](mouse.md) |
 | `disk.c`, `persist.c` | ATA PIO, the state header and the slots | [disk layout](disk-layout.md), [saving](saving.md) |
 | `omega.c`, `words.c` | the language and the core words | [language](language.md) |
 | `hw.c` | the machine words: memory, ports, PCI, screen, time | [machine](machine.md) |
+| `gfx.c`, `img.c` | graphics mode in 24-bit colour, bitmaps and the JPEG decoder | [screen](screen.md), [pictures](pictures.md) |
 | `big.c`, `ord.c` | bignums, ordinals, cardinals | [numbers](numbers.md), [ordinals](ordinals.md) |
 | `root.c` | root units, rebuilding, `open` and `unit` | [root](root.md) |
 | `jit.c`, `dis.c` | the JIT and the disassembler | [jit](jit.md), [dis](dis.md) |
@@ -198,7 +201,7 @@ Everything runs in ring 0 in one address space. A fault in a tab restarts that t
 3. Build the real kernel with `make` and check that it still links with `-Wall -Wextra` clean. The flags forbid SSE (`-mgeneral-regs-only`) and the red zone (`-mno-red-zone`). Do not add floating point, `memcpy` variants that use vector registers, or code that assumes a red zone.
 4. Boot with `make run` (`qemu -kernel build/subverge.elf -m 256M`). Check that all four tabs start, that F1 to F4 and Alt+1 to 4 switch, and that the tab bar clock advances.
 5. Boot the ISO with `make run-iso`. A change to `boot/boot.asm`, to `linker.ld` or to the Multiboot header is visible here and in step 4 but a mistake in the header can pass one and fail the other. Check that `sys` shows the expected memory size.
-6. If the change touches boot, `persist.c`, `disk.c`, the linker script or the size of `.data`, run `make run-install`, install to the drive, then boot it with `make run-disk`. Verify that the saved definitions, theme and logo return in the right tabs. The image must stay within `0x90000` bytes.
+6. If the change touches boot, `persist.c`, `disk.c`, the linker script or the size of `.data`, run `make run-install`, install to the drive, then boot it with `make run-disk`. Verify that the saved definitions, theme and logo return in the right tabs. The kernel has to fit in its 2 MiB slot, which `install` checks.
 7. Run the scripted tests that apply. `make jit-test` boots the kernel under `build/qdrive` and drives it with `test/jit.qd`. The scripts in `test/*.qd` (`boot.qd`, `iso.qd`, `install.qd`, `isoinst.qd`, `gfx.qd`, `startup.qd`, `win.qd`, `help.qd`) cover the boot paths, graphics mode, installation and the pager.
 8. For every function you add that runs in an interrupt handler, confirm it does not call `kmalloc`, `kfree`, `yield`, or anything that blocks, and that it touches shared state only through `volatile` single-writer rings or inside `irq_save`.
 9. For every function that touches state shared between tasks, between a task and an IRQ, or the screen, confirm which side writes and whether an `irq_save` / `irq_restore` pair is needed. Keep the sections short: tick accounting stops while interrupts are off, and `disk_rw` already keeps them off for up to 128 sectors.
@@ -279,6 +282,8 @@ Each module ends with a `const struct builtin` array terminated by `{ NULL, NULL
 |-------|------|----------|
 | `core_words` | `kernel/words.c` | Stack, arithmetic, logic, flow, lists, text, output, names, `back`, `redo`, `eval`, `try`, `fail`, `trace`, `edit`, `calc`. |
 | `hw_words` | `kernel/hw.c` | Memory and ports, cpu, pci, memory map, clocks, the screen, keys, themes, logos, `reboot`, `halt`. |
+| `gfx_words` | `kernel/gfx.c` | `gfx`, `gfx-off`, `dot`, `box`, `window`. |
+| `img_words` | `kernel/img.c` | Bitmaps, `picture` and `pictures`. |
 | `ord_words` | `kernel/ord.c` | `omega`, `epsilon0`, `omega1`, `aleph0`, `aleph1`, `aleph`, `continuum`, `card`, `ordinal?`. |
 | `root_words` | `kernel/root.c` | `root`, `open`, `unit`, `src`. |
 | `persist_words` | `kernel/persist.c` | `drives`, `home`, `ask`, `install-to`, `save`. |
@@ -921,6 +926,7 @@ The registration order in `main` is the same as `kmain`: `core_words`, `hw_words
     kernel/lib.c kernel/big.c kernel/omega.c kernel/words.c kernel/ord.c kernel/root.c kernel/hw.c
     kernel/line.c kernel/scrawl.c kernel/calc.c kernel/sysinfo.c kernel/mem.c kernel/vga.c
     kernel/sched.c kernel/jit.c kernel/dis.c kernel/help.c kernel/doc.c kernel/mouse.c
+    kernel/gfx.c kernel/img.c
 
 Five kernel files are left out, and `test/host.c` defines the symbols they would have provided.
 
@@ -1195,7 +1201,7 @@ A test is finished when the screenshot shows what the feature should show and a 
 | `'name help` shows a page with the wrong group | the `group` field of the entry; groups are listed in order at the top of `help.c` | edit the entry |
 | Text vanishes when switching tabs | Output that bypassed the per-tab buffer. Each tab owns `term.buf` (80 by 24 cells). `vga_put` writes the buffer and, for the active tab, video memory too. `switch_tab` redraws video memory from the buffer, so anything written to video memory with `hw_put` or directly to `HW[]` is lost. Only the tab bar, `panic` and the pointer cell are meant to do that. Output from a task that is not active goes to its buffer only and marks the tab with `*` | write through `vga_put`, `vga_puts_at` or `kputc`; check that code in an interrupt handler does not call `vga_put`, since `current` there is the interrupted task and the text lands in its buffer |
 | Garbled text, wrong colours or a wrong font after `gfx-off` | The text mode registers or the font were not restored. `gfx_leave` does the restore: `vbe(4, 0)`, `font_restore(saved_font)`, `vga_restore()` and the palette from the current theme, and clears `gfx_on`. It relies on `vga_save()` and `font_save()` having been called by `gfx` when it entered. A fault inside graphics mode leaves `gfx_on` set; the tab restarts without the screen being restored, until `gfx-off` or any tab switch (`switch_tab` calls `gfx_leave` first) | switch to another tab and back; check that new code that changes the mode goes through `gfx_leave` |
-| Drawing words fail with `graphics mode is off, run gfx first` | `dot`, `box` and `window` check `gfx_on` | run `gfx` first; the check is in `hw.c` |
+| Drawing words fail with `graphics mode is off, run gfx first` | `dot`, `box`, `window` and `bmp-show` check `gfx_on` | run `gfx` first; the check is in `gfx.c` and `img.c` |
 | `gfx` fails with `no Bochs display here, start QEMU with -vga std` | `b_gfx` scans PCI bus 0 for the device `0x1234:0x1111` and reads the VBE ID register `0xB0Cx` | start QEMU with `-vga std` |
 | The mouse does not move | The pointer is drawn only after the first movement event. QEMU delivers pointer events to the guest only after the window grabbed the mouse (click in it, Ctrl-Alt-G releases) and never in `-display none`, where `mon mouse_move` can be used instead. `mouse?` is 0 when `mouse_init` failed: the controller did not answer within 100000 polls, or the reset `0xF6` or enable `0xF4` command was not acknowledged with `0xFA`. IRQ 12 is unmasked in `cpu_init` (`0xA1` mask `0xEF`) | run `mouse? .`; if it is 1, check `info mice` in the monitor; in the pager, events are posted only for a task whose `mouse_on` is set, which `doc.c` sets while the viewer runs; tab clicks work in every program |
 | The keys go nowhere or into the wrong tab | `kbd.c` pushes to `tabs[active_tab]`, and `kbd_get` reads `current->kb`. The ring has 64 entries and drops keys when it is full | check `active_tab`; a word that runs for a long time and does not read keys lets the queue fill |

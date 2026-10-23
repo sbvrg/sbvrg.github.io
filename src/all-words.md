@@ -275,6 +275,19 @@ Drawing on the screen.
 | `dot` | `x y col --` | Sets one pixel in graphics mode. | `320 240 14 dot` |
 | `box` | `x y w h col --` | Fills a rectangle in graphics mode. | `20 20 100 60 5 box` |
 | `window` | `x y w h title --` | Draws a titled window frame in graphics mode. | `40 40 300 160 "first" window` |
+| `bitmap` | `w h -- id` | A new black bitmap, w by h pixels. | `320 200 bitmap` |
+| `bmp-set` | `id x y rgb --` | Sets one pixel of a bitmap. | `0 10 10 0xFF0000 bmp-set` |
+| `bmp-get` | `id x y -- rgb` | The colour of one pixel of a bitmap. | `0 10 10 bmp-get` |
+| `bmp-fill` | `id rgb --` | Fills a bitmap with one colour. | `0 0x203040 bmp-fill` |
+| `bmp-box` | `id x y w h c --` | Fills a rectangle of a bitmap. | `0 5 5 20 10 0xFFFF00 bmp-box` |
+| `bmp-size` | `id -- w h` | The width and height of a bitmap. | `0 bmp-size` |
+| `bmp-free` | `id --` | Frees a bitmap. There is room for 16. | `0 bmp-free` |
+| `bmp-show` | `id x y --` | Draws a bitmap in graphics mode. | `gfx 0 20 20 bmp-show` |
+| `pack-rgb` | `r g b -- n` | Joins red, green, blue 0 to 255 into one colour. | `255 128 0 pack-rgb` |
+| `picture` | `s -- id` | Decodes a built-in picture into a bitmap. | `"mountain-lake" picture` |
+| `pictures` | `-- l` | The names of the built-in pictures. | `pictures` |
+| `gallery` | `--` | Shows the built-in pictures. Arrows, q leaves. | `gallery` |
+| `credits` | `--` | Who made what, with the author's picture. | `credits` |
 | `title` | `s --` | Names this tab in the tab bar. | `"build" title` |
 | `tab` | `n -- l` | About tab n: [ title state active ]. | `2 tab` |
 | `mytab` | `-- n` | Which tab you are in, 1 to 4. | `mytab` |

@@ -89,6 +89,26 @@ The result can't be computed or can't be represented.
 **`ZFC can't decide this one (continuum hypothesis, Godel 1940 and Cohen 1963)`**
 The comparison depends on the continuum hypothesis, which is independent of ZFC ([cardinals](cardinals.md)).
 
+## Screen
+
+**`graphics mode is off, run gfx first`**
+`dot`, `box`, `window` or `bmp-show` was used before `gfx` ([screen](screen.md)).
+
+**`no Bochs display here, start QEMU with -vga std`**
+`gfx` was used on a display that doesn't have the Bochs registers ([screen](screen.md)).
+
+**`no room for another bitmap, free one with bmp-free`**
+Sixteen bitmaps exist already. `bmp-free` gives one back ([pictures](pictures.md)).
+
+**`bmp-set needs the number of a bitmap`**
+The number wasn't one that `bitmap` or `picture` returned, or the bitmap was freed. This is also reported for `bmp-get`, `bmp-fill`, `bmp-box`, `bmp-size`, `bmp-free` and `bmp-show`.
+
+**`no picture named foo, pictures lists them`**
+`"foo" picture` named a picture that isn't built in ([pictures](pictures.md)).
+
+**`that picture could not be read: damaged`**
+The JPEG data is cut off or wrong. The reasons are `damaged`, `unsupported`, `not baseline` and `out of memory`.
+
 ## Root
 
 **`foo isn't in any root unit`**

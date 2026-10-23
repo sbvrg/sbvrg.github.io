@@ -117,6 +117,7 @@
 - [Memory](memory.md)
 - [Ports](ports.md)
 - [Screen](screen.md)
+- [Pictures](pictures.md)
 - [Keyboard](keyboard.md)
 - [The PS/2 controller](ps2.md)
 - [Scancodes](scancodes.md)

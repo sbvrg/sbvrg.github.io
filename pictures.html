@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pictures - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="Pictures - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1792773754">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1792773754">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1792773754" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="pictures">Pictures</h1>
+<ul class="toc">
+<li><a href="#the-gallery">The gallery</a></li>
+<li><a href="#bitmaps">Bitmaps</a></li>
+<li><a href="#drawing">Drawing</a></li>
+<li><a href="#the-built-in-pictures">The built-in pictures</a></li>
+<li><a href="#all-the-pictures">All the pictures</a></li>
+<li class="sub"><a href="#dune-planet">dune-planet</a></li>
+<li class="sub"><a href="#dusk-ridge">dusk-ridge</a></li>
+<li class="sub"><a href="#fjord-mist">fjord-mist</a></li>
+<li class="sub"><a href="#golden-coast">golden-coast</a></li>
+<li class="sub"><a href="#misty-meadow">misty-meadow</a></li>
+<li class="sub"><a href="#mountain-lake">mountain-lake</a></li>
+<li class="sub"><a href="#phosphor-horizon">phosphor-horizon</a></li>
+<li class="sub"><a href="#texivi">texivi</a></li>
+<li class="sub"><a href="#tulip-rows">tulip-rows</a></li>
+<li><a href="#adding-a-picture">Adding a picture</a></li>
+</ul>
+<p>Subverge can draw full-colour pictures on the <a href="screen.html">graphics screen</a>. There are two parts: bitmaps, which are pixel grids that a program fills in and draws, and the pictures built into the system, which decode into bitmaps. <code>gallery</code> shows the built-in pictures, and <code>credits</code> shows one of them next to the <a href="credits.html">credits</a>.</p>
+<p>All of it needs graphics mode, which needs QEMU&#x27;s default <code>-vga std</code> display. See <a href="screen.html">screen</a>.</p>
+<h2 id="the-gallery">The gallery</h2>
+<pre><code>gallery
+</code></pre>
+<p>draws the pictures one at a time, each at its own size on the 640 by 480 screen. The right and down arrows, Space and <code>n</code> go to the next one, the left and up arrows and <code>p</code> to the one before, and <code>q</code>, Esc or Ctrl-C leave. The name and the position are printed at the bottom. Decoding takes a moment, so a picture appears shortly after the key. <code>pictures</code> lists the names:</p>
+<pre><code>pictures
+</code></pre>
+<p>Every picture is a JPEG that was scaled to fit in 640 by 480 when the system was built, and the kernel decodes it with its own decoder. Colours are kept as 24-bit values, so a photograph is shown as it is and is not reduced to a palette.</p>
+<p><img src="images/95-gallery-dune.jpg" alt="the gallery"></p>
+<p><img src="images/95-gallery-fjord.jpg" alt="a photograph in the gallery"></p>
+<h2 id="bitmaps">Bitmaps</h2>
+<p>A bitmap is a width, a height and one colour per pixel, kept by the kernel and named by a number from 0 to 15. A colour is one number, <code>0xRRGGBB</code>, with each part from 0 to 255. <code>pack-rgb</code> builds one from its parts.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bitmap</code></td>
+<td><code>w h -- id</code>, a new black bitmap</td>
+</tr>
+<tr>
+<td><code>bmp-set</code></td>
+<td><code>id x y rgb --</code>, sets a pixel</td>
+</tr>
+<tr>
+<td><code>bmp-get</code></td>
+<td><code>id x y -- rgb</code>, reads a pixel</td>
+</tr>
+<tr>
+<td><code>bmp-fill</code></td>
+<td><code>id rgb --</code>, fills the whole bitmap</td>
+</tr>
+<tr>
+<td><code>bmp-box</code></td>
+<td><code>id x y w h rgb --</code>, fills a rectangle</td>
+</tr>
+<tr>
+<td><code>bmp-size</code></td>
+<td><code>id -- w h</code></td>
+</tr>
+<tr>
+<td><code>bmp-show</code></td>
+<td><code>id x y --</code>, draws the bitmap with its top-left corner at x, y</td>
+</tr>
+<tr>
+<td><code>bmp-free</code></td>
+<td><code>id --</code>, gives the bitmap back</td>
+</tr>
+<tr>
+<td><code>pack-rgb</code></td>
+<td><code>r g b -- n</code></td>
+</tr>
+<tr>
+<td><code>picture</code></td>
+<td><code>name -- id</code>, decodes a built-in picture into a new bitmap</td>
+</tr>
+<tr>
+<td><code>pictures</code></td>
+<td><code>-- list</code>, the names of the built-in pictures</td>
+</tr>
+</tbody>
+</table>
+<p>A bitmap is at most 2048 by 2048. There is room for 16 bitmaps at a time, shared by all four tabs, and a bitmap stays until <code>bmp-free</code> is run on it. Pixels outside a bitmap are ignored by <code>bmp-set</code> and read as 0 by <code>bmp-get</code>. <code>bmp-show</code> cuts off whatever falls outside the screen, and fails with <code>graphics mode is off, run gfx first</code> when <code>gfx</code> isn&#x27;t running.</p>
+<h2 id="drawing">Drawing</h2>
+<pre><code>gfx
+200 100 bitmap { b }
+b 0x102030 bmp-fill
+b 10 10 180 80 0xFFC040 bmp-box
+b 50 50 100 pack-rgb -&gt;c
+b 100 50 c bmp-set
+b 20 20 bmp-show
+key drop gfx-off
+</code></pre>
+<p>Locals such as <code>b</code> last for one line, so a longer program is a word, and a bitmap number can be kept in a definition. A bitmap is drawn in one step, so changing it and drawing it again with <code>bmp-show</code> is the way to animate:</p>
+<pre><code>[ gfx 64 64 bitmap { b }
+  0 64 [ { y } 0 64 [ { x } b x y x 4 * y 4 * 128 pack-rgb bmp-set ] for ] for
+  b 288 208 bmp-show
+  key drop b bmp-free gfx-off
+] :gradient
+</code></pre>
+<h2 id="the-built-in-pictures">The built-in pictures</h2>
+<p><code>picture</code> takes one of the names from <code>pictures</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dune-planet</code></td>
+<td>a ringed planet over rock towers</td>
+</tr>
+<tr>
+<td><code>dusk-ridge</code></td>
+<td>layered ridges at dusk</td>
+</tr>
+<tr>
+<td><code>fjord-mist</code></td>
+<td>a snowy mountain over a lake</td>
+</tr>
+<tr>
+<td><code>golden-coast</code></td>
+<td>a cliffed coast with surf</td>
+</tr>
+<tr>
+<td><code>misty-meadow</code></td>
+<td>a tree in morning fog</td>
+</tr>
+<tr>
+<td><code>mountain-lake</code></td>
+<td>a mountain reflected in a lake</td>
+</tr>
+<tr>
+<td><code>phosphor-horizon</code></td>
+<td>a green grid and a sun</td>
+</tr>
+<tr>
+<td><code>texivi</code></td>
+<td>the author&#x27;s picture</td>
+</tr>
+<tr>
+<td><code>tulip-rows</code></td>
+<td>a field of tulips</td>
+</tr>
+</tbody>
+</table>
+<p>The photographs and the people who made them are in <a href="credits.html">credits</a>.</p>
+<p><img src="images/95-gallery-tulip.jpg" alt="tulip-rows"> The three drawn ones were made with a small generator and are not photographs.</p>
+<pre><code>gfx &quot;tulip-rows&quot; picture { b } b 0 106 bmp-show key drop b bmp-free gfx-off
+</code></pre>
+<p>Decoding allocates the bitmap, and its memory comes back with <code>bmp-free</code>. A picture that is not baseline JPEG is refused with <code>that picture could not be read</code>, which only matters for pictures added to the source tree in <code>art/</code>.</p>
+<h2 id="all-the-pictures">All the pictures</h2>
+<p>Every built-in picture, as <code>gallery</code> shows it:</p>
+<h3 id="dune-planet">dune-planet</h3>
+<p><img src="images/pictures/dune-planet.jpg" alt="a ringed planet over rock towers"></p>
+<h3 id="dusk-ridge">dusk-ridge</h3>
+<p><img src="images/pictures/dusk-ridge.jpg" alt="layered ridges at dusk"></p>
+<h3 id="fjord-mist">fjord-mist</h3>
+<p><img src="images/pictures/fjord-mist.jpg" alt="a snowy mountain over a lake"></p>
+<h3 id="golden-coast">golden-coast</h3>
+<p><img src="images/pictures/golden-coast.jpg" alt="a cliffed coast with surf"></p>
+<h3 id="misty-meadow">misty-meadow</h3>
+<p><img src="images/pictures/misty-meadow.jpg" alt="a tree in morning fog"></p>
+<h3 id="mountain-lake">mountain-lake</h3>
+<p><img src="images/pictures/mountain-lake.jpg" alt="a mountain reflected in a lake"></p>
+<h3 id="phosphor-horizon">phosphor-horizon</h3>
+<p><img src="images/pictures/phosphor-horizon.jpg" alt="a green grid and a sun"></p>
+<h3 id="texivi">texivi</h3>
+<p><img src="images/pictures/texivi.jpg" alt="the author"></p>
+<h3 id="tulip-rows">tulip-rows</h3>
+<p><img src="images/pictures/tulip-rows.jpg" alt="a field of tulips"></p>
+<h2 id="adding-a-picture">Adding a picture</h2>
+<p>Put a baseline JPEG in <code>art/</code> in the source tree, no larger than 2048 by 2048, and rebuild. The file name without <code>.jpg</code> is the name for <code>picture</code>. A 4:2:0 or 4:4:4 JPEG without progressive coding works, and ImageMagick makes one with <code>-interlace none</code>. Every picture adds its size to the kernel, and an installed disk keeps the kernel in 2 MiB, so a few hundred kilobytes each is the budget.</p>
+<p>See <a href="screen.html">screen</a> for the other graphics words, <a href="apps.html">apps</a> for the programs and <a href="errors.html">errors</a> if a line fails.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1792773754" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

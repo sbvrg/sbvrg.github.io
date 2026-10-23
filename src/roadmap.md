@@ -1,5 +1,12 @@
 # Roadmap
 
+## Subverge 0.9.5
+
+- [x] [Pictures](pictures.md): `bitmap` and the `bmp-` words, `picture` and `pictures`, a JPEG decoder in the kernel
+- [x] `gallery`, which shows the built-in pictures, and `credits`
+- [x] Graphics mode in 24-bit colour
+- [x] The kernel loads past 576 KiB from an installed disk
+
 ## Subverge 0.9.4
 
 - [x] The help pages inside the system, read with `docs` and `doc`
