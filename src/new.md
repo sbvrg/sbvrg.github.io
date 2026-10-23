@@ -29,7 +29,7 @@ A program can make its own pictures. `bitmap` makes a pixel grid, `bmp-set`, `bm
 
 ### Credits
 
-`credits` shows the credits with the author's picture. The haelide theme is credited to HaliadeSYS by gretagen, and the photographs to the people who took them. See [credits](credits.md).
+    credits
 
 ![the credits screen](images/95-credits.png)
 
