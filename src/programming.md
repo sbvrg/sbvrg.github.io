@@ -183,4 +183,4 @@ Most programs need no tuning. When one does:
 
 ## Sharing a program
 
-A unit is plain text. `'react src say` prints its source, and the same text can be typed into `"react" unit` on another system. To include a program in Subverge itself, add it as a file in `root/` in the source tree and send a pull request ([development](development.md)). Root words need a `help` entry, which is written in C in `kernel/help.c` ([writing a built-in](builtins.md)).
+A unit is plain text. `'react src say` prints its source, and the same text can be typed into `"react" unit` on another system. To include a program in Subverge itself, add it as a file in `root/` in the source tree and send a pull request ([development](development.md)). Root words need a `help` entry, which is written in C in `kernel/help.c` ([development](development.md)).

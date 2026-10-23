@@ -31,4 +31,4 @@ A screenshot of the QEMU window is often the fastest way to show what happened, 
 
 ## Patches
 
-Patches are welcome. Make sure the docs check prints `0 problems` and `make stress` passes ([testing](testing.md)), then open a pull request.
+Patches are welcome. Make sure the docs check prints `0 problems` and `make stress` passes ([development](development.md)), then open a pull request.

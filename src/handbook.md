@@ -158,9 +158,6 @@
 
 ### Building and testing
 - [Development](development.md)
-- [Writing a built-in](builtins.md)
-- [Testing](testing.md)
-- [Source layout](source-layout.md)
 
 </div>
 

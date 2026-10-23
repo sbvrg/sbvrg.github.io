@@ -48,7 +48,7 @@ Check [troubleshooting](troubleshooting.md) and the [FAQ](faq.md) first. If that
 
 ## Building
 
-To build Subverge from source, see [development](development.md); to run omega without booting, [testing](testing.md); and for which file does what, [source layout](source-layout.md).
+To build Subverge from source, see [development](development.md). It also covers the tests and which file does what.
 
 ## License
 

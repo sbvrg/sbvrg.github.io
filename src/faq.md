@@ -132,7 +132,7 @@ Read [bugs](bugs.md), then use the [issue tracker](https://github.com/texivi/Sub
 
 ### Can I contribute?
 
-Yes. Read [development](development.md) and [testing](testing.md), then send a pull request.
+Yes. Read [development](development.md), then send a pull request.
 
 ### What's the license?
 

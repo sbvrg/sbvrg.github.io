@@ -42,4 +42,4 @@ When a quote is freed, any machine code the [JIT](jit.md) compiled for it is ret
 
     $ make stress
 
-builds the host version of omega with a collection before every single word and with freed memory filled with `0xDD`. Code that uses an object after it was freed reads `0xDD` and fails immediately. If you add a built-in, run your word under `make stress`. See [testing](testing.md) for the other checks.
+builds the host version of omega with a collection before every single word and with freed memory filled with `0xDD`. Code that uses an object after it was freed reads `0xDD` and fails immediately. If you add a built-in, run your word under `make stress`. See [development](development.md) for the other checks.

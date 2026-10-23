@@ -8,7 +8,7 @@
 
 **QEMU says the ISO isn't bootable.** `grub-mkrescue` only includes the GRUB platforms that are installed. If only the EFI modules are present, the ISO has no BIOS boot record, and QEMU's default BIOS can't start it. Install the `i386-pc` modules and rebuild the ISO.
 
-**The docs check prints problems.** Every built-in word needs a help entry with a stack effect and an example, and the check compares the two. The output names the word and the entry that is missing or doesn't match ([testing](testing.md)).
+**The docs check prints problems.** Every built-in word needs a help entry with a stack effect and an example, and the check compares the two. The output names the word and the entry that is missing or doesn't match ([development](development.md)).
 
 ## Booting
 

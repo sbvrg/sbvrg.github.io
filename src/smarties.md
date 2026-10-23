@@ -34,4 +34,3 @@ These words act on the real machine as soon as they run. Transactions and `back`
 - [Disk layout](disk-layout.md)
 - [The scheduler](scheduler.md)
 - [The garbage collector](gc.md)
-- [Source layout](source-layout.md)
