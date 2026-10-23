@@ -287,7 +287,7 @@ Drawing on the screen.
 | `picture` | `s -- id` | Decodes a built-in picture into a bitmap. | `"mountain-lake" picture` |
 | `pictures` | `-- l` | The names of the built-in pictures. | `pictures` |
 | `gallery` | `--` | Shows the built-in pictures. Arrows, q leaves. | `gallery` |
-| `credits` | `--` | Who made what, with the author's picture. | `credits` |
+| `credits` | `--` | Who made it, on three pages. Space goes on. | `credits` |
 | `title` | `s --` | Names this tab in the tab bar. | `"build" title` |
 | `tab` | `n -- l` | About tab n: [ title state active ]. | `2 tab` |
 | `mytab` | `-- n` | Which tab you are in, 1 to 4. | `mytab` |
@@ -447,6 +447,7 @@ Words the utilities use inside.
 |---|---|---|---|
 | `lessons` | `-- list` | The lessons that learn walks through. | `lessons len` |
 | `scribble-hint` | `--` | Prints the keys line of scribble. |  |
+| `credit-page` | `s l --` | Draws one page of the credits. |  |
 | `app-list` | `-- list` | The programs that apps lists. | `app-list len` |
 | `app-cell` | `e w --` | Prints one entry of apps. |  |
 | `mb-iter` | `cx cy mx -- n` | Steps a point until it escapes, up to mx steps. | `0 0 40 mb-iter   gives 40` |

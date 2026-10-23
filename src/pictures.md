@@ -1,6 +1,6 @@
 # Pictures
 
-Subverge can draw full-colour pictures on the [graphics screen](screen.md). There are two parts: bitmaps, which are pixel grids that a program fills in and draws, and the pictures built into the system, which decode into bitmaps. `gallery` shows the built-in pictures, and `credits` shows one of them next to the [credits](credits.md).
+Subverge can draw full-colour pictures on the [graphics screen](screen.md). There are two parts: bitmaps, which are pixel grids that a program fills in and draws, and the pictures built into the system, which decode into bitmaps. `gallery` shows the built-in pictures, and `credits` shows three of them next to the [credits](credits.md).
 
 All of it needs graphics mode, which needs QEMU's default `-vga std` display. See [screen](screen.md).
 
@@ -67,11 +67,13 @@ Locals such as `b` last for one line, so a longer program is a word, and a bitma
 | `dusk-ridge` | layered ridges at dusk |
 | `fjord-mist` | a snowy mountain over a lake |
 | `golden-coast` | a cliffed coast with surf |
+| `gretagen` | a portrait, on the credits screen |
 | `misty-meadow` | a tree in morning fog |
 | `mountain-lake` | a mountain reflected in a lake |
 | `phosphor-horizon` | a green grid and a sun |
-| `texivi` | the author's picture |
+| `texivi` | a portrait, on the credits screen |
 | `tulip-rows` | a field of tulips |
+| `vsauce` | a portrait, on the credits screen |
 
 The photographs and the people who made them are in [credits](credits.md).
 
@@ -101,6 +103,10 @@ Every built-in picture, as `gallery` shows it:
 
 ![a cliffed coast with surf](images/pictures/golden-coast.jpg)
 
+### gretagen
+
+![a portrait](images/pictures/gretagen.jpg)
+
 ### misty-meadow
 
 ![a tree in morning fog](images/pictures/misty-meadow.jpg)
@@ -120,6 +126,10 @@ Every built-in picture, as `gallery` shows it:
 ### tulip-rows
 
 ![a field of tulips](images/pictures/tulip-rows.jpg)
+
+### vsauce
+
+![a portrait](images/pictures/vsauce.jpg)
 
 ## Adding a picture
 

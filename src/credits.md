@@ -1,6 +1,12 @@
 # Credits
 
-![the credits screen](images/95-credits.png)
+`credits` shows the people on three pages, texivi, gretagen and Vsauce. Space goes to the next page.
+
+![texivi](images/95-credits-1.png)
+
+![gretagen](images/95-credits-2.png)
+
+![Vsauce](images/95-credits-3.png)
 
 [texivi](https://github.com/texivi) wrote Subverge.
 
@@ -20,7 +26,7 @@ The text is drawn with the 8 by 16 VGA font that the video card provides, with a
 
 ## The haelide theme
 
-See [HaliadeSYS](haliadesys.md).
+The `haelide` theme and its logo are inspired by HaliadeSYS, made by gretagen: https://github.com/gretagen/HaliadeSYS. See [themes](themes.md) and [logos](logos.md).
 
 ## Pictures
 

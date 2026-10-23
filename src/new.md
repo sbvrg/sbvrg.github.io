@@ -29,9 +29,11 @@ A program can make its own pictures. `bitmap` makes a pixel grid, `bmp-set`, `bm
 
 ### Credits
 
+`credits` shows texivi, gretagen and Vsauce on three pages, and Space goes to the next:
+
     credits
 
-![the credits screen](images/95-credits.png)
+![the credits screen](images/95-credits-1.png)
 
 ### Fixes
 
