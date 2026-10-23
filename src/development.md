@@ -916,7 +916,7 @@ See [mouse](mouse.md) and [ps2](ps2.md). The code is `kernel/mouse.c` and the po
 | `pk[2]` | Y movement, low 8 bits |
 | `pk[3]` | With a wheel: low 4 bits are the wheel movement, 2's complement |
 
-`dx = pk[1]`, minus 256 if bit 4 of `pk[0]` is set. `dy` likewise with bit 5. The wheel value is `pk[3] & 15`, minus 16 if bit 3 of it is set. Overflow bits (6 and 7) are not examined. `btn = pk[0] & 7`, and `down = btn & ~old` is the set of buttons that went down in this packet.
+`dx = pk[1]`, minus 256 if bit 4 of `pk[0]` is set. `dy` likewise with bit 5. The wheel value is `pk[3] & 15`, minus 16 if bit 3 of it is set. A packet with bit 6 or 7 (overflow) set is dropped. `btn = pk[0] & 7`, and `down = btn & ~old` is the set of buttons that went down in this packet.
 
 ### Pixel to cell scaling
 
