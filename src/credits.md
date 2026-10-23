@@ -20,7 +20,7 @@ The text is drawn with the 8 by 16 VGA font that the video card provides, with a
 
 ## The haelide theme
 
-The `haelide` theme and its logo are inspired by HaliadeSYS, made by gretagen: https://github.com/gretagen/HaliadeSYS. See [themes](themes.md) and [logos](logos.md).
+See [HaliadeSYS](haliadesys.md).
 
 ## Pictures
 
