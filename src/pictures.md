@@ -59,25 +59,9 @@ Locals such as `b` last for one line, so a longer program is a word, and a bitma
 
 ## The built-in pictures
 
-`picture` takes one of the names from `pictures`:
+`picture` takes one of the names from `pictures`.
 
-| Name | What it is |
-|---|---|
-| `dune-planet` | a ringed planet over rock towers |
-| `dusk-ridge` | layered ridges at dusk |
-| `fjord-mist` | a snowy mountain over a lake |
-| `golden-coast` | a cliffed coast with surf |
-| `gretagen` | a portrait, on the credits screen |
-| `misty-meadow` | a tree in morning fog |
-| `mountain-lake` | a mountain reflected in a lake |
-| `phosphor-horizon` | a green grid and a sun |
-| `texivi` | a portrait, on the credits screen |
-| `tulip-rows` | a field of tulips |
-| `vsauce` | a portrait, on the credits screen |
-
-The photographs and the people who made them are in [credits](credits.md).
-
-![tulip-rows](images/95-gallery-tulip.jpg) The three drawn ones were made with a small generator and are not photographs.
+The photographs and the people who made them are in [credits](credits.md). The three drawn ones were made with a small generator and are not photographs.
 
     gfx "tulip-rows" picture { b } b 0 106 bmp-show key drop b bmp-free gfx-off
 
