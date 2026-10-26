@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1792774611">
+<link rel="icon" type="image/png" href="logo.png?v=1793026752">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1792774611">
+<link rel="stylesheet" href="style.css?v=1793026752">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1792774611" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793026752" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
@@ -64,9 +64,7 @@ document.querySelector(".mode").onclick = function () {
 <li class="sub"><a href="#the-help-table">The help table</a></li>
 <li class="sub"><a href="#a-root-word">A root word</a></li>
 <li class="sub"><a href="#checking-it">Checking it</a></li>
-<li><a href="#the-website">The website</a></li>
-<li class="sub"><a href="#pages-on-both-sides">Pages on both sides</a></li>
-<li class="sub"><a href="#screenshots">Screenshots</a></li>
+<li><a href="#screenshots">Screenshots</a></li>
 <li><a href="#how-the-kernel-starts">How the kernel starts</a></li>
 <li><a href="#the-kernel-files">The kernel files</a></li>
 <li><a href="#checklist-for-kernel-changes">Checklist for kernel changes</a></li>
@@ -375,15 +373,7 @@ $ make jit-test       boot QEMU and run the JIT test script
 <pre><code>$ make host &amp;&amp; printf &#x27;3 4 pair .\n@docs\n&#x27; | build/host
 $ make stress
 </code></pre>
-<h2 id="the-website">The website</h2>
-<p>The website is built from <code>src/</code> in the website repository. <code>src/*.md</code> are the pages, <code>src/template.html</code>, <code>src/home.html</code>, <code>src/header.html</code> and <code>src/footer.html</code> are the frame, <code>src/style.css</code> is the style, and <code>src/build.sh</code> turns them into the <code>.html</code> files at the root of the repository, which GitHub serves.</p>
-<pre><code>$ bash src/build.sh
-built 99 pages
-</code></pre>
-<p><code>md2html</code> converts each page, a <code>gawk</code> filter gives every heading an <code>id</code>, and a second filter builds the contents list that is shown at the top of every page with four or more headings. The root <code>.html</code> files are build output and are committed, since GitHub Pages serves the repository as it is. Edit <code>src/</code>, never the <code>.html</code> files.</p>
-<h3 id="pages-on-both-sides">Pages on both sides</h3>
-<p>Most pages exist in both repositories, with different content: the website version has screenshots, links between pages as <code>.md</code> links, and the installation and hardware guides, while the version in <code>doc/</code> has no images and links that work in the pager. When a fact changes, change both. When a page is copied from <code>doc/</code> to the website, a link to a page the website doesn&#x27;t have becomes plain text, <code>?word</code> links become code, and <code>&gt;line</code> links become text.</p>
-<h3 id="screenshots">Screenshots</h3>
+<h2 id="screenshots">Screenshots</h2>
 <p>Screenshots are taken from QEMU with its monitor, at the default text size, and are saved in <code>images/</code> with a number in front, in the order they were added. Take them on a clean boot of the live ISO so that they show what a user sees.</p>
 <h2 id="how-the-kernel-starts">How the kernel starts</h2>
 <ol>
@@ -1639,7 +1629,7 @@ qemu-system-x86_64 -kernel build/subverge.elf -m 256
 <li>Read it in the pager: <code>&quot;name&quot; doc</code> in QEMU. Tab through the links, check that run lines are teal on the bar, that visited colours change, and that Backspace returns.</li>
 </ol>
 <h3 id="pages-on-the-website">Pages on the website</h3>
-<p>The in-system pages and the website pages in <code>src/*.md</code> of the site repository are different files with the same format. The site pages are built by <code>build.sh</code> into HTML and carry the site header and footer. A page that exists in both places is changed in both. In-system links name the page (<code>[keys](keys)</code>), and the site pages link with <code>name.md</code>. The pager removes <code>.md</code> from a page link, so <code>[keys](keys.md)</code> also works in <code>doc/</code>, and <code>doc/themes.md</code> already uses that form. See <a href="docfs.html">docfs</a> and <a href="help.html">help</a>.</p>
+<p>The in-system pages and the website pages are different files with the same format. A page that exists in both places is changed in both. In-system links name the page (<code>[keys](keys)</code>), and the site pages link with <code>name.md</code>. The pager removes <code>.md</code> from a page link, so <code>[keys](keys.md)</code> also works in <code>doc/</code>, and <code>doc/themes.md</code> already uses that form. See <a href="docfs.html">docfs</a> and <a href="help.html">help</a>.</p>
 <h2 id="checklist-for-root-and-page-changes">Checklist for root and page changes</h2>
 <ol>
 <li>Decide the unit. A new program goes in the unit of its kind or in a new file <code>root/NN-name.om</code> that starts with <code>#&gt;&gt; name</code> and ends with a newline. The prefix puts it in the build order, and the units it uses come before it.</li>
@@ -1657,7 +1647,7 @@ qemu-system-x86_64 -kernel build/subverge.elf -m 256
 <li>Run every code line of the page in <code>build/host</code> or QEMU, and check the table widths, the line lengths and the characters against the lists above.</li>
 <li>Open the page in QEMU with <code>&quot;name&quot; doc</code>, step through the links, and check the colours of run, word and page links.</li>
 <li>If the change affects the numbers in the version strings of <code>os</code>, <code>kernel-name</code> or the <code>sys</code> shell line, change all three.</li>
-<li>Update the matching site page in <code>sbvrg.github.io/src</code> when the behaviour it describes has changed, then rebuild the site with <code>build.sh</code>.</li>
+<li>Update the matching page on the website when the behaviour it describes has changed.</li>
 </ol>
 <h2 id="the-host-harness">The host harness</h2>
 <p><code>make host</code> builds the omega interpreter and most of the kernel as an ordinary Linux program, <code>build/host</code>. The program is <code>test/host.c</code> (185 lines) linked with the kernel files named in <code>HOSTSRC</code> and with the two blobs the kernel normally carries, <code>build/rootfs.o</code> (the root units) and <code>build/docfs.o</code> (the help pages). Everything the kernel gets from hardware is replaced by a stub in <code>test/host.c</code>. The result runs one tab, reads lines from standard input and evaluates them with <code>eval_line</code>, the same function the shell calls.</p>
@@ -2651,7 +2641,7 @@ fail(&quot;alloc takes 1 byte up to 16M%s&quot;, &quot;&quot;);
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1792774611" alt="">
+<img class="cat" src="mark-footer.png?v=1793026752" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
