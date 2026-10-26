@@ -21,8 +21,11 @@
 }
 
 html { background: var(--bg); }
-body { margin: 0; background: none; color: var(--fg); font: 16px/1.55 "Open Sans", Arial, Helvetica, sans-serif; }
-h1, h2, h3, h4, .bar .name, .banner p { font-family: "Open Sans", Arial, Helvetica, sans-serif; }
+body { margin: 0; background: none; color: var(--fg); font: 15px/1.6 ui-monospace, "DejaVu Sans Mono", "Liberation Mono", Menlo, Consolas, monospace; }
+h1, h2, h3, h4, .bar .name, .banner p { font-family: inherit; }
+h1, h2, h3, h4 { font-weight: 700; }
+h2::before { content: "## "; opacity: .45; }
+h3::before { content: "### "; opacity: .45; }
 
 a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:visited { color: var(--link); }
@@ -182,7 +185,7 @@ main .video img { margin: 0; border: 0; }
 .vtext { display: flex; flex-direction: column; gap: 8px; }
 .vby { display: flex; align-items: center; gap: 8px; font-size: .95em; }
 main .video .pfp { width: 32px; height: 32px; border-radius: 50%; }
-.vtitle { font-family: Bitter, Georgia, serif; font-size: 1.25em; line-height: 1.25; }
+.vtitle { font-family: inherit; font-size: 1.25em; line-height: 1.25; }
 @media (max-width: 860px) { .video .thumb { width: 130px; } .vtitle { font-size: 1.05em; } }
 
 /* contents list at the top of a page */

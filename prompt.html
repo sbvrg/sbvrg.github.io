@@ -10,29 +10,26 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793033042">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793033042">
+<link rel="icon" type="image/png" href="logo.png?v=1793043300">
+<link rel="stylesheet" href="style.css?v=1793043300">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793033042" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793043300" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
-<a href="features.html">Features</a>
-<a href="new.html">What's new</a>
-<a href="gallery.html">Gallery</a>
-<a href="credits.html">Credits</a>
-<a href="installation.html">Installation</a>
-<a href="handbook.html">Documentation</a>
-<a href="learn.html">Learn</a>
-<a href="faq.html">Support</a>
-<a href="development.html">Developers</a>
-<a href="https://github.com/texivi/Subverge">Source</a>
+<a href="features.html">features</a>
+<a href="new.html">new</a>
+<a href="gallery.html">gallery</a>
+<a href="credits.html">credits</a>
+<a href="installation.html">install</a>
+<a href="handbook.html">docs</a>
+<a href="learn.html">learn</a>
+<a href="faq.html">faq</a>
+<a href="development.html">development</a>
+<a href="https://github.com/texivi/Subverge">source</a>
 </nav>
 <button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
 </div>
@@ -74,7 +71,7 @@ document.querySelector(".mode").onclick = function () {
 <p>An empty stack prints nothing before the <code>»</code>. A long stack is cut from the left and shown with <code>..</code> in front, so the top of the stack, which is what the next word will see, is always visible.</p>
 <p>The stack shown is the committed one. While a line is running, nothing is printed until it finishes.</p>
 <h2 id="editing-keys">Editing keys</h2>
-<p>The prompt edits a line with the keys of Emacs. The full table is on the <a href="keys.html">keys</a> page. The ones used most:</p>
+<p>The prompt edits a line with Control and Alt keys. The full table is on the <a href="keys.html">keys</a> page. The ones used most:</p>
 <table>
 <thead>
 <tr>
@@ -137,7 +134,7 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 </tbody>
 </table>
-<p>The arrow keys, Home, End and Delete do what their Emacs equivalents do. Characters are inserted at the cursor, so a typo in the middle of a line can be fixed without retyping the rest.</p>
+<p>The arrow keys, Home, End and Delete move and delete as you would expect. Characters are inserted at the cursor, so a typo in the middle of a line can be fixed without retyping the rest.</p>
 <p>M-x asks for a word on a new line, with completion, runs it as if it had been typed, and brings the prompt back with the line you were editing. C-h starts the help keys, such as C-h k to see what a key does. You can bind keys of your own, see <a href="keys.html">keys</a>.</p>
 <h2 id="the-kill-ring">The kill ring</h2>
 <p>C-k, C-u, C-w, M-d and M-DEL kill text, which means they delete it and keep it on the kill ring. The ring holds the last eight pieces and is shared by every tab, so text killed in one tab can be yanked in another. C-y inserts the newest piece at the cursor. M-y, typed straight after C-y or another M-y, replaces what was yanked with the next older piece.</p>
@@ -213,7 +210,7 @@ aleph0 .                     ℵ₀
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793033042" alt="">
+<img class="cat" src="mark-footer.png?v=1793043300" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

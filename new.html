@@ -10,29 +10,26 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793033042">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793033042">
+<link rel="icon" type="image/png" href="logo.png?v=1793043300">
+<link rel="stylesheet" href="style.css?v=1793043300">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793033042" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793043300" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
-<a href="features.html">Features</a>
-<a href="new.html">What's new</a>
-<a href="gallery.html">Gallery</a>
-<a href="credits.html">Credits</a>
-<a href="installation.html">Installation</a>
-<a href="handbook.html">Documentation</a>
-<a href="learn.html">Learn</a>
-<a href="faq.html">Support</a>
-<a href="development.html">Developers</a>
-<a href="https://github.com/texivi/Subverge">Source</a>
+<a href="features.html">features</a>
+<a href="new.html">new</a>
+<a href="gallery.html">gallery</a>
+<a href="credits.html">credits</a>
+<a href="installation.html">install</a>
+<a href="handbook.html">docs</a>
+<a href="learn.html">learn</a>
+<a href="faq.html">faq</a>
+<a href="development.html">development</a>
+<a href="https://github.com/texivi/Subverge">source</a>
 </nav>
 <button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
 </div>
@@ -52,7 +49,7 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="whatx27s-new">What&#x27;s new</h1>
 <ul class="toc">
 <li><a href="#subverge-096">Subverge 0.9.6</a></li>
-<li class="sub"><a href="#emacs-keys">Emacs keys</a></li>
+<li class="sub"><a href="#keys">Keys</a></li>
 <li class="sub"><a href="#windows">Windows</a></li>
 <li class="sub"><a href="#phi">phi</a></li>
 <li class="sub"><a href="#golden-ratio">Golden ratio</a></li>
@@ -84,15 +81,15 @@ document.querySelector(".mode").onclick = function () {
 </ul>
 <h2 id="subverge-096">Subverge 0.9.6</h2>
 <p>Subverge 0.9.6 comes with ordinal 1.0.6 and omega 1.0.6. Get it from the <a href="https://github.com/texivi/Subverge/releases/tag/v0.9.6">releases page</a>.</p>
-<h3 id="emacs-keys">Emacs keys</h3>
-<p>The prompt, the pager and the editor use the keys of Emacs. The prompt has a kill ring, undo, word movement and a history search, M-x runs a word by name with completion, and C-h k, C-h f, C-h a and C-h b ask what a key or a word does:</p>
+<h3 id="keys">Keys</h3>
+<p>The prompt, the pager and the editor share their keys. The prompt has a kill ring, undo, word movement and a history search, M-x runs a word by name with completion, and C-h k, C-h f, C-h a and C-h b ask what a key or a word does:</p>
 <p><img src="images/96-m-x.png" alt="M-x completing a word"></p>
 <p><code>bind</code> runs a quote when a key is typed, and <code>line@</code>, <code>line!</code>, <code>point@</code>, <code>point!</code> and <code>insert</code> work on the line being edited:</p>
 <pre><code>&quot;M-u&quot; [ line@ upper line! ] bind
 </code></pre>
-<p><code>bindings</code> opens the list of every binding. scrawl moves, kills and searches the way Emacs does, with a mark and a region, and saves with C-x C-s. The page viewer follows Emacs Info, with C-s to search a page and g to go to one. See <a href="keys.html">keys</a>.</p>
+<p><code>bindings</code> opens the list of every binding. scrawl has a mark and a region, and saves with C-x C-s. The page viewer searches a page with C-s and goes to one with g. See <a href="keys.html">keys</a>.</p>
 <h3 id="windows">Windows</h3>
-<p>The screen can show up to four tabs at once. Super-Enter opens a window, Super-W closes it and Super with the arrows moves between them. A new window splits the one that has the keyboard, side by side when it is wider than it is tall and stacked when it is not, the way a tiling window manager does. C-x 3, C-x 2, C-x 1, C-x 0 and C-x o do the same for the Emacs way of working.</p>
+<p>The screen can show up to four tabs at once. Super-Enter opens a window, Super-W closes it and Super with the arrows moves between them. A new window splits the one that has the keyboard, side by side when it is wider than it is tall and stacked when it is not. C-x 3, C-x 2, C-x 1, C-x 0 and C-x o do the same.</p>
 <p><img src="images/96-windows-four.png" alt="Four windows"></p>
 <p>The prompt, the page viewer, the editor and <code>dired</code> follow the size of their window. See <a href="tabs.html">tabs</a>.</p>
 <h3 id="phi">phi</h3>
@@ -104,9 +101,9 @@ document.querySelector(".mode").onclick = function () {
 <h3 id="gallery">Gallery</h3>
 <p>The screenshots on this site are in the system now, after the photographs in <code>gallery</code>. The <a href="gallery.html">gallery page</a> shows them.</p>
 <h3 id="lessons-and-tours">Lessons and tours</h3>
-<p><code>learn</code> has 86 lessons now. The 39 new ones, from lesson 46, teach the Emacs keys of the prompt a few at a time, then M-x and the help keys, making your own bindings, the page viewer and the editor, windows, phi, the gallery and <code>golden</code>. The tour has seven more parts, 13 to 19, that cover the same things as pages you can run from. See <a href="learn.html">learn</a>.</p>
+<p><code>learn</code> has 86 lessons now. The 39 new ones, from lesson 46, teach the keys of the prompt a few at a time, then M-x and the help keys, making your own bindings, the page viewer and the editor, windows, phi, the gallery and <code>golden</code>. The tour has seven more parts, 13 to 19, that cover the same things as pages you can run from. See <a href="learn.html">learn</a>.</p>
 <h3 id="credits">Credits</h3>
-<p><code>credits</code> has a fourth page, for Terry A. Davis, who wrote <a href="https://templeos.org">TempleOS</a>. The front page of the help pages has Gallery and Credits at the top, and <code>c</code> and <code>G</code> in the page viewer show them.</p>
+<p><code>credits</code> has a fourth page, for Terry A. Davis, who wrote <a href="https://templeos.org">TempleOS</a>. <code>c</code> and <code>G</code> in the page viewer show the credits and the gallery.</p>
 <h3 id="disk-layout">Disk layout</h3>
 <p>The kernel got bigger with the pictures and the help pages, so the space for it on an installed disk is 4 MiB now and not 2 MiB. The state header moved from sector 4096 to sector 8192, and <code>install</code> needs a drive of 10 MB. A disk that was installed with an earlier release keeps working with the kernel it has. To use 0.9.6, install again. See <a href="disk-layout.html">disk layout</a>.</p>
 <h2 id="subverge-095">Subverge 0.9.5</h2>
@@ -223,7 +220,7 @@ mouse . . .
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793033042" alt="">
+<img class="cat" src="mark-footer.png?v=1793043300" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
