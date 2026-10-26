@@ -21,11 +21,9 @@
 }
 
 html { background: var(--bg); }
-body { margin: 0; background: none; color: var(--fg); font: 15px/1.6 ui-monospace, "DejaVu Sans Mono", "Liberation Mono", Menlo, Consolas, monospace; }
+body { margin: 0; background: none; color: var(--fg); font: 15px/1.6 "IBM Plex Mono", ui-monospace, "DejaVu Sans Mono", "Liberation Mono", Menlo, Consolas, monospace; }
 h1, h2, h3, h4, .bar .name, .banner p { font-family: inherit; }
 h1, h2, h3, h4 { font-weight: 700; }
-h2::before { content: "## "; opacity: .45; }
-h3::before { content: "### "; opacity: .45; }
 
 a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:visited { color: var(--link); }
