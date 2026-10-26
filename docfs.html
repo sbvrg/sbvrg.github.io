@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -49,6 +51,7 @@ document.querySelector(".mode").onclick = function () {
 <main class="doc">
 <h1 id="where-the-help-pages-live">Where the help pages live</h1>
 <p>The help pages aren&#x27;t files. Each is a text file in the <code>doc/</code> directory of the source, and the build links them into the kernel, so the pager finds them in memory and reads nothing from a disk. The pages therefore match the build that is running and are there on the live ISO.</p>
+<p>The pages are also members of the set <code>/doc</code> in <a href="phi.html">phi</a>, where they can be read as values but not changed.</p>
 <h2 id="reading-a-page">Reading a page</h2>
 <p><code>docs</code> opens the index of pages and <code>&quot;name&quot; doc</code> opens one by name, as in <code>&quot;prompt&quot; doc</code>. In the pager, Up, Down, PgUp, PgDn, Home and End scroll, and Space pages down. Tab selects the next link, Enter follows the selected link, Backspace goes back, and <code>q</code> or Esc leaves. Enter on a line of code closes the viewer and runs the line at the prompt.</p>
 <p>With a PS/2 mouse, a click follows a link or runs a code line, the wheel scrolls, and a right click goes back. <code>mouse?</code> is 1 when a mouse was found, and <code>mouse</code> leaves the pointer cell and the buttons (1 left, 2 right, 4 middle).</p>
@@ -59,7 +62,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

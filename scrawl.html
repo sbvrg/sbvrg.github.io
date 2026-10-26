@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -52,14 +54,14 @@ document.querySelector(".mode").onclick = function () {
 <li><a href="#opening-it">Opening it</a></li>
 <li><a href="#the-screen">The screen</a></li>
 <li><a href="#keys">Keys</a></li>
-<li><a href="#cutting-and-pasting">Cutting and pasting</a></li>
+<li><a href="#killing-and-yanking">Killing and yanking</a></li>
 <li><a href="#lines">Lines</a></li>
-<li><a href="#finding">Finding</a></li>
+<li><a href="#searching">Searching</a></li>
 <li><a href="#saving-and-quitting">Saving and quitting</a></li>
 <li><a href="#edit-in-detail">edit in detail</a></li>
 <li><a href="#size">Size</a></li>
 </ul>
-<p>scrawl is the text editor in Subverge. It is used for anything longer than one line: definitions, <a href="units.html">root units</a> and new programs. It has no modes, so typing always inserts text, and every command is a Ctrl key.</p>
+<p>scrawl is the text editor in Subverge. It is used for anything longer than one line: definitions, <a href="units.html">root units</a> and new programs. It has no modes, so typing always inserts text, and the commands are Ctrl and Alt keys with the same meanings as in Emacs (<a href="keys.html">keys</a> explains how keys are written).</p>
 <h2 id="opening-it">Opening it</h2>
 <p>scrawl is never started directly. It is opened by one of three words, which decide what happens to the text when you quit:</p>
 <pre><code>&#x27;sq edit            a definition in this tab
@@ -69,8 +71,9 @@ document.querySelector(".mode").onclick = function () {
 <p><code>edit</code> works on your tab&#x27;s <a href="world.html">world</a>, and <code>open</code> and <code>unit</code> work on <a href="root.html">root</a>.</p>
 <p>While scrawl is open, the tab&#x27;s title becomes <code>edit</code> followed by the name, and the tab is otherwise busy. The other tabs keep running, and each tab can have its own scrawl open.</p>
 <h2 id="the-screen">The screen</h2>
-<p>The top row shows <code>scrawl</code>, the name being edited, <code>[+]</code> when there are unsaved changes, and the cursor&#x27;s line and column on the right. Each line of text has its line number in the gutter on the left, and rows past the end of the text show <code>~</code>. The bottom row lists the main keys, and is replaced by messages such as <code>saved, 412 bytes</code> or <code>not found: foo</code>.</p>
+<p>The top row shows <code>scrawl</code>, the name being edited, <code>[+]</code> when there are unsaved changes, and the cursor&#x27;s line and column on the right. Each line of text has its line number in the gutter on the left, and rows past the end of the text show <code>~</code>. The bottom row lists the main keys, and is replaced by messages such as <code>saved, 412 bytes</code>, <code>not found: foo</code> or <code>mark set</code>.</p>
 <p>Lines longer than the screen scroll sideways as the cursor moves along them.</p>
+<p><img src="images/96-editor.png" alt="scrawl"></p>
 <h2 id="keys">Keys</h2>
 <table>
 <thead>
@@ -81,83 +84,119 @@ document.querySelector(".mode").onclick = function () {
 </thead>
 <tbody>
 <tr>
-<td>arrows</td>
-<td>move by character and line, wrapping at line ends</td>
+<td>C-f, C-b, Left, Right</td>
+<td>move by character, wrapping at line ends</td>
 </tr>
 <tr>
-<td>Home, End</td>
+<td>C-n, C-p, Down, Up</td>
+<td>move by line</td>
+</tr>
+<tr>
+<td>C-a, C-e, Home, End</td>
 <td>start or end of the line</td>
 </tr>
 <tr>
-<td>Page Up, Page Down</td>
-<td>one screen up or down</td>
+<td>M-f, M-b</td>
+<td>forward or back one word</td>
 </tr>
 <tr>
-<td>Ctrl-T, Ctrl-B</td>
-<td>top or bottom of the text</td>
+<td>M-&lt;, M-&gt;</td>
+<td>start or end of the text</td>
 </tr>
 <tr>
-<td>Enter</td>
+<td>C-v, M-v, Page Down, Page Up</td>
+<td>one screen down or up</td>
+</tr>
+<tr>
+<td>C-l</td>
+<td>puts the cursor line in the middle of the screen</td>
+</tr>
+<tr>
+<td>RET</td>
 <td>splits the line, keeping the current line&#x27;s indentation</td>
 </tr>
 <tr>
-<td>Backspace</td>
+<td>C-o</td>
+<td>opens a blank line after the cursor</td>
+</tr>
+<tr>
+<td>DEL</td>
 <td>deletes before the cursor, joining lines at the start of one</td>
 </tr>
 <tr>
-<td>Delete</td>
+<td>C-d, Delete</td>
 <td>deletes under the cursor, joining lines at the end of one</td>
 </tr>
 <tr>
-<td>Tab</td>
+<td>TAB</td>
 <td>inserts spaces up to the next multiple of 4</td>
 </tr>
 <tr>
-<td>Ctrl-G</td>
+<td>C-t</td>
+<td>swaps the two characters at the cursor</td>
+</tr>
+<tr>
+<td>C-k</td>
+<td>kills to the end of the line, or the line break when the line is empty</td>
+</tr>
+<tr>
+<td>M-d, M-DEL</td>
+<td>kills the next word or the word before</td>
+</tr>
+<tr>
+<td>C-SPC</td>
+<td>sets the mark</td>
+</tr>
+<tr>
+<td>C-w, M-w</td>
+<td>kills or copies from the mark to the cursor</td>
+</tr>
+<tr>
+<td>C-y</td>
+<td>yanks the last kill</td>
+</tr>
+<tr>
+<td>C-x C-x</td>
+<td>swaps the cursor and the mark</td>
+</tr>
+<tr>
+<td>C-s, C-r</td>
+<td>searches forward or backward</td>
+</tr>
+<tr>
+<td>M-g</td>
 <td>goes to a line number</td>
 </tr>
 <tr>
-<td>Ctrl-D</td>
-<td>duplicates the current line below it</td>
+<td>C-g</td>
+<td>clears the mark</td>
 </tr>
 <tr>
-<td>Ctrl-K</td>
-<td>cuts the current line</td>
-</tr>
-<tr>
-<td>Ctrl-U</td>
-<td>pastes the cut line above the current one</td>
-</tr>
-<tr>
-<td>Ctrl-F</td>
-<td>finds text</td>
-</tr>
-<tr>
-<td>Ctrl-S</td>
+<td>C-x C-s</td>
 <td>saves</td>
 </tr>
 <tr>
-<td>Ctrl-Q</td>
+<td>C-x C-c, C-q</td>
 <td>quits</td>
 </tr>
 </tbody>
 </table>
 <p>Only printable ASCII can be typed, as at the <a href="prompt.html">prompt</a>. Use <code>\w</code> and <code>\A</code> in strings for the omega and aleph glyphs.</p>
-<h2 id="cutting-and-pasting">Cutting and pasting</h2>
-<p>Ctrl-K removes the current line and puts it on the clipboard, replacing whatever was there. Ctrl-U inserts a copy of the clipboard above the cursor and keeps the clipboard, so a line can be pasted several times. To move a block of lines, cut them one at a time from the top, move, and paste them back in reverse order, or cut and paste each line separately.</p>
-<p>The clipboard belongs to the tab and survives between editing sessions, so a line cut in one definition can be pasted into another.</p>
+<h2 id="killing-and-yanking">Killing and yanking</h2>
+<p>Text that is killed goes into the tab&#x27;s kill buffer, replacing what was there, and C-y inserts it at the cursor. Kills that follow one another with nothing in between are added to the same piece, so C-k twice at the start of a line takes the line and its break. A kill can span several lines, so a block is moved by marking it, killing it with C-w and yanking it where it belongs.</p>
+<p>C-SPC sets the mark where the cursor is. The region is the text between the mark and the cursor, and C-w kills it and M-w copies it without removing anything. Both clear the mark afterward. C-x C-x puts the cursor at the mark and the mark where the cursor was, which shows where the region starts.</p>
+<p>The kill buffer belongs to the tab and survives between editing sessions, so text killed in one definition can be yanked into another.</p>
 <h2 id="lines">Lines</h2>
-<p>Ctrl-G asks for a line number on the bottom row and moves to the start of that line. Numbers past the end go to the last line, and Escape cancels. The line numbers in the gutter are the ones it uses, so an error that names a line can be found directly.</p>
-<p>Ctrl-D copies the current line below itself and moves to the copy, which is quicker than cutting and pasting twice when writing several similar lines.</p>
-<h2 id="finding">Finding</h2>
-<p>Ctrl-F asks for text on the bottom row. Enter searches forward from just after the cursor, wrapping around past the end, and moves the cursor to the first match. Escape cancels. An empty search repeats the last one, so Ctrl-F Enter steps through every match. The search is case-sensitive.</p>
+<p>M-g asks for a line number on the bottom row and moves to the start of that line. Numbers past the end go to the last line, and ESC cancels. The line numbers in the gutter are the ones it uses, so an error that names a line can be found directly.</p>
+<h2 id="searching">Searching</h2>
+<p>C-s asks for text on the bottom row. RET searches forward from just after the cursor, wrapping around past the end, and moves the cursor to the first match. ESC and C-g cancel. An empty answer repeats the last search, so C-s RET steps through every match. C-r does the same toward the start of the text. The search is case-sensitive.</p>
 <h2 id="saving-and-quitting">Saving and quitting</h2>
-<p>Ctrl-S records the current text as the saved version. Nothing outside the editor changes yet. Ctrl-Q quits, and what happens next depends on how scrawl was opened, using the last saved version:</p>
+<p>C-x C-s records the current text as the saved version. Nothing outside the editor changes yet. C-x C-c, or C-q, quits, and what happens next depends on how scrawl was opened, using the last saved version:</p>
 <ul>
 <li><strong><code>edit</code></strong> parses the text and redefines the word in your tab.</li>
 <li><strong><code>open</code> and <code>unit</code></strong> rebuild root from that unit onward. If the rebuild fails, root keeps working as before and your text is kept as a draft (<a href="root-build.html">how root builds</a>).</li>
 </ul>
-<p>If the text has unsaved changes, the first Ctrl-Q shows <code>unsaved. ^Q again to discard</code>, and a second Ctrl-Q quits without them. Quitting without ever saving changes nothing at all.</p>
+<p>If the text has unsaved changes, the first quit shows <code>unsaved. quit again to discard</code>, and a second one quits without them. Quitting without ever saving changes nothing at all.</p>
 <h2 id="edit-in-detail">edit in detail</h2>
 <p><code>&#x27;name edit</code> opens the body of a definition without its outer brackets:</p>
 <pre><code>[ { a b } a a * b b * + ] :hyp
@@ -177,7 +216,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

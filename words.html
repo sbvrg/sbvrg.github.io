@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -60,6 +62,9 @@ document.querySelector(".mode").onclick = function () {
 <li><a href="#infinity">infinity</a></li>
 <li><a href="#time">time</a></li>
 <li><a href="#screen">screen</a></li>
+<li><a href="#keys">keys</a></li>
+<li><a href="#sound">sound</a></li>
+<li><a href="#phi">phi</a></li>
 <li><a href="#tools-demos-and-games">tools, demos and games</a></li>
 <li><a href="#util">util</a></li>
 <li><a href="#helpers">helpers</a></li>
@@ -93,6 +98,12 @@ document.querySelector(".mode").onclick = function () {
 <p><code>ticks hz time idle sleep rand</code>. The timer runs at 100 ticks a second, so <code>100 sleep</code> waits one second. In QEMU the clock is UTC unless configured otherwise (<a href="qemu.html">QEMU</a>).</p>
 <h2 id="screen">screen</h2>
 <p><code>put text screen@ wipe cursor nocursor where size title tab mytab</code>, <code>gfx gfx-off dot box window</code> for graphics mode, <code>bitmap bmp-set bmp-get bmp-fill bmp-box bmp-size bmp-show bmp-free pack-rgb picture pictures gallery credits</code> for pictures, <code>theme themes theme@ rgb</code> for colours, and <code>logo logos logo@</code> for the <code>sys</code> logo. See <a href="screen.html">screen</a>, <a href="pictures.html">pictures</a>, <a href="themes.html">themes</a> and <a href="logos.html">logos</a>.</p>
+<h2 id="keys">keys</h2>
+<p><code>bind unbind bindings describe-key line@ line! point@ point! insert</code>. Keys you bind run a quote at the prompt, and the last five work on the line being edited. See <a href="keys.html">keys</a>.</p>
+<h2 id="sound">sound</h2>
+<p><code>play stop songs playing? sound?</code>. See <a href="sound.html">sound</a>.</p>
+<h2 id="phi">phi</h2>
+<p><code>phi members phi-read phi-write phi-set phi-delete phi-move phi-edit phi? dired dired-at</code>. See <a href="phi.html">phi</a>.</p>
 <h2 id="tools-demos-and-games">tools, demos and games</h2>
 <p>The programs in root, described in <a href="tools.html">tools</a>, <a href="demos.html">demos</a> and <a href="games.html">games</a>.</p>
 <h2 id="util">util</h2>
@@ -102,7 +113,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

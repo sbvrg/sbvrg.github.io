@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -94,7 +96,7 @@ document.querySelector(".mode").onclick = function () {
 <h3 id="why-is-it-called-subverge">Why is it called Subverge?</h3>
 <p>The name comes from <em>subvert</em> and <em>diverge</em>. See <a href="history.html">history</a>.</p>
 <h3 id="can-i-use-it-every-day">Can I use it every day?</h3>
-<p>No. It runs in QEMU, has no network, no files and no protection between programs, and a bad <code>poke</code> can take the whole machine down. It is a system to explore and program in. Read the <a href="expectations.html">expectations</a>.</p>
+<p>No. It runs in QEMU, has no network and no protection between programs, and a bad <code>poke</code> can take the whole machine down. It is a system to explore and program in. Read the <a href="expectations.html">expectations</a>.</p>
 <h3 id="is-there-a-roadmap">Is there a roadmap?</h3>
 <p>Yes, see the <a href="roadmap.html">roadmap</a>.</p>
 <h2 id="running-it">Running it</h2>
@@ -105,14 +107,14 @@ document.querySelector(".mode").onclick = function () {
 <h3 id="why-canx27t-it-see-my-disk">Why can&#x27;t it see my disk?</h3>
 <p>Subverge only has an IDE driver. Attach the disk image with <code>-hda</code>, or with <code>-drive file=disk.img,format=raw,if=ide</code>. <code>disks</code> lists what the kernel found (<a href="installation.html">installation</a>).</p>
 <h3 id="where-are-my-files">Where are my files?</h3>
-<p>Subverge has no files. Your definitions are kept in your tab&#x27;s <a href="world.html">world</a>, programs are kept in <a href="root.html">root</a>, and an installed disk <a href="saving.html">saves</a> both.</p>
+<p>Subverge keeps what you write in three places. Your definitions are in your tab&#x27;s <a href="world.html">world</a>, programs are in <a href="root.html">root</a>, and named values such as notes are in <a href="phi.html">phi</a>. An installed disk <a href="saving.html">saves</a> all three.</p>
 <h3 id="why-was-my-work-lost-after-a-reboot">Why was my work lost after a reboot?</h3>
 <p>The live ISO doesn&#x27;t save anything. <a href="installation.html">Install</a> Subverge to a disk image to keep your work. An installed system saves after every line that succeeds, so the most you can lose is the line you were typing.</p>
 <h3 id="i-booted-the-new-iso-and-sys-still-shows-the-old-version">I booted the new ISO and sys still shows the old version</h3>
 <p>You booted with an installed disk attached. The live system loads the root and tabs saved on that disk, and the saved root still has the old <code>sys</code>. The kernel and the built-in words are new. See <a href="installation.html#upgrading-an-installed-disk">upgrading an installed disk</a>. Boot without <code>-hda</code> to see the new root.</p>
 <h2 id="the-system">The system</h2>
 <h3 id="is-it-posix-compliant">Is it POSIX-compliant?</h3>
-<p>No, and it never will be. Subverge has no processes, files, file descriptors or system calls for POSIX to describe. Programs are omega words, and memory, I/O ports and PCI devices are reached with words such as <code>peek</code>, <code>in</code> and <code>pci@</code>. See <a href="smarties.html">omega for smarties</a>.</p>
+<p>No, and it never will be. POSIX describes processes, files, file descriptors and system calls, and Subverge is built from other parts. Programs are omega words, and memory, I/O ports and PCI devices are reached with words such as <code>peek</code>, <code>in</code> and <code>pci@</code>. See <a href="smarties.html">omega for smarties</a>.</p>
 <h3 id="does-it-have-its-own-bootloader">Does it have its own bootloader?</h3>
 <p>Installed disks use Subverge&#x27;s own <a href="boot.html">bootloader</a>. The ISO uses GRUB.</p>
 <h3 id="why-does-everything-run-in-ring-0">Why does everything run in ring 0?</h3>
@@ -158,7 +160,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -50,12 +52,15 @@ document.querySelector(".mode").onclick = function () {
 <h1 id="key-map">Key Map</h1>
 <ul class="toc">
 <li><a href="#everywhere">Everywhere</a></li>
-<li><a href="#in-the-pages">In the pages</a></li>
 <li><a href="#at-the-prompt">At the prompt</a></li>
-<li><a href="#in-programs">In programs</a></li>
+<li><a href="#help-keys">Help keys</a></li>
+<li><a href="#in-the-pages">In the pages</a></li>
+<li><a href="#in-the-editor">In the editor</a></li>
+<li><a href="#your-own-keys">Your own keys</a></li>
 <li><a href="#the-mouse">The mouse</a></li>
 <li><a href="#key-codes-in-programs">Key codes in programs</a></li>
 </ul>
+<p>Keys are written the way Emacs writes them. C- is Control and M- is Alt, so C-k is Ctrl-K and M-f is Alt-F. DEL is Backspace, RET is Enter, SPC is Space and TAB is Tab. A key sequence such as C-x o is two keys typed one after the other.</p>
 <h2 id="everywhere">Everywhere</h2>
 <table>
 <thead>
@@ -70,58 +75,42 @@ document.querySelector(".mode").onclick = function () {
 <td>show tab 1, 2, 3 or 4</td>
 </tr>
 <tr>
-<td>Ctrl-C</td>
+<td>C-c, C-g</td>
 <td>stop the line the tab is running</td>
 </tr>
-</tbody>
-</table>
-<p>The keys are handled in the keyboard interrupt, so they work while every tab is busy.</p>
-<h2 id="in-the-pages">In the pages</h2>
-<p><code>docs</code> opens the index and <code>&quot;name&quot; doc</code> opens a page.</p>
-<table>
-<thead>
 <tr>
-<th>Key</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tab</td>
-<td>the next link</td>
+<td>C-x o</td>
+<td>move to the other window</td>
 </tr>
 <tr>
-<td>Enter</td>
-<td>follow the link, or run the selected code line</td>
+<td>C-x 2, C-x 3</td>
+<td>split the window, stacked or side by side</td>
 </tr>
 <tr>
-<td>Space, Page Down</td>
-<td>scroll a screen</td>
+<td>C-x 1</td>
+<td>keep only this window</td>
 </tr>
 <tr>
-<td>Page Up</td>
-<td>scroll a screen back</td>
+<td>C-x 0</td>
+<td>close this window</td>
 </tr>
 <tr>
-<td>Up, Down</td>
-<td>scroll a line</td>
+<td>Super-Enter</td>
+<td>open a window, see <a href="tabs.html">tabs</a></td>
 </tr>
 <tr>
-<td>Home, End</td>
-<td>the top or the bottom</td>
+<td>Super-W</td>
+<td>close this window</td>
 </tr>
 <tr>
-<td>Backspace</td>
-<td>back to the last page</td>
-</tr>
-<tr>
-<td>q or Esc</td>
-<td>leave the viewer</td>
+<td>Super-arrows</td>
+<td>move to the window in that direction</td>
 </tr>
 </tbody>
 </table>
-<p>Enter on a code line closes the viewer and runs the line at the prompt.</p>
+<p>The keys are handled in the keyboard interrupt, so they work while every tab is busy. After C-x the top bar shows <code>C-x -</code> until the next key. C-g cancels the sequence.</p>
 <h2 id="at-the-prompt">At the prompt</h2>
+<p>The prompt edits a line the way Emacs edits text. The kill ring remembers the last eight killed pieces of text, and keys that kill twice in a row add to the same piece.</p>
 <table>
 <thead>
 <tr>
@@ -131,42 +120,308 @@ document.querySelector(".mode").onclick = function () {
 </thead>
 <tbody>
 <tr>
-<td>Enter</td>
+<td>RET</td>
 <td>run the line</td>
 </tr>
 <tr>
-<td>Left, Right, Home, End</td>
-<td>move the cursor</td>
+<td>C-a, Home</td>
+<td>start of the line</td>
 </tr>
 <tr>
-<td>Backspace, Delete</td>
-<td>delete a character</td>
+<td>C-e, End</td>
+<td>end of the line</td>
 </tr>
 <tr>
-<td>Up, Down</td>
-<td>earlier lines</td>
+<td>C-b, Left</td>
+<td>back one character</td>
 </tr>
 <tr>
-<td>Tab</td>
+<td>C-f, Right</td>
+<td>forward one character</td>
+</tr>
+<tr>
+<td>M-b, M-f</td>
+<td>back or forward one word</td>
+</tr>
+<tr>
+<td>C-p, Up</td>
+<td>the previous line from the history</td>
+</tr>
+<tr>
+<td>C-n, Down</td>
+<td>the next line from the history</td>
+</tr>
+<tr>
+<td>M-&lt;, M-&gt;</td>
+<td>the oldest line, or back to an empty one</td>
+</tr>
+<tr>
+<td>C-d, Delete</td>
+<td>delete the character at the cursor</td>
+</tr>
+<tr>
+<td>DEL</td>
+<td>delete the character before the cursor</td>
+</tr>
+<tr>
+<td>C-k</td>
+<td>kill to the end of the line</td>
+</tr>
+<tr>
+<td>C-u</td>
+<td>kill to the start of the line</td>
+</tr>
+<tr>
+<td>C-w, M-DEL</td>
+<td>kill the word before the cursor</td>
+</tr>
+<tr>
+<td>M-d</td>
+<td>kill the word after the cursor</td>
+</tr>
+<tr>
+<td>C-y</td>
+<td>yank the last kill</td>
+</tr>
+<tr>
+<td>M-y</td>
+<td>replace the yank with an older kill</td>
+</tr>
+<tr>
+<td>C-t</td>
+<td>swap the two characters at the cursor</td>
+</tr>
+<tr>
+<td>M-u, M-l, M-c</td>
+<td>upper case, lower case or capitalize the next word</td>
+</tr>
+<tr>
+<td>C-_</td>
+<td>undo the last change to the line</td>
+</tr>
+<tr>
+<td>C-l</td>
+<td>clear the screen and draw the prompt again</td>
+</tr>
+<tr>
+<td>C-r, C-s</td>
+<td>search the history, backward or forward</td>
+</tr>
+<tr>
+<td>TAB</td>
 <td>complete the name before the cursor</td>
 </tr>
 <tr>
-<td>Ctrl-C</td>
+<td>M-x</td>
+<td>run a word by name, with completion</td>
+</tr>
+<tr>
+<td>C-c, C-g</td>
 <td>throw the line away</td>
 </tr>
 </tbody>
 </table>
-<p>See <a href="prompt.html">prompt</a> for the details.</p>
-<h2 id="in-programs">In programs</h2>
-<p><code>q</code>, Escape and Ctrl-C leave most programs. The arrow keys, Space and the letters shown on screen do the rest, and <a href="games.html">games</a> lists each program&#x27;s keys. <a href="scrawl.html">scrawl</a> has its own keys.</p>
+<p>A word here is a run of characters that are not spaces, brackets or quotes, so <code>kill-line</code> is one word. In a search, typing narrows the match, C-r and C-s move to the next one, DEL shortens the text, C-g puts the line back as it was and any other key ends the search with the match in the line. RET ends the search without running the line.</p>
+<p>See <a href="prompt.html">prompt</a> for completion, history and line length.</p>
+<p><img src="images/96-m-x.png" alt="M-x completing a word"></p>
+<h2 id="help-keys">Help keys</h2>
+<p>C-h waits for a second key.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-h k</td>
+<td>press a key and see what it does</td>
+</tr>
+<tr>
+<td>C-h f</td>
+<td>describe a word, as <code>&#x27;name help</code> does</td>
+</tr>
+<tr>
+<td>C-h a</td>
+<td>search the help text, as <code>apropos</code> does</td>
+</tr>
+<tr>
+<td>C-h b</td>
+<td>open the list of every binding</td>
+</tr>
+<tr>
+<td>C-h i</td>
+<td>open the <a href="help.html">help pages</a></td>
+</tr>
+</tbody>
+</table>
+<p><code>describe-key</code> is the word behind C-h k. It prints what the key does at the prompt, in the pager and in the editor, and the quote of a binding of yours.</p>
+<p>The list of every binding is a page of its own, opened by C-h b or <code>bindings</code>:</p>
+<p><img src="images/96-key-bindings.png" alt="The list of bindings"></p>
+<h2 id="in-the-pages">In the pages</h2>
+<p><code>docs</code> opens the index and <code>&quot;name&quot; doc</code> opens a page. The keys follow Emacs Info where there is a match.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAB, n</td>
+<td>the next link</td>
+</tr>
+<tr>
+<td>BTAB, p</td>
+<td>the previous link</td>
+</tr>
+<tr>
+<td>RET</td>
+<td>follow the link, or run the selected code line</td>
+</tr>
+<tr>
+<td>SPC, C-v, Page Down</td>
+<td>scroll a screen</td>
+</tr>
+<tr>
+<td>M-v, Page Up</td>
+<td>scroll a screen back</td>
+</tr>
+<tr>
+<td>C-n, Down</td>
+<td>scroll a line</td>
+</tr>
+<tr>
+<td>C-p, Up</td>
+<td>scroll a line back</td>
+</tr>
+<tr>
+<td>M-&lt;, &lt;, Home</td>
+<td>the top</td>
+</tr>
+<tr>
+<td>M-&gt;, &gt;, End</td>
+<td>the bottom</td>
+</tr>
+<tr>
+<td>l, DEL</td>
+<td>back to the last page</td>
+</tr>
+<tr>
+<td>t</td>
+<td>the index</td>
+</tr>
+<tr>
+<td>c</td>
+<td>the credits page</td>
+</tr>
+<tr>
+<td>G</td>
+<td>close the pager and show the gallery</td>
+</tr>
+<tr>
+<td>g</td>
+<td>go to a page by name</td>
+</tr>
+<tr>
+<td>C-s, C-r</td>
+<td>search the page for text, forward or backward</td>
+</tr>
+<tr>
+<td>M-x</td>
+<td>close the pager and run a word</td>
+</tr>
+<tr>
+<td>C-h b</td>
+<td>the list of bindings</td>
+</tr>
+<tr>
+<td>q, ESC, C-x C-c</td>
+<td>leave the viewer</td>
+</tr>
+</tbody>
+</table>
+<p>C-s and C-r ask for text on the bottom row. An empty answer repeats the last search. RET on a code line closes the viewer and runs the line at the prompt.</p>
+<h2 id="in-the-editor">In the editor</h2>
+<p><a href="scrawl.html">scrawl</a> uses Emacs keys for moving, killing and searching. The list is on its page.</p>
+<h2 id="your-own-keys">Your own keys</h2>
+<p><code>bind</code> takes a key name and a quote and runs the quote when the key is typed at the prompt:</p>
+<pre><code>&quot;C-t&quot; [ &quot;dup &quot; insert ] bind
+</code></pre>
+<p>Now C-t types <code>dup </code> into the line. A key name is written as in this page: <code>&quot;C-k&quot;</code>, <code>&quot;M-u&quot;</code>, <code>&quot;&lt;up&gt;&quot;</code>, or a sequence that starts with C-x such as <code>&quot;C-x C-t&quot;</code>. Plain printable keys can&#x27;t be bound, since they type text, and neither can C-h or RET.</p>
+<p>The quote can use the line being edited:</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>line@</code></td>
+<td><code>-- s</code>, the line</td>
+</tr>
+<tr>
+<td><code>line!</code></td>
+<td><code>s --</code>, replaces the line</td>
+</tr>
+<tr>
+<td><code>point@</code></td>
+<td><code>-- n</code>, the cursor position from 0</td>
+</tr>
+<tr>
+<td><code>point!</code></td>
+<td><code>n --</code>, moves the cursor</td>
+</tr>
+<tr>
+<td><code>insert</code></td>
+<td><code>s --</code>, types a string at the cursor</td>
+</tr>
+</tbody>
+</table>
+<pre><code>&quot;M-u&quot; [ line@ upper line! ] bind
+</code></pre>
+<p>makes M-u turn the whole line into capitals. These words only work inside a binding. A binding runs on a copy of the stack, so what it leaves there is dropped, and an error in it is printed on the line below before the prompt comes back.</p>
+<p>A binding is a definition named <code>key:</code> and the key, such as <code>key:C-t</code>, so it is saved with the tab&#x27;s <a href="world.html">world</a> like any other definition. A binding made in a <a href="root.html">root</a> unit works in every tab.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bind</code></td>
+<td><code>key q --</code>, binds the key</td>
+</tr>
+<tr>
+<td><code>unbind</code></td>
+<td><code>key --</code>, removes a binding of yours</td>
+</tr>
+<tr>
+<td><code>bindings</code></td>
+<td><code>--</code>, opens the list of every binding</td>
+</tr>
+<tr>
+<td><code>describe-key</code></td>
+<td><code>--</code>, waits for a key and says what it does</td>
+</tr>
+</tbody>
+</table>
+<pre><code>&quot;C-t&quot; unbind
+</code></pre>
 <h2 id="the-mouse">The mouse</h2>
-<p>A PS/2 mouse works on the text screen. The pointer is an inverted cell. A click on a tab title in the top bar switches to that tab. In the page viewer a click follows a link or runs a code line, the wheel scrolls and a right click goes back. <code>mouse</code> returns the pointer cell and the buttons, and <code>mouse?</code> is 1 when a mouse was found (<a href="ps2.html">ps2</a>).</p>
+<p>A PS/2 mouse works on the text screen. The pointer is an inverted cell. A click on a tab title in the top bar switches to that tab, and a click in a window moves to it. In the page viewer a click follows a link or runs a code line, the wheel scrolls and a right click goes back. <code>mouse</code> returns the pointer cell in the current window and the buttons, and <code>mouse?</code> is 1 when a mouse was found (<a href="ps2.html">ps2</a>).</p>
 <h2 id="key-codes-in-programs">Key codes in programs</h2>
 <p>The codes that <code>key</code> returns are listed on the <a href="keyboard.html">keyboard</a> page.</p>
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

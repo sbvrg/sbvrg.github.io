@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>phi - Subverge</title>
+<meta name="description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:title" content="phi - Subverge">
+<meta property="og:description" content="A radical and experimental, fully independent 64-bit operating system with a stack language for a shell.">
+<meta property="og:image" content="https://sbvrg.github.io/logo.png">
+<meta property="og:site_name" content="Subverge">
+<meta name="theme-color" content="#a3121c">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="style.css?v=1793030831">
+<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+<header class="bar">
+<div class="in">
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
+<nav>
+<a href="features.html">Features</a>
+<a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
+<a href="installation.html">Installation</a>
+<a href="handbook.html">Documentation</a>
+<a href="learn.html">Learn</a>
+<a href="faq.html">Support</a>
+<a href="development.html">Developers</a>
+<a href="https://github.com/texivi/Subverge">Source</a>
+</nav>
+<button class="mode" type="button" title="Dark mode" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2v16a8 8 0 0 1 0-16z"/></svg></button>
+</div>
+</header>
+<script>
+document.querySelector(".burger").onclick = function () {
+  var o = document.querySelector(".bar").classList.toggle("open");
+  this.setAttribute("aria-expanded", o);
+};
+document.querySelector(".mode").onclick = function () {
+  var d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  d.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", d.dataset.theme); } catch (e) {}
+};
+</script>
+<main class="doc">
+<h1 id="phi">phi</h1>
+<ul class="toc">
+<li><a href="#looking-at-phi">Looking at phi</a></li>
+<li><a href="#words">Words</a></li>
+<li><a href="#paths">Paths</a></li>
+<li><a href="#dired">dired</a></li>
+<li><a href="#size">Size</a></li>
+<li><a href="#saving">Saving</a></li>
+</ul>
+<p>phi holds named values that are not definitions: notes, text, anything that should have a name and a place of its own. It is a tree of sets. A set holds members, and each member is a value or another set, so <code>/notes/todo</code> is the member <code>todo</code> of the set <code>notes</code>, which is a member of the top set <code>/</code>. A value is a string.</p>
+<p>phi is shared by all four tabs. A value written in one tab can be read in the others straight away.</p>
+<h2 id="looking-at-phi">Looking at phi</h2>
+<pre><code>&quot;buy milk&quot; &quot;/notes/todo&quot; phi-write
+phi
+</code></pre>
+<p><code>phi</code> prints the sets and values you made, indented by depth, and then the two sets that come with the system:</p>
+<pre><code>  /doc  106 read only
+  /pictures  23 read only
+notes                            1 member
+  todo                           8 bytes
+</code></pre>
+<p><code>/doc</code> has the <a href="docfs.html">help pages</a>, one value for each page, holding its text. <code>/pictures</code> has the built-in <a href="pictures.html">pictures</a> as JPEG data. Neither can be changed, and nothing can be added to them.</p>
+<h2 id="words">Words</h2>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>phi</code></td>
+<td><code>--</code>, shows what phi holds</td>
+</tr>
+<tr>
+<td><code>members</code></td>
+<td><code>path --</code>, lists the members of a set, sets first</td>
+</tr>
+<tr>
+<td><code>phi-read</code></td>
+<td><code>path -- s</code>, the value at a path</td>
+</tr>
+<tr>
+<td><code>phi-write</code></td>
+<td><code>s path --</code>, stores a string, making the sets on the way</td>
+</tr>
+<tr>
+<td><code>phi-set</code></td>
+<td><code>path --</code>, makes an empty set</td>
+</tr>
+<tr>
+<td><code>phi-delete</code></td>
+<td><code>path --</code>, removes a value, or a set with everything in it</td>
+</tr>
+<tr>
+<td><code>phi-move</code></td>
+<td><code>from to --</code>, renames or moves a value or a set</td>
+</tr>
+<tr>
+<td><code>phi-edit</code></td>
+<td><code>path --</code>, edits a value in <a href="scrawl.html">scrawl</a></td>
+</tr>
+<tr>
+<td><code>phi?</code></td>
+<td><code>path -- n</code>, 0 for nothing, 1 for a set, 2 for a value</td>
+</tr>
+<tr>
+<td><code>dired</code></td>
+<td><code>--</code>, browses phi</td>
+</tr>
+<tr>
+<td><code>dired-at</code></td>
+<td><code>path --</code>, browses phi starting at a set</td>
+</tr>
+</tbody>
+</table>
+<pre><code>&quot;/notes/todo&quot; phi-read .
+&quot;buy milk&quot;
+&quot;/notes&quot; members
+  todo                           8 bytes
+&quot;/notes/todo&quot; &quot;/notes/done&quot; phi-move
+&quot;/notes/done&quot; phi? .
+2
+</code></pre>
+<p>Writing to a path that already holds a value replaces it. Writing to a path whose set doesn&#x27;t exist yet makes the set. A path that runs through a value, or into a read only set, fails and changes nothing:</p>
+<pre><code>&quot;x&quot; &quot;/doc/new&quot; phi-write
+  ! phi-write: that set is read only
+</code></pre>
+<p><code>phi-edit</code> opens the value in the editor with the path as its name. Saving in the editor and quitting stores the text, and quitting without saving leaves the value as it was.</p>
+<h2 id="paths">Paths</h2>
+<p>A path is names separated by <code>/</code>. A leading <code>/</code> is optional, <code>.</code> stays where it is and <code>..</code> goes up one set. A name has at most 31 characters, all printable ASCII, and no <code>/</code>. Paths go at most 16 sets deep. Names are compared exactly, with case.</p>
+<h2 id="dired">dired</h2>
+<p><code>dired</code> shows one set at a time, sets first, with the number of members of a set or the size of a value, and <code>read only</code> where that applies.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-n, C-p, n, p</td>
+<td>move the selection</td>
+</tr>
+<tr>
+<td>RET, f, e</td>
+<td>open a set, or edit a value</td>
+</tr>
+<tr>
+<td>^, DEL, u</td>
+<td>go up one set</td>
+</tr>
+<tr>
+<td>+</td>
+<td>make a set</td>
+</tr>
+<tr>
+<td>c</td>
+<td>make a value and edit it</td>
+</tr>
+<tr>
+<td>d</td>
+<td>delete the selection, after a question</td>
+</tr>
+<tr>
+<td>R</td>
+<td>rename or move the selection</td>
+</tr>
+<tr>
+<td>g</td>
+<td>read the set again</td>
+</tr>
+<tr>
+<td>q, ESC</td>
+<td>leave</td>
+</tr>
+</tbody>
+</table>
+<p><img src="images/96-dired.png" alt="dired showing the pictures"></p>
+<p>The questions are asked on the bottom row. Editing a read only value works, but nothing is kept when the editor quits.</p>
+<h2 id="size">Size</h2>
+<p>phi keeps up to 480 KiB of values, counting the text of each value. A write that would pass that fails with <code>phi is full</code>. The sets themselves take memory from the heap and are not counted.</p>
+<h2 id="saving">Saving</h2>
+<p>On an installed disk phi is written after every change that is made, in a slot of its own, so a reboot keeps it. The format is plain text: a line <code>S</code> and the path for each set, and a line <code>A</code>, the path and the length followed by the bytes for each value, so a value may contain anything, including line breaks. The slot is 512 KiB (<a href="disk-layout.html">disk layout</a>). <code>install</code> and <code>save</code> write it as well.</p>
+<p>On the live ISO nothing is saved, and phi starts out with only <code>/doc</code> and <code>/pictures</code> at every boot.</p>
+<p>Disks installed before 0.9.6 have no phi slot. Their phi starts empty, and the first change creates it.</p>
+</main>
+<footer>
+<div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
+</footer>
+<script>
+if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
+</script>
+</body>
+</html>

@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -66,13 +68,14 @@ document.querySelector(".mode").onclick = function () {
 <li><strong>A line that changed a tab&#x27;s world.</strong> Only that tab&#x27;s slot is written. A line that leaves the stack and definitions as they were, such as <code>words</code> or <code>&quot;hi&quot; say</code>, writes nothing.</li>
 <li><strong>A <code>back</code></strong>, since it changes the world back.</li>
 <li><strong>A root edit that builds.</strong> The whole of root is written to its slot. An edit that fails to build writes nothing (<a href="root.html">root</a>).</li>
+<li><strong>A change to phi.</strong> The whole of phi is written to its slot.</li>
 <li><strong>A theme or logo change</strong>, which rewrites only the header sector (<a href="themes.html">themes</a>, <a href="logos.html">logos</a>).</li>
-<li><strong><code>install</code></strong>, which writes root, all four tabs, the current theme and the current logo to the new drive.</li>
+<li><strong><code>install</code></strong>, which writes root, all four tabs, phi, the current theme and the current logo to the new drive.</li>
 </ul>
-<p><code>save</code> writes root and all four tabs at once. It is rarely needed, since everything is already saved, but it is harmless.</p>
+<p><code>save</code> writes root, phi and all four tabs at once. It is rarely needed, since everything is already saved, but it is harmless.</p>
 <p><code>home</code> returns the number of the drive Subverge is installed on and saves to.</p>
 <h2 id="slots">Slots</h2>
-<p>The saved state lives in five slots of 1 MiB at fixed positions on the drive: slot 0 holds root and slots 1 to 4 hold the four tabs. A small header in front of them records each slot&#x27;s length and checksum and a counter of saves. See <a href="disk-layout.html">disk layout</a> for the exact positions.</p>
+<p>The saved state lives in five slots of 1 MiB at fixed positions on the drive: slot 0 holds root and slots 1 to 4 hold the four tabs. A sixth slot of 512 KiB holds <a href="phi.html">phi</a>. A small header in front of them records each slot&#x27;s length and checksum and a counter of saves. See <a href="disk-layout.html">disk layout</a> for the exact positions.</p>
 <p>Saving a tab rewrites only that tab&#x27;s slot and the header. The other slots aren&#x27;t touched.</p>
 <h2 id="whatx27s-in-a-slot">What&#x27;s in a slot</h2>
 <p>A slot holds plain omega source. A tab is written as its definitions, oldest first, followed by its stack on one line:</p>
@@ -115,7 +118,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

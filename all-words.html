@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -57,6 +59,9 @@ document.querySelector(".mode").onclick = function () {
 <li><a href="#lists">lists</a></li>
 <li><a href="#text">text</a></li>
 <li><a href="#io">io</a></li>
+<li><a href="#keys">keys</a></li>
+<li><a href="#sound">sound</a></li>
+<li><a href="#phi">phi</a></li>
 <li><a href="#names">names</a></li>
 <li><a href="#world">world</a></li>
 <li><a href="#infinity">infinity</a></li>
@@ -791,6 +796,198 @@ document.querySelector(".mode").onclick = function () {
 </tr>
 </tbody>
 </table>
+<h2 id="keys">keys</h2>
+<p>Key bindings and line editing.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bind</code></td>
+<td><code>key q --</code></td>
+<td>Runs a quote when the key is pressed at the prompt.</td>
+<td><code>&quot;C-t&quot; [ &quot;hi&quot; insert ] bind</code></td>
+</tr>
+<tr>
+<td><code>unbind</code></td>
+<td><code>key --</code></td>
+<td>Removes a binding you made.</td>
+<td><code>&quot;C-t&quot; unbind</code></td>
+</tr>
+<tr>
+<td><code>bindings</code></td>
+<td><code>--</code></td>
+<td>Lists every key binding.</td>
+<td><code>bindings</code></td>
+</tr>
+<tr>
+<td><code>describe-key</code></td>
+<td><code>--</code></td>
+<td>Waits for a key and says what it does.</td>
+<td><code>describe-key</code></td>
+</tr>
+<tr>
+<td><code>line@</code></td>
+<td><code>-- s</code></td>
+<td>The line being edited. Only works inside a binding.</td>
+<td><code>&quot;C-t&quot; [ line@ reverse line! ] bind</code></td>
+</tr>
+<tr>
+<td><code>line!</code></td>
+<td><code>s --</code></td>
+<td>Replaces the line being edited.</td>
+<td><code>&quot;C-t&quot; [ &quot;&quot; line! ] bind</code></td>
+</tr>
+<tr>
+<td><code>point@</code></td>
+<td><code>-- n</code></td>
+<td>The cursor position in the line, counted from 0.</td>
+<td><code>&quot;C-t&quot; [ point@ . ] bind</code></td>
+</tr>
+<tr>
+<td><code>point!</code></td>
+<td><code>n --</code></td>
+<td>Moves the cursor in the line.</td>
+<td><code>&quot;C-t&quot; [ 0 point! ] bind</code></td>
+</tr>
+<tr>
+<td><code>insert</code></td>
+<td><code>s --</code></td>
+<td>Types a string into the line at the cursor.</td>
+<td><code>&quot;C-t&quot; [ &quot;dup &quot; insert ] bind</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sound">sound</h2>
+<p>Playing songs.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>play</code></td>
+<td><code>s --</code></td>
+<td>Plays a song in the background, by name.</td>
+<td><code>&quot;canon&quot; play</code></td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td><code>--</code></td>
+<td>Stops the song.</td>
+<td><code>stop</code></td>
+</tr>
+<tr>
+<td><code>songs</code></td>
+<td><code>--</code></td>
+<td>Lists the built-in songs.</td>
+<td><code>songs</code></td>
+</tr>
+<tr>
+<td><code>playing?</code></td>
+<td><code>-- n</code></td>
+<td>1 while a song is playing.</td>
+<td><code>playing? .</code></td>
+</tr>
+<tr>
+<td><code>sound?</code></td>
+<td><code>-- n</code></td>
+<td>1 when a Sound Blaster 16 was found.</td>
+<td><code>sound? .</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="phi">phi</h2>
+<p>The phi store of named values.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Effect</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>phi</code></td>
+<td><code>--</code></td>
+<td>Shows what phi holds.</td>
+<td><code>phi</code></td>
+</tr>
+<tr>
+<td><code>members</code></td>
+<td><code>path --</code></td>
+<td>Lists the members of a set.</td>
+<td><code>&quot;/&quot; members</code></td>
+</tr>
+<tr>
+<td><code>phi-read</code></td>
+<td><code>path -- s</code></td>
+<td>The value stored at a path.</td>
+<td><code>&quot;/doc/about&quot; phi-read</code></td>
+</tr>
+<tr>
+<td><code>phi-write</code></td>
+<td><code>s path --</code></td>
+<td>Stores a string at a path, making sets on the way.</td>
+<td><code>&quot;hi&quot; &quot;/notes/a&quot; phi-write</code></td>
+</tr>
+<tr>
+<td><code>phi-set</code></td>
+<td><code>path --</code></td>
+<td>Makes an empty set.</td>
+<td><code>&quot;/notes&quot; phi-set</code></td>
+</tr>
+<tr>
+<td><code>phi-delete</code></td>
+<td><code>path --</code></td>
+<td>Removes a value, or a set with all it holds.</td>
+<td><code>&quot;/notes&quot; phi-delete</code></td>
+</tr>
+<tr>
+<td><code>phi-move</code></td>
+<td><code>from to --</code></td>
+<td>Renames or moves a value or a set.</td>
+<td><code>&quot;/a&quot; &quot;/b&quot; phi-move</code></td>
+</tr>
+<tr>
+<td><code>phi-edit</code></td>
+<td><code>path --</code></td>
+<td>Edits a value in the editor.</td>
+<td><code>&quot;/notes/a&quot; phi-edit</code></td>
+</tr>
+<tr>
+<td><code>phi?</code></td>
+<td><code>path -- n</code></td>
+<td>0 if nothing is there, 1 for a set, 2 for a value.</td>
+<td><code>&quot;/doc&quot; phi? .</code></td>
+</tr>
+<tr>
+<td><code>dired</code></td>
+<td><code>--</code></td>
+<td>Browses phi: open, make, rename and delete.</td>
+<td><code>dired</code></td>
+</tr>
+<tr>
+<td><code>dired-at</code></td>
+<td><code>path --</code></td>
+<td>Browses phi starting at a set.</td>
+<td><code>&quot;/notes&quot; dired-at</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="names">names</h2>
 <p>Definitions.</p>
 <table>
@@ -1272,30 +1469,6 @@ document.querySelector(".mode").onclick = function () {
 <td><code>gfx</code></td>
 </tr>
 <tr>
-<td><code>gfx-off</code></td>
-<td><code>--</code></td>
-<td>Back to the text screen.</td>
-<td><code>gfx-off</code></td>
-</tr>
-<tr>
-<td><code>dot</code></td>
-<td><code>x y col --</code></td>
-<td>Sets one pixel in graphics mode.</td>
-<td><code>320 240 14 dot</code></td>
-</tr>
-<tr>
-<td><code>box</code></td>
-<td><code>x y w h col --</code></td>
-<td>Fills a rectangle in graphics mode.</td>
-<td><code>20 20 100 60 5 box</code></td>
-</tr>
-<tr>
-<td><code>window</code></td>
-<td><code>x y w h title --</code></td>
-<td>Draws a titled window frame in graphics mode.</td>
-<td><code>40 40 300 160 &quot;first&quot; window</code></td>
-</tr>
-<tr>
 <td><code>bitmap</code></td>
 <td><code>w h -- id</code></td>
 <td>A new black bitmap, w by h pixels.</td>
@@ -1372,6 +1545,30 @@ document.querySelector(".mode").onclick = function () {
 <td><code>--</code></td>
 <td>Who made it, on three pages. Space goes on.</td>
 <td><code>credits</code></td>
+</tr>
+<tr>
+<td><code>gfx-off</code></td>
+<td><code>--</code></td>
+<td>Back to the text screen.</td>
+<td><code>gfx-off</code></td>
+</tr>
+<tr>
+<td><code>dot</code></td>
+<td><code>x y col --</code></td>
+<td>Sets one pixel in graphics mode.</td>
+<td><code>320 240 14 dot</code></td>
+</tr>
+<tr>
+<td><code>box</code></td>
+<td><code>x y w h col --</code></td>
+<td>Fills a rectangle in graphics mode.</td>
+<td><code>20 20 100 60 5 box</code></td>
+</tr>
+<tr>
+<td><code>window</code></td>
+<td><code>x y w h s --</code></td>
+<td>Draws a titled window frame in graphics mode.</td>
+<td><code>40 40 300 160 &quot;first&quot; window</code></td>
 </tr>
 <tr>
 <td><code>title</code></td>
@@ -1826,6 +2023,12 @@ document.querySelector(".mode").onclick = function () {
 </thead>
 <tbody>
 <tr>
+<td><code>golden</code></td>
+<td><code>--</code></td>
+<td>Golden ratio drawings and digits.</td>
+<td><code>golden</code></td>
+</tr>
+<tr>
 <td><code>count</code></td>
 <td><code>--</code></td>
 <td>Counts from 0 past every finite number.</td>
@@ -1948,16 +2151,16 @@ document.querySelector(".mode").onclick = function () {
 </thead>
 <tbody>
 <tr>
-<td><code>snake</code></td>
-<td><code>--</code></td>
-<td>Arrow keys steer, q quits.</td>
-<td><code>snake</code></td>
-</tr>
-<tr>
 <td><code>scribble</code></td>
 <td><code>--</code></td>
 <td>Draws with the mouse. Q leaves.</td>
 <td><code>scribble</code></td>
+</tr>
+<tr>
+<td><code>snake</code></td>
+<td><code>--</code></td>
+<td>Arrow keys steer, q quits.</td>
+<td><code>snake</code></td>
 </tr>
 <tr>
 <td><code>life</code></td>
@@ -2120,10 +2323,46 @@ document.querySelector(".mode").onclick = function () {
 </thead>
 <tbody>
 <tr>
-<td><code>lessons</code></td>
-<td><code>-- list</code></td>
-<td>The lessons that learn walks through.</td>
-<td><code>lessons len</code></td>
+<td><code>sin10</code></td>
+<td><code>a -- n</code></td>
+<td>Sine of a, in tenths of a degree, times 1000.</td>
+<td><code>900 sin10   gives 1000</code></td>
+</tr>
+<tr>
+<td><code>cos10</code></td>
+<td><code>a -- n</code></td>
+<td>Cosine of a, in tenths of a degree, times 1000.</td>
+<td><code>0 cos10   gives 1000</code></td>
+</tr>
+<tr>
+<td><code>sin0</code></td>
+<td><code>a -- n</code></td>
+<td>Sine from 0 to 180 degrees, used by sin10.</td>
+<td><code>900 sin0   gives 1000</code></td>
+</tr>
+<tr>
+<td><code>golden-spiral</code></td>
+<td><code>--</code></td>
+<td>Draws golden rectangles with their spiral.</td>
+<td><code>golden-spiral</code></td>
+</tr>
+<tr>
+<td><code>golden-seeds</code></td>
+<td><code>--</code></td>
+<td>Draws a sunflower with the golden angle.</td>
+<td><code>golden-seeds</code></td>
+</tr>
+<tr>
+<td><code>golden-digits</code></td>
+<td><code>--</code></td>
+<td>Shows phi and how Fibonacci ratios approach it.</td>
+<td><code>golden-digits</code></td>
+</tr>
+<tr>
+<td><code>credit-page</code></td>
+<td><code>s l --</code></td>
+<td>Draws one page of the credits.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>scribble-hint</code></td>
@@ -2132,10 +2371,10 @@ document.querySelector(".mode").onclick = function () {
 <td></td>
 </tr>
 <tr>
-<td><code>credit-page</code></td>
-<td><code>s l --</code></td>
-<td>Draws one page of the credits.</td>
-<td></td>
+<td><code>lessons</code></td>
+<td><code>-- list</code></td>
+<td>The lessons that learn walks through.</td>
+<td><code>lessons len</code></td>
 </tr>
 <tr>
 <td><code>app-list</code></td>
@@ -2490,7 +2729,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

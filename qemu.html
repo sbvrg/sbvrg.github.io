@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -54,6 +56,7 @@ document.querySelector(".mode").onclick = function () {
 <li><a href="#memory">Memory</a></li>
 <li><a href="#the-clock">The clock</a></li>
 <li><a href="#flags-that-cause-trouble">Flags that cause trouble</a></li>
+<li><a href="#sound">Sound</a></li>
 <li><a href="#keyboard-and-mouse">Keyboard and mouse</a></li>
 <li><a href="#screenshots">Screenshots</a></li>
 <li><a href="#other-emulators">Other emulators</a></li>
@@ -94,8 +97,17 @@ document.querySelector(".mode").onclick = function () {
 <li><strong>UEFI firmware</strong> such as OVMF can&#x27;t boot Subverge (<a href="boot.html">boot</a>).</li>
 <li><strong><code>-enable-kvm</code></strong> should work but is untested. Reproduce a problem without KVM before reporting it.</li>
 </ul>
+<h2 id="sound">Sound</h2>
+<p>The songs of <a href="sound.html">sound</a> need a Sound Blaster 16 and a backend for QEMU to play through:</p>
+<pre><code>qemu-system-x86_64 -cdrom subverge.iso -m 256M \
+  -audiodev pa,id=snd0 -device sb16,audiodev=snd0
+</code></pre>
+<p><code>pa</code> is PulseAudio and PipeWire. <code>-audiodev pipewire,id=snd0</code> talks to PipeWire directly, and <code>alsa</code>, <code>sdl</code> and <code>oss</code> also work. To run without sound but with the card, so that <code>play</code> works and nothing is heard, use a <code>wav</code> backend that writes to the null device:</p>
+<pre><code>-audiodev wav,id=snd0,path=/dev/null -device sb16,audiodev=snd0
+</code></pre>
+<p>Don&#x27;t use <code>-audiodev none</code>. QEMU then keeps a host core busy and the guest drops keys while a song plays. <code>beep</code> uses the PC speaker, which has its own flag (<code>-machine pcspk-audiodev=snd0</code>).</p>
 <h2 id="keyboard-and-mouse">Keyboard and mouse</h2>
-<p>Click into the QEMU window to give it the keyboard. Ctrl-Alt-G releases the keyboard and mouse again. F1 to F4 switch Subverge&#x27;s tabs, and the keys that QEMU itself grabs, such as Ctrl-Alt-1 and Ctrl-Alt-2 for its monitor, never reach Subverge.</p>
+<p>Click into the QEMU window to give it the keyboard. The Super key of <a href="tabs.html">windows</a> reaches Subverge only when the host desktop doesn&#x27;t take it first, so a desktop with Super bindings keeps Super-Enter for itself. The C-x keys do the same without it. Ctrl-Alt-G releases the keyboard and mouse again. F1 to F4 switch Subverge&#x27;s tabs, and the keys that QEMU itself grabs, such as Ctrl-Alt-1 and Ctrl-Alt-2 for its monitor, never reach Subverge.</p>
 <p>Subverge reads the PS/2 mouse that QEMU provides by default. The pointer follows the host mouse after the first click in the window (<a href="mouse.html">mouse</a>).</p>
 <p>Subverge uses a US layout. On other host layouts some symbols are on different keys than printed, since QEMU passes on key positions.</p>
 <h2 id="screenshots">Screenshots</h2>
@@ -105,7 +117,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

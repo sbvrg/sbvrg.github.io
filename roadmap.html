@@ -10,21 +10,23 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793026891">
+<link rel="icon" type="image/png" href="logo.png?v=1793030831">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793026891">
+<link rel="stylesheet" href="style.css?v=1793030831">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793026891" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
 <a href="new.html">What's new</a>
+<a href="gallery.html">Gallery</a>
+<a href="credits.html">Credits</a>
 <a href="installation.html">Installation</a>
 <a href="handbook.html">Documentation</a>
 <a href="learn.html">Learn</a>
@@ -49,6 +51,7 @@ document.querySelector(".mode").onclick = function () {
 <main class="doc">
 <h1 id="roadmap">Roadmap</h1>
 <ul class="toc">
+<li><a href="#subverge-096">Subverge 0.9.6</a></li>
 <li><a href="#subverge-095">Subverge 0.9.5</a></li>
 <li><a href="#subverge-094">Subverge 0.9.4</a></li>
 <li><a href="#subverge-093">Subverge 0.9.3</a></li>
@@ -57,6 +60,15 @@ document.querySelector(".mode").onclick = function () {
 <li><a href="#subverge-090">Subverge 0.9.0</a></li>
 <li><a href="#subverge-080">Subverge 0.8.0</a></li>
 <li><a href="#planned">Planned</a></li>
+</ul>
+<h2 id="subverge-096">Subverge 0.9.6</h2>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled checked>Emacs keys at the prompt, in the pager and in <a href="scrawl.html">scrawl</a>, with <code>bind</code>, <code>unbind</code>, <code>bindings</code> and <code>describe-key</code> (<a href="keys.html">keys</a>)</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled checked>M-x and the C-h help keys</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled checked><a href="tabs.html">Windows</a>: up to four tabs on the screen at once, opened with Super-Enter or C-x 3 and C-x 2</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled checked><a href="phi.html">phi</a>, a tree of sets for named values, and <code>dired</code></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled checked><a href="sound.html">Sound</a>: a Sound Blaster 16 driver, a synthesizer and six songs that play in the background</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled checked><code>golden</code>, and screenshots in the <code>gallery</code></li>
 </ul>
 <h2 id="subverge-095">Subverge 0.9.5</h2>
 <ul>
@@ -129,7 +141,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793026891" alt="">
+<img class="cat" src="mark-footer.png?v=1793030831" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
