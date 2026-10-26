@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793030831">
+<link rel="icon" type="image/png" href="logo.png?v=1793033042">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793030831">
+<link rel="stylesheet" href="style.css?v=1793033042">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793033042" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
@@ -55,6 +55,8 @@ document.querySelector(".mode").onclick = function () {
 <li><a href="#words">Words</a></li>
 <li><a href="#paths">Paths</a></li>
 <li><a href="#dired">dired</a></li>
+<li><a href="#phi-and-the-world">phi and the world</a></li>
+<li><a href="#using-phi-from-a-program">Using phi from a program</a></li>
 <li><a href="#size">Size</a></li>
 <li><a href="#saving">Saving</a></li>
 </ul>
@@ -65,7 +67,7 @@ document.querySelector(".mode").onclick = function () {
 phi
 </code></pre>
 <p><code>phi</code> prints the sets and values you made, indented by depth, and then the two sets that come with the system:</p>
-<pre><code>  /doc  106 read only
+<pre><code>  /doc  112 read only
   /pictures  23 read only
 notes                            1 member
   todo                           8 bytes
@@ -87,6 +89,10 @@ notes                            1 member
 <tr>
 <td><code>members</code></td>
 <td><code>path --</code>, lists the members of a set, sets first</td>
+</tr>
+<tr>
+<td><code>phi-names</code></td>
+<td><code>path -- l</code>, the names of the members of a set, as a list</td>
 </tr>
 <tr>
 <td><code>phi-read</code></td>
@@ -191,6 +197,21 @@ notes                            1 member
 </table>
 <p><img src="images/96-dired.png" alt="dired showing the pictures"></p>
 <p>The questions are asked on the bottom row. Editing a read only value works, but nothing is kept when the editor quits.</p>
+<h2 id="phi-and-the-world">phi and the world</h2>
+<p>phi is shared by the four tabs and is not part of the world of a tab. A line that writes to phi and then fails keeps the write, since only the stack and the definitions are undone, and <code>back</code> does not undo a write. Values that belong with the definitions of a tab are better kept in the world, and values that every tab should see are better kept in phi.</p>
+<h2 id="using-phi-from-a-program">Using phi from a program</h2>
+<p>A value is a string, so other values go in as text and come back with a word that reads them. A number goes through <code>str</code> and <code>&gt;num</code>:</p>
+<pre><code>42 str &quot;/notes/n&quot; phi-write
+&quot;/notes/n&quot; phi-read &gt;num 1 + .
+</code></pre>
+<p>prints 43. A list goes the same way, since <code>str</code> writes it as source and <code>eval</code> reads it back:</p>
+<pre><code>[ 1 2 3 ] str &quot;/notes/l&quot; phi-write
+&quot;/notes/l&quot; phi-read eval len .
+</code></pre>
+<p>prints 3.</p>
+<p><code>phi?</code> tells a program whether a path exists before it reads or writes, and <code>phi-names</code> leaves the names of the members of a set as a list of strings:</p>
+<pre><code>&quot;/notes&quot; phi-names .
+</code></pre>
 <h2 id="size">Size</h2>
 <p>phi keeps up to 480 KiB of values, counting the text of each value. A write that would pass that fails with <code>phi is full</code>. The sets themselves take memory from the heap and are not counted.</p>
 <h2 id="saving">Saving</h2>
@@ -200,7 +221,7 @@ notes                            1 member
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793030831" alt="">
+<img class="cat" src="mark-footer.png?v=1793033042" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

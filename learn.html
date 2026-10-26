@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793030831">
+<link rel="icon" type="image/png" href="logo.png?v=1793033042">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793030831">
+<link rel="stylesheet" href="style.css?v=1793033042">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793033042" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
@@ -73,7 +73,7 @@ document.querySelector(".mode").onclick = function () {
 <p>The lesson then shows the stack after your line. Each lesson starts from an empty stack. If your line fails, the error is printed and the stack is put back as it was before the line, so a mistake never leaves the lesson in a strange state.</p>
 <p>After the exercise, any key moves to the next lesson, <code>b</code> goes back one, and <code>q</code>, Escape or Ctrl-C leaves.</p>
 <blockquote>
-<p><strong>Note:</strong> Ctrl-C at the exercise prompt itself cancels the whole tutorial with the error <code>cancelled</code>. Since the tutorial is one line, that also undoes every definition made during it. Leave with <code>q</code> after an exercise instead.</p>
+<p><strong>Note:</strong> Ctrl-C and C-g at the exercise prompt itself cancel the whole tutorial with the error <code>cancelled</code>. Since the tutorial is one line, that also undoes every definition made during it. Leave with <code>q</code> after an exercise instead.</p>
 </blockquote>
 <h2 id="what-it-keeps">What it keeps</h2>
 <p>When you leave, <code>learn</code> clears the screen and puts back the stack you had before starting. Definitions you made during the lessons are kept, so a word written in the lesson on definitions can be used afterwards.</p>
@@ -92,150 +92,265 @@ document.querySelector(".mode").onclick = function () {
 <tr>
 <td>1</td>
 <td>Operand stack</td>
-<td>25</td>
-<td>Drawing</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Postfix evaluation</td>
-<td>26</td>
-<td>Themes</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Stack words</td>
-<td>27</td>
-<td>Ordinals</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Integers</td>
-<td>28</td>
-<td>Cardinals</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Big numbers</td>
-<td>29</td>
-<td>Counting past infinity</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Truth</td>
-<td>30</td>
-<td>Same size</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Strings</td>
-<td>31</td>
-<td>The hotel</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Quotes</td>
-<td>32</td>
-<td>Fractions</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Definitions</td>
-<td>33</td>
-<td>Too many reals</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Reflection</td>
-<td>34</td>
-<td>Alephs</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Locals</td>
-<td>35</td>
-<td>Hailstones</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Dynamic scope</td>
-<td>36</td>
-<td>Bit parity</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Conditionals</td>
-<td>37</td>
-<td>Machine access</td>
-</tr>
-<tr>
-<td>14</td>
-<td>Loops</td>
-<td>38</td>
-<td>JIT</td>
-</tr>
-<tr>
-<td>15</td>
-<td>Recursion</td>
-<td>39</td>
-<td>Programs</td>
-</tr>
-<tr>
-<td>16</td>
-<td>Tracing</td>
-<td>40</td>
-<td>Small tools</td>
-</tr>
-<tr>
-<td>17</td>
-<td>Lists</td>
-<td>41</td>
-<td>Editing a word</td>
-</tr>
-<tr>
-<td>18</td>
-<td>Transactions</td>
-<td>42</td>
-<td>Writing a program</td>
-</tr>
-<tr>
-<td>19</td>
-<td>Undo</td>
-<td>43</td>
-<td>Registering it in apps</td>
-</tr>
-<tr>
-<td>20</td>
-<td>Catching errors</td>
 <td>44</td>
 <td>Checking the entry</td>
 </tr>
 <tr>
-<td>21</td>
-<td>Tabs</td>
+<td>2</td>
+<td>Postfix evaluation</td>
 <td>45</td>
 <td>Root units</td>
 </tr>
 <tr>
+<td>3</td>
+<td>Stack words</td>
+<td>46</td>
+<td>Key names</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Integers</td>
+<td>47</td>
+<td>Moving along a line</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Big numbers</td>
+<td>48</td>
+<td>Deleting text</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Truth</td>
+<td>49</td>
+<td>The kill ring</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Strings</td>
+<td>50</td>
+<td>Case and swaps</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Quotes</td>
+<td>51</td>
+<td>Undo in the line</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Definitions</td>
+<td>52</td>
+<td>History</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Reflection</td>
+<td>53</td>
+<td>Searching the history</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Locals</td>
+<td>54</td>
+<td>Completion</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Dynamic scope</td>
+<td>55</td>
+<td>Running a word by name</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Conditionals</td>
+<td>56</td>
+<td>Asking about a key</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Loops</td>
+<td>57</td>
+<td>Asking about a word</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Recursion</td>
+<td>58</td>
+<td>The list of bindings</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Tracing</td>
+<td>59</td>
+<td>Binding a key</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Lists</td>
+<td>60</td>
+<td>Editing from a binding</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Transactions</td>
+<td>61</td>
+<td>Removing a binding</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Undo</td>
+<td>62</td>
+<td>Key sequences</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Catching errors</td>
+<td>63</td>
+<td>The page viewer</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Tabs</td>
+<td>64</td>
+<td>Searching a page</td>
+</tr>
+<tr>
 <td>22</td>
 <td>Help</td>
-<td>46</td>
-<td>Persistence</td>
+<td>65</td>
+<td>Moving in the editor</td>
 </tr>
 <tr>
 <td>23</td>
 <td>Time</td>
-<td>47</td>
-<td>Where next</td>
+<td>66</td>
+<td>Killing in the editor</td>
 </tr>
 <tr>
 <td>24</td>
 <td>Keys</td>
-<td></td>
-<td></td>
+<td>67</td>
+<td>The mark and the region</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Drawing</td>
+<td>68</td>
+<td>Searching the editor</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Themes</td>
+<td>69</td>
+<td>Saving in the editor</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Ordinals</td>
+<td>70</td>
+<td>Windows</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Cardinals</td>
+<td>71</td>
+<td>Where a window goes</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Counting past infinity</td>
+<td>72</td>
+<td>The size of a window</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Same size</td>
+<td>73</td>
+<td>Tabs and windows</td>
+</tr>
+<tr>
+<td>31</td>
+<td>The hotel</td>
+<td>74</td>
+<td>What phi is</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Fractions</td>
+<td>75</td>
+<td>Writing a value</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Too many reals</td>
+<td>76</td>
+<td>Looking at a set</td>
+</tr>
+<tr>
+<td>34</td>
+<td>Alephs</td>
+<td>77</td>
+<td>Moving and deleting</td>
+</tr>
+<tr>
+<td>35</td>
+<td>Hailstones</td>
+<td>78</td>
+<td>Read only sets</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Bit parity</td>
+<td>79</td>
+<td>dired</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Machine access</td>
+<td>80</td>
+<td>Editing a value</td>
+</tr>
+<tr>
+<td>38</td>
+<td>JIT</td>
+<td>81</td>
+<td>phi and the disk</td>
+</tr>
+<tr>
+<td>39</td>
+<td>Programs</td>
+<td>82</td>
+<td>Pictures</td>
+</tr>
+<tr>
+<td>40</td>
+<td>Small tools</td>
+<td>83</td>
+<td>Credits</td>
+</tr>
+<tr>
+<td>41</td>
+<td>Editing a word</td>
+<td>84</td>
+<td>The golden ratio</td>
+</tr>
+<tr>
+<td>42</td>
+<td>Writing a program</td>
+<td>85</td>
+<td>Persistence</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Registering it in apps</td>
+<td>86</td>
+<td>Where next</td>
 </tr>
 </tbody>
 </table>
-<p>The first half is the language: the stack, values, definitions, locals and their dynamic scope, control flow and lists. The middle covers what makes Subverge different, namely <a href="transactions.html">transactions</a>, <a href="back.html">back</a>, <code>try</code>, <a href="tabs.html">tabs</a>, <a href="themes.html">themes</a>, and the ordinals and cardinals. The last part walks through writing a small program, adding it to <a href="apps.html">apps</a> and putting it in a <a href="units.html">root unit</a> so it is saved.</p>
+<p>The first part is the language: the stack, values, definitions, locals and their dynamic scope, control flow and lists. The middle covers what makes Subverge different, namely <a href="transactions.html">transactions</a>, <a href="back.html">back</a>, <code>try</code>, <a href="tabs.html">tabs</a>, <a href="themes.html">themes</a>, and the ordinals and cardinals. Then the lessons walk through writing a small program, adding it to <a href="apps.html">apps</a> and putting it in a <a href="units.html">root unit</a> so it is saved.</p>
+<p>Lessons 46 to 84 are about working in the system. They teach the Emacs keys of the prompt, the kill ring, the history search, completion, M-x and the help keys (<a href="keys.html">keys</a>), making your own key bindings, the page viewer and the editor, windows (<a href="tabs.html">tabs</a>), phi and <code>dired</code> (<a href="phi.html">phi</a>), the gallery and the credits, and <code>golden</code>. Some of them show keys that act on the prompt itself, such as M-x and C-h, which are switched off at the prompt of a lesson, so they ask you to try them after you leave.</p>
 <p><img src="images/36-learn-last.png" alt="learn, the last lesson"></p>
 <h2 id="changing-the-lessons">Changing the lessons</h2>
 <p>The tutorial is ordinary omega in the <code>learn</code> unit of <a href="root.html">root</a>:</p>
@@ -246,7 +361,7 @@ document.querySelector(".mode").onclick = function () {
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793030831" alt="">
+<img class="cat" src="mark-footer.png?v=1793033042" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793030831">
+<link rel="icon" type="image/png" href="logo.png?v=1793033042">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793030831">
+<link rel="stylesheet" href="style.css?v=1793033042">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793033042" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
@@ -55,9 +55,11 @@ document.querySelector(".mode").onclick = function () {
 <li class="sub"><a href="#emacs-keys">Emacs keys</a></li>
 <li class="sub"><a href="#windows">Windows</a></li>
 <li class="sub"><a href="#phi">phi</a></li>
-<li class="sub"><a href="#sound">Sound</a></li>
 <li class="sub"><a href="#golden-ratio">Golden ratio</a></li>
 <li class="sub"><a href="#gallery">Gallery</a></li>
+<li class="sub"><a href="#lessons-and-tours">Lessons and tours</a></li>
+<li class="sub"><a href="#credits">Credits</a></li>
+<li class="sub"><a href="#disk-layout">Disk layout</a></li>
 <li><a href="#subverge-095">Subverge 0.9.5</a></li>
 <li class="sub"><a href="#pictures">Pictures</a></li>
 <li class="sub"><a href="#bitmaps">Bitmaps</a></li>
@@ -96,16 +98,17 @@ document.querySelector(".mode").onclick = function () {
 <h3 id="phi">phi</h3>
 <p>phi is a tree of sets that holds named values. <code>phi-write</code>, <code>phi-read</code>, <code>members</code>, <code>phi-move</code> and <code>phi-delete</code> work on it, <code>phi-edit</code> opens a value in the editor, and <code>dired</code> browses it. The help pages and the pictures are in it as read only sets. An installed disk saves it in a slot of its own after every change. See <a href="phi.html">phi</a>.</p>
 <p><img src="images/96-dired.png" alt="dired"></p>
-<h3 id="sound">Sound</h3>
-<p>The kernel has a Sound Blaster 16 driver and a synthesizer with plucked string and organ voices and a reverberation. <code>play</code> starts one of six songs and returns at once, so the music goes on while you work in any tab:</p>
-<pre><code>&quot;canon&quot; play
-</code></pre>
-<p><code>stop</code> ends it and <code>songs</code> lists them. See <a href="sound.html">sound</a> and <a href="qemu.html">QEMU</a> for the flags.</p>
 <h3 id="golden-ratio">Golden ratio</h3>
 <p><code>golden</code> draws the golden rectangles and their spiral, a sunflower of seeds at the golden angle, and the digits of φ next to the ratios of Fibonacci numbers:</p>
 <p><img src="images/96-golden-spiral.png" alt="golden"></p>
 <h3 id="gallery">Gallery</h3>
 <p>The screenshots on this site are in the system now, after the photographs in <code>gallery</code>. The <a href="gallery.html">gallery page</a> shows them.</p>
+<h3 id="lessons-and-tours">Lessons and tours</h3>
+<p><code>learn</code> has 86 lessons now. The 39 new ones, from lesson 46, teach the Emacs keys of the prompt a few at a time, then M-x and the help keys, making your own bindings, the page viewer and the editor, windows, phi, the gallery and <code>golden</code>. The tour has seven more parts, 13 to 19, that cover the same things as pages you can run from. See <a href="learn.html">learn</a>.</p>
+<h3 id="credits">Credits</h3>
+<p><code>credits</code> has a fourth page, for Terry A. Davis, who wrote <a href="https://templeos.org">TempleOS</a>. The front page of the help pages has Gallery and Credits at the top, and <code>c</code> and <code>G</code> in the page viewer show them.</p>
+<h3 id="disk-layout">Disk layout</h3>
+<p>The kernel got bigger with the pictures and the help pages, so the space for it on an installed disk is 4 MiB now and not 2 MiB. The state header moved from sector 4096 to sector 8192, and <code>install</code> needs a drive of 10 MB. A disk that was installed with an earlier release keeps working with the kernel it has. To use 0.9.6, install again. See <a href="disk-layout.html">disk layout</a>.</p>
 <h2 id="subverge-095">Subverge 0.9.5</h2>
 <p>Subverge 0.9.5 comes with ordinal 1.0.5 and omega 1.0.5. Get it from the <a href="https://github.com/texivi/Subverge/releases/tag/v0.9.5">releases page</a>.</p>
 <h3 id="pictures">Pictures</h3>
@@ -220,7 +223,7 @@ mouse . . .
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793030831" alt="">
+<img class="cat" src="mark-footer.png?v=1793033042" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");

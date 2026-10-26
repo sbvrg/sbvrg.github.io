@@ -10,17 +10,17 @@
 <meta property="og:image" content="https://sbvrg.github.io/logo.png">
 <meta property="og:site_name" content="Subverge">
 <meta name="theme-color" content="#a3121c">
-<link rel="icon" type="image/png" href="logo.png?v=1793030831">
+<link rel="icon" type="image/png" href="logo.png?v=1793033042">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=1793030831">
+<link rel="stylesheet" href="style.css?v=1793033042">
 <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 <header class="bar">
 <div class="in">
-<a class="name" href="index.html"><img src="mark.png?v=1793030831" alt="">subverge</a>
+<a class="name" href="index.html"><img src="mark.png?v=1793033042" alt="">subverge</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg></button>
 <nav>
 <a href="features.html">Features</a>
@@ -67,6 +67,10 @@ document.querySelector(".mode").onclick = function () {
 <li class="sub"><a href="#a-root-word">A root word</a></li>
 <li class="sub"><a href="#checking-it">Checking it</a></li>
 <li><a href="#screenshots">Screenshots</a></li>
+<li><a href="#keys-and-the-line-editor">Keys and the line editor</a></li>
+<li><a href="#windows">Windows</a></li>
+<li><a href="#phi">phi</a></li>
+<li><a href="#lessons">Lessons</a></li>
 <li><a href="#how-the-kernel-starts">How the kernel starts</a></li>
 <li><a href="#the-kernel-files">The kernel files</a></li>
 <li><a href="#checklist-for-kernel-changes">Checklist for kernel changes</a></li>
@@ -377,6 +381,21 @@ $ make stress
 </code></pre>
 <h2 id="screenshots">Screenshots</h2>
 <p>Screenshots are taken from QEMU with its monitor, at the default text size, and are saved in <code>images/</code> with a number in front, in the order they were added. Take them on a clean boot of the live ISO so that they show what a user sees.</p>
+<p>The pictures that <code>gallery</code> shows besides the photographs are in <code>shots/</code> as baseline JPEG files of 640 by 480, and the build puts them into the kernel with the pictures of <code>art/</code>. The text screens are scaled to 640 pixels wide and put at the top of a canvas in the colour of the background, so no picture is stretched, and they are saved at quality 65. The kernel image has to stay under the 4 MiB between the boot sectors and the state of the disk, which <code>install</code> checks.</p>
+<h2 id="keys-and-the-line-editor">Keys and the line editor</h2>
+<p><code>kbd.c</code> reads the scancodes in the keyboard interrupt and tracks shift, control, alt, caps lock and Super. A key that is typed with Alt is queued as <code>META(c)</code>, which is <code>K_META | c</code>, so the consumers see <code>M-f</code> as one integer. Ctrl-H is queued as <code>K_CH</code> and not as 8, since 8 is Backspace, and Ctrl-M is queued as Enter. C-c and C-g also set the break flag of the tab. The codes are in <code>kbd.h</code>.</p>
+<p>C-x is a prefix that the interrupt handles. After C-x, <code>kbd_xpend</code> is set and the tab bar shows <code>C-x -</code>. If the next key is one of <code>o 0 1 2 3</code>, the window command runs in the interrupt and nothing is queued. Any other key queues C-x followed by that key, so the editor and the line editor see the whole sequence. Super combinations call the window functions in <code>vga.c</code> the same way.</p>
+<p><code>line.c</code> is a table of commands. <code>line_keys</code> has a row for each key with its code, the name of the command and one line of documentation, and <code>command_for</code> maps a name to the function that works on <code>struct ed</code>, which holds the line, the cursor, the undo snapshots and the state of the kill and yank sequence. To add a key, add a row to the table and a case to <code>command_for</code>. <code>describe-key</code> and the bindings page read the same table, so they list the new key without further work. <code>readline</code> allocates its state with <code>kmalloc</code>, about 3.5 KB, and the editor refreshes its position on every key, since a window can change size while it waits.</p>
+<p><code>keys.c</code> has the key names (<code>key_name</code> and <code>key_parse</code>) and the user bindings. A binding is a definition named <code>key:</code> and the key names joined with <code>_</code>, found by <code>key_bound</code> in the dictionary of the tab and then in root. <code>key_run</code> in <code>omega.c</code> runs its quote on a copy of the stack and drops the result, so a binding doesn&#x27;t add a version to the history of the world. The pager and the editor have their own <code>switch</code> on the key and don&#x27;t look at the bindings.</p>
+<h2 id="windows">Windows</h2>
+<p><code>vga.c</code> keeps a tree of at most eight nodes. A leaf holds a tab, and a split holds two children and says whether they are side by side or stacked. <code>lay</code> walks the tree and gives each visible tab a rectangle in <code>tw[]</code>. <code>apply</code> runs after every change of the tree: it lays out, sets the size of each tab with <code>set_size</code>, and paints the screen again with the title lines and the dividers. A tab that is not in a window gets the full 80 by 24 back.</p>
+<p>The text buffer of a tab is always 80 by 24 cells with a row length of 80, and <code>term.w</code> and <code>term.h</code> are the size that the tab sees. <code>vga_put</code> ignores cells outside it, <code>kputc</code> wraps at <code>w</code> and scrolls at <code>h</code>, and <code>hwcell</code> turns a cell of a tab into the index in video memory, or -1 when the tab is not visible or the cell is outside its window. When a window gets smaller and the cursor would fall outside it, <code>set_size</code> moves the rows up so the cursor stays on the screen. It also queues <code>K_REDRAW</code> for a tab that waits for a key, so a program that lays itself out from <code>term_w()</code> and <code>term_h()</code> draws again at once.</p>
+<p>The mouse events come in screen cells. <code>mouse.c</code> finds the window under the pointer with <code>win_at</code>, focuses it on a click, and gives the tab coordinates relative to its window.</p>
+<h2 id="phi">phi</h2>
+<p><code>phi.c</code> keeps the tree in the heap. A node has a name of up to 31 characters, a flag for a set or a value, a flag for read only, and for a value its length and a pointer to the bytes. The children of a set are a linked list kept in order of name. <code>phi_init</code> makes the read only sets <code>/doc</code> and <code>/pictures</code> from the pointers that <code>doc_page_at</code> and <code>pic_at</code> give, so those values take no heap, and then loads the saved text from slot 5.</p>
+<p>The saved text is a line <code>S path</code> for each set and <code>A path length</code> followed by that many bytes and a line break for each value, with the read only sets left out. <code>phi_dump</code> writes it in one pass and <code>load_text</code> reads it with the same functions that the words use, with saving turned off while it runs. The slot is 1024 sectors, so the text can&#x27;t be longer than 512 KiB less a sector, and <code>STORE_MAX</code> keeps the values under 480 KiB to leave room for the paths. The save runs after every change and rewrites the whole slot.</p>
+<h2 id="lessons">Lessons</h2>
+<p>The lessons of <code>learn</code> are the list <code>lessons</code> in <code>root/80-learn.om</code>. Each entry is a title, a text of lines that start with two spaces and are separated by <code>\n</code>, and a line to run, which may be empty. A lesson that needs a key that only the prompt of a tab has, such as M-x, says so in its text, since the prompt of the lessons is read with <code>ask</code>.</p>
 <h2 id="how-the-kernel-starts">How the kernel starts</h2>
 <ol>
 <li>GRUB on the ISO, or the <a href="boot.html">bootloader</a> of an installed disk, loads the kernel at 1 MiB and jumps to it in 32-bit protected mode.</li>
@@ -478,11 +497,6 @@ $ make stress
 <td><a href="keys.html">keys</a>, <a href="prompt.html">prompt</a></td>
 </tr>
 <tr>
-<td><code>audio.c</code>, <code>songs.c</code></td>
-<td>the Sound Blaster 16 driver, the synthesizer, the sequencer and the song data</td>
-<td><a href="sound.html">sound</a></td>
-</tr>
-<tr>
 <td><code>phi.c</code></td>
 <td>the tree of sets, its save format and <code>dired</code></td>
 <td><a href="phi.html">phi</a></td>
@@ -498,7 +512,7 @@ $ make stress
 <p>Everything runs in ring 0 in one address space. A fault in a tab restarts that tab and leaves the others running. A fault in the kernel itself panics. Shared state such as the heap, the screen buffers and the devices is touched with interrupts off (<code>irq_save</code> and <code>irq_restore</code>), and interrupt handlers never allocate or yield.</p>
 <h2 id="checklist-for-kernel-changes">Checklist for kernel changes</h2>
 <ol>
-<li>Run <code>make host</code> and feed the affected words through <code>build/host</code>. Run <code>printf &#x27;@docs\n&#x27; | build/host</code> and expect <code>0 problems</code>. <code>@render name</code> writes a song as raw 16-bit samples to <code>build/name.raw</code>, which can be played or analysed on the host. Remember that <code>kernel/cpu.c</code>, <code>kbd.c</code>, <code>disk.c</code>, <code>persist.c</code>, <code>font.c</code>, <code>main.c</code> and the assembly are not part of the host build (<code>HOSTSRC</code> in the <code>Makefile</code>), so a change in them gets no coverage from this step.</li>
+<li>Run <code>make host</code> and feed the affected words through <code>build/host</code>. Run <code>printf &#x27;@docs\n&#x27; | build/host</code> and expect <code>0 problems</code>. Remember that <code>kernel/cpu.c</code>, <code>kbd.c</code>, <code>disk.c</code>, <code>persist.c</code>, <code>font.c</code>, <code>main.c</code> and the assembly are not part of the host build (<code>HOSTSRC</code> in the <code>Makefile</code>), so a change in them gets no coverage from this step.</li>
 <li>Run <code>make stress</code> for any change to the allocator, the shell, the garbage collector, a new built-in, or anything that holds a pointer across an allocation. A freed block is filled with <code>0xDD</code>, so a dangling use shows up as that pattern.</li>
 <li>Build the real kernel with <code>make</code> and check that it still links with <code>-Wall -Wextra</code> clean. The flags forbid SSE (<code>-mgeneral-regs-only</code>) and the red zone (<code>-mno-red-zone</code>). Do not add floating point, <code>memcpy</code> variants that use vector registers, or code that assumes a red zone.</li>
 <li>Boot with <code>make run</code> (<code>qemu -kernel build/subverge.elf -m 256M</code>). Check that all four tabs start, that F1 to F4 and Alt+1 to 4 switch, and that the tab bar clock advances.</li>
@@ -2658,7 +2672,7 @@ fail(&quot;alloc takes 1 byte up to 16M%s&quot;, &quot;&quot;);
 </main>
 <footer>
 <div class="legal"><div class="in">© 2026 texivi. Subverge is released under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a>.</div></div>
-<img class="cat" src="mark-footer.png?v=1793030831" alt="">
+<img class="cat" src="mark-footer.png?v=1793033042" alt="">
 </footer>
 <script>
 if (document.documentElement.scrollHeight > innerHeight * 2.2) document.documentElement.classList.add("long");
