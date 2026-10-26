@@ -1,7 +1,7 @@
-/* plain page, in the manner of the Exherbo site */
-/* light: the paper theme of the system, dark: dusk */
-/* one accent colour; light is a dim cream page, dark a neutral grey one */
-/* grey on grey, links dark and bold; dark mode is the same thing inverted */
+/* plain page */
+/* light and dark */
+/* one accent */
+/* dark inverts */
 :root {
   --bg: #e9e9e2; --fg: #555550; --strong: #222220; --ink: #222220; --panel: #dfdfd7; --line: #d0d0c7; --bar-line: #e9e9e2;
   --pre: #454543; --pre-fg: #ededea; --light: #555550; --red: #222220; --bar: #e9e9e2; --barfg: #2a2a27;
